@@ -11,7 +11,7 @@ public:
 	int getLine() const;
 	int getColumn() const;
 
-	Cell& getCell(int line, int column);
+	Cell& getCell(int i, int j);
 
 private:	
 

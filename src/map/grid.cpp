@@ -28,7 +28,7 @@ int Grid::getColumn() const {
 	return column;
 }
 
-Cell& Grid::getCell(int line, int column) {
+Cell& Grid::getCell(int i, int j) {
 	if (i < 0 || i >= line || j < 0 || j >= column) {
 		throw std::invalid_argument("Invalid cell position");
 	}
