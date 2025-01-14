@@ -14,9 +14,14 @@ public:
 	GameEntity(std::string name, TCoords coords, int color);
 	~GameEntity();
 
-private:
+	std::string getName();
+	TCoords getCoords();
+	int getColor();
+
+protected:
 
 	std::string name;
 	TCoords coords;
 	int color;
+
 };
