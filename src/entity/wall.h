@@ -1,22 +1,20 @@
 #pragma once
 
+#include "gameEntity.h"
+#include "player.h"
 #include <string>
 
-typedef struct SCoords {
-	int x;
-	int y;
-} TCoords;
-
-class Wall {
+class Wall : public GameEntity {
 
 public:
 
-	GameEntity(std::string name, TCoords coords, int color);
-	~GameEntity();
+	Wall(std::string name, TCoords coords, int color, Player* owner);
+	~Wall();
+
+	Player* getOwner();
 
 private:
 
-	std::string name;
-	TCoords coords;
-	int color;
+	Player* owner;
+
 };
