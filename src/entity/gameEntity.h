@@ -3,8 +3,8 @@
 #include <string>
 
 typedef struct SCoords {
-	int x,
-	int y
+	int x;
+	int y;
 } TCoords;
 
 class GameEntity {
