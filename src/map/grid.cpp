@@ -1,4 +1,6 @@
-#include "map/grid.h"
+#include "grid.h"
+#include <iostream>
+#include <sstream>
 
 Grid::Grid(int line, int column) : line(line), column(column) {
 
@@ -6,12 +8,17 @@ Grid::Grid(int line, int column) : line(line), column(column) {
 		throw std::invalid_argument("Invalid grid size");
 	}
 
-	grid = new Cell*[line];
+	grid = new Cell * [line];
 	for (int i = 0; i < line; i++) {
 		grid[i] = new Cell[column];
+		for (int j = 0; j < column; j++) {
+			std::ostringstream cellName;
+			cellName << "Cell(" << i << "," << j << ")";
+			grid[i][j] = Cell(cellName.str()); 
+		}
 	}
-
 }
+
 
 Grid::~Grid() {
 	for (int i = 0; i < line; i++) {
