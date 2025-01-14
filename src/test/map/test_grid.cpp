@@ -1,6 +1,6 @@
 #include <iostream>
 
 int main() {
-    std::cout << "Test Grid" << std::endl;
+    std::cout << "Ensuring test for grid class" << std::endl;
     return 0;
 }

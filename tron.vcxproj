@@ -127,7 +127,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\entity\wall.cpp" />
     <ClCompile Include="src\test\map\test_grid.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\entity\wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
