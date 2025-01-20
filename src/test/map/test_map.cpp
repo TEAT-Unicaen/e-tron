@@ -1,10 +1,11 @@
 #include <iostream>
 #include <cassert>
 #include "../../map/grid.h"
+#include "test_map.h"
 
-int main() {
+static void testGrid() {
     try {
-		std::cout << "Create grid & draw each line :\n" << std::endl;
+        std::cout << "Create grid & draw each line :\n" << std::endl;
         Grid grid(3, 3);
 
         assert(grid.getLine() == 3);
@@ -19,16 +20,16 @@ int main() {
             }
         }
 
-		std::cout << "\nInvalid cell positions test :" << std::endl;
+        std::cout << "\nInvalid cell positions test :" << std::endl;
         try {
-            grid.getCell(-1, 0);  
+            grid.getCell(-1, 0);
         }
         catch (const std::invalid_argument& e) {
             std::cout << "Error: " << e.what() << std::endl;
         }
 
         try {
-            grid.getCell(0, 5);  
+            grid.getCell(0, 5);
         }
         catch (const std::invalid_argument& e) {
             std::cout << "Error: " << e.what() << std::endl;
@@ -38,6 +39,11 @@ int main() {
     catch (const std::invalid_argument& e) {
         std::cout << "Error: " << e.what() << std::endl;
     }
+}
 
+/*
+int main() {
+    testGrid();
     return 0;
 }
+*/
