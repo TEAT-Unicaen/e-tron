@@ -136,24 +136,23 @@
     <ClCompile Include="src\manager\mapManager.cpp" />
     <ClCompile Include="src\map\cell.cpp" />
     <ClCompile Include="src\map\grid.cpp" />
-    <ClCompile Include="src\test\entity\test_gameEntity.cpp" />
-    <ClCompile Include="src\test\entity\test_player.cpp" />
-    <ClCompile Include="src\test\entity\test_wall.cpp" />
+    <ClCompile Include="src\test\entity\test_entity.cpp" />
     <ClCompile Include="src\test\mainTest.cpp" />
-    <ClCompile Include="src\test\manager\test_entityManager.cpp" />
-    <ClCompile Include="src\test\manager\test_gameManager.cpp" />
-    <ClCompile Include="src\test\manager\test_mapManager.cpp" />
-    <ClCompile Include="src\test\map\test_grid.cpp" />
+    <ClCompile Include="src\test\manager\test_manager.cpp" />
+    <ClCompile Include="src\test\map\test_map.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\gameEntity.h" />
     <ClInclude Include="src\entity\player.h" />
     <ClInclude Include="src\entity\wall.h" />
     <ClInclude Include="src\manager\entityManager.h" />
-    <ClInclude Include="src\manager\gameManeger.h" />
+    <ClInclude Include="src\manager\gameManager.h" />
     <ClInclude Include="src\manager\mapManager.h" />
     <ClInclude Include="src\map\cell.h" />
     <ClInclude Include="src\map\grid.h" />
+    <ClInclude Include="src\test\entity\test_entity.h" />
+    <ClInclude Include="src\test\manager\test_manager.h" />
+    <ClInclude Include="src\test\map\test_map.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
