@@ -12,13 +12,7 @@ MapManager::~MapManager() {
 
 // Methods
 void MapManager::renderMap() {
-	for (int i = 0; i < grid->getLine(); ++i) {
-		for (int j = 0; j < grid->getColumn(); ++j) {
-			Cell& cell = grid->getCell(i, j);
-			std::cout << "Cell(" << i << "," << j << "): " << cell.getName() << "	";
-		}
-		std::cout << std::endl;
-	}
+	grid->renderGrid();
 }
 
 // Setters

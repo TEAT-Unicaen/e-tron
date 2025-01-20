@@ -10,6 +10,7 @@ public:
 
 	int getLine() const;
 	int getColumn() const;
+	void renderGrid() const;
 
 	Cell& getCell(int i, int j);
 

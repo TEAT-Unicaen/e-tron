@@ -19,7 +19,6 @@ Grid::Grid(int line, int column) : line(line), column(column) {
 	}
 }
 
-
 Grid::~Grid() {
 	for (int i = 0; i < line; i++) {
 		delete[] grid[i];
@@ -33,6 +32,30 @@ int Grid::getLine() const {
 
 int Grid::getColumn() const {
 	return column;
+}
+
+void Grid::renderGrid() const {
+	// First line
+	for (int k = 0; k < column; ++k) {
+		Cell& cell = grid[0][k];
+		std::cout << std::string(cell.getName().length() + 3, '-');
+	}
+	std::cout << std::endl;
+
+	// Main grid
+	for (int i = 0; i < line; ++i) {
+		for (int j = 0; j < column; ++j) {
+			Cell& cell = grid[i][j];
+			std::cout << "| " << cell.getName() << " ";
+		}
+		std::cout << "|" << std::endl;
+
+		for (int k = 0; k < column; ++k) {
+			Cell& cell = grid[i][k];
+			std::cout << std::string(cell.getName().length() + 3, '-');
+		}
+		std::cout << std::endl;
+	}
 }
 
 Cell& Grid::getCell(int i, int j) {
