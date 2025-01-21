@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\algorithms\paranoidAlgorithm.cpp" />
+    <ClCompile Include="src\algorithms\maxnAlgorithm.cpp" />
     <ClCompile Include="src\entity\gameEntity.cpp" />
     <ClCompile Include="src\entity\player.cpp" />
     <ClCompile Include="src\entity\wall.cpp" />
@@ -142,6 +144,8 @@
     <ClCompile Include="src\test\map\test_map.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\algorithms\paranoidAlgorithm.h" />
+    <ClInclude Include="src\algorithms\maxnAlgorithm.h" />
     <ClInclude Include="src\entity\gameEntity.h" />
     <ClInclude Include="src\entity\player.h" />
     <ClInclude Include="src\entity\wall.h" />

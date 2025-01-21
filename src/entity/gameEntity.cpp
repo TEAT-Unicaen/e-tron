@@ -11,9 +11,11 @@ GameEntity::~GameEntity() {
 std::string GameEntity::getName() {
 	return name;
 }
+
 TCoords GameEntity::getCoords() {
 	return coords;
 }
+
 int GameEntity::getColor() {
 	return color;
 }

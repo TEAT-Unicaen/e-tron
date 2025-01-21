@@ -64,3 +64,7 @@ Cell& Grid::getCell(int i, int j) {
 	}
 	return grid[i][j];
 }
+
+void Grid::setCell(Cell& targetCell, GameEntity ent) {
+	targetCell.setEntity(ent);		
+}

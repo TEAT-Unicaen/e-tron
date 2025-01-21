@@ -54,6 +54,12 @@
     <ClCompile Include="src\test\map\test_map.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\algorithms\maxnAlgorithm.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\algorithms\paranoidAlgorithm.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\entity\wall.h">
@@ -89,9 +95,18 @@
     <ClInclude Include="src\test\map\test_map.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="src\algorithms\maxnAlgorithm.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="src\algorithms\paranoidAlgorithm.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
   </ItemGroup>
 </Project>

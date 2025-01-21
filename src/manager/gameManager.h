@@ -2,6 +2,7 @@
 
 #include "entityManager.h"
 #include "mapManager.h"
+#include "../entity/gameEntity.h"
 
 class GameManager {
 
@@ -20,7 +21,9 @@ public:
 	// Getters
 	MapManager* getMapManager();
 
-private:
+private:	
+	
+	bool applyMove(GameEntity ent, TCoords coords);
 
 	MapManager* mapManager;
 

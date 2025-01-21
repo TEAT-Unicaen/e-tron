@@ -1,7 +1,7 @@
 #pragma once
 
-#include "gameEntity.h"
 #include "player.h"
+#include "gameEntity.h"
 #include <string>
 
 class Wall : public GameEntity {
