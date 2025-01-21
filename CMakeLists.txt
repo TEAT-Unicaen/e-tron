@@ -14,14 +14,23 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 # Ajouter les fichiers sources principaux
 file(GLOB_RECURSE SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.h)
 
-# Ajouter une cible exécutable pour le projet principal
-add_executable(e_tron ${SRC_FILES})
-
 # Ajouter les fichiers pour les tests (dans src/test/)
-file(GLOB_RECURSE TEST_FILES ${CMAKE_SOURCE_DIR}/src/test/*.cpp)
+file(GLOB_RECURSE TEST_FILES ${CMAKE_SOURCE_DIR}/src/test/*.cpp ${CMAKE_SOURCE_DIR}/src/test/*.h)
+
+# Supprimer le main 
+list(REMOVE_ITEM SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
 
 # Ajouter une cible exécutable pour les tests
-add_executable(MyTests ${TEST_FILES})
+add_executable(MyTests ${SRC_FILES})
+
+# Supprimer les fichiers test de la liste SRC_FILES
+list(REMOVE_ITEM SRC_FILES ${TEST_FILES})
+
+# Ajouter src/main.cpp à la liste SRC_FILES
+list(APPEND SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
+
+# Ajouter une cible exécutable pour le projet principal
+add_executable(e_tron ${SRC_FILES})
 
 # Lier les bibliothèques principales aux tests si nécessaire (optionnel)
 #target_link_libraries(MyTests PRIVATE MyProject)

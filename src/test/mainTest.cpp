@@ -2,7 +2,7 @@
 #include "./map/test_map.h"
 
 // Réalisation des tests
-/*
+
 int main() {
 
 	// Test des entités
@@ -18,4 +18,3 @@ int main() {
 
     return 0;
 }
-*/
