@@ -5,7 +5,7 @@
 #include "../../entity/wall.h"
 #include "test_entity.h"
 
-static void testGameEntity() {
+void testGameEntity() {
     // Création d'un objet GameEntity
     TCoords position = { 10, 20 };
     GameEntity entity("Player1", position, 5);
@@ -19,7 +19,7 @@ static void testGameEntity() {
     std::cout << "Tous les tests de gameEntity sont passés avec succès !" << std::endl;
 }
 
-static void testPlayer() {
+void testPlayer() {
     // Création d'un objet GameEntity
     TCoords position = { 10, 20 };
     Player player("Player1", position, 5, 0);
@@ -34,7 +34,7 @@ static void testPlayer() {
     std::cout << "Tous les tests de player sont passés avec succès !" << std::endl;
 }
 
-static void testWall() {
+void testWall() {
     // Création d'un objet GameEntity
     TCoords position = { 10, 20 };
     Player* p = new Player("Player1", position, 5, 0);

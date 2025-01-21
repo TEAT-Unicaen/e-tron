@@ -3,7 +3,7 @@
 #include "../../map/grid.h"
 #include "test_map.h"
 
-static void testGrid() {
+void testGrid() {
     try {
         std::cout << "Create grid & draw each line :\n" << std::endl;
         Grid grid(3, 3);
