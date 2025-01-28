@@ -14,7 +14,8 @@ Grid::Grid(int line, int column) : line(line), column(column) {
 		for (int j = 0; j < column; j++) {
 			std::ostringstream cellName;
 			cellName << "Cell(" << i << "," << j << ")";
-			grid[i][j] = Cell(cellName.str()); 
+			Cell cell(cellName.str());
+			grid[i][j] = cell; 
 		}
 	}
 }
@@ -46,7 +47,14 @@ void Grid::renderGrid() const {
 	for (int i = 0; i < line; ++i) {
 		for (int j = 0; j < column; ++j) {
 			Cell& cell = grid[i][j];
-			std::cout << "| " << cell.getName() << " ";
+		
+			if (cell.getEntity().getName().length() == 0) {
+				std::cout << "|   ";
+				continue;
+			}
+			else {
+				std::cout << "| " << cell.getEntity().getName() << " ";
+			}
 		}
 		std::cout << "|" << std::endl;
 

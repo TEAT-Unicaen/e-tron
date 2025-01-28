@@ -3,9 +3,11 @@
 #include "entityManager.h"
 #include "mapManager.h"
 #include "../utils/utils.h"
+#include "../utils/updatable.h"
 
 #include <thread>
 #include <iostream>
+#include <vector>
 
 class GameManager {
 
@@ -27,9 +29,17 @@ public:
 	void loop();
 	void stop();
 
-private:	
+	void addUpdatable(IUpdatable* updatable);
+	std::vector<IUpdatable*> getUpdatables();
+
+	void debugEntity();
+
+private:
+
 	std::thread gameThread;
 	bool running;
 	MapManager* mapManager;
+	std::vector<IUpdatable*> updatables;
+
 	void threadLoop();
 };

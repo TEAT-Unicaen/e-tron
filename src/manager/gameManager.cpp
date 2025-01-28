@@ -29,11 +29,32 @@ void GameManager::stop() {
 	}
 }
 
+void GameManager::addUpdatable(IUpdatable* updatable) {
+	this->updatables.push_back(updatable);
+}
+
+std::vector<IUpdatable*> GameManager::getUpdatables() {
+	return this->updatables;
+}
+
 void GameManager::threadLoop() {
 	running = true;
 	while (running) {
 		SLEEP(1);
-		std::cout << "Loop" << std::endl;
+
+		this->getMapManager()->swapCell({ 0,0 }, { 1,1 });
+
+		for (auto* updatable : this->updatables) {
+			if (updatable) {
+				updatable->update();
+			}
+			else {
+				throw std::runtime_error("Invalid updatable, there is a null here wtf");
+			}
+		}
+
+		std::cout << "\033[2J\033[H";
+		this->draw();
 	}
 }
 
@@ -42,4 +63,9 @@ void GameManager::loop() {
 		gameThread.join(); 
 	}
 	gameThread = std::thread(&GameManager::threadLoop, this);
+}
+
+void GameManager::debugEntity() {
+	GameEntity entity = GameEntity("test", {0,0}, 0);
+	this->getMapManager()->applyMove(entity, 0, 0);
 }
