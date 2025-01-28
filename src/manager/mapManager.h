@@ -1,5 +1,6 @@
 #pragma once
 #include "../map/grid.h"
+#include "../entity/gameEntity.h"
 
 class MapManager {
 
@@ -17,8 +18,11 @@ public:
 	// Getters
 	Grid* getGrid();
 
+protected:
+	bool applyMove(GameEntity ent, int x, int y);
+	bool applyMove(GameEntity ent, TCoords coords);
+
 private:
 
 	Grid* grid;
-
 };

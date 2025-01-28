@@ -1,14 +1,16 @@
 #include "gameManager.h"
 
-
 GameManager::GameManager(int line, int column)
-	: mapManager(new MapManager(line, column)) {
+	: mapManager(new MapManager(line, column)), running(false) {
 }
 
 GameManager::~GameManager() {
+	if (this->running) {
+		this->stop();
+	}
 }
 
-void GameManager::Start() {
+void GameManager::draw() {
 	mapManager->renderMap();
 }
 
@@ -20,12 +22,24 @@ MapManager* GameManager::getMapManager() {
 	return mapManager;
 }
 
-bool GameManager::applyMove(GameEntity ent, TCoords coords) {
-	Grid* grid = this->mapManager->getGrid();
-	if (coords.x < 0 || coords.x >= grid->getLine() || coords.y < 0 || coords.y >= grid->getColumn()) {
-		return false;
+void GameManager::stop() {
+	running = false;
+	if (gameThread.joinable()) {
+		gameThread.join();
 	}
-	grid->setCell(grid->getCell(coords.x,coords.y), ent);
-	return true;
 }
 
+void GameManager::threadLoop() {
+	running = true;
+	while (running) {
+		SLEEP(1);
+		std::cout << "Loop" << std::endl;
+	}
+}
+
+void GameManager::loop() {
+	if (gameThread.joinable()) {
+		gameThread.join(); 
+	}
+	gameThread = std::thread(&GameManager::threadLoop, this);
+}

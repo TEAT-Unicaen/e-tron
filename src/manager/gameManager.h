@@ -2,7 +2,10 @@
 
 #include "entityManager.h"
 #include "mapManager.h"
-#include "../entity/gameEntity.h"
+#include "../utils/utils.h"
+
+#include <thread>
+#include <iostream>
 
 class GameManager {
 
@@ -13,7 +16,7 @@ public:
 	~GameManager();
 
 	// Methods
-	void Start();
+	void draw();
 
 	// Setters
 	void setMapManager(MapManager* mapManager);
@@ -21,10 +24,12 @@ public:
 	// Getters
 	MapManager* getMapManager();
 
+	void loop();
+	void stop();
+
 private:	
-	
-	bool applyMove(GameEntity ent, TCoords coords);
-
+	std::thread gameThread;
+	bool running;
 	MapManager* mapManager;
-
+	void threadLoop();
 };
