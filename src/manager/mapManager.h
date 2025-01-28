@@ -18,8 +18,8 @@ public:
 	// Getters
 	Grid* getGrid();
 
-	bool applyMove(GameEntity ent, int x, int y);
-	bool applyMove(GameEntity ent, TCoords coords);
+	bool setEntityAtCoords(GameEntity ent, int x, int y);
+	bool setEntityAtCoords(GameEntity ent, TCoords coords);
 
 	bool swapCell(TCoords coords1, TCoords coords2);
 

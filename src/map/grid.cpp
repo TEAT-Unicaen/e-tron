@@ -37,9 +37,9 @@ int Grid::getColumn() const {
 
 void Grid::renderGrid() const {
 	// First line
-	for (int k = 0; k < column; ++k) {
+	for (int k = 0; k < column-1; ++k) {
 		Cell& cell = grid[0][k];
-		std::cout << std::string(cell.getName().length() + 3, '-');
+		std::cout << std::string(cell.getName().length(), '-');
 	}
 	std::cout << std::endl;
 
@@ -48,19 +48,18 @@ void Grid::renderGrid() const {
 		for (int j = 0; j < column; ++j) {
 			Cell& cell = grid[i][j];
 		
-			if (cell.getEntity().getName().length() == 0) {
-				std::cout << "|   ";
-				continue;
+			if (cell.getEntity().getName().length() > 0) {
+				std::cout << "| " << cell.getEntity().getName() << "  ";
 			}
 			else {
-				std::cout << "| " << cell.getEntity().getName() << " ";
+				std::cout << "| " << "     " << " ";
 			}
 		}
 		std::cout << "|" << std::endl;
 
-		for (int k = 0; k < column; ++k) {
+		for (int k = 0; k < column-1; ++k) {
 			Cell& cell = grid[i][k];
-			std::cout << std::string(cell.getName().length() + 3, '-');
+			std::cout << std::string(cell.getName().length(), '-');
 		}
 		std::cout << std::endl;
 	}

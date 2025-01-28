@@ -5,7 +5,7 @@ int main() {
 
 	std::cout << "Welcome to the game !\n" << std::endl;
 
-	GameManager gameManager(3, 3);
+	GameManager gameManager(9, 9);
 	gameManager.debugEntity();
 	std::cout << "DEFAULT GRID :" << std::endl;
 	gameManager.draw();
@@ -15,7 +15,7 @@ int main() {
 	SLEEP(5);
 	std::cout << "Starting the game !" << std::endl;
 	gameManager.loop();
-	SLEEP(5);
+	SLEEP(500);
 
 	gameManager.stop();
 	std::cout << std::endl << "End of the game !" << std::endl;

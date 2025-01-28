@@ -67,5 +67,5 @@ void GameManager::loop() {
 
 void GameManager::debugEntity() {
 	GameEntity entity = GameEntity("test", {0,0}, 0);
-	this->getMapManager()->applyMove(entity, 0, 0);
+	this->getMapManager()->setEntityAtCoords(entity, 0, 0);
 }

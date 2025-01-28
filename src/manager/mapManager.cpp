@@ -25,7 +25,7 @@ Grid* MapManager::getGrid() {
 	return grid;
 }
 
-bool MapManager::applyMove(GameEntity ent, int x, int y) {
+bool MapManager::setEntityAtCoords(GameEntity ent, int x, int y) {
 	if (x < 0 || x >= grid->getLine() || y < 0 || y >= grid->getColumn()) {
 		return false;
 	}
@@ -34,8 +34,8 @@ bool MapManager::applyMove(GameEntity ent, int x, int y) {
 	return true;
 }
 
-bool MapManager::applyMove(GameEntity ent, TCoords coords) {
-	return applyMove(ent, coords.x, coords.y);
+bool MapManager::setEntityAtCoords(GameEntity ent, TCoords coords) {
+	return setEntityAtCoords(ent, coords.x, coords.y);
 }
 
 bool MapManager::swapCell(TCoords coords1, TCoords coords2) {
@@ -50,10 +50,10 @@ bool MapManager::swapCell(TCoords coords1, TCoords coords2) {
 	GameEntity ent2 = grid->getCell(coords2.x, coords2.y).getEntity();
 	
 	if (ent1) {
-		this->applyMove(ent1, coords2);
+		this->setEntityAtCoords(ent1, coords2);
 	}
 	if (ent2) {
-		this->applyMove(ent2, coords1);
+		this->setEntityAtCoords(ent2, coords1);
 	}
 
 	return true;
