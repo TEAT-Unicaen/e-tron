@@ -8,6 +8,10 @@ project(e_tron)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Flags
+set(CMAKE_CXX_FLAGS_RELEASE "/MP /Ot /MD /fp:fast")
+set(CMAKE_CXX_FLAGS_DEBUG "/MP /Ot /MDd /fp:fast")
+
 # Inclure les répertoires contenant les headers
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
@@ -19,6 +23,7 @@ file(GLOB_RECURSE TEST_FILES ${CMAKE_SOURCE_DIR}/src/test/*.cpp ${CMAKE_SOURCE_D
 
 # Supprimer le main 
 list(REMOVE_ITEM SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
+list(REMOVE_ITEM SRC_FILES ${CMAKE_SOURCE_DIR}/src/winMain.cpp)
 
 # Ajouter une cible exécutable pour les tests
 add_executable(MyTests ${SRC_FILES})
@@ -30,7 +35,15 @@ list(REMOVE_ITEM SRC_FILES ${TEST_FILES})
 list(APPEND SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
 
 # Ajouter une cible exécutable pour le projet principal
-add_executable(e_tron ${SRC_FILES})
+add_executable(e_tron_cmd ${SRC_FILES})
+
+list(REMOVE_ITEM SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
+
+list(APPEND SRC_FILES ${CMAKE_SOURCE_DIR}/src/winMain.cpp)
+
+add_executable(e_tron_directX ${SRC_FILES})
+
+set_target_properties(e_tron_directX PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
 
 # Lier les bibliothèques principales aux tests si nécessaire (optionnel)
 #target_link_libraries(MyTests PRIVATE MyProject)
