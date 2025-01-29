@@ -9,44 +9,34 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Flags
-set(CMAKE_CXX_FLAGS_RELEASE "/MP /Ot /MD /fp:fast")
-set(CMAKE_CXX_FLAGS_DEBUG "/MP /Ot /MDd /fp:fast")
+set(CXX_FLAGS_DEFAULT "/MP /Ot /fp:fast")
+set(CMAKE_CXX_FLAGS_RELEASE ${CXX_FLAGS_DEFAULT} "/MD")
+set(CMAKE_CXX_FLAGS_DEBUG ${CXX_FLAGS_DEFAULT} "/MDd")
 
 # Inclure les répertoires contenant les headers
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
 # Ajouter les fichiers sources principaux
-file(GLOB_RECURSE SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.h)
+file(GLOB_RECURSE DEFAULT_PROJECT_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.h)
 
 # Ajouter les fichiers pour les tests (dans src/test/)
-file(GLOB_RECURSE TEST_FILES ${CMAKE_SOURCE_DIR}/src/test/*.cpp ${CMAKE_SOURCE_DIR}/src/test/*.h)
+file(GLOB_RECURSE TEST_FILES ${CMAKE_SOURCE_DIR}/src/testMain.cpp ${CMAKE_SOURCE_DIR}/src/test/*.cpp ${CMAKE_SOURCE_DIR}/src/test/*.h)
 
-# Supprimer le main 
-list(REMOVE_ITEM SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
-list(REMOVE_ITEM SRC_FILES ${CMAKE_SOURCE_DIR}/src/winMain.cpp)
+# Ajouter les fichiers pour le graphics
+file(GLOB_RECURSE GRAPHICS_FILES ${CMAKE_SOURCE_DIR}/src/winMain.cpp ${CMAKE_SOURCE_DIR}/src/graphics/*.cpp ${CMAKE_SOURCE_DIR}/src/graphics/*.h)
 
-# Ajouter une cible exécutable pour les tests
-add_executable(MyTests ${SRC_FILES})
+# Build de la liste des fichiers sources
+list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
+list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${GRAPHICS_FILES})
+list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${TEST_FILES})
 
-# Supprimer les fichiers test de la liste SRC_FILES
-list(REMOVE_ITEM SRC_FILES ${TEST_FILES})
+# Ajouter des cibles exécutable
+add_executable(MyTests ${DEFAULT_PROJECT_FILES} ${TEST_FILES})
 
-# Ajouter src/main.cpp à la liste SRC_FILES
-list(APPEND SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
+add_executable(e_tron_cmd ${DEFAULT_PROJECT_FILES} ${CMAKE_SOURCE_DIR}/src/main.cpp)
 
-# Ajouter une cible exécutable pour le projet principal
-add_executable(e_tron_cmd ${SRC_FILES})
-
-list(REMOVE_ITEM SRC_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
-
-list(APPEND SRC_FILES ${CMAKE_SOURCE_DIR}/src/winMain.cpp)
-
-add_executable(e_tron_directX ${SRC_FILES})
+add_executable(e_tron_directX ${DEFAULT_PROJECT_FILES} ${GRAPHICS_FILES})
 
 set_target_properties(e_tron_directX PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
 
-# Lier les bibliothèques principales aux tests si nécessaire (optionnel)
-#target_link_libraries(MyTests PRIVATE MyProject)
 
-# Ajouter des options supplémentaires si tu utilises DirectX (par exemple)
-# target_link_libraries(MyProject d3d11 dxgi d3dcompiler)

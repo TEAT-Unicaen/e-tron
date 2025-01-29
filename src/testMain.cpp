@@ -1,5 +1,5 @@
-#include "./entity/test_entity.h"
-#include "./map/test_map.h"
+#include "test/entity/test_entity.h"
+#include "test/map/test_map.h"
 
 // Réalisation des tests
 
