@@ -1,9 +1,6 @@
 #include "keyboardManager.h"
 
 // KeyEvents
-KeyboardManager::Event::Event() noexcept
-	: type(Type::Invalid), code(0u) {}
-
 KeyboardManager::Event::Event(Type type, unsigned char code) noexcept
 	: type(type), code(code) {}
 
@@ -15,23 +12,19 @@ bool KeyboardManager::Event::isRelease() const noexcept {
 	return type == Type::Release;
 }
 
-bool KeyboardManager::Event::isValid() const noexcept {
-	return type != Type::Invalid;
-}
-
 unsigned char KeyboardManager::Event::getCode() const noexcept {
 	return code;
 }
 
 
 // KeyboardManager
-KeyboardManager::keyIsPressed(unsigned char keycode) const noexcept {
+bool KeyboardManager::keyIsPressed(unsigned char keycode) const noexcept {
 	return this->keyStates[keycode];
 }
 
-KeyboardManager::Event KeyboardManager::readKey() noexcept {
+std::optional<KeyboardManager::Event> KeyboardManager::readKey() noexcept {
 	if (this->keyBuffer.empty())
-		return Event();// Invalid Event
+		return {};
 	Event e = this->keyBuffer.front();
 	this->keyBuffer.pop();
 	return e;
@@ -45,9 +38,9 @@ void KeyboardManager::clearKey() noexcept {
 	this->keyBuffer = std::queue<Event>();
 }
 
-char KeyboardManager::readChar() noexcept {
+std::optional<char> KeyboardManager::readChar() noexcept {
 	if (this->charBuffer.empty())
-		return 0;// /0
+		return {};
 	unsigned char charCode = this->charBuffer.front();
 	this->charBuffer.pop();
 	return charCode;
@@ -99,7 +92,8 @@ void KeyboardManager::clearState() noexcept {
 	this->keyStates.reset();
 }
 
-template <typename T> void KeyboardManager::trimBuffer(std::queue<T>& buffer) noexcept {
+template <typename T>
+void KeyboardManager::trimBuffer(std::queue<T>& buffer) noexcept {
 	while (buffer.size() > bufferSize)
 		buffer.pop();
 }
