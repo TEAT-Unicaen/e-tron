@@ -3,16 +3,11 @@
 #include "gameEntity.h"
 
 class Player : public GameEntity {
-
 public:
+	Player(std::string name, TCoords coords, int color, int id) noexcept;
+	~Player() = default;
 
-	Player(std::string name, TCoords coords, int color, int id);
-	~Player();
-
-	int getId();
-
+	int getId() const noexcept;
 private:
-
 	int id;
-
 };

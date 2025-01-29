@@ -3,27 +3,25 @@
 #include <iostream>
 
 // Constructor
-MapManager::MapManager(int line, int column)
+MapManager::MapManager(int line, int column) noexcept
 	: grid(new Grid(line, column)) {}
 
-MapManager::~MapManager() {}
-
 // Methods
-void MapManager::renderMap() {
+void MapManager::renderMap() const noexcept {
 	grid->renderGrid();
 }
 
 // Setters
-void MapManager::setGrid(Grid* grid) {
+void MapManager::setGrid(Grid* grid) noexcept {
 	this->grid = grid;
 }
 
 // Getters
-Grid* MapManager::getGrid() {
+Grid* MapManager::getGrid() const noexcept {
 	return grid;
 }
 
-bool MapManager::setEntityAtCoords(GameEntity ent, int x, int y) {
+bool MapManager::setEntityAtCoords(GameEntity ent, int x, int y) noexcept {
 	if (x < 0 || x >= grid->getLine() || y < 0 || y >= grid->getColumn()) {
 		return false;
 	}
@@ -32,11 +30,11 @@ bool MapManager::setEntityAtCoords(GameEntity ent, int x, int y) {
 	return true;
 }
 
-bool MapManager::setEntityAtCoords(GameEntity ent, TCoords coords) {
+bool MapManager::setEntityAtCoords(GameEntity ent, TCoords coords) noexcept {
 	return setEntityAtCoords(ent, coords.x, coords.y);
 }
 
-bool MapManager::swapCell(TCoords coords1, TCoords coords2) {
+bool MapManager::swapCell(TCoords coords1, TCoords coords2) noexcept {
 	if (coords1.x < 0 || coords1.x >= grid->getLine() || coords1.y< 0 || coords1.y >= grid->getColumn()) {
 		return false;
 	}

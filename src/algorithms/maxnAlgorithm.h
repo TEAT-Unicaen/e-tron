@@ -3,17 +3,14 @@
 #include "../entity/player.h"
 
 
-class MaxnAlgorithm
-{
+class MaxnAlgorithm {
 public:
-
     // Constructor
-    MaxnAlgorithm(Grid* grid);
-    ~MaxnAlgorithm();
+    MaxnAlgorithm(Grid* grid) noexcept;
+    ~MaxnAlgorithm() = default;
 
     //Methods
-    bool isValidMove(int x, int y);
-
+    bool isValidMove(int x, int y) const noexcept;
 
 private:
 

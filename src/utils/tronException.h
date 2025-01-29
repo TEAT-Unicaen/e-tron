@@ -7,6 +7,7 @@
 class TronException : public std::exception {
 public:
 	TronException(int line, const char* file) noexcept;
+	TronException(int line, const char* file, const char* message) noexcept;
 	const char* what() const noexcept override;
 	virtual const char* getType() const noexcept;
 	int getLine() const noexcept;
@@ -16,8 +17,9 @@ public:
 private:
 	int line;
 	std::string file;
+	std::string message;
 protected:
 	mutable std::string whatBuffer;
 };
 
-#define TRON_EXCEPT(hr) TronException(__LINE__, __FILE__, hr)
+#define TRON_EXCEPT(message) TronException(__LINE__, __FILE__, message)

@@ -5,16 +5,11 @@
 #include <string>
 
 class Wall : public GameEntity {
-
 public:
+	Wall(std::string name, TCoords coords, int color, Player* owner) noexcept;
+	~Wall() = default;
 
-	Wall(std::string name, TCoords coords, int color, Player* owner);
-	~Wall();
-
-	Player* getOwner();
-
+	Player* getOwner() const noexcept;
 private:
-
 	Player* owner;
-
 };

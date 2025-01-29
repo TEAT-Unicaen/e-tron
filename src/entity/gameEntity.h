@@ -8,25 +8,22 @@ typedef struct SCoords {
 } TCoords;
 
 class GameEntity {
-	
 public:
-	GameEntity();
-	GameEntity(std::string name, TCoords coords, int color);
-	~GameEntity();
+	GameEntity() noexcept;
+	GameEntity(std::string name, TCoords coords, int color) noexcept;
+	~GameEntity() = default;
 
-	std::string getName();
-	TCoords getCoords();
-	int getColor();
-	void setCoords(TCoords coords);
+	std::string getName() const noexcept;
+	TCoords getCoords() const noexcept;
+	int getColor() const noexcept;
+	void setCoords(TCoords coords) noexcept;
 
-	operator bool() const {
+	inline operator bool() const noexcept {
 		return !name.empty() || color != -1 || (coords.x != -1 || coords.y != -1);
 	}
 
 protected:
-
 	std::string name;
 	TCoords coords;
 	int color;
-
 };

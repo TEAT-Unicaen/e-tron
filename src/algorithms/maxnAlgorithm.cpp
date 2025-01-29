@@ -11,19 +11,17 @@ Grid* storedGrid;
 // Possible directions (up, down, left, right)
 const std::vector<std::pair<int, int>> DIRECTIONS = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
 
-MaxnAlgorithm::MaxnAlgorithm(Grid* grid) {
+MaxnAlgorithm::MaxnAlgorithm(Grid* grid) noexcept {
     gridLines = grid->getLine(); 
     gridCols = grid->getColumn();
     storedGrid = grid;
 }
 
-MaxnAlgorithm::~MaxnAlgorithm() {}
-
-bool isValidMove(int x, int y) {
+bool isValidMove(int x, int y) noexcept {
     return x >= 0 && x < gridCols && y >= 0 && y < gridLines && storedGrid->getCell(x,y).getEntity() == false; //Test if the check if working ?
 }
 
-std::vector<std::pair<int, int>> getAvailableMoves(Player player) {
+std::vector<std::pair<int, int>> getAvailableMoves(Player player) noexcept {
     std::vector<std::pair<int, int>> moves;
     for (auto [dx, dy] : DIRECTIONS) { //Compiler auto detect type based on "DIRECTIONS" type.
         int newX = player.getCoords().x + dx;
@@ -36,12 +34,12 @@ std::vector<std::pair<int, int>> getAvailableMoves(Player player) {
 }
 
 // Return the score, alias "position quality" of a player, based on the move possibilities around him
-int evaluate(Player player) {
+int evaluate(Player player) noexcept {
 	return getAvailableMoves(player).size();
 }
 
 // Core Algorithme Maxn
-std::vector<int> maxn(std::vector<Player> players, int depth, int currentPlayer) {
+std::vector<int> maxn(std::vector<Player> players, int depth, int currentPlayer) noexcept {
 	int numPlayers = players.size();
 
     //Recur : end case -> return all scores for the current state

@@ -5,18 +5,16 @@
 
 
 class Cell {
-
 public:
-    Cell();
-    Cell(const std::string& name);
-    ~Cell();
+    Cell() noexcept;
+    Cell(const std::string& name) noexcept;
+    ~Cell() = default;
     
-	GameEntity getEntity() const;
-	void setEntity(GameEntity ent);
-    std::string getName() const;
+	GameEntity getEntity() const noexcept;
+	void setEntity(GameEntity ent) noexcept;
+    std::string getName() const noexcept;
 
 private:
-
 	GameEntity entity;
     std::string name; 
 };

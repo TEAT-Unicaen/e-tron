@@ -1,13 +1,10 @@
 #include "wall.h"
 
 
-Wall::Wall(std::string name, TCoords coords, int color, Player* owner)
+Wall::Wall(std::string name, TCoords coords, int color, Player* owner) noexcept
     : GameEntity(name, coords, color), owner(owner) {
 }
 
-Wall::~Wall() {
-}
-
-Player* Wall::getOwner() {
+Player* Wall::getOwner() const noexcept {
 	return owner;
 }

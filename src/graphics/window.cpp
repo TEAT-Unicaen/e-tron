@@ -34,13 +34,15 @@ HINSTANCE Window::WindowClass::getInstance() noexcept {
 }
 
 // Window Stuff
-Window::Window(int width, int height, const char* name) noexcept {
+Window::Window(int width, int height, const char* name) {
 	RECT wr = {0};
 	wr.left = 100;
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+	if (FAILED(AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE))) {
+		throw WIN_EXCEPT(GetLastError());
+	}
 
 	this->hWnd = CreateWindowEx(
 		0, Window::WindowClass::getName(),
@@ -49,6 +51,9 @@ Window::Window(int width, int height, const char* name) noexcept {
 		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, Window::WindowClass::getInstance(), this
 	);
+	if (this->hWnd == nullptr) {
+		throw WIN_EXCEPT(GetLastError());
+	}
 	ShowWindow(this->hWnd, SW_SHOWDEFAULT);
 }
 

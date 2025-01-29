@@ -1,38 +1,42 @@
 #include "gameManager.h"
 
-GameManager::GameManager(int line, int column)
+GameManager::GameManager(int line, int column) noexcept
 	: mapManager(new MapManager(line, column)), running(false) {}
 
 GameManager::~GameManager() {
 	if (this->running) {
 		this->stop();
+	} else {
+		throw TRON_EXCEPT("GameManager is not running");
 	}
 }
 
-void GameManager::draw() {
-	mapManager->renderMap();
+void GameManager::draw() const noexcept {
+	this->mapManager->renderMap();
 }
 
-void GameManager::setMapManager(MapManager* mapManager) {
+void GameManager::setMapManager(MapManager* mapManager) noexcept {
 	this->mapManager = mapManager;
 }
 
-MapManager* GameManager::getMapManager() {
-	return mapManager;
+MapManager* GameManager::getMapManager() const noexcept {
+	return this->mapManager;
 }
 
 void GameManager::stop() {
-	running = false;
-	if (gameThread.joinable()) {
-		gameThread.join();
+	this->running = false;
+	if (this->gameThread.joinable()) {
+		this->gameThread.join();
+	} else {
+		throw TRON_EXCEPT("GameManager is running but the gameThread don't run");
 	}
 }
 
-void GameManager::addUpdatable(IUpdatable* updatable) {
+void GameManager::addUpdatable(IUpdatable* updatable) noexcept {
 	this->updatables.push_back(updatable);
 }
 
-std::vector<IUpdatable*> GameManager::getUpdatables() {
+std::vector<IUpdatable*> GameManager::getUpdatables() const noexcept {
 	return this->updatables;
 }
 
@@ -46,9 +50,8 @@ void GameManager::threadLoop() {
 		for (auto* updatable : this->updatables) {
 			if (updatable) {
 				updatable->update();
-			}
-			else {
-				throw std::runtime_error("Invalid updatable, there is a null here wtf");
+			} else {
+				throw TRON_EXCEPT("Invalid updatable, there is a null here wtf");
 			}
 		}
 
@@ -58,13 +61,21 @@ void GameManager::threadLoop() {
 }
 
 void GameManager::loop() {
-	if (gameThread.joinable()) {
-		gameThread.join(); 
+	if (this->gameThread.joinable()) {
+		this->gameThread.join();
 	}
-	gameThread = std::thread(&GameManager::threadLoop, this);
+	this->gameThread = std::thread(&GameManager::threadLoop, this);
+	if (!this->gameThread.joinable()) {
+		throw TRON_EXCEPT("GameThread is not lauch");
+	}
 }
 
 Player GameManager::createPlayer(std::string name, int i, int y, int uniqueInt) {
+	/* NEED TO FIX THIS
+	if (this->getMapManager()->getGrid()->getCell(i, y).getEntity()) {
+		throw TRON_EXCEPT("Cell already taken");
+	}
+	*/
 	Player entity = Player(name, {i,y}, uniqueInt, uniqueInt);
 	this->getMapManager()->setEntityAtCoords(entity, i, y);
 	return entity;

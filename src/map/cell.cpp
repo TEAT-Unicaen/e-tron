@@ -1,22 +1,20 @@
 #include "cell.h"
 
-Cell::Cell() 
+Cell::Cell() noexcept
 	: name("Unnamed"), entity(entity) {}
 
 
-Cell::Cell(const std::string& name) 
+Cell::Cell(const std::string& name) noexcept
 	: name(name), entity(entity) {}
 
-Cell::~Cell() {}
-
-GameEntity Cell::getEntity() const {
+GameEntity Cell::getEntity() const noexcept {
 	return this->entity;
 }
 
-void Cell::setEntity(GameEntity ent) {
+void Cell::setEntity(GameEntity ent) noexcept {
 	this->entity = ent;
 }
 
-std::string Cell::getName() const {
+std::string Cell::getName() const noexcept {
     return name;
 }

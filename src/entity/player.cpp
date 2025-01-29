@@ -1,12 +1,9 @@
 #include "player.h"
 
-Player::Player(std::string name, TCoords coords, int color, int id) 
+Player::Player(std::string name, TCoords coords, int color, int id) noexcept
     : GameEntity(name, coords, color), id(id) {
 }
 
-Player::~Player() {
-}
-
-int Player::getId() {
+int Player::getId() const noexcept {
 	return id;
 }

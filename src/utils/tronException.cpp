@@ -3,9 +3,13 @@
 TronException::TronException(int line, const char* file) noexcept
 	: line(line), file(file) {}
 
+TronException::TronException(int line, const char* file, const char* message) noexcept
+	: line(line), file(file), message(message) {}
+
 const char* TronException::what() const noexcept {
 	std::ostringstream oss;
 	oss << getType() << std::endl
+		<< message << std::endl
 		<< getLocationInString();
 	whatBuffer = oss.str();
 	return whatBuffer.c_str();

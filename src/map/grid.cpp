@@ -5,7 +5,7 @@
 Grid::Grid(int line, int column) 
 	: line(line), column(column) {
 	if (line <= 0 || column <= 0) {
-		throw std::invalid_argument("Invalid grid size");
+		throw TRON_EXCEPT("Invalid grid size");
 	}
 
 	grid = new Cell * [line];
@@ -20,22 +20,22 @@ Grid::Grid(int line, int column)
 	}
 }
 
-Grid::~Grid() {
+Grid::~Grid() noexcept {
 	for (int i = 0; i < line; i++) {
 		delete[] grid[i];
 	}
 	delete[] grid;
 }
 
-int Grid::getLine() const {
+int Grid::getLine() const noexcept {
 	return line;
 }
 
-int Grid::getColumn() const {
+int Grid::getColumn() const noexcept {
 	return column;
 }
 
-void Grid::renderGrid() const {
+void Grid::renderGrid() const noexcept {
 	// First line
 	for (int k = 0; k < column-1; ++k) {
 		Cell& cell = grid[0][k];
@@ -65,13 +65,13 @@ void Grid::renderGrid() const {
 	}
 }
 
-Cell& Grid::getCell(int i, int j) {
+Cell& Grid::getCell(int i, int j) const {
 	if (i < 0 || i >= line || j < 0 || j >= column) {
-		throw std::invalid_argument("Invalid cell position");
+		throw TRON_EXCEPT("Invalid cell position");
 	}
 	return grid[i][j];
 }
 
-void Grid::setCell(Cell& targetCell, GameEntity ent) {
+void Grid::setCell(Cell& targetCell, GameEntity ent) noexcept {
 	targetCell.setEntity(ent);		
 }

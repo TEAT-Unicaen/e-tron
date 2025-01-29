@@ -2,22 +2,21 @@
 
 #include "cell.h"
 #include "../entity/gameEntity.h"
+#include "../utils/tronException.h"
 
 class Grid {
-
 public:
 	Grid(int line, int column);
-	~Grid();
+	~Grid() noexcept;
 
-	int getLine() const;
-	int getColumn() const;
-	void renderGrid() const;
-	void setCell(Cell& targetCell, GameEntity ent);
+	int getLine() const noexcept;
+	int getColumn() const noexcept;
+	void renderGrid() const noexcept;
+	void setCell(Cell& targetCell, GameEntity ent) noexcept;
 
-	Cell& getCell(int i, int j);
+	Cell& getCell(int i, int j) const;
 
 private:	
-
 	int line;
 	int column;
 	Cell** grid;

@@ -3,27 +3,24 @@
 #include "../entity/gameEntity.h"
 
 class MapManager {
-
 public:
-
-	MapManager(int line, int column);
-	~MapManager();
+	MapManager(int line, int column) noexcept;
+	~MapManager() = default;
 
 	// Methods
-	void renderMap();
+	void renderMap() const noexcept;
 
 	// Setters
-	void setGrid(Grid* grid);
+	void setGrid(Grid* grid) noexcept;
 
 	// Getters
-	Grid* getGrid();
+	Grid* getGrid() const noexcept;
 
-	bool setEntityAtCoords(GameEntity ent, int x, int y);
-	bool setEntityAtCoords(GameEntity ent, TCoords coords);
+	bool setEntityAtCoords(GameEntity ent, int x, int y) noexcept;
+	bool setEntityAtCoords(GameEntity ent, TCoords coords) noexcept;
 
-	bool swapCell(TCoords coords1, TCoords coords2);
+	bool swapCell(TCoords coords1, TCoords coords2) noexcept;
 
 private:
-
 	Grid* grid;
 };

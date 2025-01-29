@@ -4,6 +4,7 @@
 #include "mapManager.h"
 #include "../utils/utils.h"
 #include "../utils/updatable.h"
+#include "../utils/tronException.h"
 #include "../algorithms/maxnAlgorithm.h"
 
 #include <thread>
@@ -11,27 +12,25 @@
 #include <vector>
 
 class GameManager {
-
 public:
-
 	// Constructor
-	GameManager(int line, int column);
+	GameManager(int line, int column) noexcept;
 	~GameManager();
 
 	// Methods
-	void draw();
+	void draw() const noexcept;
 
 	// Setters
-	void setMapManager(MapManager* mapManager);
+	void setMapManager(MapManager* mapManager) noexcept;
 
 	// Getters
-	MapManager* getMapManager();
+	MapManager* getMapManager() const noexcept;
 
 	void loop();
 	void stop();
 
-	void addUpdatable(IUpdatable* updatable);
-	std::vector<IUpdatable*> getUpdatables();
+	void addUpdatable(IUpdatable* updatable) noexcept;
+	std::vector<IUpdatable*> getUpdatables() const noexcept;
 
 	Player createPlayer(std::string name, int i, int y, int color);
     MaxnAlgorithm callMaxn();

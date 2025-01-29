@@ -1,26 +1,23 @@
 #include "gameEntity.h"
 
-GameEntity::GameEntity() 
+GameEntity::GameEntity() noexcept
 	: name(NULL), coords({ -1,-1 }), color(-1) {}
 
-GameEntity::GameEntity(std::string name, TCoords coords, int color)
+GameEntity::GameEntity(std::string name, TCoords coords, int color) noexcept
 	: name(name), coords(coords), color(color) {}
 
-GameEntity::~GameEntity() {}
-
-
-std::string GameEntity::getName() {
+std::string GameEntity::getName() const noexcept {
 	return name;
 }
 
-TCoords GameEntity::getCoords() {
+TCoords GameEntity::getCoords() const noexcept {
 	return coords;
 }
 
-int GameEntity::getColor() {
+int GameEntity::getColor() const noexcept {
 	return color;
 }
 
-void GameEntity::setCoords(TCoords coords) {
+void GameEntity::setCoords(TCoords coords) noexcept {
 	this->coords = coords;
 }
