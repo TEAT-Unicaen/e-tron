@@ -1,7 +1,9 @@
 #pragma once
 #include "setUpWindows.h"
-#include "../utils/tronException.h"
 #include "resource.h"
+#include "keyboardManager.h"
+#include "../utils/tronException.h"
+
 
 class Window {
 private:
@@ -36,6 +38,10 @@ public:
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
+
+	void setTitle(const std::string& title);
+
+	KeyboardManager keyEvent;
 private:
 	static LRESULT CALLBACK handleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK handleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;

@@ -40,7 +40,7 @@ Window::Window(int width, int height, const char* name) {
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	if (FAILED(AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE))) {
+	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0) {
 		throw WIN_EXCEPT(GetLastError());
 	}
 
@@ -59,6 +59,12 @@ Window::Window(int width, int height, const char* name) {
 
 Window::~Window() {
 	DestroyWindow(this->hWnd);
+}
+
+void Window::setTitle(const std::string& title) {
+	if (SetWindowText(this->hWnd, title.c_str()) == 0) {
+		throw WIN_EXCEPT(GetLastError());
+	}
 }
 
 LRESULT CALLBACK Window::handleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
@@ -87,7 +93,24 @@ LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	switch (msg) {
 	case WM_CLOSE:
 		PostQuitMessage(0);
-		return 0;
+		return 0;// we don't want to use the default message here
+	case WM_KILLFOCUS:
+		keyEvent.clearState();
+		break;
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		// Check if the key is autorepeated. If it was the prevoius input bit 30 true
+		if (!(lParam & 0x40000000) || keyEvent.autorepeatIsEnabled()) {
+			keyEvent.onKeyPressed(static_cast<unsigned char>(wParam));
+		}
+		break;
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		keyEvent.onKeyReleased(static_cast<unsigned char>(wParam));
+		break;
+	case WM_CHAR:
+		keyEvent.onChar(static_cast<unsigned char>(wParam));
+		break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
