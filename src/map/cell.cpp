@@ -1,9 +1,11 @@
 #include "cell.h"
 
-Cell::Cell() : name("Unnamed"), entity(entity) {}
+Cell::Cell() 
+	: name("Unnamed"), entity(entity) {}
 
 
-Cell::Cell(const std::string& name) : name(name), entity(entity) {}
+Cell::Cell(const std::string& name) 
+	: name(name), entity(entity) {}
 
 Cell::~Cell() {}
 

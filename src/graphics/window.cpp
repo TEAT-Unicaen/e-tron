@@ -3,7 +3,8 @@
 // Window Class Stuff
 Window::WindowClass Window::WindowClass::wndClass;
 
-Window::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr)) {
+Window::WindowClass::WindowClass() noexcept 
+	: hInst(GetModuleHandle(nullptr)) {
 	WNDCLASSEX wc = {0};
 	wc.cbSize = sizeof(wc);
 	wc.style = CS_OWNDC;

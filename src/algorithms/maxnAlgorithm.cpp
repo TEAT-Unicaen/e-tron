@@ -17,7 +17,7 @@ MaxnAlgorithm::MaxnAlgorithm(Grid* grid) {
     storedGrid = grid;
 }
 
-MaxnAlgorithm::~MaxnAlgorithm(){}
+MaxnAlgorithm::~MaxnAlgorithm() {}
 
 bool isValidMove(int x, int y) {
     return x >= 0 && x < gridCols && y >= 0 && y < gridLines && storedGrid->getCell(x,y).getEntity() == false; //Test if the check if working ?

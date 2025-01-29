@@ -2,8 +2,8 @@
 #include <iostream>
 #include <sstream>
 
-Grid::Grid(int line, int column) : line(line), column(column) {
-
+Grid::Grid(int line, int column) 
+	: line(line), column(column) {
 	if (line <= 0 || column <= 0) {
 		throw std::invalid_argument("Invalid grid size");
 	}
