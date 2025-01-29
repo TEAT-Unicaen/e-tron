@@ -4,11 +4,9 @@
 
 // Constructor
 MapManager::MapManager(int line, int column)
-	: grid(new Grid(line, column)) {
-}
+	: grid(new Grid(line, column)) {}
 
-MapManager::~MapManager() {
-}
+MapManager::~MapManager() {}
 
 // Methods
 void MapManager::renderMap() {

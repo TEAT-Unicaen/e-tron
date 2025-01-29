@@ -1,4 +1,7 @@
-__interface IUpdatable
-{
-public: void update();
+#pragma once
+
+class IUpdatable {
+	public: 
+		virtual ~IUpdatable() = default;
+		virtual void update() = 0;
 };

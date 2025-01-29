@@ -4,6 +4,7 @@
 #include "mapManager.h"
 #include "../utils/utils.h"
 #include "../utils/updatable.h"
+#include "../algorithms/maxnAlgorithm.h"
 
 #include <thread>
 #include <iostream>
@@ -32,7 +33,8 @@ public:
 	void addUpdatable(IUpdatable* updatable);
 	std::vector<IUpdatable*> getUpdatables();
 
-	void debugEntity();
+	Player createPlayer(std::string name, int i, int y, int color);
+    MaxnAlgorithm callMaxn();
 
 private:
 

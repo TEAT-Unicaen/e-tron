@@ -1,8 +1,7 @@
 #include "gameManager.h"
 
 GameManager::GameManager(int line, int column)
-	: mapManager(new MapManager(line, column)), running(false) {
-}
+	: mapManager(new MapManager(line, column)), running(false) {}
 
 GameManager::~GameManager() {
 	if (this->running) {
@@ -65,7 +64,12 @@ void GameManager::loop() {
 	gameThread = std::thread(&GameManager::threadLoop, this);
 }
 
-void GameManager::debugEntity() {
-	GameEntity entity = GameEntity("test", {0,0}, 0);
-	this->getMapManager()->setEntityAtCoords(entity, 0, 0);
+Player GameManager::createPlayer(std::string name, int i, int y, int uniqueInt) {
+	Player entity = Player(name, {i,y}, uniqueInt, uniqueInt);
+	this->getMapManager()->setEntityAtCoords(entity, i, y);
+	return entity;
+}
+
+MaxnAlgorithm GameManager::callMaxn() {
+	return MaxnAlgorithm(this->getMapManager()->getGrid());
 }
