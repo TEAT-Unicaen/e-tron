@@ -1,0 +1,7 @@
+
+#include "resource.h"
+
+IDI_ICON1 ICON "..\\..\\assets\\img\\amandChad.ico"
+
+
+

@@ -38,5 +38,6 @@ add_executable(e_tron_cmd ${DEFAULT_PROJECT_FILES} ${CMAKE_SOURCE_DIR}/src/main.
 add_executable(e_tron_directX ${DEFAULT_PROJECT_FILES} ${GRAPHICS_FILES})
 
 set_target_properties(e_tron_directX PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+target_sources(e_tron_directX PRIVATE ${CMAKE_SOURCE_DIR}/src/graphics/resource.rc)
 
 

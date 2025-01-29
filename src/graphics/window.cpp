@@ -12,12 +12,12 @@ Window::WindowClass::WindowClass() noexcept
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = Window::WindowClass::getInstance();
-	wc.hIcon = nullptr;
+	wc.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 	wc.hCursor = nullptr;
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = Window::WindowClass::getName();
-	wc.hIconSm = nullptr;
+	wc.hIconSm = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 	RegisterClassEx(&wc);
 }
 

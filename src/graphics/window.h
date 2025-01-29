@@ -1,6 +1,7 @@
 #pragma once
 #include "setUpWindows.h"
 #include "../utils/tronException.h"
+#include "resource.h"
 
 class Window {
 private:
