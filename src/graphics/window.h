@@ -1,5 +1,6 @@
 #pragma once
 #include "setUpWindows.h"
+#include "../utils/tronException.h"
 
 class Window {
 private:
@@ -17,6 +18,19 @@ private:
 		HINSTANCE hInst;
 	};
 public:
+	class Exception : public TronException {
+	public:
+		Exception(int line, const char* file, HRESULT hr) noexcept;
+		const char* what() const noexcept override;
+		virtual const char* getType() const noexcept override;
+		static std::string translateErrorCode(HRESULT hr) noexcept;
+		HRESULT getErrorCode() const noexcept;
+		std::string getDescription() const noexcept;
+	private:
+		HRESULT hr;
+	};
+
+
 	Window(int width, int height, const char* name) noexcept;
 	~Window();
 	Window(const Window&) = delete;
@@ -25,8 +39,10 @@ private:
 	static LRESULT CALLBACK handleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK handleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	LRESULT handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
-private:
+
 	int width;
 	int height;
 	HWND hWnd;
 };
+
+#define WIN_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr)

@@ -86,3 +86,49 @@ LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
+
+
+// Exception Stuff
+
+Window::Exception::Exception(int line, const char* file, HRESULT hr) noexcept
+	: TronException(line, file), hr(hr) {}
+
+const char* Window::Exception::what() const noexcept {
+	std::ostringstream oss;
+	oss << this->getType() << std::endl
+		<< "Error Code : " << this->getErrorCode() << std::endl
+		<< "Description :" << this->getDescription() << std::endl
+		<< getLocationInString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* Window::Exception::getType() const noexcept {
+	return "Tron Window Exception";
+}
+
+
+std::string Window::Exception::translateErrorCode(HRESULT hr) noexcept {
+	char* pMsgBuf = nullptr;
+	// Ask windows to give us the string version of this error code
+	DWORD nMsgLen = FormatMessage(
+		// alocate the message         | search from system         | remove the inserting things
+		FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+		reinterpret_cast<LPSTR>(&pMsgBuf), 0, nullptr
+	);
+	if (nMsgLen == 0) {
+		return "Unidentified error code";
+	}
+	std::string errorString = pMsgBuf;
+	LocalFree(pMsgBuf);// FormatMessage uses malloc, so we have to free it
+	return errorString;
+}
+
+HRESULT Window::Exception::getErrorCode() const noexcept {
+	return this->hr;
+}
+
+std::string Window::Exception::getDescription() const noexcept {
+	return translateErrorCode(this->hr);
+}

@@ -19,3 +19,5 @@ private:
 protected:
 	mutable std::string whatBuffer;
 };
+
+#define TRON_EXCEPT(hr) TronException(__LINE__, __FILE__, hr)
