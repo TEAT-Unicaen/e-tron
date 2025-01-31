@@ -1,5 +1,6 @@
 #include "window.h"
 
+
 // Window Class Stuff
 Window::WindowClass Window::WindowClass::wndClass;
 
@@ -34,8 +35,8 @@ HINSTANCE Window::WindowClass::getInstance() noexcept {
 }
 
 // Window Stuff
-Window::Window(int width, int height, const char* name)
-	: width(width), height(height) {
+Window::Window(int width, int height, const char* name, bool handleCloseButton)
+	: width(width), height(height), handleCloseButton(handleCloseButton) {
 	RECT wr = {0};
 	wr.left = 100;
 	wr.right = width + wr.left;
@@ -77,7 +78,7 @@ LRESULT CALLBACK Window::handleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 		// Change the proc because the setup is done
 		SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::handleMsgThunk));
-		return pWnd->handleMsg(hWnd, msg, wParam, lParam);
+		return pWnd->handleMsg(hWnd, msg, wParam, lParam, pWnd->handleCloseButton);
 	}
 	// default message
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -87,21 +88,25 @@ LRESULT CALLBACK Window::handleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 	// Get th pointer to the window class
 	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
-	return pWnd->handleMsg(hWnd, msg, wParam, lParam);
+	return pWnd->handleMsg(hWnd, msg, wParam, lParam, pWnd->handleCloseButton);
 }
 
-LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
+LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, bool handleCloseButton) noexcept {
+	const POINTS pt = MAKEPOINTS(lParam);
 	switch (msg) {
 	case WM_CLOSE:
-		PostQuitMessage(0);
-		return 0;// we don't want to use the default message here
+		if (handleCloseButton) {
+			PostQuitMessage(0);
+			return 0;// we don't want to use the default handler message here
+		}
+		break;
 	case WM_KILLFOCUS:
 		keyEvent.clearState();
 		break;
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:
 		// Check if the key is autorepeated. If it was the prevoius input bit 30 true
-		if (!(lParam & 0x40000000) || keyEvent.autorepeatIsEnabled()) {
+		if (!(lParam & BIT(30)) || keyEvent.autorepeatIsEnabled()) {
 			keyEvent.onKeyPressed(static_cast<unsigned char>(wParam));
 		}
 		break;
@@ -111,6 +116,51 @@ LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		break;
 	case WM_CHAR:
 		keyEvent.onChar(static_cast<unsigned char>(wParam));
+		break;
+	case WM_MOUSEMOVE:
+		mouseEvent.onMouseMove(pt.x, pt.y);
+		break;
+	case WM_LBUTTONDOWN:
+		mouseEvent.onButtonPressed(MouseEventManager::Button::Left, pt.x, pt.y);
+		break;
+	case WM_RBUTTONDOWN:
+		mouseEvent.onButtonPressed(MouseEventManager::Button::Right, pt.x, pt.y);
+		break;
+	case WM_MBUTTONDOWN:
+		mouseEvent.onButtonPressed(MouseEventManager::Button::Middle, pt.x, pt.y);
+		break;
+	case WM_XBUTTONDOWN:
+		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) {
+			mouseEvent.onButtonPressed(MouseEventManager::Button::Button4, pt.x, pt.y);
+		}
+		else {
+			mouseEvent.onButtonPressed(MouseEventManager::Button::Button5, pt.x, pt.y);
+		}
+		break;
+	case WM_LBUTTONUP:
+		mouseEvent.onButtonReleased(MouseEventManager::Button::Left, pt.x, pt.y);
+		break;
+	case WM_RBUTTONUP:
+		mouseEvent.onButtonReleased(MouseEventManager::Button::Right, pt.x, pt.y);
+		break;
+	case WM_MBUTTONUP:
+		mouseEvent.onButtonReleased(MouseEventManager::Button::Middle, pt.x, pt.y);
+		break;
+	case WM_XBUTTONUP:
+		if (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) {
+			mouseEvent.onButtonReleased(MouseEventManager::Button::Button4, pt.x, pt.y);
+		}
+		else {
+			mouseEvent.onButtonReleased(MouseEventManager::Button::Button5, pt.x, pt.y);
+		}
+		break;
+	case WM_MOUSEWHEEL:
+		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0) {
+			mouseEvent.onWheelUp(pt.x, pt.y);
+		}
+		else if (GET_WHEEL_DELTA_WPARAM(wParam) < 0) {
+			mouseEvent.onWheelDown(pt.x, pt.y);
+		}
 		break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -135,7 +185,6 @@ const char* Window::Exception::what() const noexcept {
 const char* Window::Exception::getType() const noexcept {
 	return "Tron Window Exception";
 }
-
 
 std::string Window::Exception::translateErrorCode(HRESULT hr) noexcept {
 	char* pMsgBuf = nullptr;

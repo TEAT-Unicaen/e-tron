@@ -3,8 +3,10 @@
 #include <bitset>
 #include <optional>
 
-class KeyboardManager {
-	friend class Window;// Window can access private members of KeyboardManager
+#include "eventManager.h"
+
+class KeyboardEventManager : EventManager {
+	friend class Window;// Window can access private members of KeyboardEventManager
 public:
 	class Event {
 	public:
@@ -22,12 +24,12 @@ public:
 		unsigned char code;
 	};
 
-	KeyboardManager() = default;
-	KeyboardManager(const KeyboardManager&) = delete;
-	KeyboardManager& operator=(const KeyboardManager&) = delete;
+	KeyboardEventManager() = default;
+	KeyboardEventManager(const KeyboardEventManager&) = delete;
+	KeyboardEventManager& operator=(const KeyboardEventManager&) = delete;
 
 	bool keyIsPressed(unsigned char keycode) const noexcept;
-	std::optional<KeyboardManager::Event> readKey() noexcept;
+	std::optional<KeyboardEventManager::Event> readKey() noexcept;
 	bool keyIsEmpty() const noexcept;
 	void clearKey() noexcept;
 
@@ -46,14 +48,11 @@ private:
 	void onKeyReleased(unsigned char keycode) noexcept;
 	void onChar(char character) noexcept;
 	void clearState() noexcept;
-	template <typename T>
-	static void trimBuffer(std::queue<T>& buffer) noexcept;
 
 	static constexpr unsigned int nKeys = 256u;
-	static constexpr unsigned int bufferSize = 16u;
 	bool autorepeatEnabled = false;
 	std::bitset<nKeys> keyStates;
-	std::queue<Event> keyBuffer;
+	std::queue<Event> eventBuffer;
 	std::queue<char> charBuffer;
 };
 
