@@ -4,6 +4,7 @@
 #include "../entity/wall.h"
 #include "../manager/mapManager.h"
 #include "algorithmUtils.h"
+#include <vector>
 
 class MaxnAlgorithm : public AlgorithmUtils {
 public:

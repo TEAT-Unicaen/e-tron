@@ -38,3 +38,7 @@ std::vector<std::pair<int, int>> AlgorithmUtils::getAvailableMoves(Player player
 int AlgorithmUtils::evaluate(Player player) {
     return this->getAvailableMoves(player).size();
 }
+
+MapManager* AlgorithmUtils::getStoredMapMan() {
+	return storedMapMan;
+}

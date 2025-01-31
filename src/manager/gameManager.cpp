@@ -82,5 +82,5 @@ Player GameManager::createPlayer(std::string name, int i, int y, int uniqueInt) 
 }
 
 MaxnAlgorithm GameManager::callMaxn() {
-	return MaxnAlgorithm(this->getMapManager()->getGrid());
+	return MaxnAlgorithm(this->getMapManager());
 }

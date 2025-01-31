@@ -6,10 +6,7 @@
 // Paranoïd is self explanatory, it maximise its score but fear others, considering they are all in team against him.
 // Basically functions as a Maxn but taking other players into account.
 
-MapManager* storedMapMan;
-
 ParanoidAlgorithm::ParanoidAlgorithm(MapManager* mapMan) : AlgorithmUtils(mapMan) {
-	storedMapMan = mapMan;
 }
 
 // Core Algorithme Paranoid
@@ -38,13 +35,13 @@ std::vector<int> ParanoidAlgorithm::paranoid(std::vector<Player> players, int de
 		//Save state and put wall behind player
 		int oldX = player.getCoords().x;
 		int oldY = player.getCoords().y;
-		storedMapMan->setEntityAtCoords(player, newX, newY);
+		this->getStoredMapMan()->setEntityAtCoords(player, newX, newY);
 
 		//Recur on next plyr
 		std::vector<int> scores = this->paranoid(players, depth - 1, (currentPlayer + 1) % numPlayers);
 
 		//Restore
-		storedMapMan->setEntityAtCoords(player, oldX, oldY);
+		this->getStoredMapMan()->setEntityAtCoords(player, oldX, oldY);
 
 		//Update score if needed
 		int myScore = scores[currentPlayer];

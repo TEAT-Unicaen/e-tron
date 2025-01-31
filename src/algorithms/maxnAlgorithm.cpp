@@ -6,10 +6,8 @@
 // Maxn maximise its score, considering it is alone.
 // Basically function as a Minimax but with multiple players.
 
-MapManager* storedMapMan;
 
 MaxnAlgorithm::MaxnAlgorithm(MapManager* mapMan) : AlgorithmUtils(mapMan) {
-    storedMapMan = mapMan;
 }
 
 // Core Algorithme Maxn
@@ -32,13 +30,13 @@ std::vector<int> MaxnAlgorithm::maxn(std::vector<Player> players, int depth, int
 		//Save state and move
 		int oldX = player.getCoords().x;
 		int oldY = player.getCoords().y;
-        storedMapMan->setEntityAtCoords(player, newX, newY);
+		this->getStoredMapMan()->setEntityAtCoords(player, newX, newY);
 
         //Recur on next plyr
 		std::vector<int> scores = this->maxn(players, depth - 1, (currentPlayer + 1) % numPlayers);
 
         //Restore
-        storedMapMan->setEntityAtCoords(player, oldX, oldY);
+		this->getStoredMapMan()->setEntityAtCoords(player, oldX, oldY);
         
         //Update score if needed
 		if (scores[currentPlayer] > bestScores[currentPlayer]) {
