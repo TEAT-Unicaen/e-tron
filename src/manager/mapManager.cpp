@@ -1,4 +1,5 @@
 #include "../map/grid.h"
+#include "../entity/wall.h"
 #include "mapManager.h"
 #include <iostream>
 
@@ -21,7 +22,7 @@ Grid* MapManager::getGrid() const noexcept {
 	return grid;
 }
 
-bool MapManager::setEntityAtCoords(GameEntity ent, int x, int y) noexcept {
+bool MapManager::setEntityAtCoords(GameEntity ent, int x, int y) {
 	if (x < 0 || x >= grid->getLine() || y < 0 || y >= grid->getColumn()) {
 		return false;
 	}
@@ -30,7 +31,11 @@ bool MapManager::setEntityAtCoords(GameEntity ent, int x, int y) noexcept {
 	return true;
 }
 
-bool MapManager::setEntityAtCoords(GameEntity ent, TCoords coords) noexcept {
+void MapManager::placeWallAtCoords(Player * owner, int x, int y)  {
+	this->setEntityAtCoords(Wall("wall", { x,y }, 0, owner), { x,y });
+}
+
+bool MapManager::setEntityAtCoords(GameEntity ent, TCoords coords) {
 	return setEntityAtCoords(ent, coords.x, coords.y);
 }
 

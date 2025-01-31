@@ -6,8 +6,6 @@ GameManager::GameManager(int line, int column) noexcept
 GameManager::~GameManager() {
 	if (this->running) {
 		this->stop();
-	} else {
-		throw TRON_EXCEPT("GameManager is not running");
 	}
 }
 
