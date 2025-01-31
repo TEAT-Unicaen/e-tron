@@ -48,7 +48,7 @@ bool MouseEventManager::isInWindow() const noexcept {
 
 std::optional<MouseEventManager::Event> MouseEventManager::read() noexcept {
 	if (this->eventBuffer.empty())
-		return {};
+		return std::nullopt;
 	Event e = this->eventBuffer.front();
 	this->eventBuffer.pop();
 	return e;

@@ -23,7 +23,7 @@ bool KeyboardEventManager::keyIsPressed(unsigned char keycode) const noexcept {
 
 std::optional<KeyboardEventManager::Event> KeyboardEventManager::readKey() noexcept {
 	if (this->eventBuffer.empty())
-		return {};
+		return std::nullopt;
 	Event e = this->eventBuffer.front();
 	this->eventBuffer.pop();
 	return e;

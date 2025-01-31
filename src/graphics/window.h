@@ -7,6 +7,8 @@
 #include "../utils/utils.h"
 #include "../utils/tronException.h"
 
+#include <optional>
+
 
 class Window {
 private:
@@ -43,6 +45,8 @@ public:
 	Window& operator=(const Window&) = delete;
 
 	void setTitle(const std::string& title);
+
+	std::optional<int> processMessages() noexcept;
 
 	KeyboardEventManager keyEvent;
 	MouseEventManager mouseEvent;

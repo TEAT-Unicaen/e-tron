@@ -69,6 +69,20 @@ void Window::setTitle(const std::string& title) {
 	}
 }
 
+std::optional<int> Window::processMessages() noexcept {
+	MSG msg;
+
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+		if (msg.message == WM_QUIT) {
+			return (int)msg.wParam;
+		}
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	return std::nullopt;
+}
+
 LRESULT CALLBACK Window::handleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	if (msg == WM_NCCREATE) {
 		// Extract the pointer to the window class
