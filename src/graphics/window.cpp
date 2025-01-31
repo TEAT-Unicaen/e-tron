@@ -78,7 +78,7 @@ LRESULT CALLBACK Window::handleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 		// Change the proc because the setup is done
 		SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::handleMsgThunk));
-		return pWnd->handleMsg(hWnd, msg, wParam, lParam, pWnd->handleCloseButton);
+		return pWnd->handleMsg(hWnd, msg, wParam, lParam);
 	}
 	// default message
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -87,15 +87,15 @@ LRESULT CALLBACK Window::handleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 LRESULT CALLBACK Window::handleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	// Get th pointer to the window class
 	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-
-	return pWnd->handleMsg(hWnd, msg, wParam, lParam, pWnd->handleCloseButton);
+	
+	return pWnd->handleMsg(hWnd, msg, wParam, lParam);
 }
 
-LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, bool handleCloseButton) noexcept {
+LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	const POINTS pt = MAKEPOINTS(lParam);
 	switch (msg) {
 	case WM_CLOSE:
-		if (handleCloseButton) {
+		if (this->handleCloseButton) {
 			PostQuitMessage(0);
 			return 0;// we don't want to use the default handler message here
 		}
@@ -118,7 +118,21 @@ LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, boo
 		keyEvent.onChar(static_cast<unsigned char>(wParam));
 		break;
 	case WM_MOUSEMOVE:
-		mouseEvent.onMouseMove(pt.x, pt.y);
+		if (pt.x >= 0 && pt.x < this->width && pt.y >= 0 && pt.y < this->height) {
+			mouseEvent.onMouseMove(pt.x, pt.y);
+			if (!mouseEvent.isInWindow()) {
+				SetCapture(hWnd);
+				mouseEvent.onMouseEnter(pt.x, pt.y);
+			}
+		} else {
+			if (wParam & (MK_LBUTTON | MK_RBUTTON )) {// check if we drag the mouse out of the window
+				mouseEvent.onMouseMove(pt.x, pt.y);
+			} else {
+				ReleaseCapture();
+				mouseEvent.onMouseLeave(pt.x, pt.y);
+			}
+		}
+		
 		break;
 	case WM_LBUTTONDOWN:
 		mouseEvent.onButtonPressed(MouseEventManager::Button::Left, pt.x, pt.y);
@@ -155,12 +169,10 @@ LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, boo
 		}
 		break;
 	case WM_MOUSEWHEEL:
-		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0) {
-			mouseEvent.onWheelUp(pt.x, pt.y);
-		}
-		else if (GET_WHEEL_DELTA_WPARAM(wParam) < 0) {
-			mouseEvent.onWheelDown(pt.x, pt.y);
-		}
+		const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+		mouseEvent.onWheelDelta(pt.x, pt.y, delta);
+
+
 		break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);

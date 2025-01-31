@@ -51,7 +51,7 @@ public:
 private:
 	static LRESULT CALLBACK handleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK handleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
-	LRESULT handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, bool handleCloseButton) noexcept;
+	LRESULT handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
 	int width;
 	int height;

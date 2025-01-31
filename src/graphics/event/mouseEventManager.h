@@ -5,11 +5,11 @@
 #include <optional>
 
 #include "eventManager.h"
+#include "../setUpWindows.h"
 
 class MouseEventManager : EventManager {
 	friend class Window;// Window can access private members of KeyboardEventManager
 public:
-
 	enum class Button { // Use for index of bitset
 		None,
 		Left,
@@ -19,6 +19,11 @@ public:
 		Button5
 	};
 
+	typedef struct GCoords {
+		int x;
+		int y;
+	} GraphicCoords;
+
 	class Event {
 	public:
 		enum class Type {
@@ -27,12 +32,10 @@ public:
 			WheelUp,
 			WheelDown,
 			Move,
+			Enter,
+			Leave
 		};
 
-		typedef struct GCoords {
-			int x;
-			int y;
-		} GraphicCoords;
 
 		Event(MouseEventManager::Event::Type type, MouseEventManager::Button button, int x, int y) noexcept;
 		bool isPress() const noexcept;
@@ -40,6 +43,7 @@ public:
 		bool isWheelUp() const noexcept;
 		bool isWheelDown() const noexcept;
 		bool isMove() const noexcept;
+		MouseEventManager::Event::Type getType() const noexcept;
 		MouseEventManager::Button getButton() const noexcept;
 		GraphicCoords getCoords() const noexcept;
 	private:
@@ -53,12 +57,10 @@ public:
 	MouseEventManager& operator=(const MouseEventManager&) = delete;
 
 	bool buttonIsPressed(MouseEventManager::Button button) const noexcept;
-	bool wheelIsUp(MouseEventManager::Button button) const noexcept;
-	bool wheelIsDown(MouseEventManager::Button button) const noexcept;
-	bool mouseIsMoving(MouseEventManager::Button button) const noexcept;
+	bool isInWindow() const noexcept;
 
-	std::optional<MouseEventManager::Event> readButton() noexcept;
-	bool MouseIsEmpty() const noexcept;
+	std::optional<MouseEventManager::Event> read() noexcept;
+	bool isEmpty() const noexcept;
 	void clearButton() noexcept;
 
 private:
@@ -67,8 +69,13 @@ private:
 	void onWheelUp(int x, int y) noexcept;
 	void onWheelDown(int x, int y) noexcept;
 	void onMouseMove(int x, int y) noexcept;
+	void onMouseEnter(int x, int y) noexcept;
+	void onMouseLeave(int x, int y) noexcept;
+	void onWheelDelta(int x, int y, int delta) noexcept;
 
 	std::bitset<6> buttonStates;
 	std::queue<MouseEventManager::Event> eventBuffer;
+	int wheelDelat = 0;
+	bool inWindow = false;
 };
 
