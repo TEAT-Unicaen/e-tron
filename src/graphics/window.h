@@ -6,9 +6,13 @@
 #include "event/mouseEventManager.h"
 #include "../utils/utils.h"
 #include "../utils/tronException.h"
+#include "renderer.h"
+#include <memory>
+
 
 #include <optional>
 
+class Renderer;
 
 class Window {
 private:
@@ -45,6 +49,7 @@ public:
 	Window& operator=(const Window&) = delete;
 
 	void setTitle(const std::string& title);
+	Renderer& getRenderer();
 
 	std::optional<int> processMessages() noexcept;
 
@@ -61,6 +66,8 @@ private:
 	int height;
 	
 	HWND hWnd;
+
+	std::unique_ptr<Renderer> renderer;
 };
 
 #define WIN_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr)

@@ -40,4 +40,6 @@ add_executable(e_tron_directX ${DEFAULT_PROJECT_FILES} ${GRAPHICS_FILES})
 set_target_properties(e_tron_directX PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
 target_sources(e_tron_directX PRIVATE ${CMAKE_SOURCE_DIR}/src/graphics/resource/resource.rc)
 
+target_link_libraries(e_tron_directX PRIVATE d3d11 d3dcompiler dxgi dxguid)
+
 

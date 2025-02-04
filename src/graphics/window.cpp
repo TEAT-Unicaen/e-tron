@@ -1,4 +1,7 @@
 #include "window.h"
+#include "renderer.h"
+#include <memory>
+
 
 
 // Window Class Stuff
@@ -57,6 +60,7 @@ Window::Window(int width, int height, const char* name, bool handleCloseButton)
 		throw WIN_EXCEPT(GetLastError());
 	}
 	ShowWindow(this->hWnd, SW_SHOWDEFAULT);
+	this->renderer = std::make_unique<Renderer>(this->hWnd, width, height);
 }
 
 Window::~Window() {
@@ -67,6 +71,13 @@ void Window::setTitle(const std::string& title) {
 	if (SetWindowText(this->hWnd, title.c_str()) == 0) {
 		throw WIN_EXCEPT(GetLastError());
 	}
+}
+
+Renderer& Window::getRenderer() {
+	if (!renderer) {
+		throw std::runtime_error("Renderer is not initialized!");
+	}
+	return *renderer;
 }
 
 std::optional<int> Window::processMessages() noexcept {
