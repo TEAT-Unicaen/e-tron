@@ -5,7 +5,7 @@
 Grid::Grid(int line, int column) 
 	: line(line), column(column) {
 	if (line <= 0 || column <= 0) {
-		throw TRON_EXCEPT("Invalid grid size");
+		throw ETRON_EXCEPT("Invalid grid size");
 	}
 
 	grid = new Cell * [line];
@@ -67,7 +67,7 @@ void Grid::renderGrid() const noexcept {
 
 Cell& Grid::getCell(int i, int j) const {
 	if (i < 0 || i >= line || j < 0 || j >= column) {
-		throw TRON_EXCEPT("Invalid cell position");
+		throw ETRON_EXCEPT("Invalid cell position");
 	}
 	return grid[i][j];
 }

@@ -5,11 +5,10 @@
 #include "event/KeyboardEventManager.h"
 #include "event/mouseEventManager.h"
 #include "../utils/utils.h"
-#include "../utils/tronException.h"
+#include "exception/windowException.h"
 #include "renderer.h"
+
 #include <memory>
-
-
 #include <optional>
 
 class Renderer;
@@ -30,19 +29,6 @@ private:
 		HINSTANCE hInst;
 	};
 public:
-	class Exception : public TronException {
-	public:
-		Exception(int line, const char* file, HRESULT hr) noexcept;
-		const char* what() const noexcept override;
-		virtual const char* getType() const noexcept override;
-		static std::string translateErrorCode(HRESULT hr) noexcept;
-		HRESULT getErrorCode() const noexcept;
-		std::string getDescription() const noexcept;
-	private:
-		HRESULT hr;
-	};
-
-
 	Window(int width, int height, const char* name, bool handleCloseButton = true);
 	~Window();
 	Window(const Window&) = delete;
@@ -69,5 +55,3 @@ private:
 
 	std::unique_ptr<Renderer> pRenderer;
 };
-
-#define WIN_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr)

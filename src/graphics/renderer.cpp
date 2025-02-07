@@ -18,23 +18,27 @@ Renderer::Renderer(HWND hwnd) {
 	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	scd.Flags = 0;
 
-
-	D3D11CreateDeviceAndSwapChain(
+	HR;
+	CHECK_RENDERER_EXCEPT(D3D11CreateDeviceAndSwapChain(
 		nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, nullptr, 0,
 		D3D11_SDK_VERSION, &scd, &(this->pSwapChain),
 		&(this->pDevice), nullptr, &(this->pDeviceContext)
-	);
+	));
 
 	Mwrl::ComPtr<ID3D11Resource> pBackBuffer;
-	this->pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
-	if (pBackBuffer == nullptr) {
-		throw std::runtime_error("Failed to get back buffer");
-	}
-	this->pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &(this->pRenderTargetView));
+	CHECK_RENDERER_EXCEPT(this->pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer));
+	CHECK_RENDERER_EXCEPT(this->pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &(this->pRenderTargetView)));
 }
 
 void Renderer::render() {
-	this->pSwapChain->Present(1u, 0u);
+	HR;
+	if (FAILED(hr = this->pSwapChain->Present(1u, 0u))) {
+		if (hr == DXGI_ERROR_DEVICE_REMOVED) {
+			throw DEVICE_REMOVED_EXCEPT(this->pDevice->GetDeviceRemovedReason());
+		} else {
+			throw RENDERER_EXCEPT(hr);
+		}
+	}
 }
 
 void Renderer::fill(float r, float g, float b) {

@@ -2,7 +2,7 @@
 
 #include "cell.h"
 #include "../entity/gameEntity.h"
-#include "../utils/tronException.h"
+#include "../utils/eTronException.h"
 
 class Grid {
 public:

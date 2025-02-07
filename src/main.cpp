@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-#include "utils/tronException.h"
+#include "utils/eTronException.h"
 
 int main() {
 	try {
@@ -28,7 +28,7 @@ int main() {
 		SLEEP(500);
 		gameManager.stop();
 
-	} catch (const TronException& e) {
+	} catch (const ETronException& e) {
 		std::cerr << e.what() << std::endl;
 	} catch (const std::exception& e) {
 		std::cerr << e.what() << std::endl;

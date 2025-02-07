@@ -26,7 +26,7 @@ void GameManager::stop() {
 	if (this->gameThread.joinable()) {
 		this->gameThread.join();
 	} else {
-		throw TRON_EXCEPT("GameManager is running but the gameThread don't run");
+		throw ETRON_EXCEPT("GameManager is running but the gameThread don't run");
 	}
 }
 
@@ -49,7 +49,7 @@ void GameManager::threadLoop() {
 			if (updatable) {
 				updatable->update();
 			} else {
-				throw TRON_EXCEPT("Invalid updatable, there is a null here wtf");
+				throw ETRON_EXCEPT("Invalid updatable, there is a null here wtf");
 			}
 		}
 
@@ -64,14 +64,14 @@ void GameManager::loop() {
 	}
 	this->gameThread = std::thread(&GameManager::threadLoop, this);
 	if (!this->gameThread.joinable()) {
-		throw TRON_EXCEPT("GameThread is not lauch");
+		throw ETRON_EXCEPT("GameThread is not lauch");
 	}
 }
 
 Player GameManager::createPlayer(std::string name, int i, int y, int uniqueInt) {
 	/* NEED TO FIX THIS
 	if (this->getMapManager()->getGrid()->getCell(i, y).getEntity()) {
-		throw TRON_EXCEPT("Cell already taken");
+		throw ETRON_EXCEPT("Cell already taken");
 	}
 	*/
 	Player entity = Player(name, {i,y}, uniqueInt, uniqueInt);

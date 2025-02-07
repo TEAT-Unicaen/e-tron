@@ -4,10 +4,10 @@
 #include <string>
 #include <sstream>
 
-class TronException : public std::exception {
+class ETronException : public std::exception {
 public:
-	TronException(int line, const char* file) noexcept;
-	TronException(int line, const char* file, const char* message) noexcept;
+	ETronException(int line, const char* file) noexcept;
+	ETronException(int line, const char* file, const char* message) noexcept;
 	const char* what() const noexcept override;
 	virtual const char* getType() const noexcept;
 	int getLine() const noexcept;
@@ -22,4 +22,4 @@ protected:
 	mutable std::string whatBuffer;
 };
 
-#define TRON_EXCEPT(message) TronException(__LINE__, __FILE__, message)
+#define ETRON_EXCEPT(message) ETronException(__LINE__, __FILE__, message)

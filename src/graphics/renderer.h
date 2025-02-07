@@ -1,19 +1,14 @@
 #pragma once 
 #include <d3d11.h>
 #pragma comment(lib, "d3d11.lib")
-#include <Windows.h> // Assure que HWND est reconnu
 #include <wrl.h>
-#include <stdexcept>
+
+#include "setUpWindows.h" // Assure que HWND est reconnu
+#include "exception/rendererException.h"
 
 namespace Mwrl = Microsoft::WRL;
 
-struct Vertex {
-	float x, y, z;  // Position dans l'espace 3D
-	float r, g, b, a;  // Couleur RGBA
-};
-
 class Renderer {
-
 public:
 	Renderer(HWND hwnd);
 	Renderer(const Renderer&) = delete;
@@ -29,9 +24,6 @@ private:
 	Mwrl::ComPtr<ID3D11DeviceContext> pDeviceContext;
 	Mwrl::ComPtr<IDXGISwapChain> pSwapChain;
 	Mwrl::ComPtr<ID3D11RenderTargetView> pRenderTargetView;
-
-
-	ID3D11Buffer* vertexBuffer;  // Buffer pour les vertices de la grille
-	UINT vertexCount;  // Nombre de vertices
-
 };
+#define HR HRESULT hr
+#define CHECK_RENDERER_EXCEPT(hrcall) if (FAILED(hr = (hrcall))) throw RENDERER_EXCEPT(hr)
