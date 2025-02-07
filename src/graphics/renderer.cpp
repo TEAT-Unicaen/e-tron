@@ -1,6 +1,4 @@
 #include "renderer.h"
-#include <memory>
-
 
 Renderer::Renderer(HWND hwnd) {
 	DXGI_SWAP_CHAIN_DESC scd = {};
@@ -27,28 +25,12 @@ Renderer::Renderer(HWND hwnd) {
 		&(this->pDevice), nullptr, &(this->pDeviceContext)
 	);
 
-	ID3D11Resource* pBackBuffer = nullptr;
-	this->pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), reinterpret_cast<void**>(&pBackBuffer));
+	Mwrl::ComPtr<ID3D11Resource> pBackBuffer;
+	this->pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer);
 	if (pBackBuffer == nullptr) {
 		throw std::runtime_error("Failed to get back buffer");
 	}
-	this->pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &(this->pRenderTargetView));
-	pBackBuffer->Release();
-}
-
-Renderer::~Renderer() {
-	if (this->pDeviceContext != nullptr) {
-		this->pDeviceContext->Release();
-	}
-	if (this->pSwapChain != nullptr) {
-		this->pSwapChain->Release();
-	}
-	if (this->pDevice != nullptr) {
-		this->pDevice->Release();
-	}
-	if (this->pRenderTargetView != nullptr) {
-		this->pRenderTargetView->Release();
-	}
+	this->pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &(this->pRenderTargetView));
 }
 
 void Renderer::render() {
@@ -57,5 +39,5 @@ void Renderer::render() {
 
 void Renderer::fill(float r, float g, float b) {
 	const float color[] = { r, g, b, 1.0f };
-	this->pDeviceContext->ClearRenderTargetView(this->pRenderTargetView, color);
+	this->pDeviceContext->ClearRenderTargetView(this->pRenderTargetView.Get(), color);
 }
