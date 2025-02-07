@@ -67,7 +67,7 @@ private:
 	
 	HWND hWnd;
 
-	std::unique_ptr<Renderer> renderer;
+	std::unique_ptr<Renderer> pRenderer;
 };
 
 #define WIN_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr)

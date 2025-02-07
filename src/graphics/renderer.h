@@ -14,20 +14,20 @@ struct Vertex {
 class Renderer {
 
 public:
-	Renderer(HWND hwnd, int width, int height);
+	Renderer(HWND hwnd);
+	Renderer(const Renderer&) = delete;
+	Renderer& operator=(const Renderer&) = delete;
 	~Renderer();
+
 	void render();
 	void fill(float r, float g, float b);
 
 private:
-
-	void init(HWND hwnd, int width, int height);
-
 	// Direct3D globals
-	ID3D11Device* device;
-	ID3D11DeviceContext* deviceContext;
-	IDXGISwapChain* swapChain;
-	ID3D11RenderTargetView* renderTargetView;
+	ID3D11Device* pDevice = nullptr;
+	ID3D11DeviceContext* pDeviceContext = nullptr;
+	IDXGISwapChain* pSwapChain = nullptr;
+	ID3D11RenderTargetView* pRenderTargetView = nullptr;
 
 
 	ID3D11Buffer* vertexBuffer;  // Buffer pour les vertices de la grille

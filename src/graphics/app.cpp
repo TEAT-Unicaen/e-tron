@@ -15,5 +15,8 @@ int App::run() {
 }
 
 void App::update() {
+	Renderer& renderer = wnd.getRenderer();
+	renderer.fill(255.0f, 255.0f, 255.0f);
 
+	renderer.render();
 }

@@ -42,6 +42,8 @@
 
 #define NOMINMAX  // Désactive les macros min() et max() de Windows pour éviter les conflits avec la STL
 
+#ifndef STRICT
 #define STRICT  // Active une vérification stricte des types pour les API Windows
+#endif
 
 #include <Windows.h>  // Inclut l'en-tête principal de l'API Windows
