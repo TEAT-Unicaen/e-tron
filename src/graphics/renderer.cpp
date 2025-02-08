@@ -139,20 +139,20 @@ void Renderer::drawVertex(std::vector<Vertex>& vertices, D3D11_PRIMITIVE_TOPOLOG
 
 }
 
-void Renderer::DrawAllPoint() {
+void Renderer::drawAllPoint() {
 	this->drawVertex(this->points, D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 }
 
-void Renderer::DrawAllLine() {
+void Renderer::drawAllLine() {
 	this->drawVertex(this->lines, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 }
 
-void Renderer::DrawAllTriangle() {
+void Renderer::drawAllTriangle() {
 	this->drawVertex(this->triangles, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
-void Renderer::DrawAll() {
-	this->DrawAllPoint();
-	this->DrawAllLine();
-	this->DrawAllTriangle();
+void Renderer::drawAll() {
+	this->drawAllPoint();
+	this->drawAllLine();
+	this->drawAllTriangle();
 }

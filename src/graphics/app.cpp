@@ -18,12 +18,13 @@ void App::update() {
 	Renderer& renderer = wnd.getRenderer();
 	renderer.fill(WHITE);
 
+
 	Renderer::Vertex v1 = { {0.5f, -0.5f}, {RED, 255} };
-	Renderer::Vertex v2 = { {0.0f, 0.5f}, {GREEN, 255} };
-	Renderer::Vertex v3 = { {-0.5f, -0.5f}, {BLUE, 255} };
+	Renderer::Vertex v2 = { {0.0f, 0.5f}, {BLUE, 255} };
+	Renderer::Vertex v3 = { {-0.5f, -0.5f}, {GREEN, 255} };
 	renderer.addTriangle(v1, v3, v2);
 
-	renderer.DrawAll();
+	renderer.drawAll();
 
 	renderer.render();
 }

@@ -36,10 +36,10 @@ public:
 	void addLine(Vertex v1, Vertex v2);
 	void addTriangle(Vertex v1, Vertex v2, Vertex v3);
 
-	void DrawAllPoint();
-	void DrawAllLine();
-	void DrawAllTriangle();
-	void DrawAll();
+	void drawAllPoint();
+	void drawAllLine();
+	void drawAllTriangle();
+	void drawAll();
 private:
 	void drawVertex(std::vector<Vertex>& vertices, D3D11_PRIMITIVE_TOPOLOGY topology);
 #ifndef NDEBUG
