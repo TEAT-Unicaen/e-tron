@@ -56,7 +56,7 @@ Window::Window(int width, int height, const char* name, bool handleCloseButton)
 		throw WINDOW_LAST_EXCEPT();
 	}
 	ShowWindow(this->hWnd, SW_SHOWDEFAULT);
-	this->pRenderer = std::make_unique<Renderer>(this->hWnd);
+	this->pRenderer = std::make_unique<Renderer>(this->hWnd, width, height);
 }
 
 Window::~Window() {

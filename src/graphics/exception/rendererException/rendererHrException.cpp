@@ -14,7 +14,7 @@ const char* RendererHrException::what() const noexcept {
 	std::ostringstream oss;
 	oss << HrException::what() << std::endl;
 	if (!infoDescriptions.empty()) {
-		oss << "Error Info : " << this->infoDescriptions << std::endl;
+		oss << "Error Info :\n" << this->infoDescriptions << std::endl;
 	}
 	whatBuffer = oss.str();
 	return whatBuffer.c_str();

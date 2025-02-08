@@ -36,11 +36,68 @@ add_executable(MyTests ${DEFAULT_PROJECT_FILES} ${TEST_FILES})
 
 add_executable(e_tron_cmd ${DEFAULT_PROJECT_FILES} ${CMAKE_SOURCE_DIR}/src/main.cpp)
 
-add_executable(e_tron_directX ${DEFAULT_PROJECT_FILES} ${GRAPHICS_FILES})
+if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+    add_executable(e_tron_directX ${DEFAULT_PROJECT_FILES} ${GRAPHICS_FILES})
 
-set_target_properties(e_tron_directX PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
-target_sources(e_tron_directX PRIVATE ${CMAKE_SOURCE_DIR}/src/graphics/resource/resource.rc)
+    set_target_properties(e_tron_directX PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
+    target_sources(e_tron_directX PRIVATE ${CMAKE_SOURCE_DIR}/src/graphics/resource/resource.rc)
 
-target_link_libraries(e_tron_directX PRIVATE d3d11 d3dcompiler dxgi dxguid)
+    target_link_libraries(e_tron_directX PRIVATE d3d11 d3dcompiler dxgi dxguid)
+    
+    # HLSL COMPILING
+    
+    # Find the HLSL compiler
+    find_program(FXC_COMPILER fxc.exe REQUIRED)
+    message(STATUS "FXC Compiler found at: ${FXC_COMPILER}")
+
+    # Define the shader source directory
+    set(SHADER_SRC_DIR ${CMAKE_SOURCE_DIR}/src/graphics/shaders)
+
+    # Define the directory to store the compiled shaders
+    set(SHADER_OUTPUT_DIR ${CMAKE_BINARY_DIR}/shaders)
+
+    # Ensure the output directory exists
+    file(MAKE_DIRECTORY ${SHADER_OUTPUT_DIR})
+
+    # Find all HLSL files in the shader source directory
+    file(GLOB_RECURSE SHADER_FILES ${SHADER_SRC_DIR}/*.hlsl)
+
+    # List to hold compiled shader files
+    set(COMPILED_SHADERS)
+
+    # Compile each shader
+    foreach(SHADER_FILE ${SHADER_FILES})
+        # Get the filename without extension
+        get_filename_component(SHADER_NAME ${SHADER_FILE} NAME_WE)
+    
+        # Define the compiled shader output path
+        set(COMPILED_SHADER ${SHADER_OUTPUT_DIR}/${SHADER_NAME}.cso)
 
 
+        # Determine the shader type
+        set(HLSL_TYPE)
+        if (SHADER_NAME MATCHES "pixel")
+            set(HLSL_TYPE ps_5_0)
+        elseif (SHADER_NAME MATCHES "vertex")
+            set(HLSL_TYPE vs_5_0)
+        else()
+            message(WARNING "Unknown shader type: ${SHADER_NAME}. Skipping...")
+            continue()
+        endif()
+
+        #compile the hlsl
+        add_custom_command(
+            OUTPUT ${COMPILED_SHADER}
+            COMMAND ${FXC_COMPILER}
+            ARGS /T ${HLSL_TYPE} /Fo ${COMPILED_SHADER} ${SHADER_FILE}
+            DEPENDS ${SHADER_FILE}
+            COMMENT "Compiling HLSL shader: ${SHADER_FILE}"
+        )
+
+        # Add a custom target to ensure the shaders are compiled
+        list(APPEND COMPILED_SHADERS ${COMPILED_SHADER})
+    endforeach()
+    add_custom_target(CompileShaders ALL DEPENDS ${COMPILED_SHADERS})
+
+    add_dependencies(e_tron_directX CompileShaders)
+endif()
