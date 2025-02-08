@@ -1,6 +1,6 @@
 #pragma once
 
-#include "hrException.h"
+#include "../hrException.h"
 
 class WindowHrException : public HrException {
 public:
@@ -12,3 +12,4 @@ public:
 	}
 };
 #define WINDOW_EXCEPT(hr) WindowHrException(__LINE__, __FILE__, hr)
+#define WINDOW_LAST_EXCEPT() WINDOW_EXCEPT(GetLastError())

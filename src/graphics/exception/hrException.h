@@ -19,4 +19,5 @@ public:
 private:
 	HRESULT hr;
 };
+#define HR HRESULT hr
 #define HR_EXCEPT(hr) HrException(__LINE__, __FILE__, hr)

@@ -19,11 +19,29 @@ public:
 	void fill(float r, float g, float b);
 
 private:
+#ifndef NDEBUG
+	DxgiInfoManager infoManager;
+#endif // !NDEBUG
+
 	// Direct3D globals
 	Mwrl::ComPtr<ID3D11Device> pDevice;
 	Mwrl::ComPtr<ID3D11DeviceContext> pDeviceContext;
 	Mwrl::ComPtr<IDXGISwapChain> pSwapChain;
 	Mwrl::ComPtr<ID3D11RenderTargetView> pRenderTargetView;
+
+	// Renderer exception macros
+#ifndef NDEBUG // in Debug mode
+	#define RENDERER_EXCEPT(hr) RendererHrException(__LINE__, __FILE__, hr, this->infoManager.getMessages())
+	#define RENDERER_LAST_EXCEPT() RENDERER_EXCEPT(GetLastError())
+	#define DEVICE_REMOVED_EXCEPT(hr) DeviceRemovedException(__LINE__, __FILE__, hr, this->infoManager.getMessages())
+
+	#define CHECK_RENDERER_EXCEPT(hrcall) this->infoManager.updateTheStartingPointIndex(); if (FAILED(hr = (hrcall))) throw RENDERER_EXCEPT(hr)
+#else // in Release mode
+	#define RENDERER_EXCEPT(hr) RendererHrException(__LINE__, __FILE__, hr)
+	#define RENDERER_LAST_EXCEPT() RENDERER_EXCEPT(GetLastError())
+	#define DEVICE_REMOVED_EXCEPT(hr)  DeviceRemovedException(__LINE__, __FILE__, hr)
+
+	#define CHECK_RENDERER_EXCEPT(hrcall) if (FAILED(hr = (hrcall))) throw RENDERER_EXCEPT(hr)
+#endif // !NDEBUG
 };
-#define HR HRESULT hr
-#define CHECK_RENDERER_EXCEPT(hrcall) if (FAILED(hr = (hrcall))) throw RENDERER_EXCEPT(hr)
+

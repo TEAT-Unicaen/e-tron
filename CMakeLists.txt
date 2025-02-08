@@ -10,8 +10,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Flags
 set(CXX_FLAGS_DEFAULT "/MP /Ot /fp:fast")
-set(CMAKE_CXX_FLAGS_RELEASE "${CXX_FLAGS_DEFAULT} /MD")
+set(CMAKE_CXX_FLAGS_RELEASE "${CXX_FLAGS_DEFAULT} /MD /DNDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "${CXX_FLAGS_DEFAULT} /MDd")
+
 
 # Inclure les répertoires contenant les headers
 include_directories(${CMAKE_SOURCE_DIR}/src)

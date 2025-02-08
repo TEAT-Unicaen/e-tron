@@ -18,9 +18,14 @@ Renderer::Renderer(HWND hwnd) {
 	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	scd.Flags = 0;
 
+	UINT swapChainCreateFlags = 0u;
+#ifndef NDEBUG
+	swapChainCreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif // !NDEBUG
+
 	HR;
 	CHECK_RENDERER_EXCEPT(D3D11CreateDeviceAndSwapChain(
-		nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, nullptr, 0,
+		nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, swapChainCreateFlags, nullptr, 0,
 		D3D11_SDK_VERSION, &scd, &(this->pSwapChain),
 		&(this->pDevice), nullptr, &(this->pDeviceContext)
 	));
@@ -32,6 +37,10 @@ Renderer::Renderer(HWND hwnd) {
 
 void Renderer::render() {
 	HR;
+#ifndef NDEBUG
+	this->infoManager.updateTheStartingPointIndex();
+#endif // !NDEBUG
+
 	if (FAILED(hr = this->pSwapChain->Present(1u, 0u))) {
 		if (hr == DXGI_ERROR_DEVICE_REMOVED) {
 			throw DEVICE_REMOVED_EXCEPT(this->pDevice->GetDeviceRemovedReason());

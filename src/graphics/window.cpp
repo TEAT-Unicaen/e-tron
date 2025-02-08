@@ -42,7 +42,7 @@ Window::Window(int width, int height, const char* name, bool handleCloseButton)
 	wr.top = 100;
 	wr.bottom = height + wr.top;
 	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0) {
-		throw WINDOW_EXCEPT(GetLastError());
+		throw WINDOW_LAST_EXCEPT();
 	}
 
 	this->hWnd = CreateWindowEx(
@@ -53,7 +53,7 @@ Window::Window(int width, int height, const char* name, bool handleCloseButton)
 		nullptr, nullptr, Window::WindowClass::getInstance(), this
 	);
 	if (this->hWnd == nullptr) {
-		throw WINDOW_EXCEPT(GetLastError());
+		throw WINDOW_LAST_EXCEPT();
 	}
 	ShowWindow(this->hWnd, SW_SHOWDEFAULT);
 	this->pRenderer = std::make_unique<Renderer>(this->hWnd);
@@ -65,7 +65,7 @@ Window::~Window() {
 
 void Window::setTitle(const std::string& title) {
 	if (SetWindowText(this->hWnd, title.c_str()) == 0) {
-		throw WINDOW_EXCEPT(GetLastError());
+		throw WINDOW_LAST_EXCEPT();
 	}
 }
 

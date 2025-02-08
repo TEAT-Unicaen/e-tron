@@ -7,14 +7,14 @@ const char* HrException::what() const noexcept {
 	std::ostringstream oss;
 	oss << this->getType() << std::endl
 		<< "Error Code : 0x" << std::hex << std::uppercase << this->getErrorCode() << std::dec << " (" << (unsigned long)this->getErrorCode() << ")" << std::endl
-		<< "Description :" << this->getDescription() << std::endl
+		<< "Description : " << this->getDescription() << std::endl
 		<< getLocationInString();
 	whatBuffer = oss.str();
 	return whatBuffer.c_str();
 }
 
 const char* HrException::getType() const noexcept {
-	return "Tron Window Exception";
+	return "E-Tron Windows 32Api Exception";
 }
 
 std::string HrException::translateErrorCode(HRESULT hr) noexcept {
