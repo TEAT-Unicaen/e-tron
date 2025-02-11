@@ -13,7 +13,7 @@ public:
     ~AutoMoveSmart() = default;
 
     //Methods
-    std::pair<std::pair<int, int>, int> decideMove(Player players);
+    std::pair<std::pair<int, int>, int> decideMove(Player players, int depth);
 
 private:
 
