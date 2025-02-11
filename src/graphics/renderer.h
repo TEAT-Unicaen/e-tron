@@ -36,6 +36,8 @@ public:
 	void addLine(Vertex v1, Vertex v2);
 	void addTriangle(Vertex v1, Vertex v2, Vertex v3);
 
+	void drawGrid(UINT nbLine, UINT nbColumn);
+
 	void drawAllPoint();
 	void drawAllLine();
 	void drawAllTriangle();
