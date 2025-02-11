@@ -136,8 +136,45 @@ void Renderer::drawVertex(std::vector<Vertex>& vertices, D3D11_PRIMITIVE_TOPOLOG
 
 	// Draw the vertices
 	CHECK_INFO_ONLY_EXCEPT(this->pDeviceContext->Draw((UINT)vertices.size(), 0u));
-
 }
+
+// TODO : Fix 
+void Renderer::drawGrid(UINT nbLine, UINT nbColumn) {
+	struct grid{
+		UINT nbLines;
+		UINT nbColumns;
+		UINT nbVertex;
+	};
+	struct grid g = { nbLine, nbColumn, 2 * (nbLine + nbColumn) };
+	// Create the constant buffer
+	Mwrl::ComPtr<ID3D11Buffer> ConstantBuffer;
+	D3D11_BUFFER_DESC bd = {};
+	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	bd.MiscFlags = 0u; 
+	bd.ByteWidth = sizeof(ConstantBuffer) + 0xf & 0xfffffff0;
+	bd.StructureByteStride = sizeof(struct grid);
+	D3D11_SUBRESOURCE_DATA sd = {};
+	sd.pSysMem = &g;
+
+	CHECK_INFO_ONLY_EXCEPT(this->pDevice->CreateBuffer(&bd, &sd, &ConstantBuffer));
+	this->pDeviceContext->GSSetConstantBuffers(0, 1, &ConstantBuffer);
+
+	// set the geaometry shader in the pipeline
+	Mwrl::ComPtr<ID3D11GeometryShader> pGeometryShader;
+	Mwrl::ComPtr<ID3DBlob> pBlob;
+	CHECK_INFO_ONLY_EXCEPT(D3DReadFileToBlob(L"shaders/geometryShader.cso", &pBlob));
+	CHECK_INFO_ONLY_EXCEPT(this->pDevice->CreateGeometryShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pGeometryShader));
+	this->pDeviceContext->GSSetShader(pGeometryShader.Get(), nullptr, 0u);
+
+	this->addLine({
+		{0.0f, 0.0f}, {0, 0, 0, 255}}, 
+		{{1.0f, 0.0f}, {0, 0, 0, 255}}
+	);
+	this->drawAllLine();
+}
+
 
 void Renderer::drawAllPoint() {
 	this->drawVertex(this->points, D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
