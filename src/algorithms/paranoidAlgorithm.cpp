@@ -9,6 +9,9 @@
 ParanoidAlgorithm::ParanoidAlgorithm(MapManager* mapMan) : AlgorithmUtils(mapMan) {
 }
 
+// TODO : IMPLEMENT TERRITORY AWARENESS
+
+
 // Core Algorithme Paranoid
 std::vector<int> ParanoidAlgorithm::paranoid(std::vector<Player> players, int depth, int currentPlayer) {
 	int numPlayers = players.size();

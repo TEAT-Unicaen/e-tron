@@ -10,6 +10,8 @@
 MaxnAlgorithm::MaxnAlgorithm(MapManager* mapMan) : AlgorithmUtils(mapMan) {
 }
 
+// TODO : IMPLEMENT TERRITORY AWARENESS
+
 // Core Algorithme Maxn
 std::vector<int> MaxnAlgorithm::maxn(std::vector<Player> players, int depth, int currentPlayer) {
 	int numPlayers = players.size();
@@ -33,13 +35,13 @@ std::vector<int> MaxnAlgorithm::maxn(std::vector<Player> players, int depth, int
 		this->getStoredMapMan()->setEntityAtCoords(player, newX, newY);
 
         //Recur on next plyr
-		std::vector<int> scores = this->maxn(players, depth - 1, (currentPlayer + 1) % numPlayers);
+		std::vector<int> scores = this->maxn(players, depth - 1, (player + 1) % numPlayers);
 
         //Restore
 		this->getStoredMapMan()->setEntityAtCoords(player, oldX, oldY);
         
         //Update score if needed
-		if (scores[currentPlayer] > bestScores[currentPlayer]) {
+		if (scores[player] > bestScores[player]) {
 			bestScores = scores;
 		}
     }
