@@ -1,12 +1,12 @@
 #pragma once
 
-#include "entityManager.h"
 #include "mapManager.h"
 #include "../utils/utils.h"
 #include "../utils/updatable.h"
 #include "../utils/eTronException.h"
 #include "../algorithms/maxnAlgorithm.h"
 #include "../algorithms/paranoidAlgorithm.h"
+#include "../algorithms/autoMoveSmart.h"
 
 #include <thread>
 #include <iostream>
@@ -43,6 +43,8 @@ private:
 	bool running;
 	MapManager* mapManager;
 	std::vector<IUpdatable*> updatables;
+	AutoMoveSmart* autoMoveSmart;
+
 
 	void threadLoop();
 };

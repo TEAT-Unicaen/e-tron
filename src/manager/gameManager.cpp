@@ -1,7 +1,7 @@
 #include "gameManager.h"
 
 GameManager::GameManager(int line, int column) noexcept
-	: mapManager(new MapManager(line, column)), running(false) {}
+	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)) {}
 
 GameManager::~GameManager() {
 	if (this->running) {
@@ -45,7 +45,7 @@ void GameManager::threadLoop() {
 
 		for (auto* updatable : this->updatables) {
 			if (updatable) {
-				updatable->update();
+				updatable->update(); // je crois que AutoMoveSmart peut le faire solo voir pour le virer 
 			} else {
 				throw ETRON_EXCEPT("Invalid updatable, there is a null here wtf");
 			}
