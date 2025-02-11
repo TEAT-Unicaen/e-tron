@@ -4,6 +4,13 @@
 
 #include "utils/eTronException.h"
 
+void printVec(const std::vector<int>& vec) {
+	for (int i : vec) {
+		std::cout << i << " ";
+	}
+	std::cout << std::endl;
+}
+
 int main() {
 	try {
 		std::cout << "Welcome to the game !\n" << std::endl;
@@ -11,21 +18,27 @@ int main() {
 		GameManager gameManager(9, 9); 
 		std::cout << "DEFAULT GRID :" << std::endl;
 		gameManager.draw();
-		SLEEP(5);
 
 		//Alghorithms
 		std::vector<Player> pVector;
 		for (int i = 0; i <= 4; i++) {
-			Player p = gameManager.createPlayer("Player " + i, i, i + 1, i);
+			Player p = gameManager.createPlayer("Player "+std::to_string(i), i, 0, i);
 			pVector.emplace_back(p);
 		}
 		gameManager.draw();
-		MaxnAlgorithm maxnAlg = gameManager.callMaxn();
+		ParanoidAlgorithm maxnAlg = gameManager.callParanoid();
 
 
 		std::cout << "Starting the game !" << std::endl;
+
+		
+		std::vector<int> pResult = maxnAlg.paranoid(pVector, 5, 0);
+		printVec(pResult);
+
+		std::cout << "LOOP : " << std::endl;
+		SLEEP(1);
 		gameManager.loop();
-		SLEEP(500);
+		SLEEP(5);
 		gameManager.stop();
 
 	} catch (const ETronException& e) {

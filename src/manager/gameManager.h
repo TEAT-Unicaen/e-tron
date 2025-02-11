@@ -6,6 +6,7 @@
 #include "../utils/updatable.h"
 #include "../utils/eTronException.h"
 #include "../algorithms/maxnAlgorithm.h"
+#include "../algorithms/paranoidAlgorithm.h"
 
 #include <thread>
 #include <iostream>
@@ -34,6 +35,7 @@ public:
 
 	Player createPlayer(std::string name, int i, int y, int color);
     MaxnAlgorithm callMaxn();
+	ParanoidAlgorithm callParanoid();
 
 private:
 

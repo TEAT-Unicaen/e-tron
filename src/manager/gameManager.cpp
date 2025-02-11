@@ -43,8 +43,6 @@ void GameManager::threadLoop() {
 	while (running) {
 		SLEEP(1);
 
-		this->getMapManager()->swapCell({ 0,0 }, { 1,1 });
-
 		for (auto* updatable : this->updatables) {
 			if (updatable) {
 				updatable->update();
@@ -81,4 +79,8 @@ Player GameManager::createPlayer(std::string name, int i, int y, int uniqueInt) 
 
 MaxnAlgorithm GameManager::callMaxn() {
 	return MaxnAlgorithm(this->getMapManager());
+}
+
+ParanoidAlgorithm GameManager::callParanoid() {
+	return ParanoidAlgorithm(this->getMapManager());
 }

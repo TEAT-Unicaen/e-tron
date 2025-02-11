@@ -1,6 +1,7 @@
 #include "grid.h"
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 
 Grid::Grid(int line, int column) 
 	: line(line), column(column) {
@@ -36,33 +37,36 @@ int Grid::getColumn() const noexcept {
 }
 
 void Grid::renderGrid() const noexcept {
-	// First line
-	for (int k = 0; k < column-1; ++k) {
-		Cell& cell = grid[0][k];
-		std::cout << std::string(cell.getName().length(), '-');
-	}
-	std::cout << std::endl;
 
-	// Main grid
-	for (int i = 0; i < line; ++i) {
-		for (int j = 0; j < column; ++j) {
-			Cell& cell = grid[i][j];
-		
-			if (cell.getEntity().getName().length() > 0) {
-				std::cout << "| " << cell.getEntity().getName() << "  ";
-			}
-			else {
-				std::cout << "| " << "     " << " ";
+	int maxSizeName = 0;
+
+	for (int i = 0; i < line; i++) {
+		for (int j = 0; j < column; j++) {
+			int nameSize = grid[i][j].getName().size();
+			if (nameSize > maxSizeName) {
+				maxSizeName = nameSize;
 			}
 		}
-		std::cout << "|" << std::endl;
-
-		for (int k = 0; k < column-1; ++k) {
-			Cell& cell = grid[i][k];
-			std::cout << std::string(cell.getName().length(), '-');
-		}
-		std::cout << std::endl;
 	}
+
+	int cellWidth = maxSizeName + 2; 
+
+	for (int i = 0; i < line; i++) {
+		for (int j = 0; j < column; j++) {
+			std::cout << "+" << std::string(cellWidth, '-');
+		}
+		std::cout << "+\n";
+
+		for (int j = 0; j < column; j++) {
+			std::cout << "| " << std::setw(maxSizeName) << std::left << grid[i][j].getEntity().getName() << " ";
+		}
+		std::cout << "|\n";
+	}
+
+	for (int j = 0; j < column; j++) {
+		std::cout << "+" << std::string(cellWidth, '-');
+	}
+	std::cout << "+\n";
 }
 
 Cell& Grid::getCell(int i, int j) const {
