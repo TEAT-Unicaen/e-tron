@@ -15,19 +15,30 @@ int main() {
 	try {
 		std::cout << "Welcome to the game !\n" << std::endl;
 
-		GameManager gameManager(9, 9, 4); 
+		GameManager gameManager(9, 9); 
 		std::cout << "DEFAULT GRID :" << std::endl;
 		gameManager.draw();
 
-		//Algorithms
+		//Alghorithms
+		std::vector<Player> pVector;
+		for (int i = 0; i <= 4; i++) {
+			Player p = gameManager.createPlayer("Player "+std::to_string(i), i, 0, i);
+			pVector.emplace_back(p);
+		}
+		gameManager.draw();
+		ParanoidAlgorithm maxnAlg = gameManager.callParanoid();
+
 
 		std::cout << "Starting the game !" << std::endl;
 
 		
+		std::vector<int> pResult = maxnAlg.paranoid(pVector, 5, 0);
+		printVec(pResult);
+
 		std::cout << "LOOP : " << std::endl;
 		SLEEP(1);
 		gameManager.loop();
-		SLEEP(15);
+		SLEEP(5);
 		gameManager.stop();
 
 	} catch (const ETronException& e) {
