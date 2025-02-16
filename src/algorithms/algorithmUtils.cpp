@@ -1,6 +1,8 @@
 #include "algorithmUtils.h"
 #include <vector>
 #include <utility>
+#include <iostream>
+
 
 //Grid dimesions
 int static gridLines;
@@ -19,7 +21,10 @@ AlgorithmUtils::AlgorithmUtils(MapManager* mapMan) {
 const std::vector<std::pair<int, int>> DIRECTIONS = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
 
 bool AlgorithmUtils::isAValidMove(int x, int y) {
-    return x >= 0 && x < gridCols && y >= 0 && y < gridLines && storedGrid->getCell(x, y).getEntity() == false; //Test if the check if working ?
+    if (x < 0 || x >= gridCols || y < 0 || y >= gridLines) {
+        return false;
+    }
+    return !storedGrid->getCell(x, y).getEntity();
 }
 
 std::vector<std::pair<int, int>> AlgorithmUtils::getAvailableMoves(Player player) {
