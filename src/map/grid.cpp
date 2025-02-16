@@ -13,10 +13,7 @@ Grid::Grid(int line, int column)
 	for (int i = 0; i < line; i++) {
 		grid[i] = new Cell[column];
 		for (int j = 0; j < column; j++) {
-			std::ostringstream cellName;
-			cellName << "Cell(" << i << "," << j << ")";
-			Cell cell(cellName.str());
-			grid[i][j] = cell; 
+			this->initCell(i, j);
 		}
 	}
 }
@@ -78,4 +75,11 @@ Cell& Grid::getCell(int i, int j) const {
 
 void Grid::setCell(Cell& targetCell, GameEntity ent) noexcept {
 	targetCell.setEntity(ent);		
+}
+
+void Grid::initCell(int x, int y) noexcept {
+	std::ostringstream cellName;
+	cellName << "Cell(" << x << "," << y << ")";
+	Cell cell(cellName.str());
+	grid[x][y] = cell;
 }

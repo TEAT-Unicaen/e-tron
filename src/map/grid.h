@@ -13,6 +13,7 @@ public:
 	int getColumn() const noexcept;
 	void renderGrid() const noexcept;
 	void setCell(Cell& targetCell, GameEntity ent) noexcept;
+	void initCell(int i, int j) noexcept;
 
 	Cell& getCell(int i, int j) const;
 

@@ -10,6 +10,13 @@ public:
 
 	// Methods
 	void renderMap() const noexcept;
+	void restoreCell(int x, int y) noexcept;
+	void placeWallAtCoords(Player* owner, int x, int y);
+
+	bool setEntityAtCoords(GameEntity& ent, int x, int y);
+	bool setEntityAtCoords(GameEntity& ent, TCoords coords);
+
+	bool swapCell(TCoords coords1, TCoords coords2) noexcept;
 
 	// Setters
 	void setGrid(Grid* grid) noexcept;
@@ -17,12 +24,6 @@ public:
 	// Getters
 	Grid* getGrid() const noexcept;
 
-	void placeWallAtCoords(Player * owner,int x, int y);
-
-	bool setEntityAtCoords(GameEntity ent, int x, int y);
-	bool setEntityAtCoords(GameEntity ent, TCoords coords);
-
-	bool swapCell(TCoords coords1, TCoords coords2) noexcept;
 
 private:
 	Grid* grid;
