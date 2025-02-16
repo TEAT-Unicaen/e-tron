@@ -26,7 +26,7 @@ int main() {
 		std::cout << "LOOP : " << std::endl;
 		SLEEP(1);
 		gameManager.loop();
-		SLEEP(5);
+		SLEEP(60);
 		gameManager.stop();
 
 	} catch (const ETronException& e) {

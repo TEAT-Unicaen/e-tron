@@ -77,12 +77,18 @@ void GameManager::threadLoop() {
 		// Auto move the players
 		for (auto& player : pVector) {
 			// Decide the best next move
-			std::pair<std::pair<int, int>, int> res = autoMoveSmart->decideMove(player, 2);
+			std::pair<std::pair<int, int>, int> res = autoMoveSmart->decideMove(player, 1);
 
 			// Coords saving before any move
 			auto [newX, newY] = res.first;
 			int oldX = player.getCoords().x;
 			int oldY = player.getCoords().y;
+
+			if (newX == oldX && newY == oldY) { // TODO : Fix player elimination logics
+				std::cout << player.getName() << " tragically died at coords " << oldX << " " << oldY << std::endl;
+				//TODO : Implement player elimination
+				continue;
+			}
 
 			//Move the player and set a wall at the old position
 			this->mapManager->setEntityAtCoords(player, newX, newY);
