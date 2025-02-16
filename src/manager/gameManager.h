@@ -15,20 +15,22 @@
 class GameManager {
 public:
 	// Constructor
-	GameManager(int line, int column) noexcept;
+	GameManager(int line, int column, int numPlyrs) noexcept;
 	~GameManager();
 
 	// Methods
 	void draw() const noexcept;
+	void loop();
+	void stop();
 
 	// Setters
 	void setMapManager(MapManager* mapManager) noexcept;
 
-	// Getters
+	// Getters and setters 
 	MapManager* getMapManager() const noexcept;
-
-	void loop();
-	void stop();
+	std::vector<Player> getPlayers() const noexcept;
+	int getNumPlayers() const noexcept;
+	Player getPlayer(int i) const noexcept;
 
 	void addUpdatable(IUpdatable* updatable) noexcept;
 	std::vector<IUpdatable*> getUpdatables() const noexcept;
@@ -44,6 +46,7 @@ private:
 	MapManager* mapManager;
 	std::vector<IUpdatable*> updatables;
 	AutoMoveSmart* autoMoveSmart;
+	std::vector<Player> pVector;
 
 
 	void threadLoop();

@@ -1,7 +1,14 @@
 #include "gameManager.h"
 
-GameManager::GameManager(int line, int column) noexcept
-	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)) {}
+GameManager::GameManager(int line, int column, int numPlyrs) noexcept
+	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)) 
+{
+	// Create players and store them in a vector
+	for (int i = 0; i <= numPlyrs; i++) {
+		Player p = this->createPlayer("Player " + std::to_string(i), i, 0, i);
+		pVector.emplace_back(p);
+	}
+}
 
 GameManager::~GameManager() {
 	if (this->running) {
@@ -43,16 +50,34 @@ void GameManager::threadLoop() {
 	while (running) {
 		SLEEP(1);
 
-		for (auto* updatable : this->updatables) {
+		// Auto move the players
+		for (auto& player : pVector) {
+			// Decide the best next move
+			std::pair<std::pair<int, int>, int> res = autoMoveSmart->decideMove(player, 2);
+
+			// Coords saving before any move
+			auto [newX, newY] = res.first;
+			int oldX = player.getCoords().x;
+			int oldY = player.getCoords().y;
+
+			//Move the player and set a wall at the old position
+			this->mapManager->setEntityAtCoords(player, newX, newY);
+			this->mapManager->placeWallAtCoords(&player, oldX, oldY);
+
+			//Draw the map
+			std::cout << "\033[2J\033[H";
+			this->draw();
+			SLEEP(1);
+		}
+
+
+		/*for (auto* updatable : this->updatables) {
 			if (updatable) {
 				updatable->update(); // je crois que AutoMoveSmart peut le faire solo voir pour le virer 
 			} else {
 				throw ETRON_EXCEPT("Invalid updatable, there is a null here wtf");
 			}
-		}
-
-		std::cout << "\033[2J\033[H";
-		this->draw();
+		}*/
 	}
 }
 
@@ -83,4 +108,16 @@ MaxnAlgorithm GameManager::callMaxn() {
 
 ParanoidAlgorithm GameManager::callParanoid() {
 	return ParanoidAlgorithm(this->getMapManager());
+}
+
+std::vector<Player> GameManager::getPlayers() const noexcept {
+	return pVector;
+}
+
+int GameManager::getNumPlayers() const noexcept {
+	return pVector.size();
+}
+
+Player GameManager::getPlayer(int i) const noexcept {
+	return pVector[i];
 }
