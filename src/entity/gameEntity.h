@@ -18,9 +18,9 @@ public:
 	int getColor() const noexcept;
 	void setCoords(TCoords coords) noexcept;
 
-	inline operator bool() const noexcept {
-		return !name.empty() || color != -1 || (coords.x != -1 || coords.y != -1);
-	}
+    inline operator bool() const noexcept {
+		return !name.empty() && color != -1 && coords.x != -1 && coords.y != -1;
+    }
 
 protected:
 	std::string name;
