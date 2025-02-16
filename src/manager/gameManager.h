@@ -15,7 +15,7 @@
 class GameManager {
 public:
 	// Constructor
-	GameManager(int line, int column, int numPlyrs) noexcept;
+	GameManager(int line, int column, int numPlyrs, bool randomPos) noexcept;
 	~GameManager();
 
 	// Methods

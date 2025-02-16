@@ -15,7 +15,7 @@ int main() {
 	try {
 		std::cout << "Welcome to the game !\n" << std::endl;
 
-		GameManager gameManager(9, 9, 4); 
+		GameManager gameManager(9, 9, 4, true); 
 		std::cout << "DEFAULT GRID :" << std::endl;
 		gameManager.draw();
 

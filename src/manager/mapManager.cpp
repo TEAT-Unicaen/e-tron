@@ -32,7 +32,7 @@ bool MapManager::setEntityAtCoords(GameEntity& ent, int x, int y) {
 }
 
 void MapManager::placeWallAtCoords(Player * owner, int x, int y)  {
-	this->setEntityAtCoords(Wall("wall", { x,y }, 0, owner), { x,y });
+	this->setEntityAtCoords(Wall("wall " + std::to_string(owner->getColor()), { x,y }, 0, owner), { x,y });
 }
 
 bool MapManager::setEntityAtCoords(GameEntity& ent, TCoords coords) {

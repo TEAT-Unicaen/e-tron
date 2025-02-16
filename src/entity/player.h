@@ -4,6 +4,7 @@
 
 class Player : public GameEntity {
 public:
+	Player() noexcept;
 	Player(std::string name, TCoords coords, int color, int id) noexcept;
 	~Player() = default;
 

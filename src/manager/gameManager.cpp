@@ -1,13 +1,37 @@
 #include "gameManager.h"
+#include <random>
 
-GameManager::GameManager(int line, int column, int numPlyrs) noexcept
+GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos) noexcept
 	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)) 
 {
-	// Create players and store them in a vector
-	for (int i = 0; i <= numPlyrs; i++) {
-		Player p = this->createPlayer("Player " + std::to_string(i), i, 0, i);
+	//Used for non deterministic random placement generation
+	std::random_device rd;
+	std::mt19937 gen(rd()); //Merseene Twister based
+	std::uniform_int_distribution<> disLine(0, line - 1); // Uniformise in the given range
+	std::uniform_int_distribution<> disColumn(0, column - 1); // Same as above for cols
+
+
+    // Create players and store them in a vector
+    for (int i = 0; i <= numPlyrs; i++) {
+		Player p;
+		bool positionSet = false;
+		while (!positionSet) {
+			if (randomPos) {
+				int x = disLine(gen);
+				int y = disColumn(gen);
+				if (!this->getMapManager()->getGrid()->getCell(x, y).getEntity()) {
+					p = this->createPlayer("Player " + std::to_string(i), x, y, i);
+					positionSet = true;
+				}
+			} else {
+				if (!this->getMapManager()->getGrid()->getCell(i, 0).getEntity()) {
+					p = this->createPlayer("Player " + std::to_string(i), i, 0, i);
+					positionSet = true;
+				}
+			}
+		}
 		pVector.emplace_back(p);
-	}
+    }
 }
 
 GameManager::~GameManager() {
