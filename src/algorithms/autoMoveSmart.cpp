@@ -13,7 +13,7 @@ AutoMoveSmart::AutoMoveSmart(MapManager* mapMan) : AlgorithmUtils(mapMan) {
 // Auto moves algorithm
 std::pair<std::pair<int, int>, int> AutoMoveSmart::decideMove(std::shared_ptr<Player> player, int depth) {
 	std::pair<int, int> nextPos = { player->getCoords().x, player->getCoords().y}; //Init next pos at actual pos in case of no move possible
-	int bestScore = 0;
+	int bestScore = -1;
 
 	//Recur : end case -> return the score for the current placement
 	if (depth == 0) {
