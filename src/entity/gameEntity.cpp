@@ -2,10 +2,10 @@
 #include <iostream>
 
 GameEntity::GameEntity() noexcept
-	: name(""), coords({ -1,-1 }), color(-1) {
+	: name(""), coords({ -1,-1 }), color(Color::ColorEnum::Undefined) {
 }
 
-GameEntity::GameEntity(std::string name, TCoords coords, int color) noexcept
+GameEntity::GameEntity(std::string name, TCoords coords, Color::ColorEnum color) noexcept
 	: name(name), coords(coords), color(color) {}
 
 std::string GameEntity::getName() const noexcept {
@@ -16,7 +16,7 @@ TCoords GameEntity::getCoords() const noexcept {
 	return this->coords;
 }
 
-int GameEntity::getColor() const noexcept {
+Color::ColorEnum GameEntity::getColor() const noexcept {
 	return this->color;
 }
 
