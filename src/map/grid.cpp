@@ -55,7 +55,13 @@ void Grid::renderGrid() const noexcept {
 		std::cout << "+\n";
 
 		for (int j = 0; j < column; j++) {
-			std::cout << "| " << std::setw(maxSizeName) << std::left << grid[i][j].getEntity().getName() << " ";
+			GameEntity ent = *grid[i][j].getEntity();
+			if (ent) {
+                int padding = maxSizeName - ent.getName().size();
+                std::cout << "| " << std::setw(maxSizeName) << std::left << Color::printColoredText(ent.getColor(), ent.getName()) << std::string(padding, ' ') << " ";
+			} else {
+				std::cout << "| " << std::setw(maxSizeName) << std::left << " " << " ";
+			}
 		}
 		std::cout << "|\n";
 	}
@@ -73,7 +79,7 @@ Cell& Grid::getCell(int i, int j) const {
 	return grid[i][j];
 }
 
-void Grid::setCell(Cell& targetCell, GameEntity ent) noexcept {
+void Grid::setCell(Cell& targetCell, std::shared_ptr<GameEntity> ent) noexcept {
 	targetCell.setEntity(ent);		
 }
 

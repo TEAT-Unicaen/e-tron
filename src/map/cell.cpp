@@ -1,17 +1,17 @@
 #include "cell.h"
 
 Cell::Cell() noexcept
-	: name("Unnamed"), entity(entity) {}
+	: name("Unnamed"), entity(new GameEntity()) {}
 
 
 Cell::Cell(const std::string& name) noexcept
-	: name(name), entity(entity) {}
+	: name(name), entity(new GameEntity()) {}
 
-GameEntity Cell::getEntity() const noexcept {
+std::shared_ptr<GameEntity> Cell::getEntity() const noexcept {
 	return this->entity;
 }
 
-void Cell::setEntity(GameEntity ent) noexcept {
+void Cell::setEntity(std::shared_ptr<GameEntity> ent) noexcept {
 	this->entity = ent;
 }
 

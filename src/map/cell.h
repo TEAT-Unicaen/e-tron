@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "../entity/gameEntity.h"
 
 
@@ -10,11 +11,11 @@ public:
     Cell(const std::string& name) noexcept;
     ~Cell() = default;
     
-	GameEntity getEntity() const noexcept;
-	void setEntity(GameEntity ent) noexcept;
+    std::shared_ptr<GameEntity> getEntity() const noexcept;
+	void setEntity(std::shared_ptr<GameEntity> ent) noexcept;
     std::string getName() const noexcept;
 
 private:
-	GameEntity entity;
+    std::shared_ptr<GameEntity> entity;
     std::string name; 
 };
