@@ -1,4 +1,6 @@
 #include "gameManager.h"
+#include "../entity/player.h"
+#include "../utils/colorEnum.h"
 #include <random>
 
 GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos) noexcept
@@ -12,19 +14,19 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos) noe
 
 
     // Create players and store them in a vector
-    for (int i = 0; i <= numPlyrs; i++) {
-		Player p;
+    for (int i = 1; i <= numPlyrs; i++) {
+		std::shared_ptr<Player> p;
 		bool positionSet = false;
 		while (!positionSet) {
 			if (randomPos) {
 				int x = disLine(gen);
 				int y = disColumn(gen);
-				if (!this->getMapManager()->getGrid()->getCell(x, y).getEntity()) {
+				if (!*this->getMapManager()->getGrid()->getCell(x, y).getEntity()) {
 					p = this->createPlayer("Player " + std::to_string(i), x, y, i);
 					positionSet = true;
 				}
 			} else {
-				if (!this->getMapManager()->getGrid()->getCell(i, 0).getEntity()) {
+				if (!*this->getMapManager()->getGrid()->getCell(i, 0).getEntity()) {
 					p = this->createPlayer("Player " + std::to_string(i), i, 0, i);
 					positionSet = true;
 				}
@@ -61,14 +63,6 @@ void GameManager::stop() {
 	}
 }
 
-void GameManager::addUpdatable(IUpdatable* updatable) noexcept {
-	this->updatables.push_back(updatable);
-}
-
-std::vector<IUpdatable*> GameManager::getUpdatables() const noexcept {
-	return this->updatables;
-}
-
 void GameManager::threadLoop() {
 	running = true;
 	while (running) {
@@ -76,38 +70,31 @@ void GameManager::threadLoop() {
 
 		// Auto move the players
 		for (auto& player : pVector) {
+			if (player->isPlayerDead()) {continue;}
+
 			// Decide the best next move
 			std::pair<std::pair<int, int>, int> res = autoMoveSmart->decideMove(player, 1);
 
 			// Coords saving before any move
 			auto [newX, newY] = res.first;
-			int oldX = player.getCoords().x;
-			int oldY = player.getCoords().y;
+			int oldX = player->getCoords().x;
+			int oldY = player->getCoords().y;
 
-			if (newX == oldX && newY == oldY) { // TODO : Fix player elimination logics
-				std::cout << player.getName() << " tragically died at coords " << oldX << " " << oldY << std::endl;
-				//TODO : Implement player elimination
+			if (newX == oldX && newY == oldY) { 
+				std::cout << player->getName() << " tragically died at coords " << oldX << " " << oldY << std::endl;
+				player->killPlayer();
 				continue;
 			}
 
 			//Move the player and set a wall at the old position
 			this->mapManager->setEntityAtCoords(player, newX, newY);
-			this->mapManager->placeWallAtCoords(&player, oldX, oldY);
+			this->mapManager->placeWallAtCoords(player.get(), oldX, oldY);
 
 			//Draw the map
 			std::cout << "\033[2J\033[H";
 			this->draw();
-			SLEEP(1);
+			SLEEP(0);
 		}
-
-
-		/*for (auto* updatable : this->updatables) {
-			if (updatable) {
-				updatable->update(); // je crois que AutoMoveSmart peut le faire solo voir pour le virer 
-			} else {
-				throw ETRON_EXCEPT("Invalid updatable, there is a null here wtf");
-			}
-		}*/
 	}
 }
 
@@ -121,26 +108,21 @@ void GameManager::loop() {
 	}
 }
 
-Player GameManager::createPlayer(std::string name, int i, int y, int uniqueInt) {
-	/* NEED TO FIX THIS
-	if (this->getMapManager()->getGrid()->getCell(i, y).getEntity()) {
-		throw ETRON_EXCEPT("Cell already taken");
-	}
-	*/
-	Player entity = Player(name, {i,y}, uniqueInt, uniqueInt);
+std::shared_ptr<Player> GameManager::createPlayer(std::string name, int i, int y, int uniqueInt) const {
+	std::shared_ptr<Player> entity = std::make_shared<Player>(name, TCoords{ i, y }, Color::intToColor(uniqueInt), uniqueInt);
 	this->getMapManager()->setEntityAtCoords(entity, i, y);
 	return entity;
 }
 
-MaxnAlgorithm GameManager::callMaxn() {
+MaxnAlgorithm GameManager::callMaxn() const {
 	return MaxnAlgorithm(this->getMapManager());
 }
 
-ParanoidAlgorithm GameManager::callParanoid() {
+ParanoidAlgorithm GameManager::callParanoid() const {
 	return ParanoidAlgorithm(this->getMapManager());
 }
 
-std::vector<Player> GameManager::getPlayers() const noexcept {
+const std::vector<std::shared_ptr<Player>>& GameManager::getPlayers() const noexcept {
 	return pVector;
 }
 
@@ -148,6 +130,6 @@ int GameManager::getNumPlayers() const noexcept {
 	return pVector.size();
 }
 
-Player GameManager::getPlayer(int i) const noexcept {
+const std::shared_ptr<Player>& GameManager::getPlayer(int i) const noexcept {
 	return pVector[i];
 }

@@ -13,10 +13,8 @@ public:
 	void restoreCell(int x, int y) noexcept;
 	void placeWallAtCoords(Player* owner, int x, int y);
 
-	bool setEntityAtCoords(GameEntity& ent, int x, int y);
-	bool setEntityAtCoords(GameEntity& ent, TCoords coords);
-
-	bool swapCell(TCoords coords1, TCoords coords2) noexcept;
+	bool setEntityAtCoords(std::shared_ptr<GameEntity> ent, int x, int y);
+	bool setEntityAtCoords(std::shared_ptr<GameEntity> ent, TCoords coords);
 
 	// Setters
 	void setGrid(Grid* grid) noexcept;

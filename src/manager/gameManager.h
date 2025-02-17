@@ -2,15 +2,16 @@
 
 #include "mapManager.h"
 #include "../utils/utils.h"
-#include "../utils/updatable.h"
 #include "../utils/eTronException.h"
 #include "../algorithms/maxnAlgorithm.h"
 #include "../algorithms/paranoidAlgorithm.h"
 #include "../algorithms/autoMoveSmart.h"
+#include "../utils/colorEnum.h"
 
 #include <thread>
 #include <iostream>
 #include <vector>
+#include <memory>
 
 class GameManager {
 public:
@@ -28,26 +29,21 @@ public:
 
 	// Getters and setters 
 	MapManager* getMapManager() const noexcept;
-	std::vector<Player> getPlayers() const noexcept;
+	const std::vector<std::shared_ptr<Player>>& getPlayers() const noexcept;
 	int getNumPlayers() const noexcept;
-	Player getPlayer(int i) const noexcept;
+	const std::shared_ptr<Player>& getPlayer(int i) const noexcept;
 
-	void addUpdatable(IUpdatable* updatable) noexcept;
-	std::vector<IUpdatable*> getUpdatables() const noexcept;
-
-	Player createPlayer(std::string name, int i, int y, int color);
-    MaxnAlgorithm callMaxn();
-	ParanoidAlgorithm callParanoid();
+	std::shared_ptr<Player> createPlayer(std::string name, int i, int y, int uniqueInt) const;
+    MaxnAlgorithm callMaxn() const;
+	ParanoidAlgorithm callParanoid() const;
 
 private:
 
 	std::thread gameThread;
 	bool running;
 	MapManager* mapManager;
-	std::vector<IUpdatable*> updatables;
 	AutoMoveSmart* autoMoveSmart;
-	std::vector<Player> pVector;
-
+	std::vector<std::shared_ptr<Player>> pVector;
 
 	void threadLoop();
 };
