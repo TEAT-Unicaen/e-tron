@@ -13,7 +13,7 @@ MaxnAlgorithm::MaxnAlgorithm(MapManager* mapMan) : AlgorithmUtils(mapMan) {
 // TODO : IMPLEMENT TERRITORY AWARENESS
 
 // Core Algorithme Maxn
-std::vector<int> MaxnAlgorithm::maxn(std::vector<Player> players, int depth, int currentPlayer) {
+std::vector<int> MaxnAlgorithm::maxn(std::vector<std::shared_ptr<Player>> players, int depth, int currentPlayer) {
 	int numPlayers = players.size();
 
     //Recur : end case -> return all scores for the current state
@@ -25,23 +25,23 @@ std::vector<int> MaxnAlgorithm::maxn(std::vector<Player> players, int depth, int
 		return scores;
     }
 
-	Player& player = players[currentPlayer];
+	std::shared_ptr<Player> player = players[currentPlayer];
 	std::vector<int> bestScores(numPlayers, std::numeric_limits<int>::min()); //Workaround to init numPlayer elems at minimum int value (-2^63)
 
-    for (auto [newX, newY] : this->getAvailableMoves(player)) {
+    for (auto& [newX, newY] : this->getAvailableMoves(player)) {
 		//Save state and move
-		int oldX = player.getCoords().x;
-		int oldY = player.getCoords().y;
+		int oldX = player->getCoords().x;
+		int oldY = player->getCoords().y;
 		this->getStoredMapMan()->setEntityAtCoords(player, newX, newY);
 
         //Recur on next plyr
-		std::vector<int> scores = this->maxn(players, depth - 1, (player + 1) % numPlayers);
+		std::vector<int> scores = this->maxn(players, depth - 1, (*player + 1) % numPlayers);
 
         //Restore
 		this->getStoredMapMan()->setEntityAtCoords(player, oldX, oldY);
         
         //Update score if needed
-		if (scores[player] > bestScores[player]) {
+		if (scores[*player] > bestScores[*player]) {
 			bestScores = scores;
 		}
     }

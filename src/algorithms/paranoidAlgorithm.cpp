@@ -13,7 +13,7 @@ ParanoidAlgorithm::ParanoidAlgorithm(MapManager* mapMan) : AlgorithmUtils(mapMan
 
 
 // Core Algorithme Paranoid
-std::vector<int> ParanoidAlgorithm::paranoid(std::vector<Player> players, int depth, int currentPlayer) {
+std::vector<int> ParanoidAlgorithm::paranoid(std::vector<std::shared_ptr<Player>> players, int depth, int currentPlayer) {
 	int numPlayers = players.size();
 	std::vector<int> scores(numPlayers, 0);
 
@@ -25,7 +25,7 @@ std::vector<int> ParanoidAlgorithm::paranoid(std::vector<Player> players, int de
 		return scores;
 	}
 
-	Player& player = players[currentPlayer];
+	std::shared_ptr<Player> player = players[currentPlayer];
 	std::vector<int> bestScores(numPlayers, std::numeric_limits<int>::min()); //Workaround to init numPlayer elems at minimum int value (-2^63)
 	std::vector<std::pair<int, int>> moves = this->getAvailableMoves(player);
 
@@ -34,10 +34,10 @@ std::vector<int> ParanoidAlgorithm::paranoid(std::vector<Player> players, int de
 		return scores;
 	}
 
-	for (auto [newX, newY] : moves) {
+	for (auto& [newX, newY] : moves) {
 		//Save state and put wall behind player
-		int oldX = player.getCoords().x;
-		int oldY = player.getCoords().y;
+		int oldX = player->getCoords().x;
+		int oldY = player->getCoords().y;
 		this->getStoredMapMan()->setEntityAtCoords(player, newX, newY);
 
 		//Recur on next plyr

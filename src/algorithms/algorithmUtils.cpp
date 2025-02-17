@@ -24,14 +24,14 @@ bool AlgorithmUtils::isAValidMove(int x, int y) {
     if (x < 0 || x >= gridCols || y < 0 || y >= gridLines) {
         return false;
     }
-    return !storedGrid->getCell(x, y).getEntity();
+    return !*storedGrid->getCell(x, y).getEntity();
 }
 
-std::vector<std::pair<int, int>> AlgorithmUtils::getAvailableMoves(Player player) {
+std::vector<std::pair<int, int>> AlgorithmUtils::getAvailableMoves(std::shared_ptr<Player> player) {
     std::vector<std::pair<int, int>> moves;
-    for (auto [dx, dy] : DIRECTIONS) { //Compiler auto detect type based on "DIRECTIONS" type.
-        int newX = player.getCoords().x + dx;
-        int newY = player.getCoords().y + dy;
+    for (auto& [dx, dy] : DIRECTIONS) { //Compiler auto detect type based on "DIRECTIONS" type.
+        int newX = player->getCoords().x + dx;
+        int newY = player->getCoords().y + dy;
         if (this->isAValidMove(newX, newY)) {
             moves.emplace_back(newX, newY); //Equivalent to append or add in other languages.
         }
@@ -40,7 +40,7 @@ std::vector<std::pair<int, int>> AlgorithmUtils::getAvailableMoves(Player player
 }
 
 // Return the score, alias "position quality" of a player, based on the move possibilities around him
-int AlgorithmUtils::evaluate(Player player) {
+int AlgorithmUtils::evaluate(std::shared_ptr<Player> player) {
     return this->getAvailableMoves(player).size();
 }
 

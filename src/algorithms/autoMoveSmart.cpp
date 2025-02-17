@@ -11,8 +11,8 @@ AutoMoveSmart::AutoMoveSmart(MapManager* mapMan) : AlgorithmUtils(mapMan) {
 }
 
 // Auto moves algorithm
-std::pair<std::pair<int, int>, int> AutoMoveSmart::decideMove(Player& player, int depth) {
-	std::pair<int, int> nextPos = { 0, 0 }; //Init next pos at actual pos in case of no move possible
+std::pair<std::pair<int, int>, int> AutoMoveSmart::decideMove(std::shared_ptr<Player> player, int depth) {
+	std::pair<int, int> nextPos = { player->getCoords().x, player->getCoords().y}; //Init next pos at actual pos in case of no move possible
 	int bestScore = 0;
 
 	//Recur : end case -> return the score for the current placement
@@ -21,10 +21,10 @@ std::pair<std::pair<int, int>, int> AutoMoveSmart::decideMove(Player& player, in
 		return {nextPos, score};
 	}
 
-	for (auto [newX, newY] : this->getAvailableMoves(player)) {
+	for (auto& [newX, newY] : this->getAvailableMoves(player)) {
 		//Save state and move
-		int oldX = player.getCoords().x;
-		int oldY = player.getCoords().y;
+		int oldX = player->getCoords().x;
+		int oldY = player->getCoords().y;
 		this->getStoredMapMan()->setEntityAtCoords(player, newX, newY);
 
 		//Recur on the next position

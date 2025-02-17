@@ -13,7 +13,7 @@ public:
     ~MaxnAlgorithm() = default;
 
     //Methods
-	std::vector<int> maxn(std::vector<Player> players, int depth, int currentPlayer);
+	std::vector<int> maxn(std::vector<std::shared_ptr<Player>> players, int depth, int currentPlayer);
 
 private:
 

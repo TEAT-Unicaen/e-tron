@@ -13,8 +13,8 @@ public:
 
     //Methods
     bool isAValidMove(int x, int y);
-    int evaluate(Player player);
-    std::vector<std::pair<int, int>> getAvailableMoves(Player player);
+    int evaluate(std::shared_ptr<Player> player);
+    std::vector<std::pair<int, int>> getAvailableMoves(std::shared_ptr<Player> player);
 	MapManager* getStoredMapMan();
 
 private:

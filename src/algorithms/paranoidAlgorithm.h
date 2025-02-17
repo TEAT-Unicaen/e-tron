@@ -9,6 +9,6 @@ public:
 	~ParanoidAlgorithm() = default;
 
 	//Methods
-	std::vector<int> paranoid(std::vector<Player> players, int depth, int currentPlayer);
+	std::vector<int> paranoid(std::vector<std::shared_ptr<Player>> players, int depth, int currentPlayer);
 };
 
