@@ -39,7 +39,8 @@ std::vector<int> MaxnAlgorithm::maxn(std::vector<std::shared_ptr<Player>> player
 
         //Restore
 		this->getStoredMapMan()->setEntityAtCoords(player, oldX, oldY);
-        
+		this->getStoredMapMan()->restoreCell(newX, newY);
+
         //Update score if needed
 		if (scores[*player] > bestScores[*player]) {
 			bestScores = scores;

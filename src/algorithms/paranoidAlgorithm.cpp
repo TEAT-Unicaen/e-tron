@@ -45,6 +45,7 @@ std::vector<int> ParanoidAlgorithm::paranoid(std::vector<std::shared_ptr<Player>
 
 		//Restore
 		this->getStoredMapMan()->setEntityAtCoords(player, oldX, oldY);
+		this->getStoredMapMan()->restoreCell(newX, newY);
 
 		//Update score if needed
 		int myScore = scores[currentPlayer];
