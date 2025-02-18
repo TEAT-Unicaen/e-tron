@@ -63,9 +63,15 @@ void GameManager::stop() {
 	}
 }
 
+void GameManager::pauseGame() {
+	this->pause = !this->pause;
+}
+
 void GameManager::threadLoop() {
 	running = true;
 	while (running) {
+		if (this->pause) {continue;}
+
 		SLEEP(1);
 
 		// Auto move the players
@@ -93,7 +99,6 @@ void GameManager::threadLoop() {
 			//Draw the map
 			std::cout << "\033[2J\033[H";
 			this->draw();
-			SLEEP(0);
 		}
 	}
 }

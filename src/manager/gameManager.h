@@ -23,6 +23,7 @@ public:
 	void draw() const noexcept;
 	void loop();
 	void stop();
+	void pauseGame();
 
 	// Setters
 	void setMapManager(MapManager* mapManager) noexcept;
@@ -41,6 +42,7 @@ private:
 
 	std::thread gameThread;
 	bool running;
+	bool pause = false;
 	MapManager* mapManager;
 	AutoMoveSmart* autoMoveSmart;
 	std::vector<std::shared_ptr<Player>> pVector;
