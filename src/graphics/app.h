@@ -5,6 +5,8 @@
 #include "window.h"
 #include "appTimer.h"
 #include "../utils/utils.h"
+#include "objects/drawable.h"
+#include "objects/cube.h"
 
 class App {
 public :
@@ -16,4 +18,5 @@ private:
 	
 	Window wnd;
 	AppTimer timer;
+	std::vector<std::unique_ptr<Drawable>> pDrawables;
 };

@@ -102,96 +102,19 @@ void Renderer::render() {
 }
 
 void Renderer::fill(UINT r, UINT g, UINT b) {
-	const float color[] = { (float)r, (float)g, (float)b, 1.0f };
+	const float color[] = { r/255.0f, g/255.0f, b/255.0f, 1.0f };
 	this->pDeviceContext->ClearRenderTargetView(this->pRenderTargetView.Get(), color);
 	this->pDeviceContext->ClearDepthStencilView(this->pDepthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
-void Renderer::addPoint(Vertex v) {
-	this->points.push_back(v);
+void Renderer::drawIndexed(UINT count) noexcept(!IS_DEBUG_MODE) {
+	this->pDeviceContext->DrawIndexed(count, 0u, 0u);
 }
 
-void Renderer::addLine(Vertex v1, Vertex v2) {
-	this->lines.push_back(v1);
-	this->lines.push_back(v2);
+void Renderer::setProjection(DirectX::FXMMATRIX projection) noexcept {
+	this->projection = projection;
 }
 
-
-void Renderer::addTriangle(Vertex v1, Vertex v2, Vertex v3) {
-	this->triangles.push_back(v1);
-	this->triangles.push_back(v2);
-	this->triangles.push_back(v3);
-}
-
-void Renderer::drawVertex(std::vector<Vertex>& vertices, D3D11_PRIMITIVE_TOPOLOGY topology) {
-	// if there is no vertex, return
-	if (vertices.size() == 0) {
-		return;
-	}
-	OutputDebugStringA("Drawing vertices\n");
-	// Create the vertex buffer
-	Mwrl::ComPtr<ID3D11Buffer> pVertexBuffer;
-	D3D11_BUFFER_DESC bd = {};
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.CPUAccessFlags = 0u;
-	bd.MiscFlags = 0u;
-	bd.ByteWidth = sizeof(Vertex) * (UINT)vertices.size();
-	bd.StructureByteStride = sizeof(Vertex);
-	D3D11_SUBRESOURCE_DATA sd = {};
-	sd.pSysMem = vertices.data();
-	CHECK_INFO_ONLY_EXCEPT(this->pDevice->CreateBuffer(&bd, &sd, &pVertexBuffer));
-
-	// Set the previous buffer in the pipeline
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0u;
-	this->pDeviceContext->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
-	
-	// set the pixel shader in the pipeline
-	Mwrl::ComPtr<ID3D11PixelShader> pPixelShader;
-	Mwrl::ComPtr<ID3DBlob> pBlob;
-	CHECK_INFO_ONLY_EXCEPT(D3DReadFileToBlob(L"shaders/pixelShader.cso", &pBlob));
-	CHECK_INFO_ONLY_EXCEPT(this->pDevice->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pPixelShader));
-	this->pDeviceContext->PSSetShader(pPixelShader.Get(), nullptr, 0u);
-
-	// set the vertex shader in the pipeline
-	Mwrl::ComPtr<ID3D11VertexShader> pVertexShader;
-	CHECK_INFO_ONLY_EXCEPT(D3DReadFileToBlob(L"shaders/vertexShader.cso", &pBlob));
-	CHECK_INFO_ONLY_EXCEPT(this->pDevice->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pVertexShader));
-	this->pDeviceContext->VSSetShader(pVertexShader.Get(), nullptr, 0u);
-
-	// set the input layout in the pipeline
-	Mwrl::ComPtr<ID3D11InputLayout> pInputLayout;
-	const D3D11_INPUT_ELEMENT_DESC ied[] = {
-		{"Position", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA, 0u},
-		{"Color", 0u, DXGI_FORMAT_R8G8B8A8_UNORM, 0u, 12u, D3D11_INPUT_PER_VERTEX_DATA, 0u}
-	};
-	CHECK_INFO_ONLY_EXCEPT(this->pDevice->CreateInputLayout(
-		ied, (UINT)std::size(ied), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pInputLayout)
-	);
-	this->pDeviceContext->IASetInputLayout(pInputLayout.Get());
-
-	// Set the primitive topology in the pipeline aka the drawing mode
-	this->pDeviceContext->IASetPrimitiveTopology(topology);
-
-	// Draw the vertices
-	CHECK_INFO_ONLY_EXCEPT(this->pDeviceContext->Draw((UINT)vertices.size(), 0u));
-}
-
-void Renderer::drawAllPoint() {
-	this->drawVertex(this->points, D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
-}
-
-void Renderer::drawAllLine() {
-	this->drawVertex(this->lines, D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-}
-
-void Renderer::drawAllTriangle() {
-	this->drawVertex(this->triangles, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-}
-
-void Renderer::drawAll() {
-	this->drawAllPoint();
-	this->drawAllLine();
-	this->drawAllTriangle();
+DirectX::XMMATRIX Renderer::getProjection() const noexcept {
+	return this->projection;
 }

@@ -1,11 +1,14 @@
+cbuffer Transform : register(b0) {
+    matrix modelViewProjection;
+};
+
 struct VSOut {
-    float3 color : Color;
     float4 position : SV_POSITION;
 };
 
-VSOut main(float3 position : Position, float3 color : Color) {
+VSOut main(float3 position : Position)
+{
     VSOut output;
-    output.position = float4(position, 1.0f);
-    output.color = color;
+    output.position = mul(float4(position, 1.0f), modelViewProjection);
     return output;
 }

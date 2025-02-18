@@ -2,6 +2,7 @@
 #include <d3d11.h>
 #pragma comment(lib, "d3d11.lib")
 #include <wrl.h>
+#include <DirectXMath.h>
 #include <d3dcompiler.h>
 #pragma comment(lib, "D3dcompiler.lib")
 
@@ -11,20 +12,8 @@
 namespace Mwrl = Microsoft::WRL;
 
 class Renderer {
+	friend class Bindable;
 public:
-	typedef struct Vertex {
-		struct {
-			float x;
-			float y;
-			float z;
-		} pos;
-		struct {
-			unsigned char r;
-			unsigned char g;
-			unsigned char b;
-			unsigned char a;
-		} color;
-	} Vertex;
 	Renderer(HWND hwnd, int width, int height);
 	Renderer(const Renderer&) = delete;
 	Renderer& operator=(const Renderer&) = delete;
@@ -32,19 +21,11 @@ public:
 
 	void render();
 	void fill(UINT r, UINT g, UINT b);
-
-	void addPoint(Vertex v);
-	void addLine(Vertex v1, Vertex v2);
-	void addTriangle(Vertex v1, Vertex v2, Vertex v3);
-
-	void drawGrid(UINT nbLine, UINT nbColumn);
-
-	void drawAllPoint();
-	void drawAllLine();
-	void drawAllTriangle();
-	void drawAll();
+	void drawIndexed(UINT count) noexcept(!IS_DEBUG_MODE);
+	void setProjection(DirectX::FXMMATRIX projection) noexcept;
+	DirectX::XMMATRIX getProjection() const noexcept;
 private:
-	void drawVertex(std::vector<Vertex>& vertices, D3D11_PRIMITIVE_TOPOLOGY topology);
+	DirectX::XMMATRIX projection;
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
 #endif // !NDEBUG
@@ -56,19 +37,16 @@ private:
 	Mwrl::ComPtr<ID3D11RenderTargetView> pRenderTargetView;
 	Mwrl::ComPtr<ID3D11DepthStencilView> pDepthStencilView;
 
-	//all Vertices
-	std::vector<Vertex> points;
-	std::vector<Vertex> lines;
-	std::vector<Vertex> triangles;
+};
 
-	// Renderer exception macros
+// Renderer exception macros
 #ifndef NDEBUG // in Debug mode
-	#define RENDERER_EXCEPT(hr) RendererHrException(__LINE__, __FILE__, hr, this->infoManager.getMessages())
+	#define RENDERER_EXCEPT(hr) RendererHrException(__LINE__, __FILE__, hr, infoManager.getMessages())
 	#define RENDERER_LAST_EXCEPT() RENDERER_EXCEPT(GetLastError())
-	#define DEVICE_REMOVED_EXCEPT(hr) DeviceRemovedException(__LINE__, __FILE__, hr, this->infoManager.getMessages())
+	#define DEVICE_REMOVED_EXCEPT(hr) DeviceRemovedException(__LINE__, __FILE__, hr, infoManager.getMessages())
 
-	#define CHECK_RENDERER_EXCEPT(hrcall) this->infoManager.updateTheStartingPointIndex(); if (FAILED(hr = (hrcall))) throw RENDERER_EXCEPT(hr)
-	#define CHECK_INFO_ONLY_EXCEPT(call) this->infoManager.updateTheStartingPointIndex(); (call); {auto v = this->infoManager.getMessages(); if(!v.empty()) {throw INFO_ONLY_EXCEPT(v);}}
+	#define CHECK_RENDERER_EXCEPT(hrcall) infoManager.updateTheStartingPointIndex(); if (FAILED(hr = (hrcall))) throw RENDERER_EXCEPT(hr)
+	#define CHECK_INFO_ONLY_EXCEPT(call) infoManager.updateTheStartingPointIndex(); (call); {auto v = infoManager.getMessages(); if(!v.empty()) {throw INFO_ONLY_EXCEPT(v);}}
 #else // in Release mode
 	#define RENDERER_EXCEPT(hr) RendererHrException(__LINE__, __FILE__, hr)
 	#define RENDERER_LAST_EXCEPT() RENDERER_EXCEPT(GetLastError())
@@ -77,7 +55,7 @@ private:
 	#define CHECK_RENDERER_EXCEPT(hrcall) if (FAILED(hr = (hrcall))) throw RENDERER_EXCEPT(hr)
 	#define CHECK_INFO_ONLY_EXCEPT(call) call
 #endif // !NDEBUG
-};
+
 // Color macro
 #define WHITE 255, 255, 255
 #define BLACK 0, 0, 0
