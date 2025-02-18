@@ -4,18 +4,18 @@ Renderer::Renderer(HWND hwnd, int width, int height) {
 	DXGI_SWAP_CHAIN_DESC scd = {};
 	scd.BufferDesc.Width = width;
 	scd.BufferDesc.Height = height;
-	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 32-bit RGBA color
 	scd.BufferDesc.RefreshRate.Numerator = 0;
 	scd.BufferDesc.RefreshRate.Denominator = 0;
-	scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
+	scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED; // No scaling
+	scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; // No scanline ordering
 	scd.SampleDesc.Count = 1;
 	scd.SampleDesc.Quality = 0;
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	scd.BufferCount = 1;
 	scd.OutputWindow = hwnd;
 	scd.Windowed = TRUE;
-	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // Discard the previous buffer
 	scd.Flags = 0;
 
 	UINT swapChainCreateFlags = 0u;
@@ -24,15 +24,57 @@ Renderer::Renderer(HWND hwnd, int width, int height) {
 #endif // !NDEBUG
 
 	HR;
+
+	// Create the device, the device context and the swap chain
 	CHECK_RENDERER_EXCEPT(D3D11CreateDeviceAndSwapChain(
 		nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, swapChainCreateFlags, nullptr, 0,
 		D3D11_SDK_VERSION, &scd, &(this->pSwapChain),
 		&(this->pDevice), nullptr, &(this->pDeviceContext)
 	));
 
+	// Create the Render Target View, store subresource can be accessed during the rendering
 	Mwrl::ComPtr<ID3D11Resource> pBackBuffer;
 	CHECK_RENDERER_EXCEPT(this->pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer));
 	CHECK_RENDERER_EXCEPT(this->pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &(this->pRenderTargetView)));
+
+	
+	// Z-Buffer creation //
+
+	// Create the depth stencil state (Controls how depth comparisons are performed)
+	D3D11_DEPTH_STENCIL_DESC dsd = {};
+	dsd.DepthEnable = TRUE;
+	dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsd.DepthFunc = D3D11_COMPARISON_LESS;
+	Mwrl::ComPtr<ID3D11DepthStencilState> pDSState;
+	CHECK_RENDERER_EXCEPT(this->pDevice->CreateDepthStencilState(&dsd, &pDSState));
+	this->pDeviceContext->OMSetDepthStencilState(pDSState.Get(), 1u);
+
+
+	// Create the depth stencil texture (Stores depth values for per-pixel comparisons)
+	Mwrl::ComPtr<ID3D11Texture2D> pDepthStencil;
+	D3D11_TEXTURE2D_DESC td = {};
+	td.Width = width;
+	td.Height = height;
+	td.MipLevels = 1u;
+	td.ArraySize = 1u;
+	td.Format = DXGI_FORMAT_D32_FLOAT;
+	td.SampleDesc.Count = 1u;
+	td.SampleDesc.Quality = 0u;
+	td.Usage = D3D11_USAGE_DEFAULT;
+	td.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	CHECK_RENDERER_EXCEPT(this->pDevice->CreateTexture2D(&td, nullptr, &pDepthStencil));
+
+	// Create the depth stencil view (Provides access to the texture for use as a depth buffer)
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvd = {};
+	dsvd.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvd.Texture2D.MipSlice = 0u;
+	CHECK_RENDERER_EXCEPT(this->pDevice->CreateDepthStencilView(pDepthStencil.Get(), &dsvd, &this->pDepthStencilView));
+
+	
+	this->pDeviceContext->OMSetRenderTargets(1u, this->pRenderTargetView.GetAddressOf(), this->pDepthStencilView.Get());
+
+	
 
 	D3D11_VIEWPORT viewport = {};
 	viewport.Width = (float)width;
@@ -62,6 +104,7 @@ void Renderer::render() {
 void Renderer::fill(UINT r, UINT g, UINT b) {
 	const float color[] = { (float)r, (float)g, (float)b, 1.0f };
 	this->pDeviceContext->ClearRenderTargetView(this->pRenderTargetView.Get(), color);
+	this->pDeviceContext->ClearDepthStencilView(this->pDepthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
 void Renderer::addPoint(Vertex v) {
@@ -120,16 +163,13 @@ void Renderer::drawVertex(std::vector<Vertex>& vertices, D3D11_PRIMITIVE_TOPOLOG
 	// set the input layout in the pipeline
 	Mwrl::ComPtr<ID3D11InputLayout> pInputLayout;
 	const D3D11_INPUT_ELEMENT_DESC ied[] = {
-		{"Position", 0u, DXGI_FORMAT_R32G32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA, 0u},
-		{"Color", 0u, DXGI_FORMAT_R8G8B8A8_UNORM, 0u, 8u, D3D11_INPUT_PER_VERTEX_DATA, 0u}
+		{"Position", 0u, DXGI_FORMAT_R32G32B32_FLOAT, 0u, 0u, D3D11_INPUT_PER_VERTEX_DATA, 0u},
+		{"Color", 0u, DXGI_FORMAT_R8G8B8A8_UNORM, 0u, 12u, D3D11_INPUT_PER_VERTEX_DATA, 0u}
 	};
 	CHECK_INFO_ONLY_EXCEPT(this->pDevice->CreateInputLayout(
 		ied, (UINT)std::size(ied), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pInputLayout)
 	);
 	this->pDeviceContext->IASetInputLayout(pInputLayout.Get());
-
-	// Set the Render Target in the pipeline
-	this->pDeviceContext->OMSetRenderTargets(1u, this->pRenderTargetView.GetAddressOf(), nullptr);
 
 	// Set the primitive topology in the pipeline aka the drawing mode
 	this->pDeviceContext->IASetPrimitiveTopology(topology);
@@ -137,44 +177,6 @@ void Renderer::drawVertex(std::vector<Vertex>& vertices, D3D11_PRIMITIVE_TOPOLOG
 	// Draw the vertices
 	CHECK_INFO_ONLY_EXCEPT(this->pDeviceContext->Draw((UINT)vertices.size(), 0u));
 }
-
-// TODO : Fix 
-void Renderer::drawGrid(UINT nbLine, UINT nbColumn) {
-	struct grid{
-		UINT nbLines;
-		UINT nbColumns;
-		UINT nbVertex;
-	};
-	struct grid g = { nbLine, nbColumn, 2 * (nbLine + nbColumn) };
-	// Create the constant buffer
-	Mwrl::ComPtr<ID3D11Buffer> ConstantBuffer;
-	D3D11_BUFFER_DESC bd = {};
-	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bd.Usage = D3D11_USAGE_DYNAMIC;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	bd.MiscFlags = 0u; 
-	bd.ByteWidth = sizeof(ConstantBuffer) + 0xf & 0xfffffff0;
-	bd.StructureByteStride = sizeof(struct grid);
-	D3D11_SUBRESOURCE_DATA sd = {};
-	sd.pSysMem = &g;
-
-	CHECK_INFO_ONLY_EXCEPT(this->pDevice->CreateBuffer(&bd, &sd, &ConstantBuffer));
-	this->pDeviceContext->GSSetConstantBuffers(0, 1, &ConstantBuffer);
-
-	// set the geaometry shader in the pipeline
-	Mwrl::ComPtr<ID3D11GeometryShader> pGeometryShader;
-	Mwrl::ComPtr<ID3DBlob> pBlob;
-	CHECK_INFO_ONLY_EXCEPT(D3DReadFileToBlob(L"shaders/geometryShader.cso", &pBlob));
-	CHECK_INFO_ONLY_EXCEPT(this->pDevice->CreateGeometryShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, &pGeometryShader));
-	this->pDeviceContext->GSSetShader(pGeometryShader.Get(), nullptr, 0u);
-
-	this->addLine({
-		{0.0f, 0.0f}, {0, 0, 0, 255}}, 
-		{{1.0f, 0.0f}, {0, 0, 0, 255}}
-	);
-	this->drawAllLine();
-}
-
 
 void Renderer::drawAllPoint() {
 	this->drawVertex(this->points, D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
