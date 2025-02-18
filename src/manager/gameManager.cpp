@@ -67,12 +67,14 @@ void GameManager::pauseGame() {
 	this->pause = !this->pause;
 }
 
+bool GameManager::isRunning() const noexcept {
+	return this->running;
+}
+
 void GameManager::threadLoop() {
 	running = true;
 	while (running) {
 		if (this->pause) {continue;}
-
-		SLEEP(1);
 
 		// Auto move the players
 		for (auto& player : pVector) {
@@ -99,7 +101,9 @@ void GameManager::threadLoop() {
 			//Draw the map
 			std::cout << "\033[2J\033[H";
 			this->draw();
-		}
+			std::cout << "Press 'P' to pause the game. Press 'S' to stop the game" << std::endl;
+			SLEEP_MS(500);
+		} 
 	}
 }
 

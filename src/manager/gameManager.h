@@ -33,6 +33,7 @@ public:
 	const std::vector<std::shared_ptr<Player>>& getPlayers() const noexcept;
 	int getNumPlayers() const noexcept;
 	const std::shared_ptr<Player>& getPlayer(int i) const noexcept;
+	bool GameManager::isRunning() const noexcept;
 
 	std::shared_ptr<Player> createPlayer(std::string name, int i, int y, int uniqueInt) const;
     MaxnAlgorithm callMaxn() const;
