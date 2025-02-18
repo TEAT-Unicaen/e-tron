@@ -13,7 +13,6 @@ set(CXX_FLAGS_DEFAULT "/MP /Ot /fp:fast")
 set(CMAKE_CXX_FLAGS_RELEASE "${CXX_FLAGS_DEFAULT} /MD /DNDEBUG")
 set(CMAKE_CXX_FLAGS_DEBUG "${CXX_FLAGS_DEFAULT} /MDd")
 
-
 # Inclure les répertoires contenant les headers
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
@@ -28,6 +27,7 @@ file(GLOB_RECURSE GRAPHICS_FILES ${CMAKE_SOURCE_DIR}/src/winMain.cpp ${CMAKE_SOU
 
 # Build de la liste des fichiers sources
 list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${CMAKE_SOURCE_DIR}/src/main.cpp)
+list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${CMAKE_SOURCE_DIR}/src/reader.cpp)
 list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${GRAPHICS_FILES})
 list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${TEST_FILES})
 
@@ -35,6 +35,7 @@ list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${TEST_FILES})
 add_executable(MyTests ${DEFAULT_PROJECT_FILES} ${TEST_FILES})
 
 add_executable(e_tron_cmd ${DEFAULT_PROJECT_FILES} ${CMAKE_SOURCE_DIR}/src/main.cpp)
+add_executable(reader ${DEFAULT_PROJECT_FILES} ${CMAKE_SOURCE_DIR}/src/reader.cpp)
 
 if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     add_executable(e_tron_directX ${DEFAULT_PROJECT_FILES} ${GRAPHICS_FILES})
