@@ -33,7 +33,11 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos) noe
 			}
 		}
 		pVector.emplace_back(p);
-    }
+    };
+
+	//Init maxn and paranoid algorithms
+	maxn = new MaxnAlgorithm(mapManager);
+	paranoid = new ParanoidAlgorithm(mapManager);
 }
 
 GameManager::~GameManager() {
@@ -123,12 +127,12 @@ std::shared_ptr<Player> GameManager::createPlayer(std::string name, int i, int y
 	return entity;
 }
 
-MaxnAlgorithm GameManager::callMaxn() const {
-	return MaxnAlgorithm(this->getMapManager());
+std::vector<int> GameManager::callMaxn(int depth) const {
+	return this->maxn->maxn(pVector, depth, 0);
 }
 
-ParanoidAlgorithm GameManager::callParanoid() const {
-	return ParanoidAlgorithm(this->getMapManager());
+std::vector<int> GameManager::callParanoid(int depth) const {
+	return this->paranoid->paranoid(pVector, depth, 0);
 }
 
 const std::vector<std::shared_ptr<Player>>& GameManager::getPlayers() const noexcept {

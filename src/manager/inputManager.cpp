@@ -1,6 +1,6 @@
 #include "inputManager.h"
 
-InputManager::InputManager(GameManager& gameManager) : gameManager(gameManager) {}
+InputManager::InputManager(GameManager& gameManager, MainFunctions& mainFunctions) : gameManager(gameManager), mainFunctions(mainFunctions) {}
 
 void InputManager::processInput() {
     std::string input;
@@ -13,6 +13,8 @@ void InputManager::processInput() {
         return;
     }
 
+    std::vector<int> res;
+
     switch (input[0]) {
         case 'p':
             gameManager.pauseGame();
@@ -20,8 +22,28 @@ void InputManager::processInput() {
         case 's':
             gameManager.stop();
             break;
+        case 'm': 
+			gameManager.pauseGame();
+			//Retrieve players scores in order
+            res = gameManager.callMaxn(2);
+            mainFunctions.writeToPipe("Maxn result at depth = 2 : ");
+			for (int i = 0; i < res.size(); i++) {
+                mainFunctions.writeToPipe("Player " + std::to_string(i) +  " score for depth 2 is : " + std::to_string(res[i]) + "\n");
+			}
+            gameManager.pauseGame();
+            break;
+		case 'n':
+			gameManager.pauseGame();
+            //Retrieve players scores in order
+            res = gameManager.callParanoid(2);
+            mainFunctions.writeToPipe("Paranoid result at depth = 2 : ");
+            for (int i = 0; i < res.size(); i++) {
+                mainFunctions.writeToPipe("Player " + std::to_string(i) + " score for depth 2 is : " + std::to_string(res[i]) + "\n");
+            }
+			gameManager.pauseGame();
+			break;
         default:
-            std::cout << "Invalid wtf " << input << std::endl;
+            std::cout << "Invalid key : " << input << std::endl;
             break;
     }
 }

@@ -36,8 +36,8 @@ public:
 	bool GameManager::isRunning() const noexcept;
 
 	std::shared_ptr<Player> createPlayer(std::string name, int i, int y, int uniqueInt) const;
-    MaxnAlgorithm callMaxn() const;
-	ParanoidAlgorithm callParanoid() const;
+	std::vector<int> callMaxn(int depth) const;
+	std::vector<int> callParanoid(int depth) const;
 
 private:
 
@@ -46,6 +46,8 @@ private:
 	bool pause = false;
 	MapManager* mapManager;
 	AutoMoveSmart* autoMoveSmart;
+	MaxnAlgorithm* maxn;
+	ParanoidAlgorithm* paranoid;
 	std::vector<std::shared_ptr<Player>> pVector;
 
 	void threadLoop();
