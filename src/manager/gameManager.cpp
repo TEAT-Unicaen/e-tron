@@ -108,6 +108,13 @@ void GameManager::threadLoop() {
 			std::cout << "Press 'P' to pause the game. Press 'S' to stop the game" << std::endl;
 			SLEEP_MS(500);
 		} 
+
+		//Death handling and last redraw to keep updated
+		if (this->areAllPlayerDead()) {
+			this->draw();
+			std::cout << "All players are dead" << std::endl;
+			this->pause = true;
+		}
 	}
 }
 
@@ -119,6 +126,15 @@ void GameManager::loop() {
 	if (!this->gameThread.joinable()) {
 		throw ETRON_EXCEPT("GameThread is not lauch");
 	}
+}
+
+bool GameManager::areAllPlayerDead() const noexcept {
+	for (auto& player : pVector) {
+		if (!player->isPlayerDead()) {
+			return false;
+		}
+	}
+	return true;
 }
 
 std::shared_ptr<Player> GameManager::createPlayer(std::string name, int i, int y, int uniqueInt) const {

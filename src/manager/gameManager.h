@@ -24,6 +24,7 @@ public:
 	void loop();
 	void stop();
 	void pauseGame();
+	bool areAllPlayerDead() const noexcept;
 
 	// Setters
 	void setMapManager(MapManager* mapManager) noexcept;
