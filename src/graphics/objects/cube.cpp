@@ -60,8 +60,7 @@ Cube::Cube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRot
 	};
 	this->addBindable(std::make_unique<PixelConstantBuffer<ConstantBufferColor>>(renderer, colorBuffer));
 
-	const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
-	{
+	const std::vector<D3D11_INPUT_ELEMENT_DESC> ied = {
 		{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
 
