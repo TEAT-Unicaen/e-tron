@@ -16,6 +16,7 @@ public:
 		struct {
 			float x;
 			float y;
+			float z;
 		} pos;
 		struct {
 			unsigned char r;
@@ -53,6 +54,7 @@ private:
 	Mwrl::ComPtr<ID3D11DeviceContext> pDeviceContext;
 	Mwrl::ComPtr<IDXGISwapChain> pSwapChain;
 	Mwrl::ComPtr<ID3D11RenderTargetView> pRenderTargetView;
+	Mwrl::ComPtr<ID3D11DepthStencilView> pDepthStencilView;
 
 	//all Vertices
 	std::vector<Vertex> points;
