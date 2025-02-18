@@ -1,25 +1,16 @@
 #include "./manager/gameManager.h"
 #include "./manager/inputManager.h"
+#include "./mainFunctions.h"
+
 #include <iostream>
 #include <vector>
 #include <windows.h>
 
 #include "utils/eTronException.h"
 
-void printVec(const std::vector<int>& vec) {
-    for (int i : vec) {
-        std::cout << i << " ";
-    }
-    std::cout << std::endl;
-}
-
-void writeToPipe(HANDLE hWritePipe, const std::string& message) {
-    DWORD written;
-    WriteFile(hWritePipe, message.c_str(), message.size(), &written, NULL);
-}
-
 int main() {
     try {
+		MainFunctions mainFunctions;
         std::cout << "Welcome to the game !\n" << std::endl;
 
         // Launching the second cmd with the reading program
@@ -44,12 +35,12 @@ int main() {
             std::cerr << "Failed to connect to pipe.\n";
             return 1;
         }
-        writeToPipe(hWritePipe, "Pipe connected\n");
-
+        mainFunctions.setWritePipe(hWritePipe);
+        mainFunctions.writeToPipe("Pipe connected\n");
 
         // Init managers
         GameManager gameManager(9, 9, 4, true);
-        InputManager inputManager(gameManager);
+        InputManager inputManager(gameManager, mainFunctions);
 
         // Displaying start grid
         Sleep(500);
@@ -64,10 +55,20 @@ int main() {
         while (!gameManager.isRunning()) { Sleep(50); }
 
         // Send a message to the second terminal
-        writeToPipe(hWritePipe, "Game is starting...\n");
-        writeToPipe(hWritePipe, "THIS IS A PLACEHOLDER FOR ADDITIONAL LOGGING AND ALGORITHM OUTPUT\n");
+        mainFunctions.writeToPipe("Game is starting...\n");
+        mainFunctions.writeToPipe("THIS IS A PLACEHOLDER FOR ADDITIONAL LOGGING AND ALGORITHM OUTPUT\n");
 
-        // Handle inputs and game termination
+        SLEEP(10);
+        gameManager.pauseGame();
+        //Retrieve players scores in order
+        std::vector<int> res = gameManager.callParanoid(2);
+        std::string str = "Paranoid result at depth = 2 : ";
+        for (int i = 0; i < res.size(); i++) {
+            mainFunctions.writeToPipe("Player " + std::to_string(i) + " score for depth 2 is : " + std::to_string(res[i]) + "\n");
+        }
+        gameManager.pauseGame();
+
+        // Handle inputs and game termination | Used as a wait for the moment
         while (gameManager.isRunning()) {
             inputManager.processInput();
         }
@@ -76,7 +77,7 @@ int main() {
         Sleep(1000);
 
         // Send a message to the second terminal when the game stops
-        writeToPipe(hWritePipe, "Game has stopped.\n");
+        mainFunctions.writeToPipe("Game has stopped.\n");
 
     }
     catch (const ETronException& e) {
