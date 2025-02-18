@@ -64,7 +64,7 @@ int main() {
         std::vector<int> res = gameManager.callParanoid(2);
         std::string str = "Paranoid result at depth = 2 : ";
         for (int i = 0; i < res.size(); i++) {
-            mainFunctions.writeToPipe("Player " + std::to_string(i) + " score for depth 2 is : " + std::to_string(res[i]) + "\n");
+            mainFunctions.writeToPipe("Player " + std::to_string(i+1) + " score for depth 2 is : " + std::to_string(res[i]) + "\n");
         }
         gameManager.pauseGame();
 
