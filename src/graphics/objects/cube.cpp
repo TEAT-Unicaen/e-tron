@@ -2,7 +2,7 @@
 
 Cube::Cube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRotation, dx::XMFLOAT3 velocity, dx::XMFLOAT3 angularVelocity)
 	: position(startPosition), rotation(startRotation), velocity(velocity), angularVelocity(angularVelocity) {
-	
+
 	struct Vertex {
 		dx::XMFLOAT3 pos;
 	};
@@ -24,7 +24,7 @@ Cube::Cube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRot
 	auto pvsbc = pvs->getBytecode();
 	this->addBindable(std::move(pvs));
 
-	this->addBindable(std::make_unique<PixelShader>(renderer, L"shaders/pixelShader.cso"));
+	this->addBindable(std::make_unique<PixelShader>(renderer, L"shaders/cubeColorIndexedPS.cso"));
 
 	// Select the indices of the verticies that make up each face
 	const std::vector<unsigned short> indices =
@@ -39,26 +39,7 @@ Cube::Cube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRot
 
 	this->addIndexBuffer(std::make_unique<IndexBuffer>(renderer, indices));
 
-	// Have each face be a different color
-	struct ConstantBufferColor {
-		struct {
-			dx::XMFLOAT3 color;
-			float padding;
-		} colorFaces[6];
-	};
-
-	const ConstantBufferColor colorBuffer =
-	{
-		{
-			{ {1.0f,0.0f,1.0f} },
-			{ {1.0f,0.0f,0.0f} },
-			{ {0.0f,1.0f,0.0f} },
-			{ {0.0f,0.0f,1.0f} },
-			{ {1.0f,1.0f,0.0f} },
-			{ {0.0f,1.0f,1.0f} },
-		}
-	};
-	this->addBindable(std::make_unique<PixelConstantBuffer<ConstantBufferColor>>(renderer, colorBuffer));
+	
 
 	const std::vector<D3D11_INPUT_ELEMENT_DESC> ied = {
 		{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}

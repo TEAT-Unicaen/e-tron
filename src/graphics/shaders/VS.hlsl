@@ -1,5 +1,5 @@
 cbuffer Transform : register(b0) {
-    matrix modelViewProjection;
+    matrix transform;
 };
 
 struct VSOut {
@@ -9,6 +9,6 @@ struct VSOut {
 VSOut main(float3 position : Position)
 {
     VSOut output;
-    output.position = mul(float4(position, 1.0f), modelViewProjection);
+    output.position = mul(float4(position, 1.0f), transform);
     return output;
 }
