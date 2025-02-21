@@ -5,17 +5,19 @@
 template<typename ConstantData>
 class ConstantBuffer : public Bindable {
 public:
-	ConstantBuffer(Renderer& renderer);
-	ConstantBuffer(Renderer& renderer, const ConstantData& constData);
+	ConstantBuffer(Renderer& renderer, UINT slot);
+	ConstantBuffer(Renderer& renderer, const ConstantData& constData, UINT slot);
 	void update(Renderer& renderer, const ConstantData& constData);
 protected:
 	Mwrl::ComPtr<ID3D11Buffer> pConstantBuffer;
-
+	UINT slot = 0u;
 };
 
+//
 
 template<typename ConstantData>
-ConstantBuffer<ConstantData>::ConstantBuffer(Renderer& renderer) {
+ConstantBuffer<ConstantData>::ConstantBuffer(Renderer& renderer, UINT slot) 
+	: slot(slot) {
 	HR_PLUS;
 	D3D11_BUFFER_DESC constantBufferDesc = {};
 	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -28,7 +30,8 @@ ConstantBuffer<ConstantData>::ConstantBuffer(Renderer& renderer) {
 }
 
 template<typename ConstantData>
-ConstantBuffer<ConstantData>::ConstantBuffer(Renderer& renderer, const ConstantData& constData) {
+ConstantBuffer<ConstantData>::ConstantBuffer(Renderer& renderer, const ConstantData& constData, UINT slot)
+	: slot(slot) {
 	HR_PLUS;
 	D3D11_BUFFER_DESC constantBufferDesc = {};
 	constantBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;

@@ -1,8 +1,7 @@
 #include "transformConstantBuffer.h"
 
 TransformConstantBuffer::TransformConstantBuffer(Renderer& renderer, const Drawable& parent)
-	: vertexConstantBuffer(renderer), parent(parent) {}
-
+	: vertexConstantBuffer(renderer, 0u), parent(parent) {}
 
 void TransformConstantBuffer::bind(Renderer& renderer) noexcept {
 	// Update the constant buffer with the new transform (for the new frame) and bind it

@@ -2,8 +2,5 @@
 
 #include "drawable.h"
 
-#include "cube.h"
-#include "coloredCube.h"
-#include "texturedCube.h"
-
-#include "squarePyramid.h"
+#include "cube/coloredCube.h"
+#include "cube/texturedCube.h"

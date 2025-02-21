@@ -9,8 +9,10 @@ public:
 	void bind(Renderer& renderer) override;
 };
 
+//
+
 template<typename ConstantData>
 void domainConstantBuffer<ConstantData>::bind(Renderer& renderer) {
 	HR_PLUS;
-	CHECK_INFO_ONLY_EXCEPT(this->getDeviceContext(renderer)->DSSetConstantBuffers(0u, 1u, this->pConstantBuffer.GetAddressOf()));
+	CHECK_INFO_ONLY_EXCEPT(this->getDeviceContext(renderer)->DSSetConstantBuffers(this->slot, 1u, this->pConstantBuffer.GetAddressOf()));
 }

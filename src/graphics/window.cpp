@@ -76,6 +76,14 @@ Renderer& Window::getRenderer() {
 	return *(this->pRenderer);
 }
 
+int Window::getWidth() const noexcept {
+	return this->width;
+}
+
+int Window::getHeight() const noexcept {
+	return this->height;
+}
+
 std::optional<int> Window::processMessages() noexcept {
 	MSG msg;
 
@@ -85,6 +93,7 @@ std::optional<int> Window::processMessages() noexcept {
 		}
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
+
 	}
 
 	return std::nullopt;
@@ -114,6 +123,7 @@ LRESULT CALLBACK Window::handleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
 	const POINTS pt = MAKEPOINTS(lParam);
+	bool isMovingRn = false;
 	switch (msg) {
 	case WM_CLOSE:
 		if (this->handleCloseButton) {
@@ -192,8 +202,6 @@ LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	case WM_MOUSEWHEEL:
 		const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 		mouseEvent.onWheelDelta(pt.x, pt.y, delta);
-
-
 		break;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);

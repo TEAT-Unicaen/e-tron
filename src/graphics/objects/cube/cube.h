@@ -1,7 +1,7 @@
 #pragma once
 
-#include "drawable.h"
-#include "bindable/bindableBase.h"
+#include "../drawable.h"
+#include "../bindable/bindableBase.h"
 
 class Cube : public Drawable {
 public:

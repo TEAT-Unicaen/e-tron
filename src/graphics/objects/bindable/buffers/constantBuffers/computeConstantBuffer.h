@@ -9,14 +9,10 @@ public:
 	void bind(Renderer& renderer) override;
 };
 
+//
+
 template<typename ConstantData>
 void ComputeConstantBuffer<ConstantData>::bind(Renderer& renderer) {
-	
-	
-	
-	
-	
-	
-	;
-	CHECK_INFO_ONLY_EXCEPT(this->getDeviceContext(renderer)->CSSetConstantBuffers(0u, 1u, this->pConstantBuffer.GetAddressOf()));
+	HR_PLUS;
+	CHECK_INFO_ONLY_EXCEPT(this->getDeviceContext(renderer)->CSSetConstantBuffers(this->slot, 1u, this->pConstantBuffer.GetAddressOf()));
 }

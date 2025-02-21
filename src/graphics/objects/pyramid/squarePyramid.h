@@ -1,9 +1,7 @@
 #pragma once
 
-#include "drawable.h"
-#include "bindable/bindableBase.h"
-#include "bindable/texture.h"
-#include "bindable/samplerState.h"
+#include "../drawable.h"
+#include "../bindable/bindableBase.h"
 
 class SquarePyramid : public Drawable {
 public:

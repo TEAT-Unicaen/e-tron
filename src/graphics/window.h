@@ -36,6 +36,8 @@ public:
 
 	void setTitle(const std::string& title);
 	Renderer& getRenderer();
+	int getWidth() const noexcept;
+	int getHeight() const noexcept;
 
 	std::optional<int> processMessages() noexcept;
 

@@ -46,7 +46,7 @@ App::App()
 
 	this->wnd.getRenderer().setProjection(dx::XMMatrixPerspectiveLH(
 		1.0f, // with ratio
-		3.0f / 4.0f, // height ratio
+		(float)this->wnd.getHeight() / this->wnd.getWidth(), // height ratio
 		0.5f, // near plane
 		1000.0f // far plane
 	));

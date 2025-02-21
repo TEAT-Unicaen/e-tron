@@ -46,7 +46,7 @@ ColoredCube::ColoredCube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMF
 			this->colors[5].toFloat4()
 		}
 	};
-	this->addBindable(std::make_unique<PixelConstantBuffer<ColorBuffer>>(renderer, cb));
+	this->addBindable(std::make_unique<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
 
 	//the layout
 	const std::vector<D3D11_INPUT_ELEMENT_DESC> inputElementDesc = {
