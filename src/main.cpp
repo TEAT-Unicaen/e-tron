@@ -25,15 +25,20 @@ int main() {
             return 1;
         }
 
-        // Waiting for the reader.exe pipe to be created
-        SLEEP(2);
-
-        // Hook the named pipe for algorithms logging on a second terminal
+        // Waiting for the reader.exe pipe to be created safely with retries
         HANDLE hWritePipe;
-		hWritePipe = CreateFile("\\\\.\\pipe\\GamePipe", GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
-        if (hWritePipe == INVALID_HANDLE_VALUE) {
-            std::cerr << "Failed to connect to pipe.\n";
-            return 1;
+        const int maxRetries = 10;
+        const int delayMs = 100;
+        for (int i = 0; i < maxRetries; ++i) {
+            hWritePipe = CreateFile("\\\\.\\pipe\\GamePipe", GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+            if (hWritePipe != INVALID_HANDLE_VALUE) {
+                break;
+            }
+
+            if (i == maxRetries - 1) { 
+                throw ETRON_EXCEPT("Main Failed to get reader handle"); 
+            }
+            Sleep(delayMs);
         }
         mainFunctions.setWritePipe(hWritePipe);
         mainFunctions.writeToPipe("Pipe connected\n");
@@ -58,6 +63,9 @@ int main() {
         mainFunctions.writeToPipe("Game is starting...\n");
         mainFunctions.writeToPipe("THIS IS A PLACEHOLDER FOR ADDITIONAL LOGGING AND ALGORITHM OUTPUT\n");
 
+        Sleep(3000);
+		mainFunctions.LaunchGUIWithContext(&gameManager);
+
         ////////// TEST ////////
         //SLEEP(10);
         //gameManager.pauseGame();
@@ -78,7 +86,7 @@ int main() {
 		// Stop the game
 		if (gameManager.shouldStopCmd()) {
 			std::cout << "Game has switched to GUI.\n";
-            Sleep(300)
+            Sleep(300);
         } else {
             gameManager.stop();
             Sleep(1000);

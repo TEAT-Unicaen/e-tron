@@ -1,12 +1,23 @@
+#include <windows.h>
+#include <string>
 #include "graphics/app.h"
 
-void* GetContextFromPipe(const std::string& pipeName) {
-	HANDLE hPipe = CreateFile(pipeName.c_str(),GENERIC_READ,0,NULL,OPEN_EXISTING,0,NULL);
+void* GetContextFromPipe() {
+	HANDLE hPipe;
+	const int maxRetries = 10;
+	const int delayMs = 100; 
+	//Handle the pipe connection safely with retries
+	for (int i = 0; i < maxRetries; ++i) {
+		hPipe = CreateFile("\\\\.\\pipe\\ContextPipe", GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
+		if (hPipe != INVALID_HANDLE_VALUE) {
+			break;
+		}
 
-	if (hPipe == INVALID_HANDLE_VALUE) {
-		throw ETRON_EXCEPT("GUI Failed to get pipe handle");
+		if (i == maxRetries - 1) {throw ETRON_EXCEPT("GUI Failed to get pipe handle");}
+		Sleep(delayMs);
 	}
 
+	//Read the context from the pipe
 	void* context;
 	DWORD bytesRead;
 	if (!ReadFile(hPipe, &context, sizeof(context), &bytesRead, NULL)) {
@@ -22,13 +33,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,_In_opt_ HINSTANCE hPrevInstance,_In
 	try {
 
 		//Execution from the cmdline
-		std::string pipeName(lpCmdLine);
-		if (pipeName != "") {
-			void* context = GetContextFromPipe(pipeName);
+		std::string useContext(lpCmdLine);
+		if (useContext == "context") {
+			void* context = GetContextFromPipe();
 			if (context == nullptr) {
 				throw ETRON_EXCEPT("GUI Failed to get context from pipe.");
 			} 
-			MessageBox(nullptr, "Everything is fine", "Context retreived", MB_OK | MB_ICONEXCLAMATION);
+			MessageBox(nullptr, "Everything is fine", "Context retrieved", MB_OK | MB_ICONEXCLAMATION);
 			return App{}.run();
 			// return App{}.run(context); TODO : Implement context in App
 		}
