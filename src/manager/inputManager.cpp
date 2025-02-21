@@ -42,6 +42,9 @@ void InputManager::processInput() {
             }
 			gameManager.pauseGame();
 			break;
+        case 'g':
+			mainFunctions.LaunchGUIWithContext(&gameManager);
+			break;
         default:
             std::cout << "Invalid key : " << input << std::endl;
             break;

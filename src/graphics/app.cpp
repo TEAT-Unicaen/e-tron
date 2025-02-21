@@ -11,7 +11,7 @@ App::App()
 	std::uniform_real_distribution<float> disxy(-75.0f, 75.0f);
 	std::uniform_real_distribution<float> disz(25.0f, 100.0f);
 	std::uniform_real_distribution<float> disrot(-dx::XM_PI, dx::XM_PI);
-	for (auto i = 0; i < 500; i++) {
+	for (auto i = 0; i < 50000; i++) {
 		float x = disxy(gen);  // Random X position
 		float y = disxy(gen); // Random Y position
 		float z = disz(gen);  
@@ -40,6 +40,7 @@ int App::run() {
 		this->update();
 	}
 }
+
 void App::update() {
 	Renderer& renderer = wnd.getRenderer();
 

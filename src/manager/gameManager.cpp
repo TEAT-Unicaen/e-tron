@@ -162,3 +162,11 @@ int GameManager::getNumPlayers() const noexcept {
 const std::shared_ptr<Player>& GameManager::getPlayer(int i) const noexcept {
 	return pVector[i];
 }
+
+bool GameManager::shouldStopCmd() const noexcept {
+	return this->stopCmd;
+}
+
+void GameManager::setStopCmd(bool stopCmd) noexcept {
+	this->stopCmd = stopCmd;
+}

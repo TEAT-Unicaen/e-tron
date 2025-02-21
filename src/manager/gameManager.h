@@ -35,6 +35,8 @@ public:
 	int getNumPlayers() const noexcept;
 	const std::shared_ptr<Player>& getPlayer(int i) const noexcept;
 	bool GameManager::isRunning() const noexcept;
+	bool GameManager::shouldStopCmd() const noexcept;
+	void GameManager::setStopCmd(bool stopCmd) noexcept;
 
 	std::shared_ptr<Player> createPlayer(std::string name, int i, int y, int uniqueInt) const;
 	std::vector<int> callMaxn(int depth) const;
@@ -45,6 +47,7 @@ private:
 	std::thread gameThread;
 	bool running;
 	bool pause = false;
+	bool stopCmd = false;
 	MapManager* mapManager;
 	AutoMoveSmart* autoMoveSmart;
 	MaxnAlgorithm* maxn;

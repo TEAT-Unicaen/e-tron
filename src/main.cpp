@@ -28,7 +28,7 @@ int main() {
         // Waiting for the reader.exe pipe to be created
         SLEEP(2);
 
-        // Hood the named pipe for algorithms logging on a second terminal
+        // Hook the named pipe for algorithms logging on a second terminal
         HANDLE hWritePipe;
 		hWritePipe = CreateFile("\\\\.\\pipe\\GamePipe", GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
         if (hWritePipe == INVALID_HANDLE_VALUE) {
@@ -58,27 +58,34 @@ int main() {
         mainFunctions.writeToPipe("Game is starting...\n");
         mainFunctions.writeToPipe("THIS IS A PLACEHOLDER FOR ADDITIONAL LOGGING AND ALGORITHM OUTPUT\n");
 
-        SLEEP(10);
-        gameManager.pauseGame();
-        //Retrieve players scores in order
-        std::vector<int> res = gameManager.callParanoid(2);
-        std::string str = "Paranoid result at depth = 2 : ";
-        for (int i = 0; i < res.size(); i++) {
-            mainFunctions.writeToPipe("Player " + std::to_string(i+1) + " score for depth 2 is : " + std::to_string(res[i]) + "\n");
-        }
-        gameManager.pauseGame();
+        ////////// TEST ////////
+        //SLEEP(10);
+        //gameManager.pauseGame();
+        ////Retrieve players scores in order
+        //std::vector<int> res = gameManager.callParanoid(2);
+        //std::string str = "Paranoid result at depth = 2 : ";
+        //for (int i = 0; i < res.size(); i++) {
+        //    mainFunctions.writeToPipe("Player " + std::to_string(i+1) + " score for depth 2 is : " + std::to_string(res[i]) + "\n");
+        //}
+        //gameManager.pauseGame();
+        ////////////////////////
 
         // Handle inputs and game termination | Used as a wait for the moment
-        while (gameManager.isRunning()) {
+        while (gameManager.isRunning() && !gameManager.shouldStopCmd()) {
             inputManager.processInput();
         }
 
-        gameManager.stop();
-        Sleep(1000);
+		// Stop the game
+		if (gameManager.shouldStopCmd()) {
+			std::cout << "Game has switched to GUI.\n";
+            Sleep(300)
+        } else {
+            gameManager.stop();
+            Sleep(1000);
+        }
 
         // Send a message to the second terminal when the game stops
         mainFunctions.writeToPipe("Game has stopped.\n");
-
     }
     catch (const ETronException& e) {
         std::cerr << e.what() << std::endl;
