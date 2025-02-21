@@ -7,11 +7,12 @@
 #include "../utils/utils.h"
 #include "objects/drawable.h"
 #include "objects/cube.h"
+#include "objects/squarePyramid.h"
 
 class App {
 public :
 	App();
-	~App() = default;
+	~App();
 	int run();
 private:
 	void update();

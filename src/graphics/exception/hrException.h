@@ -21,3 +21,5 @@ private:
 };
 #define HR HRESULT hr
 #define HR_EXCEPT(hr) HrException(__LINE__, __FILE__, hr)
+
+#define CHECK_WIN32API_EXCEPT(hrcall) if (FAILED(hr = (hrcall))) throw HR_EXCEPT(hr)

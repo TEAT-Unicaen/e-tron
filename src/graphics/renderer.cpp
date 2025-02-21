@@ -1,6 +1,7 @@
 #include "renderer.h"
 
-Renderer::Renderer(HWND hwnd, int width, int height) {
+Renderer::Renderer(HWND hwnd, int width, int height) 
+	: projection(dx::XMMatrixIdentity()) {
 	DXGI_SWAP_CHAIN_DESC scd = {};
 	scd.BufferDesc.Width = width;
 	scd.BufferDesc.Height = height;
@@ -101,9 +102,9 @@ void Renderer::render() {
 	}
 }
 
-void Renderer::fill(UINT r, UINT g, UINT b) {
-	const float color[] = { r/255.0f, g/255.0f, b/255.0f, 1.0f };
-	this->pDeviceContext->ClearRenderTargetView(this->pRenderTargetView.Get(), color);
+void Renderer::fill(Color color) {
+	const float c[4] = { color.r, color.g, color.b, color.a };
+	this->pDeviceContext->ClearRenderTargetView(this->pRenderTargetView.Get(), c);
 	this->pDeviceContext->ClearDepthStencilView(this->pDepthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 

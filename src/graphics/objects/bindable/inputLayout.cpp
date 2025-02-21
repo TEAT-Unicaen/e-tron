@@ -12,7 +12,7 @@ InputLayout::InputLayout(Renderer& renderer, const std::vector<D3D11_INPUT_ELEME
 	));
 }
 
-void InputLayout::bind(Renderer& renderer) noexcept {
+void InputLayout::bind(Renderer& renderer) {
 	HR_PLUS;
 	CHECK_INFO_ONLY_EXCEPT(this->getDeviceContext(renderer)->IASetInputLayout(this->pInputLayout.Get()));
 }

@@ -77,18 +77,18 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
 
         # Determine the shader type
         set(HLSL_TYPE)
-        if (SHADER_NAME MATCHES "pixel")
-            set(HLSL_TYPE ps_5_0)
-        elseif (SHADER_NAME MATCHES "vertex")
-            set(HLSL_TYPE vs_5_0)
-        elseif (SHADER_NAME MATCHES "geometry")
-            set(HLSL_TYPE gs_5_0)
-        elseif (SHADER_NAME MATCHES "hull")
-            set(HLSL_TYPE hs_5_0)
-        elseif (SHADER_NAME MATCHES "domain")
-            set(HLSL_TYPE ds_5_0)
-        elseif (SHADER_NAME MATCHES "compute")
-            set(HLSL_TYPE cs_5_0)
+        if (SHADER_NAME MATCHES "PS")
+            set(HLSL_TYPE ps)
+        elseif (SHADER_NAME MATCHES "VS")
+            set(HLSL_TYPE vs)
+        elseif (SHADER_NAME MATCHES "GS")
+            set(HLSL_TYPE gs)
+        elseif (SHADER_NAME MATCHES "HS")
+            set(HLSL_TYPE hs)
+        elseif (SHADER_NAME MATCHES "DS")
+            set(HLSL_TYPE ds)
+        elseif (SHADER_NAME MATCHES "CS")
+            set(HLSL_TYPE cs)
         else()
             message(WARNING "Unknown shader type: ${SHADER_NAME}. Skipping...")
             continue()
@@ -98,7 +98,7 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
         add_custom_command(
             OUTPUT ${COMPILED_SHADER}
             COMMAND ${FXC_COMPILER}
-            ARGS /T ${HLSL_TYPE} /Fo ${COMPILED_SHADER} ${SHADER_FILE}
+            ARGS /T ${HLSL_TYPE}_5_0 /Fo ${COMPILED_SHADER} ${SHADER_FILE}
             DEPENDS ${SHADER_FILE}
             COMMENT "Compiling HLSL shader: ${SHADER_FILE}"
         )

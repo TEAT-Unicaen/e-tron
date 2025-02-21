@@ -5,6 +5,7 @@
 #include "../renderer.h"
 #include "bindable/bindable.h"
 #include "bindable/buffers/indexBuffer.h"
+#include "materials/material.h"
 
 namespace dx = DirectX;
 
@@ -22,4 +23,5 @@ public:
 private:
 	const IndexBuffer* pIndexBuffer = nullptr;
 	std::vector<std::unique_ptr<Bindable>> pBindables;
+
 };
