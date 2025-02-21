@@ -4,7 +4,7 @@
 
 class PixelShader : public Bindable {
 public:
-	PixelShader(Renderer& renderer, const std::wstring& path);
+	PixelShader(Renderer& renderer, const std::wstring& filename);
 	void bind(Renderer& renderer) override;
 private:
 	Mwrl::ComPtr<ID3D11PixelShader> pPixelShader;

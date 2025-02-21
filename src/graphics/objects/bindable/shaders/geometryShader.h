@@ -4,7 +4,7 @@
 
 class GeometryShader : public Bindable {
 public:
-	GeometryShader(Renderer& renderer, const std::wstring& path);
+	GeometryShader(Renderer& renderer, const std::wstring& filename);
 	void bind(Renderer& renderer) override;
 private:
 	Mwrl::ComPtr<ID3D11GeometryShader> pGeometryShader;

@@ -1,5 +1,8 @@
 #include "drawable.h"
 
+Drawable::Drawable(Renderer& renderer, const dx::XMFLOAT3 startPosition, const dx::XMFLOAT3 startRotation, const dx::XMFLOAT3 velocity, const dx::XMFLOAT3 angularVelocity)
+	: position(startPosition), rotation(startRotation), velocity(velocity), angularVelocity(angularVelocity) {}
+
 void Drawable::draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE) {
 	for (const auto& b : this->pBindables) {
 		b->bind(renderer);

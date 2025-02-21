@@ -1,51 +1,7 @@
 #include "cube.h"
 
 Cube::Cube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRotation, dx::XMFLOAT3 velocity, dx::XMFLOAT3 angularVelocity)
-	: position(startPosition), rotation(startRotation), velocity(velocity), angularVelocity(angularVelocity) {
-
-	struct Vertex {
-		dx::XMFLOAT3 pos;
-	};
-
-	// set all the verticies of the cube
-	const std::vector<Vertex> verticies = {
-		{{-1.0f, -1.0f, -1.0f}},
-		{{1.0f, -1.0f, -1.0f}},
-		{{-1.0f, 1.0f, -1.0f}},
-		{{1.0f, 1.0f, -1.0f}},
-		{{-1.0f, -1.0f, 1.0f}},
-		{{1.0f, -1.0f, 1.0f}},
-		{{-1.0f, 1.0f, 1.0f}},
-		{{1.0f, 1.0f, 1.0f}}
-	};
-
-	this->addBindable(std::make_unique<VertexBuffer>(renderer, verticies));
-	auto pvs = std::make_unique<VertexShader>(renderer, L"shaders/vertexShader.cso");
-	auto pvsbc = pvs->getBytecode();
-	this->addBindable(std::move(pvs));
-
-	this->addBindable(std::make_unique<PixelShader>(renderer, L"shaders/cubeColorIndexedPS.cso"));
-
-	// Select the indices of the verticies that make up each face
-	const std::vector<unsigned short> indices =
-	{
-		0, 2, 1, 2, 3, 1,
-		1, 3, 5, 3, 7, 5,
-		2, 6, 3, 3, 6, 7,
-		4, 5, 7, 4, 7, 6,
-		0, 4, 2, 2, 4, 6,
-		0, 1, 4, 1, 5, 4
-	};
-
-	this->addIndexBuffer(std::make_unique<IndexBuffer>(renderer, indices));
-
-	
-
-	const std::vector<D3D11_INPUT_ELEMENT_DESC> ied = {
-		{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
-	};
-
-	this->addBindable(std::make_unique<InputLayout>(renderer, ied, pvsbc));
+	: Drawable(renderer, startPosition, startRotation, velocity, angularVelocity) {
 	this->addBindable(std::make_unique<Topology>(renderer, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 	this->addBindable(std::make_unique<TransformConstantBuffer>(renderer, *this));
 }

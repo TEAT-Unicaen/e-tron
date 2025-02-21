@@ -5,9 +5,7 @@
 #include "window.h"
 #include "appTimer.h"
 #include "../utils/utils.h"
-#include "objects/drawable.h"
-#include "objects/cube.h"
-#include "objects/squarePyramid.h"
+#include "objects/objects.h"
 
 class App {
 public :

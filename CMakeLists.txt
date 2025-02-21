@@ -43,6 +43,9 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     set_target_properties(e_tron_directX PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
     target_sources(e_tron_directX PRIVATE ${CMAKE_SOURCE_DIR}/src/graphics/resource/resource.rc)
 
+    #Copy the assets folder to the build directory
+    file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
+
     target_link_libraries(e_tron_directX PRIVATE d3d11 d3dcompiler dxgi dxguid)
     
     # HLSL COMPILING

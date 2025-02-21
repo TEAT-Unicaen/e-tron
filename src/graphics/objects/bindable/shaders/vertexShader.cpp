@@ -1,8 +1,10 @@
 #include "vertexShader.h"
 
-VertexShader::VertexShader(Renderer& renderer, const std::wstring& path) {
+VertexShader::VertexShader(Renderer& renderer, const std::wstring& filename) {
 	HR_PLUS;
-	CHECK_RENDERER_EXCEPT(D3DReadFileToBlob(path.c_str(), &pBytecodeBlob));
+	std::wstring fullPath = L"shaders/";
+	fullPath.append(filename).append(L".cso");
+	CHECK_RENDERER_EXCEPT(D3DReadFileToBlob(fullPath.c_str(), &pBytecodeBlob));
 	CHECK_RENDERER_EXCEPT(this->getDevice(renderer)->CreateVertexShader(pBytecodeBlob->GetBufferPointer(), pBytecodeBlob->GetBufferSize(), nullptr, &pVertexShader));
 }
 

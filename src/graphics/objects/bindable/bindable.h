@@ -8,7 +8,7 @@ public:
 protected:
 	static ID3D11DeviceContext* getDeviceContext(Renderer& renderer) noexcept;
 	static ID3D11Device* getDevice(Renderer& renderer) noexcept;
-	static DxgiInfoManager& getInfoManager(Renderer& renderer) noexcept(!IS_DEBUG_MODE);
+	static DxgiInfoManager& getInfoManager(Renderer& renderer) noexcept(IS_DEBUG_MODE);
 };
 
 #ifndef NDEBUG

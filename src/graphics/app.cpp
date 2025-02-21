@@ -4,41 +4,52 @@
 #include <io.h>
 
 App::App()
-	: wnd(800, 800, "E-Tron") {
+	: wnd(800, 600, "E-Tron") {
 	HR;
 	// COM initialization
 	CHECK_WIN32API_EXCEPT(CoInitialize(nullptr));
-	/*
 	// Randomly generate X cubes for testing
+
+	std::array<Color, 6> colors = {
+		Color::RED,
+		Color::GREEN,
+		Color::BLUE,
+		Color::MAGENTA,
+		Color::CYAN,
+		Color::YELLOW,
+	};
+
+	std::shared_ptr<Image> pImage = std::make_shared<Image>(L"assets/img/cube.png");
+
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> disxy(-20.0f, 20.0f);
-	std::uniform_real_distribution<float> disz(10.0f, 50.0f);
+	std::uniform_real_distribution<float> disxy(-5.0f, 5.0f);
+	std::uniform_real_distribution<float> disz(5.0f, 20.0f);
 	std::uniform_real_distribution<float> disrot(-dx::XM_PI, dx::XM_PI);
-	for (auto i = 0; i < 100; i++) {
+	for (auto i = 0; i < 20; i++) {
 		float x = disxy(gen);  // Random X position
 		float y = disxy(gen); // Random Y position
-		float z = disz(gen);  
-		float rotx = 2*disrot(gen);
-		float roty = 2*disrot(gen);
-		float rotz = 2*disrot(gen);
-		this->pDrawables.push_back(std::make_unique<Cube>(
+		float z = disz(gen);
+		float rotx = 2 * disrot(gen);
+		float roty = 2 * disrot(gen);
+		float rotz = 2 * disrot(gen);
+		this->pDrawables.push_back(std::make_unique<TexturedCube>(
 			this->wnd.getRenderer(),
 			dx::XMFLOAT3{ x, y, z },
 			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-			dx::XMFLOAT3{ rotx, roty, rotz }
+			dx::XMFLOAT3{ rotx, roty, rotz },
+			pImage
 		));
-		*/
-	this->pDrawables.push_back(std::make_unique<SquarePyramid>(
-		this->wnd.getRenderer(),
-		dx::XMFLOAT3{ 0.0f, -0.5f, 2.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 5.0f, 0.0f }
-	));
+	}
 
-	this->wnd.getRenderer().setProjection(dx::XMMatrixPerspectiveLH(1.0f, 3.0f/4.0f, 0.5f, 100.0f));
+
+	this->wnd.getRenderer().setProjection(dx::XMMatrixPerspectiveLH(
+		1.0f, // with ratio
+		3.0f / 4.0f, // height ratio
+		0.5f, // near plane
+		1000.0f // far plane
+	));
 }
 
 App::~App() {
