@@ -16,9 +16,9 @@ public:
 	Drawable(const Drawable&) = delete;
 	virtual ~Drawable() = default;
 	
-	virtual dx::XMMATRIX getTransform() const = 0;
+	dx::XMMATRIX getTransform() const;
 	void draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE);
-	virtual void update(float delta) noexcept = 0;
+	void update(float delta) noexcept;
 	void addBindable(std::unique_ptr<Bindable> pBindables) noexcept;
 	void addIndexBuffer(std::unique_ptr<IndexBuffer> pIndexBuffer) noexcept(!IS_DEBUG_MODE);
 protected:

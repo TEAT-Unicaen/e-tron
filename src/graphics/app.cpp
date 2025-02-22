@@ -10,17 +10,27 @@ App::App()
 	CHECK_WIN32API_EXCEPT(CoInitialize(nullptr));
 	// Randomly generate X cubes for testing
 
-	std::array<Color, 6> colors = {
+	std::array<Color, 6> colorsCube = {
 		Color::RED,
 		Color::GREEN,
 		Color::BLUE,
 		Color::MAGENTA,
 		Color::CYAN,
-		Color::YELLOW,
+		Color::YELLOW
 	};
 
-	std::shared_ptr<Image> pImage = std::make_shared<Image>(L"assets/img/cube.png");
+	std::array<Color, 5> colorsSquarePyramid = {
+		Color::RED,
+		Color::GREEN,
+		Color::BLUE,
+		Color::MAGENTA,
+		Color::CYAN,
+	};
 
+	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
+	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
+
+	/*
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<float> disxy(-5.0f, 5.0f);
@@ -33,15 +43,25 @@ App::App()
 		float rotx = 2 * disrot(gen);
 		float roty = 2 * disrot(gen);
 		float rotz = 2 * disrot(gen);
-		this->pDrawables.push_back(std::make_unique<TexturedCube>(
+		this->pDrawables.push_back(std::make_unique<TexturedSquarePyramid>(
 			this->wnd.getRenderer(),
 			dx::XMFLOAT3{ x, y, z },
 			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 			dx::XMFLOAT3{ rotx, roty, rotz },
-			pImage
+			pImageSquarePyramid
 		));
-	}
+	}*/
+
+	this->pDrawables.push_back(std::make_unique<TexturedSquarePyramid>(
+		this->wnd.getRenderer(),
+		dx::XMFLOAT3{ 0.0f, 0.0f, 5.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.5f, 0.0f },
+		pImageSquarePyramid
+	));
+	
 
 
 	this->wnd.getRenderer().setProjection(dx::XMMatrixPerspectiveLH(

@@ -20,3 +20,20 @@ void Drawable::addIndexBuffer(std::unique_ptr<IndexBuffer> pIndexBuffer) noexcep
 	this->pIndexBuffer = pIndexBuffer.get();
 	this->pBindables.push_back(std::move(pIndexBuffer));
 }
+
+void Drawable::update(float delta) noexcept {
+	// Translation
+	this->position.x += this->velocity.x * delta;
+	this->position.y += this->velocity.y * delta;
+	this->position.z += this->velocity.z * delta;
+
+	// Rotation
+	this->rotation.x += this->angularVelocity.x * delta;
+	this->rotation.y += this->angularVelocity.y * delta;
+	this->rotation.z += this->angularVelocity.z * delta;
+}
+
+dx::XMMATRIX Drawable::getTransform() const {
+	return dx::XMMatrixRotationRollPitchYaw(this->rotation.x, this->rotation.y, this->rotation.z) *
+		dx::XMMatrixTranslation(this->position.x, this->position.y, this->position.z);
+}

@@ -43,15 +43,18 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     set_target_properties(e_tron_directX PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
     target_sources(e_tron_directX PRIVATE ${CMAKE_SOURCE_DIR}/src/graphics/resource/resource.rc)
 
-    #Copy the assets folder to the build directory
-    file(REMOVE_RECURSE ${CMAKE_BINARY_DIR}/assets)
-    file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
+    add_custom_command(
+        OUTPUT ${CMAKE_BINARY_DIR}/assets
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/assets ${CMAKE_BINARY_DIR}/assets
+        DEPENDS ${CMAKE_SOURCE_DIR}/assets
+        COMMENT "Copying assets folder to build directory"
+    )
+    add_custom_target(CopyAssets ALL DEPENDS ${CMAKE_BINARY_DIR}/assets)
+    add_dependencies(e_tron_directX CopyAssets)
 
     target_link_libraries(e_tron_directX PRIVATE d3d11 d3dcompiler dxgi dxguid)
     
     # HLSL COMPILING
-    
-    # Find the HLSL compiler
     find_program(FXC_COMPILER fxc.exe REQUIRED)
     message(STATUS "FXC Compiler found at: ${FXC_COMPILER}")
 
@@ -69,9 +72,11 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
 
     # List to hold compiled shader files
     set(COMPILED_SHADERS)
-
+    # Set the hlsl version
+    set(HLSL_VERSION 5_0)
     # Compile each shader
     foreach(SHADER_FILE ${SHADER_FILES})
+        message(STATUS "Shader file: ${SHADER_FILE}")
         # Get the filename without extension
         get_filename_component(SHADER_NAME ${SHADER_FILE} NAME_WE)
     
@@ -102,15 +107,16 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
         add_custom_command(
             OUTPUT ${COMPILED_SHADER}
             COMMAND ${FXC_COMPILER}
-            ARGS /T ${HLSL_TYPE}_5_0 /Fo ${COMPILED_SHADER} ${SHADER_FILE}
+            ARGS /T ${HLSL_TYPE}_${HLSL_VERSION} /Fo ${COMPILED_SHADER} ${SHADER_FILE}
             DEPENDS ${SHADER_FILE}
             COMMENT "Compiling HLSL shader: ${SHADER_FILE}"
         )
 
         # Add a custom target to ensure the shaders are compiled
         list(APPEND COMPILED_SHADERS ${COMPILED_SHADER})
+        message(STATUS "Adding shader: ${SHADER_FILE}")
     endforeach()
     add_custom_target(CompileShaders ALL DEPENDS ${COMPILED_SHADERS})
-
     add_dependencies(e_tron_directX CompileShaders)
+
 endif()
