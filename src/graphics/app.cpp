@@ -43,13 +43,13 @@ App::App()
 	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
 	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
 
-	/*
+	
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> disxy(-5.0f, 5.0f);
-	std::uniform_real_distribution<float> disz(5.0f, 20.0f);
+	std::uniform_real_distribution<float> disxy(-50.0f, 50.0f);
+	std::uniform_real_distribution<float> disz(-50.0f, 50.0f);
 	std::uniform_real_distribution<float> disrot(-dx::XM_PI, dx::XM_PI);
-	for (auto i = 0; i < 20; i++) {
+	for (auto i = 0; i < 1000; i++) {
 		float x = disxy(gen);  // Random X position
 		float y = disxy(gen); // Random Y position
 		float z = disz(gen);
@@ -64,8 +64,9 @@ App::App()
 			dx::XMFLOAT3{ rotx, roty, rotz },
 			pImageSquarePyramid
 		));
-	}*/
+	}
 
+<<<<<<< HEAD
 	
 	this->pDrawables.push_back(std::make_unique<BasicMotorcycle>(
 		this->wnd.getRenderer(),
@@ -76,27 +77,24 @@ App::App()
 		colorsBasicMotorcycle
 	)); 
 
+=======
+>>>>>>> e31d5c5 (make a utils folder in graphics | add camera(movable))
 	/*
 	this->pDrawables.push_back(std::make_unique<TexturedSquarePyramid>(
 		this->wnd.getRenderer(),
-		dx::XMFLOAT3{ 0.0f, 0.0f, 5.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.5f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.5f, 0.0f },
 		pImageSquarePyramid
+<<<<<<< HEAD
 	)); */
+=======
+	));*/
+>>>>>>> e31d5c5 (make a utils folder in graphics | add camera(movable))
 
 	//GraphicsPlayer player(1, 0.0f, 0.0f, 5.0f, Color::RED, this->wnd.getRenderer());
 	//this->pDrawables.push_back(std::make_unique<GraphicsPlayer>(player));
-	
-
-
-	this->wnd.getRenderer().setProjection(dx::XMMatrixPerspectiveLH(
-		1.0f, // with ratio
-		(float)this->wnd.getHeight() / this->wnd.getWidth(), // height ratio
-		0.5f, // near plane
-		1000.0f // far plane
-	));
 }
 
 App::~App() {
@@ -115,14 +113,53 @@ int App::run() {
 }
 
 void App::update() {
-	Renderer& renderer = wnd.getRenderer();
-
-	auto delta = this->timer.mark();
-	renderer.fill(Color::BLACK);
-	for (auto& pDrawable : this->pDrawables) {
-		pDrawable->update(delta);
-		pDrawable->draw(renderer);
+	Renderer& ren = wnd.getRenderer();
+	Camera& cam = ren.getCamera();
+	if (this->wnd.keyEvent.keyIsPressed('Z')) {
+		cam.move(0.1f, 0.0f, 0.0f); // Avancer dans la direction du regard
+	}
+	if (this->wnd.keyEvent.keyIsPressed('S')) {
+		cam.move(-0.1f, 0.0f, 0.0f); // Reculer
+	}
+	if (this->wnd.keyEvent.keyIsPressed('Q')) {
+		cam.move(0.0f, -0.1f, 0.0f); // Strafe gauche
+	}
+	if (this->wnd.keyEvent.keyIsPressed('D')) {
+		cam.move(0.0f, 0.1f, 0.0f); // Strafe droite
+	}
+	if (this->wnd.keyEvent.keyIsPressed('P')) {
+		cam.updateFOV(0.5);
+	}
+	if (this->wnd.keyEvent.keyIsPressed('M')) {
+		cam.updateFOV(-0.5);
+	}
+	
+	// Rotation
+	if (this->wnd.keyEvent.keyIsPressed(VK_UP)) {
+		cam.rotate(-0.1f, 0.0f, 0.0f);
+	}
+	if (this->wnd.keyEvent.keyIsPressed(VK_DOWN)) {
+		cam.rotate(0.1f, 0.0f, 0.0f);
+	}
+	if (this->wnd.keyEvent.keyIsPressed(VK_LEFT)) {
+		cam.rotate(0.0f, -0.1f, 0.0f);
+	}
+	if (this->wnd.keyEvent.keyIsPressed(VK_RIGHT)) {
+		cam.rotate(0.0f, 0.1f, 0.0f);
+	}
+	if (this->wnd.keyEvent.keyIsPressed('R')) {
+		cam.setPosition(0.0f, 0.0f, -5.0f);
+		cam.setRotation(0.0f, 0.0f, 0.0f);
+		cam.setFOV(90.0f);
 	}
 
-	renderer.render();
+
+	auto delta = this->timer.mark();
+	ren.fill(Color::BLACK);
+	for (auto& pDrawable : this->pDrawables) {
+		pDrawable->update(delta);
+		pDrawable->draw(ren);
+	}
+
+	ren.render();
 }

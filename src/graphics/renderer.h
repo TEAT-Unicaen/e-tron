@@ -6,9 +6,11 @@
 #include <d3dcompiler.h>
 #pragma comment(lib, "D3dcompiler.lib")
 
-#include "setUpWindows.h" // Assure que HWND est reconnu
+#include "utils/setUpWindows.h" // Assure que HWND est reconnu
+#include "utils/color.h"
+#include "objects/camera.h"
 #include "exception/rendererException.h"
-#include "color.h"
+
 
 namespace Mwrl = Microsoft::WRL;
 
@@ -23,10 +25,11 @@ public:
 	void render();
 	void fill(Color color);
 	void drawIndexed(UINT count) noexcept(!IS_DEBUG_MODE);
-	void setProjection(DirectX::FXMMATRIX projection) noexcept;
-	DirectX::XMMATRIX getProjection() const noexcept;
+	dx::XMMATRIX getProjection() const noexcept;
+	Camera& getCamera() noexcept;
+	dx::XMMATRIX getView()const noexcept;
 private:
-	DirectX::XMMATRIX projection;
+	Camera camera;
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
 #endif // !NDEBUG

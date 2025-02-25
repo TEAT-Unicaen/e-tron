@@ -2,6 +2,8 @@
 
 #include "drawable.h"
 
+#include "camera.h"
+
 #include "cube/coloredCube.h"
 #include "cube/texturedCube.h"
 

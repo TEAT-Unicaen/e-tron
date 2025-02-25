@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "../color.h"
+#include "../utils/color.h"
 #include "../objects/objects.h"
 #include "../window.h"
 #include <memory>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "setUpWindows.h"
+#include "utils/setUpWindows.h"
 #include "resource/resource.h"
 #include "event/KeyboardEventManager.h"
 #include "event/mouseEventManager.h"

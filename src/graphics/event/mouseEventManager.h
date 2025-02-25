@@ -5,7 +5,6 @@
 #include <optional>
 
 #include "eventManager.h"
-#include "../setUpWindows.h"
 
 class MouseEventManager : EventManager {
 	friend class Window;// Window can access private members of KeyboardEventManager

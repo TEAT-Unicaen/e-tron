@@ -5,8 +5,13 @@ TransformConstantBuffer::TransformConstantBuffer(Renderer& renderer, const Drawa
 
 void TransformConstantBuffer::bind(Renderer& renderer) noexcept {
 	// Update the constant buffer with the new transform (for the new frame) and bind it
-	this->vertexConstantBuffer.update(renderer, dx::XMMatrixTranspose(
-		this->parent.getTransform() * renderer.getProjection()
-	));
+	this->vertexConstantBuffer.update(renderer,
+		dx::XMMatrixTranspose(
+			this->parent.getTransform() *
+			renderer.getView() *
+			renderer.getProjection()
+			
+		)
+	);
 	this->vertexConstantBuffer.bind(renderer);
 }

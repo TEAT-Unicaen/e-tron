@@ -1,7 +1,7 @@
 #include "renderer.h"
 
 Renderer::Renderer(HWND hwnd, int width, int height) 
-	: projection(dx::XMMatrixIdentity()) {
+	: camera(Camera()) {
 	DXGI_SWAP_CHAIN_DESC scd = {};
 	scd.BufferDesc.Width = width;
 	scd.BufferDesc.Height = height;
@@ -85,6 +85,10 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 	viewport.TopLeftX = 0.0f;
 	viewport.TopLeftY = 0.0f;
 	this->pDeviceContext->RSSetViewports(1u, &viewport);
+
+	// Camera initialization
+	this->camera.setPosition(0.0f, 0.0f, -5.0f);
+	this->camera.setAspectRatio(static_cast<float>(width) / static_cast<float>(height));
 }
 
 void Renderer::render() {
@@ -112,10 +116,14 @@ void Renderer::drawIndexed(UINT count) noexcept(!IS_DEBUG_MODE) {
 	this->pDeviceContext->DrawIndexed(count, 0u, 0u);
 }
 
-void Renderer::setProjection(DirectX::FXMMATRIX projection) noexcept {
-	this->projection = projection;
+dx::XMMATRIX Renderer::getProjection() const noexcept {
+	return this->camera.getProjection();
 }
 
-DirectX::XMMATRIX Renderer::getProjection() const noexcept {
-	return this->projection;
+Camera& Renderer::getCamera() noexcept {
+	return camera;
+}
+
+dx::XMMATRIX Renderer::getView() const noexcept {
+	return this->camera.getView();
 }

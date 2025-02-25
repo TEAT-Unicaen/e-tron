@@ -1,7 +1,7 @@
 #pragma once
 
 #include "bindable.h"
-#include "../../image.h"
+#include "../../utils/image.h"
 
 class Texture : public Bindable {
 public:

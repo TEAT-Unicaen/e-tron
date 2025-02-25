@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../utils/setUpWindows.h"
+
 #include <queue>
 #include <bitset>
 #include <optional>
