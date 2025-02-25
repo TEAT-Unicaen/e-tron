@@ -18,15 +18,16 @@ std::vector<int> MaxnAlgorithm::maxn(std::vector<std::shared_ptr<Player>> player
 
     //Recur : end case -> return all scores for the current state
     if (depth == 0) {
-		std::vector<int> scores(numPlayers, 0);
+		std::vector<int> scores(numPlayers + 1, 0);
 		for (int i = 0; i < numPlayers; i++) {
-			scores[i] = this->evaluate(players[i]);
+			scores[players[i]->getId()] = this->evaluate(players[i]);
 		}
 		return scores;
     }
 
 	std::shared_ptr<Player> player = players[currentPlayer];
-	std::vector<int> bestScores(numPlayers, std::numeric_limits<int>::min()); //Workaround to init numPlayer elems at minimum int value (-2^63)
+	int playerId = player->getId();
+	std::vector<int> bestScores(numPlayers + 1, -100000); //Workaround to init numPlayer elems at minimum a low int value, not min int because of overlaps
 
     for (auto& [newX, newY] : this->getAvailableMoves(player)) {
 		//Save state and move
@@ -35,14 +36,16 @@ std::vector<int> MaxnAlgorithm::maxn(std::vector<std::shared_ptr<Player>> player
 		this->getStoredMapMan()->setEntityAtCoords(player, newX, newY);
 
         //Recur on next plyr
-		std::vector<int> scores = this->maxn(players, depth - 1, (*player + 1) % numPlayers);
+		std::vector<int> scores = this->maxn(players, depth - 1, (currentPlayer + 1) % numPlayers);
 
         //Restore
 		this->getStoredMapMan()->setEntityAtCoords(player, oldX, oldY);
 		this->getStoredMapMan()->restoreCell(newX, newY);
 
         //Update score if needed
-		if (scores[*player] > bestScores[*player]) {
+
+		if (scores[playerId] > bestScores[playerId]) {
+			std::cout << "updated scores" << std::endl;
 			bestScores = scores;
 		}
     }

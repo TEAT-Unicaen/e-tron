@@ -44,7 +44,7 @@ int main() {
         mainFunctions.writeToPipe("Pipe connected\n");
 
         // Init managers
-        GameManager gameManager(9, 9, 4, true);
+        GameManager gameManager(8, 8, 4, true);
         InputManager inputManager(gameManager, mainFunctions);
 
         // Displaying start grid
@@ -63,20 +63,31 @@ int main() {
         mainFunctions.writeToPipe("Game is starting...\n");
         mainFunctions.writeToPipe("THIS IS A PLACEHOLDER FOR ADDITIONAL LOGGING AND ALGORITHM OUTPUT\n");
 
-        Sleep(3000);
-		mainFunctions.LaunchGUIWithContext(&gameManager);
+        Sleep(10000);
+		//FOR GUI TESTING
+		//mainFunctions.LaunchGUIWithContext(&gameManager);
 
-        ////////// TEST ////////
-        //SLEEP(10);
-        //gameManager.pauseGame();
-        ////Retrieve players scores in order
-        //std::vector<int> res = gameManager.callParanoid(2);
-        //std::string str = "Paranoid result at depth = 2 : ";
+        //////// TEST ////////
+        gameManager.pauseGame();
+        //
+        // 
+        ////PARANOID : Retrieve players scores in order
+        //std::vector<int> res = gameManager.callParanoid(10);
+        //std::string str = "Paranoid result at depth = 10 : ";
         //for (int i = 0; i < res.size(); i++) {
         //    mainFunctions.writeToPipe("Player " + std::to_string(i+1) + " score for depth 2 is : " + std::to_string(res[i]) + "\n");
         //}
-        //gameManager.pauseGame();
-        ////////////////////////
+
+        //MAXN : Retrieve players scores in order
+        std::vector<int> res = gameManager.callMaxn(10);
+        std::string str = "Maxn result at depth = 10 : ";
+        for (int i = 1; i < res.size(); i++) {
+            mainFunctions.writeToPipe("Player " + std::to_string(i) + " score for depth 10 is : " + std::to_string(res[i]) + "\n");
+        }
+
+        //
+        gameManager.pauseGame();
+        //////////////////////
 
         // Handle inputs and game termination | Used as a wait for the moment
         while (gameManager.isRunning() && !gameManager.shouldStopCmd()) {
