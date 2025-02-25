@@ -28,6 +28,18 @@ App::App()
 		Color::CYAN,
 	};
 
+	std::array<Color, 9> colorsBasicMotorcycle = {
+		Color::RED,
+		Color::GREEN,
+		Color::BLUE,
+		Color::MAGENTA,
+		Color::CYAN,
+		Color::YELLOW,
+		Color::SILVER,
+		Color::GRAY,
+		Color::WHITE
+	};
+
 	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
 	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
 
@@ -54,6 +66,17 @@ App::App()
 		));
 	}*/
 
+	
+	this->pDrawables.push_back(std::make_unique<BasicMotorcycle>(
+		this->wnd.getRenderer(),
+		dx::XMFLOAT3{ 0.0f, 0.0f, 5.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.5f, 0.5f, 0.0f },
+		colorsBasicMotorcycle
+	)); 
+
+	/*
 	this->pDrawables.push_back(std::make_unique<TexturedSquarePyramid>(
 		this->wnd.getRenderer(),
 		dx::XMFLOAT3{ 0.0f, 0.0f, 5.0f },
@@ -61,7 +84,7 @@ App::App()
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.5f, 0.0f },
 		pImageSquarePyramid
-	));
+	)); */
 
 	//GraphicsPlayer player(1, 0.0f, 0.0f, 5.0f, Color::RED, this->wnd.getRenderer());
 	//this->pDrawables.push_back(std::make_unique<GraphicsPlayer>(player));

@@ -7,7 +7,7 @@
 #include "../utils/utils.h"
 #include "objects/objects.h"
 
-#include "gameObjects/graphicsPlayer.h"
+#include "gameObjects/BasicMotorcycle.h"
 
 class App {
 public :
