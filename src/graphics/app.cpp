@@ -66,8 +66,7 @@ App::App()
 		));
 	}
 
-<<<<<<< HEAD
-	
+	/*
 	this->pDrawables.push_back(std::make_unique<BasicMotorcycle>(
 		this->wnd.getRenderer(),
 		dx::XMFLOAT3{ 0.0f, 0.0f, 5.0f },
@@ -77,9 +76,7 @@ App::App()
 		colorsBasicMotorcycle
 	)); 
 
-=======
->>>>>>> e31d5c5 (make a utils folder in graphics | add camera(movable))
-	/*
+
 	this->pDrawables.push_back(std::make_unique<TexturedSquarePyramid>(
 		this->wnd.getRenderer(),
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.5f },
@@ -87,14 +84,11 @@ App::App()
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.5f, 0.0f },
 		pImageSquarePyramid
-<<<<<<< HEAD
-	)); */
-=======
-	));*/
->>>>>>> e31d5c5 (make a utils folder in graphics | add camera(movable))
 
+	));
 	//GraphicsPlayer player(1, 0.0f, 0.0f, 5.0f, Color::RED, this->wnd.getRenderer());
 	//this->pDrawables.push_back(std::make_unique<GraphicsPlayer>(player));
+	*/
 }
 
 App::~App() {
