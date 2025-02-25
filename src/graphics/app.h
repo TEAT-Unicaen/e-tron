@@ -7,6 +7,8 @@
 #include "../utils/utils.h"
 #include "objects/objects.h"
 
+#include "gameObjects/graphicsPlayer.h"
+
 class App {
 public :
 	App();

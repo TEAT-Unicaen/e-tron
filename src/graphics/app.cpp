@@ -3,6 +3,7 @@
 #include <random>
 #include <io.h>
 
+
 App::App()
 	: wnd(800, 600, "E-Tron") {
 	HR;
@@ -61,6 +62,9 @@ App::App()
 		dx::XMFLOAT3{ 0.0f, 0.5f, 0.0f },
 		pImageSquarePyramid
 	));
+
+	//GraphicsPlayer player(1, 0.0f, 0.0f, 5.0f, Color::RED, this->wnd.getRenderer());
+	//this->pDrawables.push_back(std::make_unique<GraphicsPlayer>(player));
 	
 
 
