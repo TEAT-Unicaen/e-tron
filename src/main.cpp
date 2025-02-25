@@ -44,7 +44,7 @@ int main() {
         mainFunctions.writeToPipe("Pipe connected\n");
 
         // Init managers
-        GameManager gameManager(9, 9, 4, true);
+        GameManager gameManager(6, 6, 1, true);
         InputManager inputManager(gameManager, mainFunctions);
 
         // Displaying start grid
@@ -64,7 +64,7 @@ int main() {
         mainFunctions.writeToPipe("THIS IS A PLACEHOLDER FOR ADDITIONAL LOGGING AND ALGORITHM OUTPUT\n");
 
         Sleep(3000);
-		mainFunctions.LaunchGUIWithContext(&gameManager);
+		//mainFunctions.LaunchGUIWithContext(&gameManager);
 
         ////////// TEST ////////
         //SLEEP(10);

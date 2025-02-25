@@ -21,7 +21,7 @@ AlgorithmUtils::AlgorithmUtils(MapManager* mapMan) {
 const std::vector<std::pair<int, int>> DIRECTIONS = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
 
 bool AlgorithmUtils::isAValidMove(int x, int y) {
-    if (x < 0 || x >= gridCols || y < 0 || y >= gridLines) {
+    if (x < 0 || x >= gridLines|| y < 0 || y >= gridCols) {
         return false;
     }
     return !*storedGrid->getCell(x, y).getEntity();
