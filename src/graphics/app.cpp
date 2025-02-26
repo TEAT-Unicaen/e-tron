@@ -46,10 +46,10 @@ App::App()
 	
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> disxy(-50.0f, 50.0f);
+	std::uniform_real_distribution<float> disxy(-25.0f, 25.0f);
 	std::uniform_real_distribution<float> disz(-50.0f, 50.0f);
 	std::uniform_real_distribution<float> disrot(-dx::XM_PI, dx::XM_PI);
-	for (auto i = 0; i < 1000; i++) {
+	for (auto i = 0; i < 500; i++) {
 		float x = disxy(gen);  // Random X position
 		float y = disxy(gen); // Random Y position
 		float z = disz(gen);
@@ -101,58 +101,80 @@ int App::run() {
 		if (const auto eCode = wnd.processMessages()) {
 			return *eCode;
 		}
-
+		this->checkInput();
 		this->update();
+		SLEEP_MS(1);
 	}
 }
 
-void App::update() {
-	Renderer& ren = wnd.getRenderer();
-	Camera& cam = ren.getCamera();
-	if (this->wnd.keyEvent.keyIsPressed('Z')) {
-		cam.move(0.1f, 0.0f, 0.0f); // Avancer dans la direction du regard
+void App::checkInput() {
+	Camera& cam = wnd.getRenderer().getCamera();
+	float forward = 0.0f, right = 0.0f;
+	float rotX = 0.0f, rotY = 0.0f;
+	float speed = 0.1f;
+	float rotationSpeed = 0.1f;
+	float deltaFOV = 0.0f;
+
+	auto& keyEvent = this->wnd.keyEvent;
+
+	if (keyEvent.keyIsPressed(VK_ESCAPE)) {
+		this->isPaused = !this->isPaused;
+		SLEEP_MS(100);
 	}
-	if (this->wnd.keyEvent.keyIsPressed('S')) {
-		cam.move(-0.1f, 0.0f, 0.0f); // Reculer
+
+	if (this->isPaused) return;
+
+	// Camera movement
+	if (keyEvent.keyIsPressed('Z')) forward += 1.0f;
+	if (keyEvent.keyIsPressed('S')) forward -= 1.0f;
+	if (keyEvent.keyIsPressed('Q')) right -= 1.0f;
+	if (keyEvent.keyIsPressed('D')) right += 1.0f;
+
+	// Normalized movement
+	if (keyEvent.keyIsPressed(VK_SHIFT)) speed *= 5;
+	float length = std::sqrt(forward * forward + right * right);
+	if (length > 0.0f) {
+		forward = (forward / length) * speed;
+		right = (right / length) * speed;
 	}
-	if (this->wnd.keyEvent.keyIsPressed('Q')) {
-		cam.move(0.0f, -0.1f, 0.0f); // Strafe gauche
-	}
-	if (this->wnd.keyEvent.keyIsPressed('D')) {
-		cam.move(0.0f, 0.1f, 0.0f); // Strafe droite
-	}
-	if (this->wnd.keyEvent.keyIsPressed('P')) {
-		cam.updateFOV(0.5);
-	}
-	if (this->wnd.keyEvent.keyIsPressed('M')) {
-		cam.updateFOV(-0.5);
-	}
-	
-	// Rotation
-	if (this->wnd.keyEvent.keyIsPressed(VK_UP)) {
-		cam.rotate(-0.1f, 0.0f, 0.0f);
-	}
-	if (this->wnd.keyEvent.keyIsPressed(VK_DOWN)) {
-		cam.rotate(0.1f, 0.0f, 0.0f);
-	}
-	if (this->wnd.keyEvent.keyIsPressed(VK_LEFT)) {
-		cam.rotate(0.0f, -0.1f, 0.0f);
-	}
-	if (this->wnd.keyEvent.keyIsPressed(VK_RIGHT)) {
-		cam.rotate(0.0f, 0.1f, 0.0f);
-	}
-	if (this->wnd.keyEvent.keyIsPressed('R')) {
+
+	// Camera rotation
+	if (keyEvent.keyIsPressed(VK_UP)) rotX -= rotationSpeed; // Rotation vers le bas
+	if (keyEvent.keyIsPressed(VK_DOWN)) rotX += rotationSpeed; // Rotation vers le haut
+	if (keyEvent.keyIsPressed(VK_LEFT)) rotY -= rotationSpeed; // Rotation à gauche
+	if (keyEvent.keyIsPressed(VK_RIGHT)) rotY += rotationSpeed; // Rotation à droite
+
+	// Camera FOV
+	if (keyEvent.keyIsPressed('P')) deltaFOV += 1.0f;
+	if (keyEvent.keyIsPressed('M')) deltaFOV -= 1.0f;
+
+
+
+	cam.move(forward, right, 0.0f);
+	cam.rotate(rotX, rotY, 0.0f);
+	cam.updateFOV(deltaFOV);
+
+
+	// Reset camera
+	if (keyEvent.keyIsPressed('R')) {
 		cam.setPosition(0.0f, 0.0f, -5.0f);
 		cam.setRotation(0.0f, 0.0f, 0.0f);
 		cam.setFOV(90.0f);
 	}
+}
 
 
+void App::update() {
+	Renderer& ren = wnd.getRenderer();
 	auto delta = this->timer.mark();
-	ren.fill(Color::BLACK);
-	for (auto& pDrawable : this->pDrawables) {
-		pDrawable->update(delta);
-		pDrawable->draw(ren);
+	if (!this->isPaused) {
+		ren.fill(Color::BLACK);
+		for (auto& pDrawable : this->pDrawables) {
+			pDrawable->update(delta);
+			pDrawable->draw(ren);
+		}
+	} else {
+		//TODO : Pause menu
 	}
 
 	ren.render();

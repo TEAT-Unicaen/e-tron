@@ -15,9 +15,12 @@ public :
 	~App();
 	int run();
 private:
+	void checkInput();
 	void update();
 	
 	Window wnd;
 	AppTimer timer;
 	std::vector<std::unique_ptr<Drawable>> pDrawables;
+
+	bool isPaused = false;
 };

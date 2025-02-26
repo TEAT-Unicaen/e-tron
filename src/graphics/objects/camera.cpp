@@ -63,6 +63,7 @@ const dx::XMMATRIX Camera::getView() const noexcept {
 }
 
 void Camera::updateProjection() noexcept {
+	if (this->fov <= 0.0f) this->fov = 1.0f;
 	this->projection = dx::XMMatrixPerspectiveFovLH(
 		dx::XMConvertToRadians(this->fov),
 		this->aspectRatio,
