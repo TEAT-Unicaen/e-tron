@@ -1,16 +1,16 @@
 cbuffer colors : register(b0)
 {
-    float4 color[3]; // 0 = haut, 1 = bas, 2 = latéral
+    float4 color[3];
 };
 
 float4 main(uint tid : SV_PrimitiveID) : SV_TARGET
 {
-    if (tid % 4 == 2)
-    { 
+    if (tid % 8 == 0 || tid % 8 == 1)
+    {
         return color[0]; // Haut
     }
-    else if (tid % 4 == 3)
-    { 
+    else if (tid % 8 == 2 || tid % 8 == 3)
+    {
         return color[1]; // Bas
     }
     else

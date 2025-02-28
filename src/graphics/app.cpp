@@ -41,21 +41,21 @@ App::App()
 	};
 
 	std::array<Color, 3> colorsCylinder = {
-		Color::RED,
-		Color::GREEN,
-		Color::BLUE,
+		Color::CYAN,
+		Color::SILVER,
+		Color::GRAY,
 	};
 
 	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
 	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
 
-	/*
+	
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<float> dis(-50.0f, 50.0f);
 	std::uniform_real_distribution<float> rot(-2*dx::XM_PI, 2*dx::XM_PI);
 	std::uniform_real_distribution<float> move(-5.0f, 5.0f);
-	for (auto i = 0; i < 500; i++) {
+	for (auto i = 0; i < 1000; i++) {
 		float x = dis(gen);  // Random X position
 		float y = dis(gen); // Random Y position
 		float z = dis(gen);
@@ -65,16 +65,16 @@ App::App()
 		float movex = move(gen);
 		float movey = move(gen);
 		float movez = move(gen);
-		this->pDrawables.push_back(std::make_unique<TexturedSquarePyramid>(
+		this->pDrawables.push_back(std::make_unique<ColoredCylinderTruncated>(
 			this->wnd.getRenderer(),
 			dx::XMFLOAT3{ x, y, z },
 			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 			dx::XMFLOAT3{ movex, movey, movez },
 			dx::XMFLOAT3{ rotx, roty, rotz },
-			pImageSquarePyramid
+			colorsCylinder
 		));
 	}
-	*/
+	
 	/*
 	this->pDrawables.push_back(std::make_unique<BasicMotorcycle>(
 		this->wnd.getRenderer(),
@@ -86,7 +86,7 @@ App::App()
 	)); 
 	*/
 
-	this->pDrawables.push_back(std::make_unique<ColoredCylinder>(
+	this->pDrawables.push_back(std::make_unique<ColoredCylinderTruncated>(
 		this->wnd.getRenderer(),
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.5f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },

@@ -11,3 +11,4 @@
 #include "pyramid/texturedSquarePyramid.h"
 
 #include "cylinder/coloredCylinder.h"
+#include "cylinder/coloredCylinderTruncated.h"
