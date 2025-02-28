@@ -9,3 +9,5 @@
 
 #include "pyramid/coloredSquarePyramid.h"
 #include "pyramid/texturedSquarePyramid.h"
+
+#include "cylinder/coloredCylinder.h"

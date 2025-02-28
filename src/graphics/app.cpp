@@ -40,10 +40,16 @@ App::App()
 		Color::WHITE
 	};
 
+	std::array<Color, 3> colorsCylinder = {
+		Color::RED,
+		Color::GREEN,
+		Color::BLUE,
+	};
+
 	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
 	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
 
-	
+	/*
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_real_distribution<float> dis(-50.0f, 50.0f);
@@ -68,7 +74,7 @@ App::App()
 			pImageSquarePyramid
 		));
 	}
-
+	*/
 	/*
 	this->pDrawables.push_back(std::make_unique<BasicMotorcycle>(
 		this->wnd.getRenderer(),
@@ -78,20 +84,17 @@ App::App()
 		dx::XMFLOAT3{ 0.5f, 0.5f, 0.0f },
 		colorsBasicMotorcycle
 	)); 
+	*/
 
-
-	this->pDrawables.push_back(std::make_unique<TexturedSquarePyramid>(
+	this->pDrawables.push_back(std::make_unique<ColoredCylinder>(
 		this->wnd.getRenderer(),
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.5f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.5f, 0.0f },
-		pImageSquarePyramid
-
+		dx::XMFLOAT3{ 0.5f, 0.5f, 0.0f },
+		colorsCylinder
 	));
-	//GraphicsPlayer player(1, 0.0f, 0.0f, 5.0f, Color::RED, this->wnd.getRenderer());
-	//this->pDrawables.push_back(std::make_unique<GraphicsPlayer>(player));
-	*/
+
 }
 
 App::~App() {
