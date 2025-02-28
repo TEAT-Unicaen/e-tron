@@ -2,7 +2,7 @@
 
 #include "../utils/color.h"
 #include "../objects/objects.h"
-#include "../window.h"
+#include "../core/window.h"
 #include <memory>
 
 class GraphicsGameEntity {

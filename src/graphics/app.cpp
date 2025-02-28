@@ -46,21 +46,24 @@ App::App()
 	
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> disxy(-25.0f, 25.0f);
-	std::uniform_real_distribution<float> disz(-50.0f, 50.0f);
-	std::uniform_real_distribution<float> disrot(-dx::XM_PI, dx::XM_PI);
+	std::uniform_real_distribution<float> dis(-50.0f, 50.0f);
+	std::uniform_real_distribution<float> rot(-2*dx::XM_PI, 2*dx::XM_PI);
+	std::uniform_real_distribution<float> move(-5.0f, 5.0f);
 	for (auto i = 0; i < 500; i++) {
-		float x = disxy(gen);  // Random X position
-		float y = disxy(gen); // Random Y position
-		float z = disz(gen);
-		float rotx = 2 * disrot(gen);
-		float roty = 2 * disrot(gen);
-		float rotz = 2 * disrot(gen);
+		float x = dis(gen);  // Random X position
+		float y = dis(gen); // Random Y position
+		float z = dis(gen);
+		float rotx = rot(gen);
+		float roty = rot(gen);
+		float rotz = rot(gen);
+		float movex = move(gen);
+		float movey = move(gen);
+		float movez = move(gen);
 		this->pDrawables.push_back(std::make_unique<TexturedSquarePyramid>(
 			this->wnd.getRenderer(),
 			dx::XMFLOAT3{ x, y, z },
 			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+			dx::XMFLOAT3{ movex, movey, movez },
 			dx::XMFLOAT3{ rotx, roty, rotz },
 			pImageSquarePyramid
 		));
@@ -163,7 +166,6 @@ void App::checkInput() {
 void App::update() {
 	Renderer& ren = wnd.getRenderer();
 	auto delta = this->timer.mark();
-	Color textColor = Color::WHITE;
 	this->frameTime += delta;  // Accumulate frame time
 	this->frameCount++;  // Increment the frame count
 
@@ -185,9 +187,9 @@ void App::update() {
 		for (auto& pDrawable : this->pDrawables) {
 			pDrawable->draw(ren);
 		}
-		ren.renderText(L"PAUSED", dx::XMFLOAT2(this->wnd.getWidth()-100, 10), 16, textColor);
+		ren.renderText(L"PAUSED", dx::XMFLOAT2(this->wnd.getWidth()-100, 10), 16, Color::WHITE);
 	}
 	//Display FPS
-	ren.renderText(L"FPS : " + std::to_wstring(this->fps), dx::XMFLOAT2(10, 10), 16, textColor);
+	ren.renderText(L"FPS : " + std::to_wstring(this->fps), dx::XMFLOAT2(10, 10), 16, Color::WHITE);
 	ren.render();
 }

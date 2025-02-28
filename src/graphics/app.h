@@ -2,8 +2,8 @@
 
 #include <thread>
 
-#include "window.h"
-#include "appTimer.h"
+#include "core/window.h"
+#include "utils/appTimer.h"
 #include "../utils/utils.h"
 #include "objects/objects.h"
 

@@ -3,7 +3,7 @@
 #include <DirectXMath.h>
 #include <array>
 
-#include "../renderer.h"
+#include "../core/renderer.h"
 #include "bindable/bindable.h"
 #include "bindable/buffers/indexBuffer.h"
 
