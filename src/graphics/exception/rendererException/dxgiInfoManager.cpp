@@ -19,7 +19,7 @@ DxgiInfoManager::DxgiInfoManager() {
 
 	// Get the DXGI info queue
 	HR;
-	CHECK_RENDERER_EXCEPT_NO_INFO(dxgiGetDebugInterface(__uuidof(IDXGIInfoQueue), reinterpret_cast<void**>(&this->pDxgiInfoQueue)));
+	CHECK_RENDERER_EXCEPT_NO_INFO(dxgiGetDebugInterface(IID_PPV_ARGS(&this->pDxgiInfoQueue)));
 }
 
 DxgiInfoManager::~DxgiInfoManager() {

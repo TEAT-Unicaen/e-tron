@@ -52,7 +52,7 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     add_custom_target(CopyAssets ALL DEPENDS ${CMAKE_BINARY_DIR}/assets)
     add_dependencies(e_tron_directX CopyAssets)
 
-    target_link_libraries(e_tron_directX PRIVATE d3d11 d3dcompiler dxgi dxguid)
+    target_link_libraries(e_tron_directX PRIVATE d3d11 d3dcompiler dxgi dxguid d2d1 dwrite)
     
     # HLSL COMPILING
     find_program(FXC_COMPILER fxc.exe REQUIRED)

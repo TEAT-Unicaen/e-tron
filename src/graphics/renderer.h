@@ -6,6 +6,10 @@
 #include <d3dcompiler.h>
 #pragma comment(lib, "D3dcompiler.lib")
 
+
+#include <dwrite.h>
+#pragma comment(lib, "dwrite.lib")
+
 #include "utils/setUpWindows.h" // Assure que HWND est reconnu
 #include "utils/color.h"
 #include "objects/camera.h"
@@ -28,6 +32,8 @@ public:
 	dx::XMMATRIX getProjection() const noexcept;
 	Camera& getCamera() noexcept;
 	dx::XMMATRIX getView()const noexcept;
+
+	void renderText(const std::wstring& text, const dx::XMFLOAT2& position, float size, Color& color);
 private:
 	Camera camera;
 #ifndef NDEBUG
@@ -41,6 +47,12 @@ private:
 	Mwrl::ComPtr<ID3D11RenderTargetView> pRenderTargetView;
 	Mwrl::ComPtr<ID3D11DepthStencilView> pDepthStencilView;
 
+	// Direct2D/DirectWrite for text rendering
+	Mwrl::ComPtr<ID2D1Factory> pD2DFactory;
+	Mwrl::ComPtr<IDWriteFactory> pDWriteFactory;
+	Mwrl::ComPtr<ID2D1RenderTarget> pD2DRenderTarget;
+	Mwrl::ComPtr<IDWriteTextFormat> pTextFormat;
+	Mwrl::ComPtr<ID2D1SolidColorBrush> pBrush;
 };
 
 // Renderer exception macros

@@ -148,12 +148,9 @@ void App::checkInput() {
 	if (keyEvent.keyIsPressed('P')) deltaFOV += 1.0f;
 	if (keyEvent.keyIsPressed('M')) deltaFOV -= 1.0f;
 
-
-
 	cam.move(forward, right, 0.0f);
 	cam.rotate(rotX, rotY, 0.0f);
 	cam.updateFOV(deltaFOV);
-
 
 	// Reset camera
 	if (keyEvent.keyIsPressed('R')) {
@@ -163,10 +160,20 @@ void App::checkInput() {
 	}
 }
 
-
 void App::update() {
 	Renderer& ren = wnd.getRenderer();
 	auto delta = this->timer.mark();
+	Color textColor = Color::WHITE;
+	this->frameTime += delta;  // Accumulate frame time
+	this->frameCount++;  // Increment the frame count
+
+	// Calculate FPS every second
+	if (this->frameTime >= 1.0f) {
+		this->fps = this->frameCount;  // Set FPS to the number of frames in the last second
+		this->frameTime = 0.0f;  // Reset frame time
+		this->frameCount = 0;    // Reset frame count
+	}
+
 	if (!this->isPaused) {
 		ren.fill(Color::BLACK);
 		for (auto& pDrawable : this->pDrawables) {
@@ -174,8 +181,13 @@ void App::update() {
 			pDrawable->draw(ren);
 		}
 	} else {
-		//TODO : Pause menu
+		ren.fill(Color::BLACK);
+		for (auto& pDrawable : this->pDrawables) {
+			pDrawable->draw(ren);
+		}
+		ren.renderText(L"PAUSED", dx::XMFLOAT2(this->wnd.getWidth()-100, 10), 16, textColor);
 	}
-
+	//Display FPS
+	ren.renderText(L"FPS : " + std::to_wstring(this->fps), dx::XMFLOAT2(10, 10), 16, textColor);
 	ren.render();
 }

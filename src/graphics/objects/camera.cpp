@@ -46,7 +46,6 @@ void Camera::move(float forward, float right, float up) noexcept {
 	updateView();
 }
 
-
 void Camera::rotate(float x, float y, float z) noexcept {
 	this->rotation.x += x;
 	this->rotation.y += y;

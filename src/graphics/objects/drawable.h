@@ -21,6 +21,7 @@ public:
 	void update(float delta) noexcept;
 	void addBindable(std::unique_ptr<Bindable> pBindables) noexcept;
 	void addIndexBuffer(std::unique_ptr<IndexBuffer> pIndexBuffer) noexcept(!IS_DEBUG_MODE);
+
 protected:
 	dx::XMFLOAT3 position;
 	dx::XMFLOAT3 rotation;
@@ -30,5 +31,4 @@ protected:
 private:
 	const IndexBuffer* pIndexBuffer = nullptr;
 	std::vector<std::unique_ptr<Bindable>> pBindables;
-
 };

@@ -19,7 +19,7 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // Discard the previous buffer
 	scd.Flags = 0;
 
-	UINT swapChainCreateFlags = 0u;
+	UINT swapChainCreateFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT; // for the 2D renderer
 #ifndef NDEBUG
 	swapChainCreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif // !NDEBUG
@@ -35,8 +35,8 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 
 	// Create the Render Target View, store subresource can be accessed during the rendering
 	Mwrl::ComPtr<ID3D11Resource> pBackBuffer;
-	CHECK_RENDERER_EXCEPT(this->pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), &pBackBuffer));
-	CHECK_RENDERER_EXCEPT(this->pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &(this->pRenderTargetView)));
+	CHECK_RENDERER_EXCEPT(this->pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)));
+	CHECK_RENDERER_EXCEPT(this->pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &this->pRenderTargetView));
 
 	
 	// Z-Buffer creation //
@@ -72,10 +72,7 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 	dsvd.Texture2D.MipSlice = 0u;
 	CHECK_RENDERER_EXCEPT(this->pDevice->CreateDepthStencilView(pDepthStencil.Get(), &dsvd, &this->pDepthStencilView));
 
-	
 	this->pDeviceContext->OMSetRenderTargets(1u, this->pRenderTargetView.GetAddressOf(), this->pDepthStencilView.Get());
-
-	
 
 	D3D11_VIEWPORT viewport = {};
 	viewport.Width = (float)width;
@@ -85,6 +82,43 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 	viewport.TopLeftX = 0.0f;
 	viewport.TopLeftY = 0.0f;
 	this->pDeviceContext->RSSetViewports(1u, &viewport);
+
+	// Set up the 2D
+	D2D1_FACTORY_OPTIONS options = {};
+#ifndef NDEBUG
+	options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
+#endif // !NDEBUG
+
+	CHECK_RENDERER_EXCEPT(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, __uuidof(ID2D1Factory),&options, &this->pD2DFactory));
+	CHECK_RENDERER_EXCEPT(DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), &this->pDWriteFactory)); // the MACRO don't work here
+
+	Mwrl::ComPtr<IDXGISurface> pBackBufferDxgi;
+	CHECK_RENDERER_EXCEPT(this->pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBufferDxgi)));
+
+	D2D1_RENDER_TARGET_PROPERTIES rtProps = D2D1::RenderTargetProperties(
+		D2D1_RENDER_TARGET_TYPE_HARDWARE,
+		D2D1::PixelFormat(DXGI_FORMAT_R8G8B8A8_UNORM, D2D1_ALPHA_MODE_IGNORE), // Match swap chain format
+		0.0f,
+		0.0f,
+		D2D1_RENDER_TARGET_USAGE_NONE,
+		D2D1_FEATURE_LEVEL_DEFAULT
+	);
+
+    CHECK_RENDERER_EXCEPT(this->pD2DFactory->CreateDxgiSurfaceRenderTarget(pBackBufferDxgi.Get(), &rtProps, &this->pD2DRenderTarget));
+
+	CHECK_RENDERER_EXCEPT(this->pDWriteFactory->CreateTextFormat(
+		L"Segoe UI",                // Font family
+		nullptr,                    // Font collection
+		DWRITE_FONT_WEIGHT_NORMAL,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		24.0f,                      // Font size
+		L"",                   // Locale
+		&this->pTextFormat
+	));
+
+	CHECK_RENDERER_EXCEPT(this->pD2DRenderTarget->CreateSolidColorBrush(Color::BLACK.toD2D1ColorF(), &this->pBrush));
+
 
 	// Camera initialization
 	this->camera.setPosition(0.0f, 0.0f, -5.0f);
@@ -126,4 +160,29 @@ Camera& Renderer::getCamera() noexcept {
 
 dx::XMMATRIX Renderer::getView() const noexcept {
 	return this->camera.getView();
+}
+
+void Renderer::renderText(const std::wstring& text, const dx::XMFLOAT2& position, float size, Color& color) {
+	HR;
+	// Set the brush color
+	pBrush->SetColor(color.toD2D1ColorF());
+	// Begin drawing to the Direct2D render target
+	pD2DRenderTarget->BeginDraw();
+
+	// Create a DirectWrite text layout
+	Mwrl::ComPtr<IDWriteTextLayout> pTextLayout;
+	CHECK_RENDERER_EXCEPT(this->pDWriteFactory->CreateTextLayout(
+		text.c_str(),
+		static_cast<UINT32>(text.length()),
+		pTextFormat.Get(),
+		FLT_MAX,  // Max width (use entire width)
+		FLT_MAX,  // Max height (use entire height)
+		&pTextLayout
+	));
+
+	// Draw the text on the screen
+	pD2DRenderTarget->DrawTextLayout(D2D1::Point2F(position.x, position.y), pTextLayout.Get(), pBrush.Get());
+
+	// End drawing
+	pD2DRenderTarget->EndDraw();
 }
