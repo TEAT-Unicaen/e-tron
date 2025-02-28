@@ -47,13 +47,13 @@ Cylinder::Cylinder(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 
 
         // Triangle du haut
         indices.push_back(centerTopIndex);
-        indices.push_back(i * 2);
         indices.push_back(next * 2);
-
+        indices.push_back(i * 2);
+        
         // Triangle du bas
         indices.push_back(centerBottomIndex);
-        indices.push_back(next * 2 + 1);
         indices.push_back(i * 2 + 1);
+        indices.push_back(next * 2 + 1);
     }
 
     this->addBindable(std::make_unique<VertexBuffer>(renderer, vertices));

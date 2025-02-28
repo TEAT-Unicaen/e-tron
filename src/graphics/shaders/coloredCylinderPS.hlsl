@@ -5,11 +5,11 @@ cbuffer colors : register(b0)
 
 float4 main(uint tid : SV_PrimitiveID) : SV_TARGET // /!\ ON SUPPOSE 20 
 {
-    if (tid < 20)
+    if (tid % 4 == 2)
     { // Supposons 20 triangles pour le haut
         return color[0]; // Haut
     }
-    else if (tid < 40)
+    else if (tid % 4 == 3)
     { // Supposons 20 triangles pour le bas
         return color[1]; // Bas
     }
