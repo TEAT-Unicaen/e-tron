@@ -14,3 +14,5 @@
 #include "cylinder/coloredCylinderTruncated.h"
 
 #include "sphere/coloredSphere.h"
+
+#include "tore/coloredTore.h"

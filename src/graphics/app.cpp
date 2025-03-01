@@ -69,7 +69,7 @@ App::App()
 		float movex = move(gen);
 		float movey = move(gen);
 		float movez = move(gen);
-		this->pDrawables.push_back(std::make_unique<ColoredSphere>(
+		this->pDrawables.push_back(std::make_unique<ColoredTore>(
 			this->wnd.getRenderer(),
 			dx::XMFLOAT3{ x, y, z },
 			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
