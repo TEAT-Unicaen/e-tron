@@ -1,93 +1,25 @@
 ﻿#include "app.h"
 
-#include <random>
-#include <io.h>
-
 
 App::App()
 	: wnd(800, 600, "E-Tron") {
 	HR;
 	// COM initialization
 	CHECK_WIN32API_EXCEPT(CoInitialize(nullptr));
-	// Randomly generate X cubes for testing
 
-	std::array<Color, 6> colorsCube = {
-		Color::RED,
-		Color::GREEN,
-		Color::BLUE,
-		Color::MAGENTA,
-		Color::CYAN,
-		Color::YELLOW
-	};
 
-	std::array<Color, 5> colorsSquarePyramid = {
-		Color::RED,
-		Color::GREEN,
-		Color::BLUE,
-		Color::MAGENTA,
-		Color::CYAN,
-	};
 
-	std::array<Color, 9> colorsBasicMotorcycle = {
-		Color::RED,
-		Color::GREEN,
-		Color::BLUE,
-		Color::MAGENTA,
-		Color::CYAN,
-		Color::YELLOW,
-		Color::SILVER,
-		Color::GRAY,
-		Color::WHITE
-	};
+	Renderer& renderer = this->wnd.getRenderer();
+	this->sceneManager = std::make_unique<SceneManager>(
+		std::make_unique<LoadingScene>(
+			renderer,
+			"loadingScene"
+		)
+	);
 
-	std::array<Color, 3> colorsCylinder = {
-		Color::CYAN,
-		Color::SILVER,
-		Color::GRAY,
-	};
-
-	std::array<Color, 1> colorsSphere = {
-		Color::WHITE
-	};
-
-	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
-	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
-
-	
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> dis(-50.0f, 50.0f);
-	std::uniform_real_distribution<float> rot(-2*dx::XM_PI, 2*dx::XM_PI);
-	std::uniform_real_distribution<float> move(-5.0f, 5.0f);
-	for (auto i = 0; i < 500; i++) {
-		float x = dis(gen);  // Random X position
-		float y = dis(gen); // Random Y position
-		float z = dis(gen);
-		float rotx = rot(gen);
-		float roty = rot(gen);
-		float rotz = rot(gen);
-		float movex = move(gen);
-		float movey = move(gen);
-		float movez = move(gen);
-		this->pDrawables.push_back(std::make_unique<ColoredTore>(
-			this->wnd.getRenderer(),
-			dx::XMFLOAT3{ x, y, z },
-			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-			dx::XMFLOAT3{ movex, movey, movez },
-			dx::XMFLOAT3{ rotx, roty, rotz },
-			colorsSphere
-		));
-	}
-	/*
-	this->pDrawables.push_back(std::make_unique<ColoredSphere>(
-		this->wnd.getRenderer(),
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.5f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		colorsSphere
-	));
-	*/
+	// Add scenes
+	this->sceneManager->addScene(std::make_unique<GameScene>(renderer, "gameScene"));
+	this->sceneManager->changeScene("gameScene");
 
 }
 
@@ -108,61 +40,12 @@ int App::run() {
 }
 
 void App::checkInput() {
-	Camera& cam = wnd.getRenderer().getCamera();
-	float forward = 0.0f, right = 0.0f;
-	float rotX = 0.0f, rotY = 0.0f;
-	float speed = 0.1f;
-	float rotationSpeed = 0.1f;
-	float deltaFOV = 0.0f;
-
-	auto& keyEvent = this->wnd.keyEvent;
-
-	if (keyEvent.keyIsPressed(VK_ESCAPE)) {
-		this->isPaused = !this->isPaused;
-		SLEEP_MS(100);
-	}
-
-	if (this->isPaused) return;
-
-	// Camera movement
-	if (keyEvent.keyIsPressed('Z')) forward += 1.0f;
-	if (keyEvent.keyIsPressed('S')) forward -= 1.0f;
-	if (keyEvent.keyIsPressed('Q')) right -= 1.0f;
-	if (keyEvent.keyIsPressed('D')) right += 1.0f;
-
-	// Normalized movement
-	if (keyEvent.keyIsPressed(VK_SHIFT)) speed *= 5;
-	float length = std::sqrt(forward * forward + right * right);
-	if (length > 0.0f) {
-		forward = (forward / length) * speed;
-		right = (right / length) * speed;
-	}
-
-	// Camera rotation
-	if (keyEvent.keyIsPressed(VK_UP)) rotX -= rotationSpeed; // Rotation vers le bas
-	if (keyEvent.keyIsPressed(VK_DOWN)) rotX += rotationSpeed; // Rotation vers le haut
-	if (keyEvent.keyIsPressed(VK_LEFT)) rotY -= rotationSpeed; // Rotation à gauche
-	if (keyEvent.keyIsPressed(VK_RIGHT)) rotY += rotationSpeed; // Rotation à droite
-
-	// Camera FOV
-	if (keyEvent.keyIsPressed('P')) deltaFOV += 1.0f;
-	if (keyEvent.keyIsPressed('M')) deltaFOV -= 1.0f;
-
-	cam.move(forward, right, 0.0f);
-	cam.rotate(rotX, rotY, 0.0f);
-	cam.updateFOV(deltaFOV);
-
-	// Reset camera
-	if (keyEvent.keyIsPressed('R')) {
-		cam.setPosition(0.0f, 0.0f, -5.0f);
-		cam.setRotation(0.0f, 0.0f, 0.0f);
-		cam.setFOV(90.0f);
-	}
+	this->sceneManager->handleInput(this->wnd);
 }
 
 void App::update() {
-	Renderer& ren = wnd.getRenderer();
-	auto delta = this->timer.mark();
+	Renderer& renderer = this->wnd.getRenderer();
+	float delta = this->timer.mark();
 	this->frameTime += delta;  // Accumulate frame time
 	this->frameCount++;  // Increment the frame count
 
@@ -173,20 +56,10 @@ void App::update() {
 		this->frameCount = 0;    // Reset frame count
 	}
 
-	if (!this->isPaused) {
-		ren.fill(Color::BLACK);
-		for (auto& pDrawable : this->pDrawables) {
-			pDrawable->update(delta);
-			pDrawable->draw(ren);
-		}
-	} else {
-		ren.fill(Color::BLACK);
-		for (auto& pDrawable : this->pDrawables) {
-			pDrawable->draw(ren);
-		}
-		ren.renderText(L"PAUSED", dx::XMFLOAT2(this->wnd.getWidth()-100, 10), 16, Color::WHITE);
-	}
-	//Display FPS
-	ren.renderText(L"FPS : " + std::to_wstring(this->fps), dx::XMFLOAT2(10, 10), 16, Color::WHITE);
-	ren.render();
+	// Update the scene
+	renderer.fill(Color::BLACK);
+	this->sceneManager->update(delta);
+
+	renderer.renderText(L"FPS : " + std::to_wstring(this->fps), dx::XMFLOAT2(10, 10), 16, Color::WHITE);
+	renderer.render();
 }

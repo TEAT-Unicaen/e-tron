@@ -11,6 +11,7 @@
 
 class SceneManager {
 public:
+	SceneManager() = delete;
 	SceneManager(std::unique_ptr<Scene> loadingScene);
 	SceneManager(const SceneManager&) = delete;
 	SceneManager& operator=(const SceneManager&) = delete;
@@ -18,9 +19,9 @@ public:
 
 	void addScene(std::unique_ptr<Scene> scene);
 	void changeScene(const std::string& sceneName);
+
 	void update(float deltaTime);
-	void render(Renderer& renderer);
-	void handleInput(const KeyboardEventManager& keyevent, const MouseEventManager& mouseEvent);
+	void handleInput(Window& wnd);
 
 private:
 	std::unordered_map<std::string, std::unique_ptr<Scene>> scenes;

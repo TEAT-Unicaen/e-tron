@@ -5,9 +5,8 @@
 #include "core/window.h"
 #include "utils/appTimer.h"
 #include "../utils/utils.h"
-#include "objects/objects.h"
 
-#include "gameObjects/BasicMotorcycle.h"
+#include "scenes/scenes.h"
 
 class App {
 public :
@@ -20,9 +19,8 @@ private:
 	
 	Window wnd;
 	AppTimer timer;
-	std::vector<std::unique_ptr<Drawable>> pDrawables;
-
-	bool isPaused = false;
+	
+	std::unique_ptr<SceneManager> sceneManager;
 
 	float frameTime = 0.0f;  // Time elapsed since last frame
 	UINT frameCount = 0;     // Number of frames since last FPS calculation

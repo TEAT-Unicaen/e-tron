@@ -2,6 +2,8 @@
 
 SceneManager::SceneManager(std::unique_ptr<Scene> loadingScene)
 	: loadingScene(std::move(loadingScene)) {
+	this->loadingScene->onLoad();
+	//this->currentScene = this->loadingScene.get();
 }
 
 SceneManager::~SceneManager() {
@@ -40,6 +42,7 @@ void SceneManager::changeScene(const std::string& sceneName) {
 		this->loadingThread.join();
 	}
 
+	OutputDebugStringA(("Loading scene: " + sceneName + "\n").c_str());
 	// Create a new thread to load the next scene in the background
 	this->loadingThread = std::thread([this, sceneName]() {
 		this->nextScene = this->scenes[sceneName].get();
@@ -67,14 +70,8 @@ void SceneManager::update(float deltaTime) {
 	}
 }
 
-void SceneManager::render(Renderer& renderer) {
+void SceneManager::handleInput(Window& wnd) {
 	if (this->currentScene) {
-		this->currentScene->render(renderer);
-	}
-}
-
-void SceneManager::handleInput(const KeyboardEventManager& keyEvent, const MouseEventManager& mouseEvent) {
-	if (this->currentScene) {
-		this->currentScene->handleInput(keyEvent, mouseEvent);
+		this->currentScene->handleInput(wnd);
 	}
 }

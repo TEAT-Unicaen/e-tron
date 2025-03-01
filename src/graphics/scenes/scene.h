@@ -3,18 +3,26 @@
 #include "../event/keyboardEventManager.h"
 #include "../event/mouseEventManager.h"
 #include "../core/renderer.h"
+#include "../core/window.h"
+#include "../utils/image.h"
+#include "../objects/objects.h"
 
-#include "sceneManager.h"
+#include "../../utils/utils.h"
 
 class Scene {
 public:
+	Scene(Renderer& renderer, std::string name);
 	virtual ~Scene() = default;
 
-	virtual void onLoad() = 0; // Load the scene
+	virtual void onLoad() = 0;
 
-	virtual void update(float deltaTime) = 0;  // Update logic for the scene
-	virtual void render(Renderer& renderer) = 0; // Render the scene
-	virtual void handleInput(const KeyboardEventManager& keyevent, const MouseEventManager&) = 0; // Handle input for the scene
+	virtual void update(float deltaTime);
+	virtual void handleInput(Window& wnd) = 0;
 
-	virtual std::string getName() const = 0; // Get the name of the scene
+	std::string getName() const noexcept;
+
+protected:
+	Renderer& renderer;
+	std::string name;
+	std::vector<std::unique_ptr<Drawable>> pDrawables;
 };
