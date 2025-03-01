@@ -1,6 +1,7 @@
 #pragma once
 
 #include "scene.h"
+#include "../objects/DoubleTore.h"
 
 #include <random>
 

@@ -41,7 +41,7 @@ void GameScene::onLoad() {
 	std::uniform_real_distribution<float> dis(-50.0f, 50.0f);
 	std::uniform_real_distribution<float> rot(-2 * dx::XM_PI, 2 * dx::XM_PI);
 	std::uniform_real_distribution<float> move(-5.0f, 5.0f);
-	for (auto i = 0; i < 500; i++) {
+	for (auto i = 0; i < 100; i++) {
 		float x = dis(gen);
 		float y = dis(gen);
 		float z = dis(gen);
@@ -52,7 +52,7 @@ void GameScene::onLoad() {
 		float movey = move(gen);
 		float movez = move(gen);
 
-		this->pDrawables.push_back(std::make_unique<ColoredTore>(
+		this->pDrawables.push_back(std::make_unique<DoubleTore>(
 			this->renderer,
 			dx::XMFLOAT3{ x, y, z },
 			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },

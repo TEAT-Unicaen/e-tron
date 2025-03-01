@@ -1,6 +1,7 @@
 #pragma once
 
 #include "scene.h"
+#include "../objects/basicObjects/basicObjects.h"
 
 class LoadingScene : public Scene {
 public:
