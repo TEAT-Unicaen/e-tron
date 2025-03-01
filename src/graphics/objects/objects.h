@@ -12,3 +12,5 @@
 
 #include "cylinder/coloredCylinder.h"
 #include "cylinder/coloredCylinderTruncated.h"
+
+#include "sphere/coloredSphere.h"

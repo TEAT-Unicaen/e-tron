@@ -46,6 +46,10 @@ App::App()
 		Color::GRAY,
 	};
 
+	std::array<Color, 1> colorsSphere = {
+		Color::WHITE
+	};
+
 	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
 	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
 
@@ -55,7 +59,7 @@ App::App()
 	std::uniform_real_distribution<float> dis(-50.0f, 50.0f);
 	std::uniform_real_distribution<float> rot(-2*dx::XM_PI, 2*dx::XM_PI);
 	std::uniform_real_distribution<float> move(-5.0f, 5.0f);
-	for (auto i = 0; i < 1000; i++) {
+	for (auto i = 0; i < 500; i++) {
 		float x = dis(gen);  // Random X position
 		float y = dis(gen); // Random Y position
 		float z = dis(gen);
@@ -65,35 +69,25 @@ App::App()
 		float movex = move(gen);
 		float movey = move(gen);
 		float movez = move(gen);
-		this->pDrawables.push_back(std::make_unique<ColoredCylinderTruncated>(
+		this->pDrawables.push_back(std::make_unique<ColoredSphere>(
 			this->wnd.getRenderer(),
 			dx::XMFLOAT3{ x, y, z },
 			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 			dx::XMFLOAT3{ movex, movey, movez },
 			dx::XMFLOAT3{ rotx, roty, rotz },
-			colorsCylinder
+			colorsSphere
 		));
 	}
-	
 	/*
-	this->pDrawables.push_back(std::make_unique<BasicMotorcycle>(
-		this->wnd.getRenderer(),
-		dx::XMFLOAT3{ 0.0f, 0.0f, 5.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.5f, 0.5f, 0.0f },
-		colorsBasicMotorcycle
-	)); 
-	*/
-
-	this->pDrawables.push_back(std::make_unique<ColoredCylinderTruncated>(
+	this->pDrawables.push_back(std::make_unique<ColoredSphere>(
 		this->wnd.getRenderer(),
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.5f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.5f, 0.5f, 0.0f },
-		colorsCylinder
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		colorsSphere
 	));
+	*/
 
 }
 
@@ -109,7 +103,7 @@ int App::run() {
 		}
 		this->checkInput();
 		this->update();
-		SLEEP_MS(1);
+		//SLEEP_MS(1);
 	}
 }
 

@@ -6,14 +6,14 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 	scd.BufferDesc.Width = width;
 	scd.BufferDesc.Height = height;
 	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 32-bit RGBA color
-	scd.BufferDesc.RefreshRate.Numerator = 60;//FPS MAX
-	scd.BufferDesc.RefreshRate.Denominator = 1;
+	scd.BufferDesc.RefreshRate.Numerator = 0;//FPS MAX
+	scd.BufferDesc.RefreshRate.Denominator = 0;
 	scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED; // No scaling
 	scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; // No scanline ordering
 	scd.SampleDesc.Count = 1;
 	scd.SampleDesc.Quality = 0;
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	scd.BufferCount = 1;
+	scd.BufferCount = 2;
 	scd.OutputWindow = hwnd;
 	scd.Windowed = TRUE;
 	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // Discard the previous buffer
