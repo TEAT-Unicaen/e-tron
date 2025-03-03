@@ -1,0 +1,20 @@
+@use "sass:color";
+$primary-color: #d1d1d1;
+$hover-color: color.adjust($primary-color, $lightness: -10%);
+
+.sideBar {
+    height: 93vh;
+    width: 8vh;
+    position: fixed;
+    top: 3vh;
+    left: 3vh;
+    opacity: 100;
+    border-radius: .5em;
+    opacity: 50%;
+    transition: all 0.3s;
+
+    background: 212121;
+    border-radius: 30px;
+    box-shadow: 15px 15px 30px rgb(25, 25, 25),
+                -15px -15px 30px rgb(60, 60, 60);
+}
