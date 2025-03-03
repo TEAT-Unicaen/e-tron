@@ -15,6 +15,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CXX_FLAGS_DEFAULT} /MDd /DIS_DEBUG_MODE=true")
 
 # Inclure les répertoires contenant les headers
 include_directories(${CMAKE_SOURCE_DIR}/src)
+include(FetchContent)
 
 # Ajouter les fichiers sources principaux
 file(GLOB_RECURSE DEFAULT_PROJECT_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.h)
@@ -31,11 +32,21 @@ list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${CMAKE_SOURCE_DIR}/src/reader.cpp)
 list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${GRAPHICS_FILES})
 list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${TEST_FILES})
 
+# Mon json
+FetchContent_Declare(
+    json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG v3.11.3  
+)
+FetchContent_MakeAvailable(json)
+
 # Ajouter des cibles exécutable
 add_executable(MyTests ${DEFAULT_PROJECT_FILES} ${TEST_FILES})
 
 add_executable(e_tron_cmd ${DEFAULT_PROJECT_FILES} ${CMAKE_SOURCE_DIR}/src/main.cpp)
 add_executable(reader ${DEFAULT_PROJECT_FILES} ${CMAKE_SOURCE_DIR}/src/reader.cpp)
+
+target_link_libraries(e_tron_cmd PRIVATE nlohmann_json::nlohmann_json)
 
 if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     add_executable(e_tron_directX ${DEFAULT_PROJECT_FILES} ${GRAPHICS_FILES})
@@ -53,6 +64,7 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     add_dependencies(e_tron_directX CopyAssets)
 
     target_link_libraries(e_tron_directX PRIVATE d3d11 d3dcompiler dxgi dxguid d2d1 dwrite)
+    target_link_libraries(e_tron_directX PRIVATE nlohmann_json::nlohmann_json)
     
     # HLSL COMPILING
     find_program(FXC_COMPILER fxc.exe REQUIRED)
