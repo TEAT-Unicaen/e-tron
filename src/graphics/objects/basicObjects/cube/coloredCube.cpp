@@ -1,9 +1,9 @@
 #include "coloredCube.h"
+#include <chrono>
 
 ColoredCube::ColoredCube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRotation, dx::XMFLOAT3 velocity, dx::XMFLOAT3 angularVelocity, std::array<Color, 6> &colors)
 	: Cube(renderer, startPosition, startRotation, velocity, angularVelocity), colors(colors) {
-
-
+	
     const std::vector<dx::XMFLOAT3> vertices = {
         dx::XMFLOAT3(-0.5f, -0.5f, -0.5f),
         dx::XMFLOAT3(0.5f, -0.5f, -0.5f),
@@ -24,6 +24,7 @@ ColoredCube::ColoredCube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMF
 		2, 6, 3,    6, 7, 3, // Top face
 		4, 0, 5,    5, 0, 1 // Bottom face
 	};
+
 	this->addIndexBuffer(std::make_unique<IndexBuffer>(renderer, indices));
 
 	auto pvs = std::make_unique<VertexShader>(renderer, L"defaultVS");

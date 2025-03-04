@@ -1,7 +1,8 @@
 #pragma once
 
 #include "scene.h"
-#include "../objects/DoubleTore.h"
+#include "../objects/gameObjects/cubeGrid.h"
+#include "../objects/doubleTore.h"
 
 #include <random>
 

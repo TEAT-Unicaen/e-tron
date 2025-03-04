@@ -3,7 +3,6 @@
 GameScene::GameScene(Renderer& renderer, std::string name) : Scene(renderer, name) {}
 
 void GameScene::onLoad() {
-	OutputDebugStringA("GameScene loading\n");
 	std::array<Color, 6> colorsCube = {
 		Color::RED,
 		Color::GREEN,
@@ -30,38 +29,26 @@ void GameScene::onLoad() {
 	std::array<Color, 1> colorsSphere = {
 		Color::SILVER
 	};
-
-	OutputDebugStringA("Images loading\n");
 	//std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
 	//std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
-	OutputDebugStringA("Images loaded\n");
 
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_real_distribution<float> dis(-50.0f, 50.0f);
-	std::uniform_real_distribution<float> rot(-2 * dx::XM_PI, 2 * dx::XM_PI);
-	std::uniform_real_distribution<float> move(-5.0f, 5.0f);
-	for (auto i = 0; i < 100; i++) {
-		float x = dis(gen);
-		float y = dis(gen);
-		float z = dis(gen);
-		float rotx = rot(gen);
-		float roty = rot(gen);
-		float rotz = rot(gen);
-		float movex = move(gen);
-		float movey = move(gen);
-		float movez = move(gen);
-
-		this->pDrawables.push_back(std::make_unique<DoubleTore>(
-			this->renderer,
-			dx::XMFLOAT3{ x, y, z },
-			dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-			dx::XMFLOAT3{ movex, movey, movez },
-			dx::XMFLOAT3{ rotx, roty, rotz },
-			colorsSphere
-		));
-	}
-	OutputDebugStringA("GameScene loaded\n");
+	this->pDrawables.push_back(std::make_unique<CubeGrid>(
+		this->renderer,
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		colorsCube,
+		20, 20
+	));
+	this->pDrawables.push_back(std::make_unique<DoubleTore>(
+		this->renderer,
+		dx::XMFLOAT3{ 2.0f, 2.0f, 2.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		colorsSphere
+	));
 }
 
 void GameScene::handleInput(Window& wnd) {
