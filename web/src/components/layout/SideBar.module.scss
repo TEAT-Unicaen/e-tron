@@ -2,6 +2,15 @@
 $primary-color: #d1d1d1;
 $hover-color: color.adjust($primary-color, $lightness: -10%);
 
+@keyframes slideIn {
+    0% {
+        transform: translateX(-200%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
 .sideBar {
     height: 93vh;
     width: 8vh;
@@ -11,10 +20,22 @@ $hover-color: color.adjust($primary-color, $lightness: -10%);
     opacity: 100;
     border-radius: .5em;
     opacity: 50%;
-    transition: all 0.3s;
+    animation: slideIn 0.5s ease-out forwards;
 
-    background: 212121;
+    background: #212121;
     border-radius: 30px;
     box-shadow: 15px 15px 30px rgb(25, 25, 25),
                 -15px -15px 30px rgb(60, 60, 60);
+}
+
+.sideBar:hover {
+    opacity: 100%;
+    box-shadow: 15px 15px 30px rgb(35, 35, 35),
+                -15px -15px 30px rgb(70, 70, 70);
+}
+
+.sideBar img {
+    margin-top: 2vh;
+    max-width: 6vh;
+    filter: invert(1);
 }
