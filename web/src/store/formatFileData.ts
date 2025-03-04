@@ -28,9 +28,9 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
         radar: {
             labels: [
                 'Move up',
+                'Move right',
                 'Move down',
                 'Move left',
-                'Move right',
             ],
             datasets : [] as dataSet[]
         }
@@ -56,7 +56,7 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
         }
         outputArray.radar.datasets.push({
             label: pName,
-            data: [dat.top, dat.bottom, dat.left, dat.right],
+            data: [dat.top, dat.right, dat.bottom, dat.left],
             fill: true,
             backgroundColor: backgroundColorSet[index],
             borderColor: secondColorSet[index],

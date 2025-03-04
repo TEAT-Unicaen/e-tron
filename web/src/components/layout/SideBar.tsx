@@ -21,6 +21,7 @@ const SideBar: React.FC = ({}) => {
                     style={{display: "none"}}
                     onChange={handleFileChange}
                 />
+                <img src="/server.svg" onClick={() => alert("Cette fonctionnalitée n'est pas disponnible")}></img>
             </div>
         </>
     )
