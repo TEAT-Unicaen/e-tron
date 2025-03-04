@@ -39,15 +39,15 @@ void GameScene::onLoad() {
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		colorsCube,
-		20, 20
+		10, 10
 	));
-	this->pDrawables.push_back(std::make_unique<DoubleTore>(
+	this->pDrawables.push_back(std::make_unique<MotorPlayer>(
 		this->renderer,
-		dx::XMFLOAT3{ 2.0f, 2.0f, 2.0f },
+		dx::XMFLOAT3{ 2.0f, 4.0f, 2.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		colorsSphere
+		colorsCylinder
 	));
 }
 

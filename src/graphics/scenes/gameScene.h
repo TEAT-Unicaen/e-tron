@@ -2,7 +2,7 @@
 
 #include "scene.h"
 #include "../objects/gameObjects/cubeGrid.h"
-#include "../objects/doubleTore.h"
+#include "../objects/gameObjects/motorPlayer.h"
 
 #include <random>
 
