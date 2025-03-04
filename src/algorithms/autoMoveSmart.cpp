@@ -35,7 +35,7 @@ std::pair<std::pair<int, int>, int> AutoMoveSmart::decideMove(std::shared_ptr<Pl
 		this->getStoredMapMan()->setEntityAtCoords(player, oldX, oldY);
 		this->getStoredMapMan()->restoreCell(newX, newY);
 
-		if (score > bestScore) {
+		if (score >= bestScore) {
 			bestScore = score;
 			nextPos = {newX, newY};
 		}

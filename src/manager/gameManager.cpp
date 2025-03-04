@@ -85,7 +85,7 @@ void GameManager::threadLoop() {
 			if (player->isPlayerDead()) {continue;}
 
 			// Decide the best next move
-			std::pair<std::pair<int, int>, int> res = autoMoveSmart->decideMove(player, 1);
+			std::pair<std::pair<int, int>, int> res = autoMoveSmart->decideMove(player, 3);
 
 			// Coords saving before any move
 			auto [newX, newY] = res.first;

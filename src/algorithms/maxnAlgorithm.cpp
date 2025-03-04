@@ -45,7 +45,6 @@ std::vector<int> MaxnAlgorithm::maxn(std::vector<std::shared_ptr<Player>> player
         //Update score if needed
 
 		if (scores[playerId] > bestScores[playerId]) {
-			std::cout << "updated scores" << std::endl;
 			bestScores = scores;
 		}
     }
