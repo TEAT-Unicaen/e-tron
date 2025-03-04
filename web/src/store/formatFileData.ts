@@ -50,8 +50,8 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
             player: pName,
             roundPlayed: provRoundHere,
             top: dat.top,
-            bottom: dat.right,
-            right: dat.down,
+            bottom: dat.bottom,
+            right: dat.right,
             left: dat.left,
         }
         outputArray.radar.datasets.push({
