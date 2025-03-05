@@ -121,9 +121,9 @@ void GameManager::threadLoop() {
 			std::string action;
 
 			if (deltaY == 1) {
-				action = "up";
+				action = "top";
 			} else if (deltaY == -1) {
-				action = "down";
+				action = "bottom";
 			} else if (deltaX == 1) {
 				action = "right";
 			} else if (deltaX == -1) {
