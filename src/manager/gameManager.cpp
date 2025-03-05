@@ -38,6 +38,19 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos) noe
 	//Init maxn and paranoid algorithms
 	maxn = new MaxnAlgorithm(mapManager);
 	paranoid = new ParanoidAlgorithm(mapManager);
+
+	//Init json writer
+
+	auto now = std::chrono::system_clock::now();
+	auto duration = now.time_since_epoch();
+	auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+
+	std::ostringstream oss;
+	oss << "result_" << millis << ".json";
+
+	this->dataLogManager = new DataLogManager();
+	this->jsonWriter = new JsonWriter(oss.str());
+	std::cout << "Output file will be : " << oss.str() << std::endl;
 }
 
 GameManager::~GameManager() {
@@ -102,6 +115,23 @@ void GameManager::threadLoop() {
 			this->mapManager->setEntityAtCoords(player, newX, newY);
 			this->mapManager->placeWallAtCoords(player.get(), oldX, oldY);
 
+			int deltaX = newX - oldX;
+			int deltaY = newY - oldY;
+
+			std::string action;
+
+			if (deltaY == 1) {
+				action = "up";
+			} else if (deltaY == -1) {
+				action = "down";
+			} else if (deltaX == 1) {
+				action = "right";
+			} else if (deltaX == -1) {
+				action = "left";
+			} 
+
+			this->dataLogManager->addMovement(player->getName(), action, 1);
+
 			//Draw the map
 			std::cout << "\033[2J\033[H";
 			this->draw();
@@ -113,9 +143,13 @@ void GameManager::threadLoop() {
 		if (this->areAllPlayerDead()) {
 			this->draw();
 			std::cout << "All players are dead" << std::endl;
-			this->pause = true;
+			//this->pause = true;
+			this->running = false;
 		}
 	}
+	//TODO include datas in json & build it 
+	this->dataLogManager->fillJson(*this->jsonWriter);
+	jsonWriter->writeJson(); //Write the json file
 }
 
 void GameManager::loop() {

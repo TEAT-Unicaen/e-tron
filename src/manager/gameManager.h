@@ -7,6 +7,8 @@
 #include "../algorithms/paranoidAlgorithm.h"
 #include "../algorithms/autoMoveSmart.h"
 #include "../utils/colorEnum.h"
+#include "../utils/jsonWriter.h"
+#include "dataLogManager.h"
 
 #include <thread>
 #include <iostream>
@@ -52,6 +54,8 @@ private:
 	AutoMoveSmart* autoMoveSmart;
 	MaxnAlgorithm* maxn;
 	ParanoidAlgorithm* paranoid;
+	JsonWriter* jsonWriter;
+	DataLogManager* dataLogManager;
 	std::vector<std::shared_ptr<Player>> pVector;
 
 	void threadLoop();
