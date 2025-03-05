@@ -32,7 +32,6 @@ list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${CMAKE_SOURCE_DIR}/src/reader.cpp)
 list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${GRAPHICS_FILES})
 list(REMOVE_ITEM DEFAULT_PROJECT_FILES ${TEST_FILES})
 
-# Mon json
 FetchContent_Declare(
     json
     GIT_REPOSITORY https://github.com/nlohmann/json.git
@@ -47,6 +46,7 @@ add_executable(e_tron_cmd ${DEFAULT_PROJECT_FILES} ${CMAKE_SOURCE_DIR}/src/main.
 add_executable(reader ${DEFAULT_PROJECT_FILES} ${CMAKE_SOURCE_DIR}/src/reader.cpp)
 
 target_link_libraries(e_tron_cmd PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(reader PRIVATE nlohmann_json::nlohmann_json)
 
 if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     add_executable(e_tron_directX ${DEFAULT_PROJECT_FILES} ${GRAPHICS_FILES})
