@@ -29,8 +29,9 @@ void GameScene::onLoad() {
 	std::array<Color, 1> colorsSphere = {
 		Color::SILVER
 	};
-	//std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
-	//std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
+
+	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
+	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
 
 	this->pDrawables.push_back(std::make_unique<CubeGrid>(
 		this->renderer,
@@ -39,7 +40,7 @@ void GameScene::onLoad() {
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		colorsCube,
-		10, 10
+		50, 50
 	));
 	this->pDrawables.push_back(std::make_unique<MotorPlayer>(
 		this->renderer,

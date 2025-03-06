@@ -60,22 +60,22 @@ TexturedCube::TexturedCube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::X
 	};
 
 
-	this->addBindable(std::make_unique<VertexBuffer>(renderer, vertices));
-	this->addIndexBuffer(std::make_unique<IndexBuffer>(renderer, indices));
+	this->addBindable(std::make_shared<VertexBuffer>(renderer, vertices));
+	this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
 
-	auto pvs = std::make_unique<VertexShader>(renderer, L"textureVS");
+	auto pvs = std::make_shared<VertexShader>(renderer, L"textureVS");
 	auto pvsbc = pvs->getBytecode();
 	this->addBindable(std::move(pvs));
 
-	this->addBindable(std::make_unique<PixelShader>(renderer, L"texturePS"));
+	this->addBindable(std::make_shared<PixelShader>(renderer, L"texturePS"));
 	//the layout
 	const std::vector<D3D11_INPUT_ELEMENT_DESC> inputElementDesc = {
 		{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
 		{"TexCoord", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
-	this->addBindable(std::make_unique<InputLayout>(renderer, inputElementDesc, pvsbc));
+	this->addBindable(std::make_shared<InputLayout>(renderer, inputElementDesc, pvsbc));
 
 	// Bind the texture
-	this->addBindable(std::make_unique<Texture>(renderer, *pImage));
-	this->addBindable(std::make_unique<SamplerState>(renderer));
+	this->addBindable(std::make_shared<Texture>(renderer, *pImage));
+	this->addBindable(std::make_shared<SamplerState>(renderer));
 }

@@ -4,7 +4,7 @@ ColoredTore::ColoredTore(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMF
 	: Tore(renderer, startPosition, startRotation, velocity, angularVelocity), color(color) {
 
 
-	this->addBindable(std::make_unique<PixelShader>(renderer, L"coloredSpherePS"));
+	this->addBindable(std::make_shared<PixelShader>(renderer, L"coloredSpherePS"));
 	struct ColorBuffer {
 		dx::XMFLOAT4 colors[1];
 	};
@@ -13,5 +13,5 @@ ColoredTore::ColoredTore(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMF
 			this->color[0].toFloat4()
 		}
 	};
-	this->addBindable(std::make_unique<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
+	this->addBindable(std::make_shared<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
 }

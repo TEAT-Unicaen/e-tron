@@ -53,15 +53,15 @@ Tore::Tore(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRot
     }
 
     // Bind data to GPU
-    this->addBindable(std::make_unique<VertexBuffer>(renderer, vertices));
-    this->addIndexBuffer(std::make_unique<IndexBuffer>(renderer, indices));
-    auto pvs = std::make_unique<VertexShader>(renderer, L"defaultVS");
+    this->addBindable(std::make_shared<VertexBuffer>(renderer, vertices));
+    this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
+    auto pvs = std::make_shared<VertexShader>(renderer, L"defaultVS");
     auto pvsbc = pvs->getBytecode();
     this->addBindable(std::move(pvs));
     const std::vector<D3D11_INPUT_ELEMENT_DESC> inputElementDesc = {
     {"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
-    this->addBindable(std::make_unique<InputLayout>(renderer, inputElementDesc, pvsbc));
-    this->addBindable(std::make_unique<Topology>(renderer, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-    this->addBindable(std::make_unique<TransformConstantBuffer>(renderer, *this));
+    this->addBindable(std::make_shared<InputLayout>(renderer, inputElementDesc, pvsbc));
+    this->addBindable(std::make_shared<Topology>(renderer, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+    this->addBindable(std::make_shared<TransformConstantBuffer>(renderer, *this));
 }

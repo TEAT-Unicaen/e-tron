@@ -11,6 +11,8 @@ Image::Image(const std::wstring path) {
 		IID_PPV_ARGS(&wicFactory)
 	));
 
+	OutputDebugString("WIC factory created\n");
+
 	// Load the image
 	Mwrl::ComPtr<IWICBitmapDecoder> wicDecoder;
 	CHECK_WIN32API_EXCEPT(wicFactory->CreateDecoderFromFilename(
@@ -48,6 +50,8 @@ Image::Image(const std::wstring path) {
 		bufferSize,
 		this->pBuffer.get()
 	));
+
+	OutputDebugString("Image loaded successfully\n");
 }
 
 UINT Image::getWidth() const noexcept {

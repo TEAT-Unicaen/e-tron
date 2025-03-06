@@ -46,7 +46,10 @@ void SceneManager::changeScene(const std::string& sceneName) {
 	// Create a new thread to load the next scene in the background
 	this->loadingThread = std::thread([this, sceneName]() {
 		this->nextScene = this->scenes[sceneName].get();
+		HR;
+		CHECK_WIN32API_EXCEPT(CoInitialize(nullptr));
 		this->nextScene->onLoad();
+		CoUninitialize();
 
 		// Once the scene is loaded, update the flag and switch to the new scene
 		{

@@ -10,11 +10,11 @@ ColoredCylinderTruncated::ColoredCylinderTruncated(
 
     : CylinderTruncated(renderer, startPosition, startRotation, velocity, angularVelocity), colors(colors) {
 
-    auto pvs = std::make_unique<VertexShader>(renderer, L"defaultVS");
+    auto pvs = std::make_shared<VertexShader>(renderer, L"defaultVS");
     auto pvsbc = pvs->getBytecode();
     this->addBindable(std::move(pvs));
 
-    this->addBindable(std::make_unique<PixelShader>(renderer, L"coloredCylinderTruncatedPS"));
+    this->addBindable(std::make_shared<PixelShader>(renderer, L"coloredCylinderTruncatedPS"));
 
     struct ColorBuffer {
         dx::XMFLOAT4 colors[3];
@@ -27,10 +27,10 @@ ColoredCylinderTruncated::ColoredCylinderTruncated(
             this->colors[2].toFloat4()   // Couleur des faces latérales
         }
     };
-    this->addBindable(std::make_unique<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
+    this->addBindable(std::make_shared<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
 
     const std::vector<D3D11_INPUT_ELEMENT_DESC> inputElementDesc = {
         {"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
-    this->addBindable(std::make_unique<InputLayout>(renderer, inputElementDesc, pvsbc));
+    this->addBindable(std::make_shared<InputLayout>(renderer, inputElementDesc, pvsbc));
 }

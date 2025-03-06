@@ -22,14 +22,14 @@ ColoredSquarePyramid::ColoredSquarePyramid(Renderer& renderer, dx::XMFLOAT3 star
 		2, 4, 3, // Back face
 		3, 4, 0, // Left face
 	};
-	this->addBindable(std::make_unique<VertexBuffer>(renderer, vertices));
-	this->addIndexBuffer(std::make_unique<IndexBuffer>(renderer, indices));
+	this->addBindable(std::make_shared<VertexBuffer>(renderer, vertices));
+	this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
 
-	auto pvs = std::make_unique<VertexShader>(renderer, L"defaultVS");
+	auto pvs = std::make_shared<VertexShader>(renderer, L"defaultVS");
 	auto pvsbc = pvs->getBytecode();
 	this->addBindable(std::move(pvs));
 
-	this->addBindable(std::make_unique<PixelShader>(renderer, L"coloredSquarePyramidPS"));
+	this->addBindable(std::make_shared<PixelShader>(renderer, L"coloredSquarePyramidPS"));
 
 	struct ColorBuffer {
 		dx::XMFLOAT4 colors[5];
@@ -44,11 +44,11 @@ ColoredSquarePyramid::ColoredSquarePyramid(Renderer& renderer, dx::XMFLOAT3 star
 			this->colors[4].toFloat4()
 		}
 	};
-	this->addBindable(std::make_unique<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
+	this->addBindable(std::make_shared<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
 
 	//the layout
 	const std::vector<D3D11_INPUT_ELEMENT_DESC> inputElementDesc = {
 		{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
-	this->addBindable(std::make_unique<InputLayout>(renderer, inputElementDesc, pvsbc));
+	this->addBindable(std::make_shared<InputLayout>(renderer, inputElementDesc, pvsbc));
 }

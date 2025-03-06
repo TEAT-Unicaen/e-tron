@@ -56,8 +56,8 @@ Cylinder::Cylinder(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 
         indices.push_back(next * 2 + 1);
     }
 
-    this->addBindable(std::make_unique<VertexBuffer>(renderer, vertices));
-    this->addIndexBuffer(std::make_unique<IndexBuffer>(renderer, indices));
-    this->addBindable(std::make_unique<Topology>(renderer, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-    this->addBindable(std::make_unique<TransformConstantBuffer>(renderer, *this));
+    this->addBindable(std::make_shared<VertexBuffer>(renderer, vertices));
+    this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
+    this->addBindable(std::make_shared<Topology>(renderer, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+    this->addBindable(std::make_shared<TransformConstantBuffer>(renderer, *this));
 }

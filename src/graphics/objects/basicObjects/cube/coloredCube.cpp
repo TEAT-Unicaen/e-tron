@@ -14,7 +14,7 @@ ColoredCube::ColoredCube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMF
         dx::XMFLOAT3(-0.5f, 0.5f, 0.5f),
         dx::XMFLOAT3(0.5f, 0.5f, 0.5f)
     };
-	this->addBindable(std::make_unique<VertexBuffer>(renderer, vertices));
+	this->addBindable(std::make_shared<VertexBuffer>(renderer, vertices));
 	
 	const std::vector<unsigned short> indices = {
 		0, 2, 1,    2, 3, 1, // Front face
@@ -25,13 +25,13 @@ ColoredCube::ColoredCube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMF
 		4, 0, 5,    5, 0, 1 // Bottom face
 	};
 
-	this->addIndexBuffer(std::make_unique<IndexBuffer>(renderer, indices));
+	this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
 
 	auto pvs = std::make_unique<VertexShader>(renderer, L"defaultVS");
 	auto pvsbc = pvs->getBytecode();
 	this->addBindable(std::move(pvs));
 
-	this->addBindable(std::make_unique<PixelShader>(renderer, L"coloredCubePS"));
+	this->addBindable(std::make_shared<PixelShader>(renderer, L"coloredCubePS"));
 
 	struct ColorBuffer {
 		dx::XMFLOAT4 colors[6];
@@ -47,11 +47,11 @@ ColoredCube::ColoredCube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMF
 			this->colors[5].toFloat4()
 		}
 	};
-	this->addBindable(std::make_unique<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
+	this->addBindable(std::make_shared<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
 
 	//the layout
 	const std::vector<D3D11_INPUT_ELEMENT_DESC> inputElementDesc = {
 		{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
-	this->addBindable(std::make_unique<InputLayout>(renderer, inputElementDesc, pvsbc));
+	this->addBindable(std::make_shared<InputLayout>(renderer, inputElementDesc, pvsbc));
 }

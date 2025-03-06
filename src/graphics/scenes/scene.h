@@ -5,7 +5,7 @@
 #include "../core/renderer.h"
 #include "../core/window.h"
 #include "../utils/image.h"
-#include "../objects/object.h"
+#include "../objects/basicObjects/Drawable.h"
 
 #include "../../utils/utils.h"
 
@@ -24,5 +24,5 @@ public:
 protected:
 	Renderer& renderer;
 	std::string name;
-	std::vector<std::unique_ptr<Object>> pDrawables;
+	std::vector<std::unique_ptr<Drawable>> pDrawables;
 };

@@ -17,18 +17,19 @@ public:
 	virtual ~Drawable() = default;
 	
 	dx::XMMATRIX getTransform() const;
-	void draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE);
-	void update(float delta) noexcept;
-	void addBindable(std::unique_ptr<Bindable> pBindables) noexcept;
-	void addIndexBuffer(std::unique_ptr<IndexBuffer> pIndexBuffer) noexcept(!IS_DEBUG_MODE);
+	virtual void draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE);
+	virtual void update(float delta) noexcept;
+	void addBindable(std::shared_ptr<Bindable> pBindables) noexcept;
+	void addBindable(std::shared_ptr<IndexBuffer> pIndexBuffer) noexcept(!IS_DEBUG_MODE);
 
 protected:
-	dx::XMFLOAT3 position;
-	dx::XMFLOAT3 rotation;
+	dx::XMFLOAT3 position = dx::XMFLOAT3(0.0f, 0.0f, 0.0f);
+	dx::XMFLOAT3 rotation = dx::XMFLOAT3(0.0f, 0.0f, 0.0f);
 
-	dx::XMFLOAT3 velocity;
-	dx::XMFLOAT3 angularVelocity;
+	dx::XMFLOAT3 velocity = dx::XMFLOAT3(0.0f, 0.0f, 0.0f);
+	dx::XMFLOAT3 angularVelocity = dx::XMFLOAT3(0.0f, 0.0f, 0.0f);
 private:
-	const IndexBuffer* pIndexBuffer = nullptr;
-	std::vector<std::unique_ptr<Bindable>> pBindables;
+	void bindAll(Renderer& renderer) const noexcept(!IS_DEBUG_MODE);
+	UINT indexCount = 0u;
+	std::vector<std::shared_ptr<Bindable>> pBindables;
 };
