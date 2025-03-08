@@ -4,7 +4,7 @@
 #include <wincodec.h>
 #include <wrl/client.h>
 
-#include "../exception/hrException.h"
+#include "../core/exception/hrException.h"
 
 namespace Mwrl = Microsoft::WRL;
 

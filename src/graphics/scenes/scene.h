@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../event/keyboardEventManager.h"
-#include "../event/mouseEventManager.h"
-#include "../core/renderer.h"
+#include "../core/event/keyboardEventManager.h"
+#include "../core/event/mouseEventManager.h"
+#include "../core/render/renderer.h"
 #include "../core/window.h"
 #include "../utils/image.h"
-#include "../objects/basicObjects/Drawable.h"
+#include "../objects/drawable/drawable.h"
 
 #include "../../utils/utils.h"
 

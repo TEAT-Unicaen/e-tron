@@ -1,8 +1,8 @@
 #pragma once
 
 #include "scene.h"
-#include "../objects/gameObjects/cubeGrid.h"
-#include "../objects/gameObjects/motorPlayer.h"
+#include "../objects/drawable/cubeGrid.h"
+#include "../objects/drawable/motorPlayer.h"
 
 #include <random>
 

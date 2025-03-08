@@ -1,12 +1,12 @@
 #pragma once
 
 #include "../utils/setUpWindows.h"
-#include "../resource/resource.h"
-#include "../event/KeyboardEventManager.h"
-#include "../event/mouseEventManager.h"
+#include "resource/resource.h"
+#include "event/KeyboardEventManager.h"
+#include "event/mouseEventManager.h"
 #include "../../utils/utils.h"
-#include "../exception/windowException.h"
-#include "renderer.h"
+#include "exception/windowException.h"
+#include "render/renderer.h"
 
 #include <memory>
 #include <optional>
