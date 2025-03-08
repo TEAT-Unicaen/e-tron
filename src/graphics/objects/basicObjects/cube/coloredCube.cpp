@@ -27,11 +27,11 @@ ColoredCube::ColoredCube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMF
 
 	this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
 
-	auto pvs = std::make_unique<VertexShader>(renderer, L"defaultVS");
+	auto pvs = shaderManager.getVertexShader(L"defaultVS");
 	auto pvsbc = pvs->getBytecode();
 	this->addBindable(std::move(pvs));
 
-	this->addBindable(std::make_shared<PixelShader>(renderer, L"coloredCubePS"));
+	this->addBindable(shaderManager.getPixelShader(L"coloredCubePS"));
 
 	struct ColorBuffer {
 		dx::XMFLOAT4 colors[6];

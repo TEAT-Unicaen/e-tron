@@ -6,7 +6,8 @@
 #include <d3dcompiler.h>
 #pragma comment(lib, "D3dcompiler.lib")
 
-
+#include <d2d1.h>
+#pragma comment(lib, "d2d1.lib")
 #include <dwrite.h>
 #pragma comment(lib, "dwrite.lib")
 
@@ -14,7 +15,6 @@
 #include "../utils/color.h"
 #include "../objects/camera.h"
 #include "../exception/rendererException.h"
-
 
 namespace Mwrl = Microsoft::WRL;
 
@@ -32,7 +32,6 @@ public:
 	dx::XMMATRIX getProjection() const noexcept;
 	Camera& getCamera() noexcept;
 	dx::XMMATRIX getView()const noexcept;
-
 	void renderText(const std::wstring& text, const dx::XMFLOAT2& position, float size, Color color);
 private:
 	Camera camera;

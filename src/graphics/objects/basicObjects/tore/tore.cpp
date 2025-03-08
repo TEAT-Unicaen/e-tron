@@ -55,9 +55,11 @@ Tore::Tore(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRot
     // Bind data to GPU
     this->addBindable(std::make_shared<VertexBuffer>(renderer, vertices));
     this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
-    auto pvs = std::make_shared<VertexShader>(renderer, L"defaultVS");
+
+    auto pvs = shaderManager.getVertexShader(L"defaultVS");
     auto pvsbc = pvs->getBytecode();
     this->addBindable(std::move(pvs));
+
     const std::vector<D3D11_INPUT_ELEMENT_DESC> inputElementDesc = {
     {"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };

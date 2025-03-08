@@ -10,11 +10,11 @@ ColoredCylinderTruncated::ColoredCylinderTruncated(
 
     : CylinderTruncated(renderer, startPosition, startRotation, velocity, angularVelocity), colors(colors) {
 
-    auto pvs = std::make_shared<VertexShader>(renderer, L"defaultVS");
+    auto pvs = shaderManager.getVertexShader(L"defaultVS");
     auto pvsbc = pvs->getBytecode();
     this->addBindable(std::move(pvs));
 
-    this->addBindable(std::make_shared<PixelShader>(renderer, L"coloredCylinderTruncatedPS"));
+    this->addBindable(shaderManager.getPixelShader(L"coloredCylinderTruncatedPS"));
 
     struct ColorBuffer {
         dx::XMFLOAT4 colors[3];

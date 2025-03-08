@@ -54,10 +54,10 @@ ColoredSphere::ColoredSphere(Renderer& renderer, dx::XMFLOAT3 startPosition, dx:
 	this->addBindable(std::make_shared<VertexBuffer>(renderer, vertices));
 	this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
 
-	auto pvs = std::make_shared<VertexShader>(renderer, L"defaultVS");
+	auto pvs = shaderManager.getVertexShader(L"defaultVS");
 	auto pvsbc = pvs->getBytecode();
 	this->addBindable(std::move(pvs));
-	this->addBindable(std::make_shared<PixelShader>(renderer, L"coloredSpherePS"));
+	this->addBindable(shaderManager.getPixelShader(L"coloredSpherePS"));
 	struct ColorBuffer {
 		dx::XMFLOAT4 colors[1];
 	};

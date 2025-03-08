@@ -7,9 +7,22 @@ App::App()
 	// COM initialization
 	CHECK_WIN32API_EXCEPT(CoInitialize(nullptr));
 
-
-
 	Renderer& renderer = this->wnd.getRenderer();
+	ShaderManager& shaderManager = Drawable::shaderManager;
+
+	// Add shaders
+	shaderManager.addVertexShader(renderer, L"defaultVS");
+	shaderManager.addVertexShader(renderer, L"textureVS");
+
+	shaderManager.addPixelShader(renderer, L"coloredCubePS");
+	shaderManager.addPixelShader(renderer, L"coloredSquarePyramidPS");
+	shaderManager.addPixelShader(renderer, L"coloredCylinderPS");
+	shaderManager.addPixelShader(renderer, L"coloredCylinderTruncatedPS");
+	shaderManager.addPixelShader(renderer, L"coloredSpherePS");
+	shaderManager.addPixelShader(renderer, L"coloredMotorcyclePS");
+	shaderManager.addPixelShader(renderer, L"texturePS");
+
+
 	this->sceneManager = std::make_unique<SceneManager>(
 		std::make_unique<LoadingScene>(
 			renderer,

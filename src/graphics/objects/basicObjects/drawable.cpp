@@ -1,5 +1,7 @@
 #include "drawable.h"
 
+ShaderManager Drawable::shaderManager;
+
 Drawable::Drawable(Renderer& renderer, const dx::XMFLOAT3 startPosition, const dx::XMFLOAT3 startRotation, const dx::XMFLOAT3 velocity, const dx::XMFLOAT3 angularVelocity)
 	: position(startPosition), rotation(startRotation), velocity(velocity), angularVelocity(angularVelocity) {}
 

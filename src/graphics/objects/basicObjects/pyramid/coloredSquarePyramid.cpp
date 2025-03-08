@@ -25,11 +25,11 @@ ColoredSquarePyramid::ColoredSquarePyramid(Renderer& renderer, dx::XMFLOAT3 star
 	this->addBindable(std::make_shared<VertexBuffer>(renderer, vertices));
 	this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
 
-	auto pvs = std::make_shared<VertexShader>(renderer, L"defaultVS");
+	auto pvs = shaderManager.getVertexShader(L"defaultVS");
 	auto pvsbc = pvs->getBytecode();
 	this->addBindable(std::move(pvs));
 
-	this->addBindable(std::make_shared<PixelShader>(renderer, L"coloredSquarePyramidPS"));
+	this->addBindable(shaderManager.getPixelShader(L"coloredSquarePyramidPS"));
 
 	struct ColorBuffer {
 		dx::XMFLOAT4 colors[5];

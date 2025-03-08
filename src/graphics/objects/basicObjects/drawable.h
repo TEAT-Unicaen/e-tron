@@ -6,6 +6,7 @@
 #include "../../core/renderer.h"
 #include "bindable/bindable.h"
 #include "bindable/buffers/indexBuffer.h"
+#include "bindable/shaders/shaderManager.h"
 
 namespace dx = DirectX;
 
@@ -22,6 +23,7 @@ public:
 	void addBindable(std::shared_ptr<Bindable> pBindables) noexcept;
 	void addBindable(std::shared_ptr<IndexBuffer> pIndexBuffer) noexcept(!IS_DEBUG_MODE);
 
+	static ShaderManager shaderManager;
 protected:
 	dx::XMFLOAT3 position = dx::XMFLOAT3(0.0f, 0.0f, 0.0f);
 	dx::XMFLOAT3 rotation = dx::XMFLOAT3(0.0f, 0.0f, 0.0f);

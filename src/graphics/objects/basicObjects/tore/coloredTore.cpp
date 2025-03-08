@@ -3,8 +3,7 @@
 ColoredTore::ColoredTore(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRotation, dx::XMFLOAT3 velocity, dx::XMFLOAT3 angularVelocity, std::array<Color, 1>& color)
 	: Tore(renderer, startPosition, startRotation, velocity, angularVelocity), color(color) {
 
-
-	this->addBindable(std::make_shared<PixelShader>(renderer, L"coloredSpherePS"));
+	this->addBindable(shaderManager.getPixelShader(L"coloredSpherePS"));
 	struct ColorBuffer {
 		dx::XMFLOAT4 colors[1];
 	};

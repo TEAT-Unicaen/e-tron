@@ -34,10 +34,11 @@ TexturedSquarePyramid::TexturedSquarePyramid(Renderer& renderer, dx::XMFLOAT3 st
 	};
 	this->addBindable(std::make_shared<VertexBuffer>(renderer, vertices));
 	this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
-	auto pvs = std::make_shared<VertexShader>(renderer, L"textureVS");
+
+	auto pvs = shaderManager.getVertexShader(L"textureVS");
 	auto pvsbc = pvs->getBytecode();
 	this->addBindable(std::move(pvs));
-	this->addBindable(std::make_shared<PixelShader>(renderer, L"texturePS"));
+	this->addBindable(shaderManager.getPixelShader(L"texturePS"));
 
 	const std::vector<D3D11_INPUT_ELEMENT_DESC> inputElementDesc = {
 		{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
