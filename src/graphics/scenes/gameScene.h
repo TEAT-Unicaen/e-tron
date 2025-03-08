@@ -1,10 +1,10 @@
 #pragma once
 
 #include "scene.h"
-#include "../objects/drawable/cubeGrid.h"
-#include "../objects/drawable/motorPlayer.h"
+#include "../objects/meshes/meshes.h"
+#include "../objects/drawable/singleMeshDrawable/singleMeshDrawable.h"
 
-#include <random>
+#include <memory>
 
 class GameScene : public Scene {
 public:

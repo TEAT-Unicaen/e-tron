@@ -71,7 +71,7 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     message(STATUS "FXC Compiler found at: ${FXC_COMPILER}")
 
     # Define the shader source directory
-    set(SHADER_SRC_DIR ${CMAKE_SOURCE_DIR}/src/graphics/shaders)
+    set(SHADER_SRC_DIR ${CMAKE_SOURCE_DIR}/src/graphics/core/render/shaders)
 
     # Define the directory to store the compiled shaders
     set(SHADER_OUTPUT_DIR ${CMAKE_BINARY_DIR}/shaders)

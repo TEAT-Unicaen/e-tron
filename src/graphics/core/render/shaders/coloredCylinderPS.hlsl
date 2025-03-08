@@ -1,6 +1,8 @@
 cbuffer colors : register(b0)
 {
-    float4 color[3]; // 0 = haut, 1 = bas, 2 = latéral
+    float4 color[10]; // 0 = haut, 1 = bas, 2 = latéral
+    uint colorCount;
+    float padding[3];
 };
 
 float4 main(uint tid : SV_PrimitiveID) : SV_TARGET

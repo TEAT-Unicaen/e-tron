@@ -1,16 +1,8 @@
 #pragma once
 
-#include "../../drawable/drawable.h"
-#include "../../bindable/bindableBase.h"
+#include "../mesh.h"
 
-
-class Cylinder : public Drawable {
+class Cylinder : public Mesh {
 public:
-    Cylinder(
-        Renderer& renderer, 
-        dx::XMFLOAT3 startPosition,
-        dx::XMFLOAT3 startRotation,
-        dx::XMFLOAT3 velocity,
-        dx::XMFLOAT3 angularVelocity,
-        int slices = 50);
+	Cylinder(Renderer& renderer, float radius=0.5f, float height=1.0f, int slices=20);
 };

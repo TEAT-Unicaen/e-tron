@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../../drawable/drawable.h"
-#include "../../bindable/bindableBase.h"
+#include "../mesh.h"
 
-class Cube : public Drawable {
+class Cube : public Mesh {
 public:
-	Cube(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRotation, dx::XMFLOAT3 velocity, dx::XMFLOAT3 angularVelocity);
+	Cube(Renderer& renderer, int size=1);
 };

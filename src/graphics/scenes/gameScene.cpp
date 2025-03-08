@@ -3,7 +3,7 @@
 GameScene::GameScene(Renderer& renderer, std::string name) : Scene(renderer, name) {}
 
 void GameScene::onLoad() {
-	std::array<Color, 6> colorsCube = {
+	std::vector<Color> colorsCube = {
 		Color::RED,
 		Color::GREEN,
 		Color::BLUE,
@@ -12,7 +12,7 @@ void GameScene::onLoad() {
 		Color::YELLOW
 	};
 
-	std::array<Color, 5> colorsSquarePyramid = {
+	std::vector<Color> colorsSquarePyramid = {
 		Color::RED,
 		Color::GREEN,
 		Color::BLUE,
@@ -20,35 +20,29 @@ void GameScene::onLoad() {
 		Color::CYAN,
 	};
 
-	std::array<Color, 3> colorsCylinder = {
+	std::vector<Color> colorsCylinder = {
 		Color::CYAN,
 		Color::SILVER,
 		Color::GRAY,
 	};
 
-	std::array<Color, 1> colorsSphere = {
+	std::vector<Color> colorsSphere = {
 		Color::SILVER
 	};
 
 	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
 	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
 
-	this->pDrawables.push_back(std::make_unique<CubeGrid>(
+	Mesh cube = Cylinder(renderer, 0.5f, 1.0f, 1000);
+
+	this->pDrawables.push_back(std::make_unique<SingleMeshDrawable>(
 		this->renderer,
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		colorsCube,
-		50, 50
-	));
-	this->pDrawables.push_back(std::make_unique<MotorPlayer>(
-		this->renderer,
-		dx::XMFLOAT3{ 2.0f, 4.0f, 2.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		colorsCylinder
+		cube,
+		L"defaultVS",
+		L"coloredCylinderPS",
+		colorsCube
 	));
 }
 
@@ -57,7 +51,7 @@ void GameScene::handleInput(Window& wnd) {
 	float forward = 0.0f, right = 0.0f;
 	float rotX = 0.0f, rotY = 0.0f;
 	float speed = 0.1f;
-	float rotationSpeed = 0.1f;
+	float rotationSpeed = 0.05f;
 	float deltaFOV = 0.0f;
 
 	auto& keyEvent = wnd.keyEvent;
@@ -70,14 +64,14 @@ void GameScene::handleInput(Window& wnd) {
 	if (this->isPaused) return;
 
 	// Camera movement
-	if (keyEvent.keyIsPressed('Z')) forward += 1.0f;
-	if (keyEvent.keyIsPressed('S')) forward -= 1.0f;
-	if (keyEvent.keyIsPressed('Q')) right -= 1.0f;
-	if (keyEvent.keyIsPressed('D')) right += 1.0f;
+	if (keyEvent.keyIsPressed('Z')) forward += 0.5f;
+	if (keyEvent.keyIsPressed('S')) forward -= 0.5f;
+	if (keyEvent.keyIsPressed('Q')) right -= 0.5f;
+	if (keyEvent.keyIsPressed('D')) right += 0.5f;
 
 	// Normalized movement
 	if (keyEvent.keyIsPressed(VK_SHIFT)) speed *= 5;
-	float length = std::sqrt(forward * forward + right * right);
+	float length = std::sqrtf(forward * forward + right * right);
 	if (length > 0.0f) {
 		forward = (forward / length) * speed;
 		right = (right / length) * speed;

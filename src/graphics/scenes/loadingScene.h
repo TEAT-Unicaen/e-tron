@@ -1,7 +1,8 @@
 #pragma once
 
 #include "scene.h"
-#include "../objects/meshes/basicObjects.h"
+#include "../objects/meshes/meshes.h"
+#include "../objects/drawable/singleMeshDrawable/singleMeshDrawable.h"
 
 class LoadingScene : public Scene {
 public:

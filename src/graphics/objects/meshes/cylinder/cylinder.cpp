@@ -1,61 +1,91 @@
 #include "cylinder.h"
 
-Cylinder::Cylinder(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRotation, dx::XMFLOAT3 velocity, dx::XMFLOAT3 angularVelocity, int slices)
-    : Drawable(renderer, startPosition, startRotation, velocity, angularVelocity) {
-
-    std::vector<dx::XMFLOAT3> vertices;
+Cylinder::Cylinder(Renderer& renderer, float radius, float height, int slices) {
+    std::vector<Mesh::Vertex> vertices;
     std::vector<unsigned short> indices;
 
-    float radius = 0.5f;
-    float height = 1.0f;
-    float angleStep = 2.0f * DirectX::XM_PI / slices;
+    // Réservation de mémoire pour éviter les reallocations dynamiques
+    vertices.reserve(slices * 10 + 2);
+    indices.reserve(slices * 12);
 
-    // Ajouter les sommets des cercles du haut et du bas
+    float angleStep = dx::XM_2PI / slices;
+    float halfHeight = height / 2;
+
+    // ----- Faces latérales -----
     for (int i = 0; i < slices; ++i) {
         float angle = i * angleStep;
-        float x = radius * cos(angle);
-        float z = radius * sin(angle);
+        float nextAngle = ((i + 1) % slices) * angleStep;
 
-        // Point sur le cercle du haut
-        vertices.push_back(dx::XMFLOAT3(x, height / 2, z));
+        float x1 = radius * cos(angle);
+        float z1 = radius * sin(angle);
+        float x2 = radius * cos(nextAngle);
+        float z2 = radius * sin(nextAngle);
 
-        // Point sur le cercle du bas
-        vertices.push_back(dx::XMFLOAT3(x, -height / 2, z));
+        dx::XMFLOAT3 normal1(cos(angle), 0, sin(angle));
+        dx::XMFLOAT3 normal2(cos(nextAngle), 0, sin(nextAngle));
+
+        int baseIdx = vertices.size();
+
+        vertices.push_back({ dx::XMFLOAT3(x1, halfHeight, z1), normal1 });
+        vertices.push_back({ dx::XMFLOAT3(x2, halfHeight, z2), normal2 });
+        vertices.push_back({ dx::XMFLOAT3(x1, -halfHeight, z1), normal1 });
+
+        vertices.push_back({ dx::XMFLOAT3(x1, -halfHeight, z1), normal1 });
+        vertices.push_back({ dx::XMFLOAT3(x2, halfHeight, z2), normal2 });
+        vertices.push_back({ dx::XMFLOAT3(x2, -halfHeight, z2), normal2 });
+
+        indices.push_back(baseIdx);
+        indices.push_back(baseIdx + 1);
+        indices.push_back(baseIdx + 2);
+        indices.push_back(baseIdx + 3);
+        indices.push_back(baseIdx + 4);
+        indices.push_back(baseIdx + 5);
     }
 
-    // Ajouter les centres des cercles (pour les triangles de la base)
-    int centerTopIndex = vertices.size();
-    vertices.push_back(dx::XMFLOAT3(0, height / 2, 0));
+    // ----- Disque du haut -----
+    int topCenterIdx = vertices.size();
+    vertices.push_back({ dx::XMFLOAT3(0, halfHeight, 0), dx::XMFLOAT3(0, 1, 0) });
 
-    int centerBottomIndex = vertices.size();
-    vertices.push_back(dx::XMFLOAT3(0, -height / 2, 0));
-
-    // Indices pour les faces du cylindre
     for (int i = 0; i < slices; ++i) {
-        int next = (i + 1) % slices;
+        float angle = i * angleStep;
+        float nextAngle = ((i + 1) % slices) * angleStep;
+        float x1 = radius * cos(angle);
+        float z1 = radius * sin(angle);
+        float x2 = radius * cos(nextAngle);
+        float z2 = radius * sin(nextAngle);
 
-        // Face latérale (deux triangles)
-        indices.push_back(i * 2);
-        indices.push_back(next * 2);
-        indices.push_back(i * 2 + 1);
+        int idx = vertices.size();
+        vertices.push_back({ dx::XMFLOAT3(x1, halfHeight, z1), dx::XMFLOAT3(0, 1, 0) });
+        vertices.push_back({ dx::XMFLOAT3(x2, halfHeight, z2), dx::XMFLOAT3(0, 1, 0) });
 
-        indices.push_back(i * 2 + 1);
-        indices.push_back(next * 2);
-        indices.push_back(next * 2 + 1);
+        indices.push_back(topCenterIdx);
+        indices.push_back(idx + 1);
+        indices.push_back(idx);
 
-        // Triangle du haut
-        indices.push_back(centerTopIndex);
-        indices.push_back(next * 2);
-        indices.push_back(i * 2);
-        
-        // Triangle du bas
-        indices.push_back(centerBottomIndex);
-        indices.push_back(i * 2 + 1);
-        indices.push_back(next * 2 + 1);
     }
 
-    this->addBindable(std::make_shared<VertexBuffer>(renderer, vertices));
-    this->addBindable(std::make_shared<IndexBuffer>(renderer, indices));
-    this->addBindable(std::make_shared<Topology>(renderer, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-    this->addBindable(std::make_shared<TransformConstantBuffer>(renderer, *this));
+    // ----- Disque du bas -----
+    int bottomCenterIdx = vertices.size();
+    vertices.push_back({ dx::XMFLOAT3(0, -halfHeight, 0), dx::XMFLOAT3(0, -1, 0) });
+
+    for (int i = 0; i < slices; ++i) {
+        float angle = i * angleStep;
+        float nextAngle = ((i + 1) % slices) * angleStep;
+        float x1 = radius * cos(angle);
+        float z1 = radius * sin(angle);
+        float x2 = radius * cos(nextAngle);
+        float z2 = radius * sin(nextAngle);
+
+        int idx = vertices.size();
+        vertices.push_back({ dx::XMFLOAT3(x1, -halfHeight, z1), dx::XMFLOAT3(0, -1, 0) });
+        vertices.push_back({ dx::XMFLOAT3(x2, -halfHeight, z2), dx::XMFLOAT3(0, -1, 0) });
+
+        indices.push_back(bottomCenterIdx);
+        indices.push_back(idx);
+        indices.push_back(idx + 1);
+    }
+
+    // Création des buffers
+    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices);
+    this->indexBuffer = std::make_shared<IndexBuffer>(renderer, indices);
 }
