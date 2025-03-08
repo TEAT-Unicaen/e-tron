@@ -102,14 +102,14 @@ void MouseEventManager::onMouseLeave(int x, int y) noexcept {
 }
 
 void MouseEventManager::onWheelDelta(int x, int y, int delta) noexcept {
-	this->wheelDelat += delta;
+	this->wheelDelta += delta;
 	// generate events for every 120 delta
-	while (this->wheelDelat >= WHEEL_DELTA) {
+	while (this->wheelDelta >= WHEEL_DELTA) {
 		this->onWheelUp(x, y);
-		this->wheelDelat -= WHEEL_DELTA;
+		this->wheelDelta -= WHEEL_DELTA;
 	}
-	while (this->wheelDelat <= -WHEEL_DELTA) {
+	while (this->wheelDelta <= -WHEEL_DELTA) {
 		this->onWheelDown(x, y);
-		this->wheelDelat += WHEEL_DELTA;
+		this->wheelDelta += WHEEL_DELTA;
 	}
 }

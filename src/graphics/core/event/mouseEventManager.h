@@ -74,7 +74,7 @@ private:
 
 	std::bitset<6> buttonStates;
 	std::queue<MouseEventManager::Event> eventBuffer;
-	int wheelDelat = 0;
+	int wheelDelta = 0;
 	bool inWindow = false;
 };
 

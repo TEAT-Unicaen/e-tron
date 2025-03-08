@@ -1,8 +1,4 @@
-cbuffer colors : register(b0) {
-    float4 color[10];
-    uint colorCount;
-    float padding[3];
-};
+#include "colors.hlsli"
 
 float4 main(uint tid : SV_PrimitiveID) : SV_TARGET {
     if (tid < 2)

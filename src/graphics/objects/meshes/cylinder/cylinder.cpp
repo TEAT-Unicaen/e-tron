@@ -1,13 +1,14 @@
 #include "cylinder.h"
 
-Cylinder::Cylinder(Renderer& renderer, float radius, float height, int slices) {
+Cylinder::Cylinder(Renderer& renderer, float radius, float height, UINT slices) {
     std::vector<Mesh::Vertex> vertices;
     std::vector<unsigned short> indices;
 
+	
     // Réservation de mémoire pour éviter les reallocations dynamiques
-    vertices.reserve(slices * 10 + 2);
-    indices.reserve(slices * 12);
-
+    size_t slicesSize = static_cast<size_t>(slices);
+    vertices.reserve(slicesSize * 10 + 2);
+    indices.reserve(slicesSize * 12);
     float angleStep = dx::XM_2PI / slices;
     float halfHeight = height / 2;
 

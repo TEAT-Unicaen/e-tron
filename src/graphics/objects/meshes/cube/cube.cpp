@@ -2,44 +2,44 @@
 
 Cube::Cube(Renderer& renderer, int size) {
 
-	float realSize = size / 2.0f;
+	float halfSize = size / 2.0f;
 
     std::vector<Mesh::Vertex> vertices = {
         // Front Face (Z = -0.5)
-        {dx::XMFLOAT3(-realSize, -realSize, -realSize), dx::XMFLOAT3(0, 0, -1)},
-        {dx::XMFLOAT3(realSize, -realSize, -realSize), dx::XMFLOAT3(0, 0, -1)},
-        {dx::XMFLOAT3(-realSize, realSize, -realSize), dx::XMFLOAT3(0, 0, -1)},
-        {dx::XMFLOAT3(realSize, realSize, -realSize), dx::XMFLOAT3(0, 0, -1)},
+        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), dx::XMFLOAT3(0, 0, -1)},
+        {dx::XMFLOAT3(halfSize, -halfSize, -halfSize), dx::XMFLOAT3(0, 0, -1)},
+        {dx::XMFLOAT3(-halfSize, halfSize, -halfSize), dx::XMFLOAT3(0, 0, -1)},
+        {dx::XMFLOAT3(halfSize, halfSize, -halfSize), dx::XMFLOAT3(0, 0, -1)},
 
         // Back Face (Z = 0.5)
-        {dx::XMFLOAT3(-realSize, -realSize, realSize), dx::XMFLOAT3(0, 0, 1)},
-        {dx::XMFLOAT3(realSize, -realSize, realSize), dx::XMFLOAT3(0, 0, 1)},
-        {dx::XMFLOAT3(-realSize, realSize, realSize), dx::XMFLOAT3(0, 0, 1)},
-        {dx::XMFLOAT3(realSize, realSize, realSize), dx::XMFLOAT3(0, 0, 1)},
+        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), dx::XMFLOAT3(0, 0, 1)},
+        {dx::XMFLOAT3(halfSize, -halfSize, halfSize), dx::XMFLOAT3(0, 0, 1)},
+        {dx::XMFLOAT3(-halfSize, halfSize, halfSize), dx::XMFLOAT3(0, 0, 1)},
+        {dx::XMFLOAT3(halfSize, halfSize, halfSize), dx::XMFLOAT3(0, 0, 1)},
 
         // Left Face (X = -0.5)
-        {dx::XMFLOAT3(-realSize, -realSize, -realSize), dx::XMFLOAT3(-1, 0, 0)},
-        {dx::XMFLOAT3(-realSize, realSize, -realSize), dx::XMFLOAT3(-1, 0, 0)},
-        {dx::XMFLOAT3(-realSize, -realSize, realSize), dx::XMFLOAT3(-1, 0, 0)},
-        {dx::XMFLOAT3(-realSize, realSize, realSize), dx::XMFLOAT3(-1, 0, 0)},
+        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), dx::XMFLOAT3(-1, 0, 0)},
+        {dx::XMFLOAT3(-halfSize, halfSize, -halfSize), dx::XMFLOAT3(-1, 0, 0)},
+        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), dx::XMFLOAT3(-1, 0, 0)},
+        {dx::XMFLOAT3(-halfSize, halfSize, halfSize), dx::XMFLOAT3(-1, 0, 0)},
 
         // Right Face (X = 0.5)
-        {dx::XMFLOAT3(realSize, -realSize, -realSize), dx::XMFLOAT3(1, 0, 0)},
-        {dx::XMFLOAT3(realSize, realSize, -realSize), dx::XMFLOAT3(1, 0, 0)},
-        {dx::XMFLOAT3(realSize, -realSize, realSize), dx::XMFLOAT3(1, 0, 0)},
-        {dx::XMFLOAT3(realSize, realSize, realSize), dx::XMFLOAT3(1, 0, 0)},
+        {dx::XMFLOAT3(halfSize, -halfSize, -halfSize), dx::XMFLOAT3(1, 0, 0)},
+        {dx::XMFLOAT3(halfSize, halfSize, -halfSize), dx::XMFLOAT3(1, 0, 0)},
+        {dx::XMFLOAT3(halfSize, -halfSize, halfSize), dx::XMFLOAT3(1, 0, 0)},
+        {dx::XMFLOAT3(halfSize, halfSize, halfSize), dx::XMFLOAT3(1, 0, 0)},
         
         // Top Face (Y = 0.5)
-        {dx::XMFLOAT3(-realSize, realSize, -realSize), dx::XMFLOAT3(0, 1, 0)},
-        {dx::XMFLOAT3(realSize, realSize, -realSize), dx::XMFLOAT3(0, 1, 0)},
-        {dx::XMFLOAT3(-realSize, realSize, realSize), dx::XMFLOAT3(0, 1, 0)},
-        {dx::XMFLOAT3(realSize, realSize, realSize), dx::XMFLOAT3(0, 1, 0)},
+        {dx::XMFLOAT3(-halfSize, halfSize, -halfSize), dx::XMFLOAT3(0, 1, 0)},
+        {dx::XMFLOAT3(halfSize, halfSize, -halfSize), dx::XMFLOAT3(0, 1, 0)},
+        {dx::XMFLOAT3(-halfSize, halfSize, halfSize), dx::XMFLOAT3(0, 1, 0)},
+        {dx::XMFLOAT3(halfSize, halfSize, halfSize), dx::XMFLOAT3(0, 1, 0)},
 
         // Bottom Face (Y = -0.5)
-        {dx::XMFLOAT3(-realSize, -realSize, -realSize), dx::XMFLOAT3(0, -1, 0)},
-        {dx::XMFLOAT3(realSize, -realSize, -realSize), dx::XMFLOAT3(0, -1, 0)},
-        {dx::XMFLOAT3(-realSize, -realSize, realSize), dx::XMFLOAT3(0, -1, 0)},
-        {dx::XMFLOAT3(realSize, -realSize, realSize), dx::XMFLOAT3(0, -1, 0)}
+        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), dx::XMFLOAT3(0, -1, 0)},
+        {dx::XMFLOAT3(halfSize, -halfSize, -halfSize), dx::XMFLOAT3(0, -1, 0)},
+        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), dx::XMFLOAT3(0, -1, 0)},
+        {dx::XMFLOAT3(halfSize, -halfSize, halfSize), dx::XMFLOAT3(0, -1, 0)}
     };
 
     std::vector<unsigned short> indices = {

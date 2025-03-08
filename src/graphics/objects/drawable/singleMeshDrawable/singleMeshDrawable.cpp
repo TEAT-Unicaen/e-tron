@@ -1,7 +1,7 @@
 #include "singleMeshDrawable.h"
 
 SingleMeshDrawable::SingleMeshDrawable(Renderer& renderer, dx::XMFLOAT3 startPosition, dx::XMFLOAT3 startRotation, Mesh& mesh, std::wstring vertexShaderName, std::wstring pixelShaderName, std::vector<Color> colors)
-	: Drawable(renderer, startPosition, startRotation, dx::XMFLOAT3(0.0f, 0.0f, 0.0f), dx::XMFLOAT3(0.0f, 0.0f, 0.0f)) {
+	: Drawable(renderer, startPosition, startRotation) {
 
 	this->addBindable(mesh.vertexBuffer);
 	this->addBindable(mesh.indexBuffer);

@@ -1,9 +1,5 @@
-cbuffer colors : register(b0)
-{
-	float4 color[1];
-};
+#include "colors.hlsli"
 
-float4 main() : SV_TARGET
-{
+float4 main() : SV_TARGET {
 	return color[0];
 }

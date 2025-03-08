@@ -33,17 +33,49 @@ void GameScene::onLoad() {
 	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
 	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
 
-	Mesh cube = Cylinder(renderer, 0.5f, 1.0f, 1000);
+	Mesh cube = Cube(renderer);
+	Mesh squarePyramid = Pyramid(renderer);
+	Mesh cylinder = Cylinder(renderer);
 
-	this->pDrawables.push_back(std::make_unique<SingleMeshDrawable>(
+	std::unique_ptr<Drawable> pCube = std::make_unique<SingleMeshDrawable>(
 		this->renderer,
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		cube,
 		L"defaultVS",
-		L"coloredCylinderPS",
+		L"coloredCubePS",
 		colorsCube
-	));
+	);
+
+	std::unique_ptr<Drawable> pPyramid = std::make_unique<SingleMeshDrawable>(
+		this->renderer,
+		dx::XMFLOAT3{ 5.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		squarePyramid,
+		L"defaultVS",
+		L"coloredSquarePyramidPS",
+		colorsSquarePyramid
+	);
+
+	std::unique_ptr<Drawable> pCylinder = std::make_unique<SingleMeshDrawable>(
+		this->renderer,
+		dx::XMFLOAT3{ -5.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		cylinder,
+		L"defaultVS",
+		L"coloredCylinderPS",
+		colorsCylinder
+	);
+
+	pCube->setScale(dx::XMFLOAT3(5.0f, 1.0f, 2.0f));
+
+	pPyramid->setScale(dx::XMFLOAT3(2.0f, 2.0f, 8.0f));
+
+	pCylinder->setScale(dx::XMFLOAT3(1.0f, 1.0f, 6.0f));
+
+	this->pDrawables.push_back(std::move(pCube));
+	this->pDrawables.push_back(std::move(pPyramid));
+	this->pDrawables.push_back(std::move(pCylinder));
 }
 
 void GameScene::handleInput(Window& wnd) {
@@ -75,6 +107,15 @@ void GameScene::handleInput(Window& wnd) {
 	if (length > 0.0f) {
 		forward = (forward / length) * speed;
 		right = (right / length) * speed;
+	}
+
+	if (keyEvent.keyIsPressed('T')) {
+		this->pDrawables[0]->move(dx::XMFLOAT3(5.0f, 0.0f, 0.0f), 0.1f);
+		this->pDrawables[0]->rotate(dx::XMFLOAT3(0.0f, 0.0f, 0.1f), 0.1f);
+	}
+	if (keyEvent.keyIsPressed('G')) {
+		this->pDrawables[0]->move(dx::XMFLOAT3(-5.0f, 0.0f, 0.0f), 0.1f);
+		this->pDrawables[0]->rotate(dx::XMFLOAT3(0.0f, 0.0f, -0.1f), 0.1f);
 	}
 
 	// Camera rotation
