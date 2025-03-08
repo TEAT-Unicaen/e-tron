@@ -13,6 +13,7 @@ public:
 
     void addLog(const std::string& key, int value);
     void addMovement(const std::string& key, const std::string& dir, int value);
+    void addTick(const int& key, const std::string& log);
 
     int getLog(const std::string& key) const;
 
@@ -21,6 +22,7 @@ public:
 private:
     std::unordered_map<std::string, int> logDataDefault;
     std::unordered_map<std::string, std::unordered_map<std::string, int>> logDataMovement;
+    std::unordered_map<int, std::string> timeLog;
 };
 
 #endif

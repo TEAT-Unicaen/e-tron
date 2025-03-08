@@ -90,6 +90,7 @@ bool GameManager::isRunning() const noexcept {
 
 void GameManager::threadLoop() {
 	running = true;
+	int tick = 0;
 	while (running) {
 		if (this->pause) {continue;}
 
@@ -105,6 +106,7 @@ void GameManager::threadLoop() {
 			int oldX = player->getCoords().x;
 			int oldY = player->getCoords().y;
 
+			std::cout << oldX << " " << oldY << " " << newX << " " << newY << std::endl;
 			if (newX == oldX && newY == oldY) { 
 				std::cout << player->getName() << " tragically died at coords " << oldX << " " << oldY << std::endl;
 				player->killPlayer();
@@ -121,22 +123,25 @@ void GameManager::threadLoop() {
 			std::string action;
 
 			if (deltaY == 1) {
-				action = "top";
-			} else if (deltaY == -1) {
-				action = "bottom";
-			} else if (deltaX == 1) {
 				action = "right";
-			} else if (deltaX == -1) {
+			} else if (deltaY == -1) {
 				action = "left";
+			} else if (deltaX == 1) {
+				action = "top";
+			} else if (deltaX == -1) {
+				action = "bottom";
 			} 
 
 			this->dataLogManager->addMovement(player->getName(), action, 1);
+
+			this->dataLogManager->addTick(tick, action + "_" + player->getName());
 
 			//Draw the map
 			std::cout << "\033[2J\033[H";
 			this->draw();
 			std::cout << "Press 'P' to pause the game. Press 'S' to stop the game" << std::endl;
 			SLEEP_MS(500);
+			tick++;
 		} 
 
 		//Death handling and last redraw to keep updated

@@ -23,6 +23,9 @@ void DataLogManager::addMovement(const std::string& key, const std::string& dir,
     logDataMovement[key][dir] += value;  
 }
 
+void DataLogManager::addTick(const int& key, const std::string& log) {
+	timeLog[key] = log;
+}
 
 
 int DataLogManager::getLog(const std::string& key) const {
@@ -47,4 +50,10 @@ void DataLogManager::fillJson(JsonWriter& writer) const {
 
         writer.addJson(entry.first, playerMovement);
     }
+
+    json tl;
+    for (const auto& entry : timeLog) {
+        tl[entry.first] = entry.second;
+	}
+	writer.addJson("timeLog", tl);
 }
