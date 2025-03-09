@@ -16,5 +16,8 @@ public:
 	std::shared_ptr<VertexBuffer> vertexBuffer;
 	std::shared_ptr<IndexBuffer> indexBuffer;
 protected:
-	//void calculateNormals(); // Pas utilse pour le projet de cours comme on utlise pas de mesh externe
+	std::vector<Vertex> vertices;
+	std::vector<unsigned short> indices;
+	void calculateNormals();
+
 };

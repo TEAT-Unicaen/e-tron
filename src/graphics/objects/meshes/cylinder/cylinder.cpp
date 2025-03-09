@@ -4,86 +4,65 @@ Cylinder::Cylinder(Renderer& renderer, float radius, float height, UINT slices) 
     std::vector<Mesh::Vertex> vertices;
     std::vector<unsigned short> indices;
 
-	
-    // Réservation de mémoire pour éviter les reallocations dynamiques
     size_t slicesSize = static_cast<size_t>(slices);
-    vertices.reserve(slicesSize * 10 + 2);
-    indices.reserve(slicesSize * 12);
+    vertices.reserve(slicesSize * 2 + 2);  // 2 sommets centraux + 2 vertices par tranche
+    indices.reserve(slicesSize * 12);  // 6 indices pour chaque côté * 2 pour les 2 disques
+
     float angleStep = dx::XM_2PI / slices;
     float halfHeight = height / 2;
 
-    // ----- Faces latérales -----
+    // ----- Disques (Haut et Bas) -----
+    // Sommet central du disque du haut
+    int topCenterIdx = vertices.size();
+    vertices.push_back(Vertex{ dx::XMFLOAT3(0, halfHeight, 0), dx::XMFLOAT3(0, 1, 0) });
+
+    // Sommet central du disque du bas
+    int bottomCenterIdx = vertices.size();
+    vertices.push_back(Vertex{ dx::XMFLOAT3(0, -halfHeight, 0), dx::XMFLOAT3(0, -1, 0) });
+
+    // Sommets du contour du cylindre
     for (int i = 0; i < slices; ++i) {
         float angle = i * angleStep;
-        float nextAngle = ((i + 1) % slices) * angleStep;
+        float x = radius * cos(angle);
+        float z = radius * sin(angle);
 
-        float x1 = radius * cos(angle);
-        float z1 = radius * sin(angle);
-        float x2 = radius * cos(nextAngle);
-        float z2 = radius * sin(nextAngle);
+        // Normale calculée à partir du rayon pour Phong Shading
+        dx::XMFLOAT3 normal(cos(angle), 0, sin(angle));
 
-        dx::XMFLOAT3 normal1(cos(angle), 0, sin(angle));
-        dx::XMFLOAT3 normal2(cos(nextAngle), 0, sin(nextAngle));
+        // On ajoute les sommets du contour (haut et bas du cylindre)
+        // Le même sommet est utilisé pour les 2 disques pour éviter la duplication
+        vertices.push_back(Vertex{ dx::XMFLOAT3(x, halfHeight, z), normal });
+        vertices.push_back(Vertex{ dx::XMFLOAT3(x, -halfHeight, z), normal });
+    }
 
-        int baseIdx = vertices.size();
+    // ----- Faces latérales (corps du cylindre) -----
+    for (int i = 0; i < slices; ++i) {
+        int next = (i + 1) % slices;
 
-        vertices.push_back({ dx::XMFLOAT3(x1, halfHeight, z1), normal1 });
-        vertices.push_back({ dx::XMFLOAT3(x2, halfHeight, z2), normal2 });
-        vertices.push_back({ dx::XMFLOAT3(x1, -halfHeight, z1), normal1 });
+        // Indices pour la face latérale (2 triangles pour chaque tranche)
+        indices.push_back(i * 2 + 2);      // Haut du cylindre
+        indices.push_back(next * 2 + 2);   // Haut du cylindre
+        indices.push_back(i * 2 + 3);      // Bas du cylindre
 
-        vertices.push_back({ dx::XMFLOAT3(x1, -halfHeight, z1), normal1 });
-        vertices.push_back({ dx::XMFLOAT3(x2, halfHeight, z2), normal2 });
-        vertices.push_back({ dx::XMFLOAT3(x2, -halfHeight, z2), normal2 });
-
-        indices.push_back(baseIdx);
-        indices.push_back(baseIdx + 1);
-        indices.push_back(baseIdx + 2);
-        indices.push_back(baseIdx + 3);
-        indices.push_back(baseIdx + 4);
-        indices.push_back(baseIdx + 5);
+        indices.push_back(next * 2 + 2);   // Haut du cylindre
+        indices.push_back(next * 2 + 3);   // Bas du cylindre
+        indices.push_back(i * 2 + 3);      // Bas du cylindre
     }
 
     // ----- Disque du haut -----
-    int topCenterIdx = vertices.size();
-    vertices.push_back({ dx::XMFLOAT3(0, halfHeight, 0), dx::XMFLOAT3(0, 1, 0) });
-
     for (int i = 0; i < slices; ++i) {
-        float angle = i * angleStep;
-        float nextAngle = ((i + 1) % slices) * angleStep;
-        float x1 = radius * cos(angle);
-        float z1 = radius * sin(angle);
-        float x2 = radius * cos(nextAngle);
-        float z2 = radius * sin(nextAngle);
-
-        int idx = vertices.size();
-        vertices.push_back({ dx::XMFLOAT3(x1, halfHeight, z1), dx::XMFLOAT3(0, 1, 0) });
-        vertices.push_back({ dx::XMFLOAT3(x2, halfHeight, z2), dx::XMFLOAT3(0, 1, 0) });
-
+        int next = (i + 1) % slices;
         indices.push_back(topCenterIdx);
-        indices.push_back(idx + 1);
-        indices.push_back(idx);
-
+        indices.push_back(next * 2 + 2);
+        indices.push_back(i * 2 + 2);
     }
 
     // ----- Disque du bas -----
-    int bottomCenterIdx = vertices.size();
-    vertices.push_back({ dx::XMFLOAT3(0, -halfHeight, 0), dx::XMFLOAT3(0, -1, 0) });
-
     for (int i = 0; i < slices; ++i) {
-        float angle = i * angleStep;
-        float nextAngle = ((i + 1) % slices) * angleStep;
-        float x1 = radius * cos(angle);
-        float z1 = radius * sin(angle);
-        float x2 = radius * cos(nextAngle);
-        float z2 = radius * sin(nextAngle);
-
-        int idx = vertices.size();
-        vertices.push_back({ dx::XMFLOAT3(x1, -halfHeight, z1), dx::XMFLOAT3(0, -1, 0) });
-        vertices.push_back({ dx::XMFLOAT3(x2, -halfHeight, z2), dx::XMFLOAT3(0, -1, 0) });
-
+        int next = (i + 1) % slices;
         indices.push_back(bottomCenterIdx);
-        indices.push_back(idx);
-        indices.push_back(idx + 1);
+        indices.push_back(i * 2 + 3);
+        indices.push_back(next * 2 + 3);
     }
 
     // Création des buffers

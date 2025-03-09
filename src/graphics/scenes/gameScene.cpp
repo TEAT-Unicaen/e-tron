@@ -27,7 +27,7 @@ void GameScene::onLoad() {
 	};
 
 	std::vector<Color> colorsSphere = {
-		Color::SILVER
+		Color::WHITE
 	};
 
 	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
@@ -36,6 +36,10 @@ void GameScene::onLoad() {
 	Mesh cube = Cube(renderer);
 	Mesh squarePyramid = Pyramid(renderer);
 	Mesh cylinder = Cylinder(renderer);
+	Mesh sphere = Sphere(renderer);
+	Mesh tore = Tore(renderer);
+	Mesh cone = Cone(renderer, 0.5f, 1.0f, 4u);
+	Mesh plane = Plane(renderer);
 
 	std::unique_ptr<Drawable> pCube = std::make_unique<SingleMeshDrawable>(
 		this->renderer,
@@ -67,15 +71,65 @@ void GameScene::onLoad() {
 		colorsCylinder
 	);
 
+	std::unique_ptr<Drawable> pSphere = std::make_unique<SingleMeshDrawable>(
+		this->renderer,
+		dx::XMFLOAT3{ 0.0f, 0.0f, 5.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		sphere,
+		L"defaultVS",
+		L"coloredSpherePS",
+		colorsSphere
+	);
+
+	std::unique_ptr<Drawable> pTore = std::make_unique<SingleMeshDrawable>(
+		this->renderer,
+		dx::XMFLOAT3{ 5.0f, 0.0f, -5.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		tore,
+		L"defaultVS",
+		L"coloredSpherePS",
+		colorsSphere
+	);
+
+	std::unique_ptr<Drawable> pCone = std::make_unique<SingleMeshDrawable>(
+		this->renderer,
+		dx::XMFLOAT3{ -5.0f, 0.0f, -5.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		cone,
+		L"defaultVS",
+		L"coloredSpherePS",
+		colorsSphere
+	);
+
+	std::unique_ptr<Drawable> pPlane = std::make_unique<SingleMeshDrawable>(
+		this->renderer,
+		dx::XMFLOAT3{ 0.0f, -5.0f, 0.0f },
+		dx::XMFLOAT3{ dx::XM_PIDIV2, 0.0f, 0.0f },
+		plane,
+		L"defaultVS",
+		L"coloredSpherePS",
+		colorsSphere
+	);
+
 	pCube->setScale(dx::XMFLOAT3(5.0f, 1.0f, 2.0f));
 
 	pPyramid->setScale(dx::XMFLOAT3(2.0f, 2.0f, 8.0f));
 
 	pCylinder->setScale(dx::XMFLOAT3(1.0f, 1.0f, 6.0f));
 
+	pSphere->setScale(dx::XMFLOAT3(2.0f, 2.0f, 2.0f));
+
+	pTore->setScale(dx::XMFLOAT3(2.0f, 2.0f, 2.0f));
+
+	pPlane->setScale(dx::XMFLOAT3(10.0f, 10.0f, 10.0f));
+
 	this->pDrawables.push_back(std::move(pCube));
 	this->pDrawables.push_back(std::move(pPyramid));
 	this->pDrawables.push_back(std::move(pCylinder));
+	this->pDrawables.push_back(std::move(pSphere));
+	this->pDrawables.push_back(std::move(pTore));
+	this->pDrawables.push_back(std::move(pCone));
+	this->pDrawables.push_back(std::move(pPlane));
 }
 
 void GameScene::handleInput(Window& wnd) {

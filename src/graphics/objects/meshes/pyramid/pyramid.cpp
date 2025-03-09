@@ -1,53 +1,36 @@
 #include "pyramid.h"
 
 Pyramid::Pyramid(Renderer& renderer, int size) {
-    float angle = 1.0f / std::sqrtf(2);
+    float halfSize = size / 2.0f;
 
-	float halfSize = size / 2.0f;
-
+    // Définition des sommets (en utilisant des sommets partagés)
     std::vector<Mesh::Vertex> vertices = {
-        // Base (Y = 0) - Unique vertices per triangle
-        {dx::XMFLOAT3(-halfSize, 0.0f, -halfSize), dx::XMFLOAT3(0, -1, 0)},
-        {dx::XMFLOAT3(halfSize, 0.0f, -halfSize), dx::XMFLOAT3(0, -1, 0)},
-        {dx::XMFLOAT3(-halfSize, 0.0f, halfSize), dx::XMFLOAT3(0, -1, 0)},
+        // Base (Y = 0) - Uniques pour chaque triangle
+        {dx::XMFLOAT3(-halfSize, 0.0f, -halfSize), dx::XMFLOAT3()},
+        {dx::XMFLOAT3(halfSize, 0.0f, -halfSize), dx::XMFLOAT3()},
+        {dx::XMFLOAT3(-halfSize, 0.0f, halfSize), dx::XMFLOAT3()},
+        {dx::XMFLOAT3(halfSize, 0.0f, halfSize), dx::XMFLOAT3()},
 
-        {dx::XMFLOAT3(halfSize, 0.0f, -halfSize), dx::XMFLOAT3(0, -1, 0)},
-        {dx::XMFLOAT3(halfSize, 0.0f, halfSize), dx::XMFLOAT3(0, -1, 0)},
-        {dx::XMFLOAT3(-halfSize, 0.0f, halfSize), dx::XMFLOAT3(0, -1, 0)},
-
-        // Face avant
-        {dx::XMFLOAT3(-halfSize, 0.0f, -halfSize), dx::XMFLOAT3(0, angle, -angle)},
-        {dx::XMFLOAT3(halfSize, 0.0f, -halfSize), dx::XMFLOAT3(0, angle, -angle)},
-        {dx::XMFLOAT3(0.0f, size, 0.0f), dx::XMFLOAT3(0, angle, -angle)},
-
-        // Face droite
-        {dx::XMFLOAT3(halfSize, 0.0f, -halfSize), dx::XMFLOAT3(angle, angle, 0)},
-        {dx::XMFLOAT3(halfSize, 0.0f, halfSize), dx::XMFLOAT3(angle, angle, 0)},
-        {dx::XMFLOAT3(0.0f, size, 0.0f), dx::XMFLOAT3(angle, angle, 0)},
-
-        // Face arrière
-        {dx::XMFLOAT3(halfSize, 0.0f, halfSize), dx::XMFLOAT3(0, angle, angle)},
-        {dx::XMFLOAT3(-halfSize, 0.0f, halfSize), dx::XMFLOAT3(0, angle, angle)},
-        {dx::XMFLOAT3(0.0f, size, 0.0f), dx::XMFLOAT3(0, angle, angle)},
-
-        // Face gauche
-        {dx::XMFLOAT3(-halfSize, 0.0f, halfSize), dx::XMFLOAT3(-angle, angle, 0)},
-        {dx::XMFLOAT3(-halfSize, 0.0f, -halfSize), dx::XMFLOAT3(-angle, angle, 0)},
-        {dx::XMFLOAT3(0.0f, size, 0.0f), dx::XMFLOAT3(-angle, angle, 0)}
+        // Point sommet de la pyramide
+        {dx::XMFLOAT3(0.0f, size, 0.0f), dx::XMFLOAT3()}
     };
 
+    // Définition des indices pour les faces de la pyramide
+    std::vector<unsigned short> indices = {
+        // Base (2 triangles)
+        0, 1, 2,    2, 1, 3,
 
-	std::vector<unsigned short> indices = {
-		// Base (two triangles)
-		0, 1, 2,  3, 4, 5,
+        // Faces latérales
+        0, 4, 1,   // Face avant
+        1, 4, 3,   // Face droite
+        3, 4, 2,   // Face arrière
+        2, 4, 0    // Face gauche
+    };
 
-		// Sides
-		6, 8, 7,   // Front face
-		9, 11, 10, // Right face
-		12, 14, 13, // Back face
-		15, 17, 16  // Left face
-	};
+    // Appliquer le calcul des normales sur les sommets du cube
+    this->calculateNormals();
 
-	this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices);
-	this->indexBuffer = std::make_shared<IndexBuffer>(renderer, indices);
+    // Initialiser les buffers après le calcul des normales
+    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices);
+    this->indexBuffer = std::make_shared<IndexBuffer>(renderer, indices);
 }

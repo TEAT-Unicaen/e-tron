@@ -2,56 +2,32 @@
 
 Cube::Cube(Renderer& renderer, int size) {
 
-	float halfSize = size / 2.0f;
+    float halfSize = size / 2.0f;
 
+    // Définition des 8 sommets partagés
     std::vector<Mesh::Vertex> vertices = {
-        // Front Face (Z = -0.5)
-        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), dx::XMFLOAT3(0, 0, -1)},
-        {dx::XMFLOAT3(halfSize, -halfSize, -halfSize), dx::XMFLOAT3(0, 0, -1)},
-        {dx::XMFLOAT3(-halfSize, halfSize, -halfSize), dx::XMFLOAT3(0, 0, -1)},
-        {dx::XMFLOAT3(halfSize, halfSize, -halfSize), dx::XMFLOAT3(0, 0, -1)},
-
-        // Back Face (Z = 0.5)
-        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), dx::XMFLOAT3(0, 0, 1)},
-        {dx::XMFLOAT3(halfSize, -halfSize, halfSize), dx::XMFLOAT3(0, 0, 1)},
-        {dx::XMFLOAT3(-halfSize, halfSize, halfSize), dx::XMFLOAT3(0, 0, 1)},
-        {dx::XMFLOAT3(halfSize, halfSize, halfSize), dx::XMFLOAT3(0, 0, 1)},
-
-        // Left Face (X = -0.5)
-        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), dx::XMFLOAT3(-1, 0, 0)},
-        {dx::XMFLOAT3(-halfSize, halfSize, -halfSize), dx::XMFLOAT3(-1, 0, 0)},
-        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), dx::XMFLOAT3(-1, 0, 0)},
-        {dx::XMFLOAT3(-halfSize, halfSize, halfSize), dx::XMFLOAT3(-1, 0, 0)},
-
-        // Right Face (X = 0.5)
-        {dx::XMFLOAT3(halfSize, -halfSize, -halfSize), dx::XMFLOAT3(1, 0, 0)},
-        {dx::XMFLOAT3(halfSize, halfSize, -halfSize), dx::XMFLOAT3(1, 0, 0)},
-        {dx::XMFLOAT3(halfSize, -halfSize, halfSize), dx::XMFLOAT3(1, 0, 0)},
-        {dx::XMFLOAT3(halfSize, halfSize, halfSize), dx::XMFLOAT3(1, 0, 0)},
-        
-        // Top Face (Y = 0.5)
-        {dx::XMFLOAT3(-halfSize, halfSize, -halfSize), dx::XMFLOAT3(0, 1, 0)},
-        {dx::XMFLOAT3(halfSize, halfSize, -halfSize), dx::XMFLOAT3(0, 1, 0)},
-        {dx::XMFLOAT3(-halfSize, halfSize, halfSize), dx::XMFLOAT3(0, 1, 0)},
-        {dx::XMFLOAT3(halfSize, halfSize, halfSize), dx::XMFLOAT3(0, 1, 0)},
-
-        // Bottom Face (Y = -0.5)
-        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), dx::XMFLOAT3(0, -1, 0)},
-        {dx::XMFLOAT3(halfSize, -halfSize, -halfSize), dx::XMFLOAT3(0, -1, 0)},
-        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), dx::XMFLOAT3(0, -1, 0)},
-        {dx::XMFLOAT3(halfSize, -halfSize, halfSize), dx::XMFLOAT3(0, -1, 0)}
+        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), dx::XMFLOAT3()},
+        {dx::XMFLOAT3(halfSize, -halfSize, -halfSize), dx::XMFLOAT3()},
+        {dx::XMFLOAT3(halfSize, halfSize, -halfSize), dx::XMFLOAT3()},
+        {dx::XMFLOAT3(-halfSize, halfSize, -halfSize), dx::XMFLOAT3()},
+        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), dx::XMFLOAT3()},
+        {dx::XMFLOAT3(halfSize, -halfSize, halfSize), dx::XMFLOAT3()},
+        {dx::XMFLOAT3(halfSize, halfSize, halfSize), dx::XMFLOAT3()},
+        {dx::XMFLOAT3(-halfSize, halfSize, halfSize), dx::XMFLOAT3()}
     };
 
+    // Définition des indices pour former les 12 triangles du cube
     std::vector<unsigned short> indices = {
-		0, 2, 1,    2, 3, 1, // Front face
-		4, 5, 6,    6, 5, 7, // Back face
-		8, 10, 9,   10, 11, 9, // Left face
-		12, 13, 14, 14, 13, 15, // Right face
-		16, 18, 17, 18, 19, 17, // Top face
-		20, 21, 22, 22, 21, 23 // Bottom face
-	};
+        0, 2, 1,  0, 3, 2,  // Face arrière
+        1, 6, 5,  1, 2, 6,  // Face droite
+        5, 7, 4,  5, 6, 7,  // Face avant
+        4, 3, 0,  4, 7, 3,  // Face gauche
+        3, 6, 2,  3, 7, 6,  // Face haut
+        4, 1, 5,  4, 0, 1   // Face bas
+    };
 
-	this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices);// TODO: slot
-	this->indexBuffer = std::make_shared<IndexBuffer>(renderer, indices);
+    this->calculateNormals();
+    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices);
+    this->indexBuffer = std::make_shared<IndexBuffer>(renderer, indices);
 }
 
