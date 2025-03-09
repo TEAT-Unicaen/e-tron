@@ -4,6 +4,7 @@ import {useFileData} from "../../store/json"
 import {processData} from "../../store/formatFileData"
 import SideBar from '../layout/SideBar';
 
+
 const Viewer: React.FC = () => {
 
     const formatedJSON = processData(useFileData().fileData)

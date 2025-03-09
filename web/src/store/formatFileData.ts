@@ -33,6 +33,9 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
                 'Move left',
             ],
             datasets : [] as dataSet[]
+        },
+        timeLog : {
+
         }
     };
 
@@ -41,31 +44,35 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
     let index = 0
 
     for (const [pName, dat] of Object.entries(inputArray)) {
-        let provRoundHere = dat.top + dat.bottom + dat.right + dat.left
-        if (provRoundHere > maxRound) {
-            maxRound = provRoundHere
-            winner = pName
+        if (pName === 'timeLog') {
+            outputArray.timeLog = dat
+        } else {
+            let provRoundHere = dat.top + dat.bottom + dat.right + dat.left
+            if (provRoundHere > maxRound) {
+                maxRound = provRoundHere
+                winner = pName
+            }
+            outputArray[pName] = {
+                player: pName,
+                roundPlayed: provRoundHere,
+                top: dat.top,
+                bottom: dat.bottom,
+                right: dat.right,
+                left: dat.left,
+            }
+            outputArray.radar.datasets.push({
+                label: pName,
+                data: [dat.top, dat.right, dat.bottom, dat.left],
+                fill: true,
+                backgroundColor: backgroundColorSet[index],
+                borderColor: secondColorSet[index],
+                pointBackgroundColor: secondColorSet[index],
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: secondColorSet[index]
+            })
+            index++
         }
-        outputArray[pName] = {
-            player: pName,
-            roundPlayed: provRoundHere,
-            top: dat.top,
-            bottom: dat.bottom,
-            right: dat.right,
-            left: dat.left,
-        }
-        outputArray.radar.datasets.push({
-            label: pName,
-            data: [dat.top, dat.right, dat.bottom, dat.left],
-            fill: true,
-            backgroundColor: backgroundColorSet[index],
-            borderColor: secondColorSet[index],
-            pointBackgroundColor: secondColorSet[index],
-            pointBorderColor: '#fff',
-            pointHoverBackgroundColor: '#fff',
-            pointHoverBorderColor: secondColorSet[index]
-        })
-        index++
     }
 
     return outputArray;

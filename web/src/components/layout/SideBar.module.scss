@@ -28,14 +28,12 @@ $hover-color: color.adjust($primary-color, $lightness: -10%);
                 -15px -15px 30px rgb(60, 60, 60);
 }
 
-.sideBar:hover {
-    opacity: 100%;
-    box-shadow: 15px 15px 30px rgb(35, 35, 35),
-                -15px -15px 30px rgb(70, 70, 70);
-}
-
 .sideBar img {
     margin-top: 2vh;
     max-width: 6vh;
     filter: invert(1);
+}
+
+.sideBar img:hover {
+    filter: invert(1) drop-shadow(0 0 5px $hover-color);
 }

@@ -22,6 +22,8 @@ const SideBar: React.FC = ({}) => {
                     onChange={handleFileChange}
                 />
                 <img src="/server.svg" onClick={() => alert("Cette fonctionnalitée n'est pas disponnible")}></img>
+                <img src="/home.svg" onClick={() => {window.location.href = "/viewer"}}></img>
+                <img src="/timeline.svg" onClick={() => {window.location.href = "/timeline"}}></img>
             </div>
         </>
     )

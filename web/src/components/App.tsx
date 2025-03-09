@@ -5,6 +5,7 @@ import './App.css'
 import Home from '../components/pages/Home'
 import Viewer from '../components/pages/Viewer'
 import NotFound from "./pages/NotFound";
+import TimeLine from "./pages/Timeline";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/viewer" element={<Viewer />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="timeline" element={<TimeLine />} />
         </Routes>
       </Router>
     </FileDataProvider>
