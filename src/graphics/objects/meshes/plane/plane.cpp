@@ -51,6 +51,6 @@ Plane::Plane(Renderer& renderer, float width, float height, UINT nWidth, UINT nH
     }
 
     // Create the vertex buffer and index buffer
-    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices);
+    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices, 0u);
     this->indexBuffer = std::make_shared<IndexBuffer>(renderer, indices);
 }

@@ -39,6 +39,7 @@ void GameScene::onLoad() {
 	Mesh cone = Cone(renderer);
 	Mesh plane = Plane(renderer);
 
+	/*
 	std::unique_ptr<Drawable> pCube = std::make_unique<SingleMeshDrawable>(
 		this->renderer,
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
@@ -122,7 +123,29 @@ void GameScene::onLoad() {
 	this->pDrawables.push_back(std::move(pTore));
 	this->pDrawables.push_back(std::move(pCone));
 	this->pDrawables.push_back(std::move(pPlane));
+	*/
 
+	std::vector<dx::XMMATRIX> matriceX = {
+		dx::XMMatrixTranspose(dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f)),
+		dx::XMMatrixTranspose(dx::XMMatrixTranslation(4.0f, 4.0f, 4.0f))
+	};
+
+	std::vector<dx::XMMATRIX> matriceY = {
+		dx::XMMatrixTranspose(dx::XMMatrixIdentity())
+	};
+
+	std::unique_ptr<Drawable> pCube = std::make_unique<InstancedMeshDrawable>(
+		this->renderer,
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		cube,
+		L"instancePhongVS",
+		L"phongPS",
+		colorsCube,
+		matriceX
+	);
+
+	this->pDrawables.push_back(std::move(pCube));
 
 }
 

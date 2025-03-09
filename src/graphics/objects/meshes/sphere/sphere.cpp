@@ -54,6 +54,6 @@ Sphere::Sphere(Renderer& renderer, float radius, UINT sliceCount, UINT stackCoun
 		}
 	}
 
-		this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices);
+		this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices, 0u);
 		this->indexBuffer = std::make_shared<IndexBuffer>(renderer, indices);
 }

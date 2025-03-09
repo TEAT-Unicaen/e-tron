@@ -60,6 +60,6 @@ Cube::Cube(Renderer& renderer, int size) {
         20, 21, 22,  20, 22, 23
     };
     
-    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices);
+    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices, 0u);
     this->indexBuffer = std::make_shared<IndexBuffer>(renderer, indices);
 }

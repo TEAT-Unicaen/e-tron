@@ -54,6 +54,6 @@ Cone::Cone(Renderer& renderer, float radius, float height, UINT slices) {
     }
 
     // Création des buffers
-    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices);
+    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices, 0u);
     this->indexBuffer = std::make_shared<IndexBuffer>(renderer, indices);
 }

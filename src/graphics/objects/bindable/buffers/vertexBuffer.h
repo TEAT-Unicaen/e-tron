@@ -5,18 +5,19 @@
 class VertexBuffer : public Bindable {
 public:
 	template<class VertexData>
-	VertexBuffer(Renderer& renderer, const std::vector<VertexData>& vertices);
+	VertexBuffer(Renderer& renderer, const std::vector<VertexData>& vertices, UINT slot);
 
 	void bind(Renderer& renderer) override;
 
 protected:
 	UINT structSize;
 	Mwrl::ComPtr<ID3D11Buffer> pVertexBuffer;
+	UINT slot;
 };
 
 template<class VertexData>
-VertexBuffer::VertexBuffer(Renderer& renderer, const std::vector<VertexData>& vertices)
-	: structSize(sizeof(VertexData)) {
+VertexBuffer::VertexBuffer(Renderer& renderer, const std::vector<VertexData>& vertices, UINT slot)
+	: structSize(sizeof(VertexData)), slot(slot) {
 	HR_PLUS;
 
 	D3D11_BUFFER_DESC bufferDesc = {};

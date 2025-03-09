@@ -13,6 +13,7 @@ App::App()
 	// Add shaders
 	shaderManager.addVertexShader(renderer, L"defaultVS");
 	shaderManager.addVertexShader(renderer, L"textureVS");
+	shaderManager.addVertexShader(renderer, L"instanceVS");
 
 	shaderManager.addPixelShader(renderer, L"coloredCubePS");
 	shaderManager.addPixelShader(renderer, L"coloredSquarePyramidPS");
@@ -24,6 +25,7 @@ App::App()
 
 	shaderManager.addVertexShader(renderer, L"phongVS");
 	shaderManager.addPixelShader(renderer, L"phongPS");
+	shaderManager.addVertexShader(renderer, L"instancePhongVS");
 
 
 	this->sceneManager = std::make_unique<SceneManager>(

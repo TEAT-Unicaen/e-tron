@@ -29,6 +29,7 @@ public:
 	void render();
 	void fill(Color color);
 	void drawIndexed(UINT count) noexcept(!IS_DEBUG_MODE);
+	void drawIndexedInstanced(UINT IndexCountPerInstance, UINT InstanceCount) noexcept(!IS_DEBUG_MODE);
 	dx::XMMATRIX getProjection() const noexcept;
 	Camera& getCamera() noexcept;
 	dx::XMMATRIX getView()const noexcept;

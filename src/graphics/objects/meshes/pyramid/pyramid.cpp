@@ -60,6 +60,6 @@ Pyramid::Pyramid(Renderer& renderer, int size) {
         13, 14, 15  // Face gauche
     };
 
-    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices);
+    this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices, 0u);
     this->indexBuffer = std::make_shared<IndexBuffer>(renderer, indices);
 }

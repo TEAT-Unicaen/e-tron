@@ -150,6 +150,10 @@ void Renderer::drawIndexed(UINT count) noexcept(!IS_DEBUG_MODE) {
 	this->pDeviceContext->DrawIndexed(count, 0u, 0u);
 }
 
+void Renderer::drawIndexedInstanced(UINT IndexCountPerInstance, UINT InstanceCount) noexcept(!IS_DEBUG_MODE) {
+	this->pDeviceContext->DrawIndexedInstanced(IndexCountPerInstance, InstanceCount, 0u, 0, 0u);
+}
+
 dx::XMMATRIX Renderer::getProjection() const noexcept {
 	return this->camera.getProjection();
 }
