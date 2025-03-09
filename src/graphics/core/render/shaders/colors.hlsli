@@ -3,9 +3,8 @@
 
 #include "macro.hlsli"
 
-cbuffer colors : register(b0)
-{
-    float4 color[10];
+cbuffer colors : register(b0) {
+    float4 color[MAX_COLORS];
     uint colorCount;
     float padding[3];
 };

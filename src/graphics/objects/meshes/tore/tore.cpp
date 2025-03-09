@@ -26,10 +26,17 @@ Tore::Tore(Renderer& renderer, float outrerRadius, float innerRadius, UINT slice
             };
 
             // Normal
+            dx::XMFLOAT3 tubeCenter = {
+                outrerRadius * std::cos(theta),
+                0.0f,
+                outrerRadius * std::sin(theta)
+            };
+
+            // Vecteur depuis le centre du tube vers le point actuel
             dx::XMFLOAT3 normal = {
-                std::cos(phi) * std::cos(theta),
-                std::sin(phi),
-                std::cos(phi) * std::sin(theta)
+                position.x - tubeCenter.x,
+                position.y - tubeCenter.y,
+                position.z - tubeCenter.z
             };
             dx::XMVECTOR normalVec = dx::XMVector3Normalize(dx::XMLoadFloat3(&normal));
             dx::XMStoreFloat3(&normal, normalVec);
@@ -49,12 +56,14 @@ Tore::Tore(Renderer& renderer, float outrerRadius, float innerRadius, UINT slice
 
             // Première face du quadrilatère (2 triangles)
             indices.push_back(topLeft);
-            indices.push_back(topRight);
             indices.push_back(bottomLeft);
+            indices.push_back(topRight);
+
 
             indices.push_back(topRight);
-            indices.push_back(bottomRight);
             indices.push_back(bottomLeft);
+            indices.push_back(bottomRight);
+
         }
     }
 

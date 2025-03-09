@@ -4,6 +4,10 @@ dx::XMFLOAT4 Color::toFloat4() const noexcept {
 	return dx::XMFLOAT4{this->r, this->g, this->b, this->a};
 }
 
+dx::XMFLOAT3 Color::toFloat3() const noexcept {
+	return dx::XMFLOAT3{ this->r, this->g, this->b };
+}
+
 D2D1::ColorF Color::toD2D1ColorF() const noexcept {
 	return D2D1::ColorF(this->r, this->g, this->b, this->a);
 }

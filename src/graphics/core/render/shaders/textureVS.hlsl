@@ -7,7 +7,7 @@ struct VSOut {
 
 VSOut main(float3 position : Position, float2 texCoord : TexCoord) {
     VSOut output;
-    output.position = mul(float4(position, 1.0f), transform);
+    output.position = mul(float4(position, 1.0f), modelViewProjection);
     output.texCoord = texCoord;
     return output;
 }

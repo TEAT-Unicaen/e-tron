@@ -23,7 +23,7 @@ Plane::Plane(Renderer& renderer, float width, float height, UINT nWidth, UINT nH
             dx::XMFLOAT3 position(x, y, 0);  // Plane is on the X-Y plane
 
             // Normals pointing in the Z direction (since the plane is flat)
-            dx::XMFLOAT3 normal(0, 0, 1);
+            dx::XMFLOAT3 normal(0, 0, -1);
 
             // Add vertex
             vertices.push_back(Mesh::Vertex{ position, normal });

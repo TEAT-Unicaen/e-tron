@@ -3,7 +3,7 @@
 #include "scene.h"
 #include "../objects/meshes/meshes.h"
 #include "../objects/drawable/singleMeshDrawable/singleMeshDrawable.h"
-
+#include "../objects/light.h"
 #include <memory>
 
 class GameScene : public Scene {
@@ -17,4 +17,5 @@ public:
 
 private:
 	bool isPaused = false;
+	Light light;
 };

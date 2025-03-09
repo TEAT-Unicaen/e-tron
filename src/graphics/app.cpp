@@ -22,6 +22,9 @@ App::App()
 	shaderManager.addPixelShader(renderer, L"coloredMotorcyclePS");
 	shaderManager.addPixelShader(renderer, L"texturePS");
 
+	shaderManager.addVertexShader(renderer, L"phongVS");
+	shaderManager.addPixelShader(renderer, L"phongPS");
+
 
 	this->sceneManager = std::make_unique<SceneManager>(
 		std::make_unique<LoadingScene>(

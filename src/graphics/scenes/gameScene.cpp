@@ -1,6 +1,7 @@
 #include "gameScene.h"
 
-GameScene::GameScene(Renderer& renderer, std::string name) : Scene(renderer, name) {}
+GameScene::GameScene(Renderer& renderer, std::string name)
+	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 5.0f, 0.0f), Color::WHITE)) {}
 
 void GameScene::onLoad() {
 	std::vector<Color> colorsCube = {
@@ -26,9 +27,6 @@ void GameScene::onLoad() {
 		Color::GRAY,
 	};
 
-	std::vector<Color> colorsSphere = {
-		Color::WHITE
-	};
 
 	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
 	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
@@ -38,7 +36,7 @@ void GameScene::onLoad() {
 	Mesh cylinder = Cylinder(renderer);
 	Mesh sphere = Sphere(renderer);
 	Mesh tore = Tore(renderer);
-	Mesh cone = Cone(renderer, 0.5f, 1.0f, 4u);
+	Mesh cone = Cone(renderer);
 	Mesh plane = Plane(renderer);
 
 	std::unique_ptr<Drawable> pCube = std::make_unique<SingleMeshDrawable>(
@@ -46,59 +44,60 @@ void GameScene::onLoad() {
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		cube,
-		L"defaultVS",
-		L"coloredCubePS",
-		colorsCube
+		L"phongVS",
+		L"phongPS",
+		Color::RED
 	);
+		
 
-	std::unique_ptr<Drawable> pPyramid = std::make_unique<SingleMeshDrawable>(
+	std::unique_ptr<Drawable> pSquarePyramid = std::make_unique<SingleMeshDrawable>(
 		this->renderer,
-		dx::XMFLOAT3{ 5.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 1.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		squarePyramid,
-		L"defaultVS",
-		L"coloredSquarePyramidPS",
-		colorsSquarePyramid
+		L"phongVS",
+		L"phongPS",
+		Color::GREEN
 	);
 
 	std::unique_ptr<Drawable> pCylinder = std::make_unique<SingleMeshDrawable>(
 		this->renderer,
-		dx::XMFLOAT3{ -5.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, -5.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		cylinder,
-		L"defaultVS",
-		L"coloredCylinderPS",
-		colorsCylinder
+		L"phongVS",
+		L"phongPS",
+		Color::BLUE
 	);
-
+	
 	std::unique_ptr<Drawable> pSphere = std::make_unique<SingleMeshDrawable>(
 		this->renderer,
-		dx::XMFLOAT3{ 0.0f, 0.0f, 5.0f },
+		dx::XMFLOAT3{ 0.0f, -5.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		sphere,
-		L"defaultVS",
-		L"coloredSpherePS",
-		colorsSphere
+		L"phongVS",
+		L"phongPS",
+		Color::CYAN
 	);
 
 	std::unique_ptr<Drawable> pTore = std::make_unique<SingleMeshDrawable>(
 		this->renderer,
-		dx::XMFLOAT3{ 5.0f, 0.0f, -5.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		tore,
-		L"defaultVS",
-		L"coloredSpherePS",
-		colorsSphere
+		L"phongVS",
+		L"phongPS",
+		Color::MAGENTA
 	);
 
 	std::unique_ptr<Drawable> pCone = std::make_unique<SingleMeshDrawable>(
 		this->renderer,
-		dx::XMFLOAT3{ -5.0f, 0.0f, -5.0f },
+		dx::XMFLOAT3{ -2.0f, 2.5f, 2.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		cone,
-		L"defaultVS",
-		L"coloredSpherePS",
-		colorsSphere
+		L"phongVS",
+		L"phongPS",
+		Color::YELLOW
 	);
 
 	std::unique_ptr<Drawable> pPlane = std::make_unique<SingleMeshDrawable>(
@@ -106,30 +105,25 @@ void GameScene::onLoad() {
 		dx::XMFLOAT3{ 0.0f, -5.0f, 0.0f },
 		dx::XMFLOAT3{ dx::XM_PIDIV2, 0.0f, 0.0f },
 		plane,
-		L"defaultVS",
-		L"coloredSpherePS",
-		colorsSphere
+		L"phongVS",
+		L"phongPS",
+		Color::WHITE
 	);
 
-	pCube->setScale(dx::XMFLOAT3(5.0f, 1.0f, 2.0f));
-
-	pPyramid->setScale(dx::XMFLOAT3(2.0f, 2.0f, 8.0f));
-
-	pCylinder->setScale(dx::XMFLOAT3(1.0f, 1.0f, 6.0f));
-
-	pSphere->setScale(dx::XMFLOAT3(2.0f, 2.0f, 2.0f));
-
 	pTore->setScale(dx::XMFLOAT3(2.0f, 2.0f, 2.0f));
-
 	pPlane->setScale(dx::XMFLOAT3(10.0f, 10.0f, 10.0f));
+	pCube->setScale(dx::XMFLOAT3(1.0f, 1.0f, 8.0f));
+
 
 	this->pDrawables.push_back(std::move(pCube));
-	this->pDrawables.push_back(std::move(pPyramid));
+	this->pDrawables.push_back(std::move(pSquarePyramid));
 	this->pDrawables.push_back(std::move(pCylinder));
 	this->pDrawables.push_back(std::move(pSphere));
 	this->pDrawables.push_back(std::move(pTore));
 	this->pDrawables.push_back(std::move(pCone));
 	this->pDrawables.push_back(std::move(pPlane));
+
+
 }
 
 void GameScene::handleInput(Window& wnd) {
@@ -172,6 +166,14 @@ void GameScene::handleInput(Window& wnd) {
 		this->pDrawables[0]->rotate(dx::XMFLOAT3(0.0f, 0.0f, -0.1f), 0.1f);
 	}
 
+	if (keyEvent.keyIsPressed('I')) {
+		this->light.position.y += 0.1f;
+	}
+
+	if (keyEvent.keyIsPressed('K')) {
+		this->light.position.y -= 0.1f;
+	}
+
 	// Camera rotation
 	if (keyEvent.keyIsPressed(VK_UP)) rotX -= rotationSpeed; // Rotation vers le bas
 	if (keyEvent.keyIsPressed(VK_DOWN)) rotX += rotationSpeed; // Rotation vers le haut
@@ -195,12 +197,16 @@ void GameScene::handleInput(Window& wnd) {
 }
 
 void GameScene::update(float deltaTime) {
+	this->light.bind(renderer);
 	if (!this->isPaused) {
 		Scene::update(deltaTime);
+		this->light.draw(renderer);
 	} else {
 		for (auto& pDrawable : this->pDrawables) {
 			pDrawable->draw(renderer);
 		}
+		this->light.draw(renderer);
 		renderer.renderText(L"PAUSED", dx::XMFLOAT2(700, 10), 16, Color::WHITE);
 	}
+	
 }

@@ -8,6 +8,12 @@ public:
     TransformConstantBuffer(Renderer& renderer, const Drawable& parent);
     void bind(Renderer& renderer) noexcept override;
 private:
-    VertexConstantBuffer<dx::XMMATRIX> vertexConstantBuffer;
+	struct TransformBuffer {
+		dx::XMMATRIX model;
+		dx::XMMATRIX modelView;
+		dx::XMMATRIX modelViewProj;
+	};
+	const TransformBuffer getTransformBuffer(Renderer& renderer) const noexcept;
+    VertexConstantBuffer<TransformBuffer> vertexConstantBuffer;
     const Drawable& parent;
 };

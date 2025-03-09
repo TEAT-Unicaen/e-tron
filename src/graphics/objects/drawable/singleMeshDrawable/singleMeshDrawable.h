@@ -15,6 +15,25 @@ public:
 		std::wstring pixelShaderName,
 		std::vector<Color> colors
 	);
+
+	SingleMeshDrawable(
+		Renderer& renderer,
+		dx::XMFLOAT3 startPosition,
+		dx::XMFLOAT3 startRotation,
+		Mesh& mesh,
+		std::wstring vertexShaderName,
+		std::wstring pixelShaderName,
+		Color color
+	);
+
+	void init(
+		Renderer& renderer,
+		dx::XMFLOAT3 startPosition,
+		dx::XMFLOAT3 startRotation,
+		Mesh& mesh,
+		std::wstring vertexShaderName,
+		std::wstring pixelShaderName
+	);
 };
 
 #define MAX_COLORS 10
