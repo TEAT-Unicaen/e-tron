@@ -16,7 +16,7 @@ const TimeLine: React.FC = () => {
         setRange(range);
     }
 
-    const [btn, setBtn] = useState<boolean>(true);
+    const [btn, setBtn] = useState<boolean>(false);
     const handleToggler = (val: boolean) => {
         setBtn(val);
     }
