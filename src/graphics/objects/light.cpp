@@ -8,8 +8,8 @@ Light::Light(Renderer& renderer, const dx::XMFLOAT3& pos, const Color color)
 		dx::XMFLOAT3{0.05f, 0.05f, 0.05f},
 		1.0f,
 		1.0f,
-		0.1f,
-		0.01f
+		0.045f,
+		0.0075f
 	}),
 	lightBuffer(PixelConstantBuffer<LightBuffer>(
 		renderer,
