@@ -1,6 +1,7 @@
 #include "instancedMeshDrawable.h"
 
 InstancedMeshDrawable::InstancedMeshDrawable(
+	// Constructor for multiple instances with different colors
 	Renderer& renderer,
 	dx::XMFLOAT3 startPosition,
 	dx::XMFLOAT3 startRotation,
@@ -11,28 +12,12 @@ InstancedMeshDrawable::InstancedMeshDrawable(
 	std::vector<dx::XMMATRIX> instances
 	) 
 	: Drawable(renderer, startPosition, startRotation) {
-
 	this->init(renderer, startPosition, startRotation, mesh, vertexShaderName, pixelShaderName, instances);
-
-	//the colors
-	struct ColorBuffer {
-		dx::XMFLOAT4 colors[MAX_COLORS];
-		UINT colorsSize;
-		float padding[3];
-	};
-
-	UINT colorsSize = colors.size();
-
-	ColorBuffer cb = {};
-	cb.colorsSize = colorsSize;
-	for (UINT i = 0; i < colorsSize; i++) {
-		cb.colors[i] = colors[i].toFloat4();
-	}
-
-	this->addBindable(std::make_shared<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
+	this->initByColors(renderer, colors);
 }
 
 InstancedMeshDrawable::InstancedMeshDrawable(
+	// Constructor for multiple instances with the same color
 	Renderer& renderer,
 	dx::XMFLOAT3 startPosition,
 	dx::XMFLOAT3 startRotation,
@@ -41,26 +26,14 @@ InstancedMeshDrawable::InstancedMeshDrawable(
 	std::wstring pixelShaderName,
 	Color color,
 	std::vector<dx::XMMATRIX> instances
-)
+	)
 	: Drawable(renderer, startPosition, startRotation) {
-
 	this->init(renderer, startPosition, startRotation, mesh, vertexShaderName, pixelShaderName, instances);
-
-	//the colors
-	struct ColorBuffer {
-		dx::XMFLOAT4 colors[MAX_COLORS];
-		UINT colorsSize;
-		float padding[3];
-	};
-
-	ColorBuffer cb = {};
-	cb.colors[0] = color.toFloat4();
-	cb.colorsSize = 1;
-
-	this->addBindable(std::make_shared<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
+	this->initByColor(renderer, color);
 }
 
 InstancedMeshDrawable::InstancedMeshDrawable(
+	// Constructor for no instance with the same color
 	Renderer& renderer,
 	dx::XMFLOAT3 startPosition,
 	dx::XMFLOAT3 startRotation,
@@ -68,25 +41,54 @@ InstancedMeshDrawable::InstancedMeshDrawable(
 	std::wstring vertexShaderName,
 	std::wstring pixelShaderName,
 	Color color
-
-) : Drawable(renderer, startPosition, startRotation) {
-
+	)
+	: Drawable(renderer, startPosition, startRotation) {
 	std::vector<dx::XMMATRIX> instances = { dx::XMMatrixIdentity() };
 	this->init(renderer, startPosition, startRotation, mesh, vertexShaderName, pixelShaderName, instances);
+	this->initByColor(renderer, color);
+}
 
-	//the colors
+InstancedMeshDrawable::InstancedMeshDrawable(
+	// Constructor for no instance with different colors
+	Renderer& renderer,
+	dx::XMFLOAT3 startPosition,
+	dx::XMFLOAT3 startRotation,
+	Mesh& mesh,
+	std::wstring vertexShaderName,
+	std::wstring pixelShaderName,
+	std::vector<Color> colors
+	)
+	: Drawable(renderer, startPosition, startRotation) {
+	std::vector<dx::XMMATRIX> instances = { dx::XMMatrixIdentity() };
+	this->init(renderer, startPosition, startRotation, mesh, vertexShaderName, pixelShaderName, instances);
+	this->initByColors(renderer, colors);
+}
+
+void InstancedMeshDrawable::initByColor(Renderer& renderer, Color color) {
 	struct ColorBuffer {
 		dx::XMFLOAT4 colors[MAX_COLORS];
 		UINT colorsSize;
 		float padding[3];
 	};
-
 	ColorBuffer cb = {};
 	cb.colors[0] = color.toFloat4();
 	cb.colorsSize = 1;
-
 	this->addBindable(std::make_shared<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
+}
 
+void InstancedMeshDrawable::initByColors(Renderer& renderer, std::vector<Color> colors) {
+	struct ColorBuffer {
+		dx::XMFLOAT4 colors[MAX_COLORS];
+		UINT colorsSize;
+		float padding[3];
+	};
+	UINT colorsSize = colors.size();
+	ColorBuffer cb = {};
+	cb.colorsSize = colorsSize;
+	for (UINT i = 0; i < colorsSize; i++) {
+		cb.colors[i] = colors[i].toFloat4();
+	}
+	this->addBindable(std::make_shared<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
 }
 
 void InstancedMeshDrawable::init(
@@ -143,12 +145,9 @@ void InstancedMeshDrawable::addInstance(
 	Renderer& renderer,
 	dx::XMFLOAT3 Position,
 	dx::XMFLOAT3 Rotation,
-	Mesh& mesh,
-	std::wstring vertexShaderName,
-	std::wstring pixelShaderName,
-	Color color
+	dx::XMFLOAT3 Scale
 ) {
-	this->pInstanceBuffer->addInstance(renderer, Position, Rotation, dx::XMFLOAT3(1.0f, 1.0f, 1.0f));
+	this->pInstanceBuffer->addInstance(renderer, Position, Rotation, Scale);
 }
 
 void InstancedMeshDrawable::draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE) {

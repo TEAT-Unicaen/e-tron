@@ -17,7 +17,6 @@ public:
 		std::vector<Color> colors,
 		std::vector<dx::XMMATRIX> instances
 	);
-
 	InstancedMeshDrawable(
 		Renderer& renderer,
 		dx::XMFLOAT3 startPosition,
@@ -28,7 +27,6 @@ public:
 		Color color,
 		std::vector<dx::XMMATRIX> instances
 	);
-
 	InstancedMeshDrawable(
 		Renderer& renderer,
 		dx::XMFLOAT3 startPosition,
@@ -38,6 +36,18 @@ public:
 		std::wstring pixelShaderName,
 		Color color
 	);
+	InstancedMeshDrawable(
+		Renderer& renderer,
+		dx::XMFLOAT3 startPosition,
+		dx::XMFLOAT3 startRotation,
+		Mesh& mesh,
+		std::wstring vertexShaderName,
+		std::wstring pixelShaderName,
+		std::vector<Color> colors
+	);
+
+	void initByColor(Renderer& renderer, Color color);
+	void initByColors(Renderer& renderer, std::vector<Color> colors);
 
 	void draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE) override;
 
@@ -63,10 +73,7 @@ public:
 		Renderer& renderer,
 		dx::XMFLOAT3 Position,
 		dx::XMFLOAT3 Rotation,
-		Mesh& mesh,
-		std::wstring vertexShaderName,
-		std::wstring pixelShaderName,
-		Color color
+		dx::XMFLOAT3 Scale
 	);
 
 
