@@ -5,7 +5,7 @@ Player::Player() noexcept
 }
 
 Player::Player(std::string name, TCoords coords, Color::ColorEnum color, int id) noexcept
-    : GameEntity(name, coords, color), id(id), isDead(false) {
+    : GameEntity(name, coords, color), id(id), isDead(false), baseColor(color) {
 }
 
 int Player::getId() const noexcept {
@@ -20,4 +20,10 @@ void Player::killPlayer() {
 	this->isDead = true;
 	this->name = "Dead P" + std::to_string(this->id);
 	this->color = Color::ColorEnum::Red;
+}
+
+void Player::revive() {
+	this->isDead = false;
+	this->name = "Player " + std::to_string(this->id);
+	this->color = this->baseColor;
 }

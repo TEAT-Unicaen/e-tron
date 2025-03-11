@@ -11,8 +11,10 @@ public:
 	int getId() const noexcept;
 	bool isPlayerDead();
 	void killPlayer();
+	void revive();
 
 private:
 	int id;
 	bool isDead;
+	Color::ColorEnum baseColor;
 };

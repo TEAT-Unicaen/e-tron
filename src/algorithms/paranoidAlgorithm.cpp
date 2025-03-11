@@ -15,7 +15,6 @@ ParanoidAlgorithm::ParanoidAlgorithm(MapManager* mapMan) : AlgorithmUtils(mapMan
 
 // Core Algorithme Paranoid
 std::vector<int> ParanoidAlgorithm::paranoid(std::vector<std::shared_ptr<Player>> players, int depth, int currentPlayer) {
-	std::cout << "Paranoid called with depth " << depth << " and currentPlayer " << currentPlayer << std::endl;
 	int numPlayers = players.size();
 	std::vector<int> scores(numPlayers + 1, 0);
 
@@ -70,5 +69,6 @@ std::vector<int> ParanoidAlgorithm::paranoid(std::vector<std::shared_ptr<Player>
 			}
 		}
 	}
+
 	return bestScores;
 }
