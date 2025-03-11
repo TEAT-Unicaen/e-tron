@@ -48,7 +48,6 @@ const TimeLine: React.FC = () => {
         } else {
             for (let i = range[1] - 1; i >= range[0]; i--) {
                 const match = parseInt(formatedJSON.timeLog[i].match(/\d{1,2}$/));
-                console.log(match, draw[match]);
                 if (draw[match]) {
                     setEvents((prev) => [
                         { time: `Tour ${i}`, message: formatedJSON.timeLog[i] },
