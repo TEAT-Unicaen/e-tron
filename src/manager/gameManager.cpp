@@ -110,9 +110,10 @@ void GameManager::threadLoop() {
 			int oldX = player->getCoords().x;
 			int oldY = player->getCoords().y;
 
-			std::cout << oldX << " " << oldY << " " << newX << " " << newY << std::endl;
 			if (newX == oldX && newY == oldY) { 
 				std::cout << player->getName() << " tragically died at coords " << oldX << " " << oldY << std::endl;
+				this->dataLogManager->addTick(tick, "dead " + player->getName());
+				tick++;
 				player->killPlayer();
 				continue;
 			}
@@ -138,12 +139,12 @@ void GameManager::threadLoop() {
 
 			this->dataLogManager->addMovement(player->getName(), action, 1);
 
-			this->dataLogManager->addTick(tick, action + "_" + player->getName());
+			this->dataLogManager->addTick(tick, action + " " + player->getName());
 
 			//Draw the map
-			std::cout << "\033[2J\033[H";
-			this->draw();
-			SLEEP_MS(500);
+			//std::cout << "\033[2J\033[H";
+			//this->draw();
+			//SLEEP_MS(50);
 			tick++;
 		} 
 
