@@ -51,6 +51,8 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos) noe
 	this->dataLogManager = new DataLogManager();
 	this->jsonWriter = new JsonWriter(oss.str());
 	std::cout << "Output file will be : " << oss.str() << std::endl;
+
+	this->dataLogManager->addLog("numPlayers", numPlyrs);
 }
 
 GameManager::~GameManager() {
