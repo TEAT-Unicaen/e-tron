@@ -4,10 +4,11 @@ import styles from './ToggleButton.module.scss';
 interface ToggleButtonProps {
   label: string;
   onChange: (state: boolean) => void;
+  defaultValue?: boolean;
 }
 
-const ToggleButton: React.FC<ToggleButtonProps> = ({ label, onChange }) => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+const ToggleButton: React.FC<ToggleButtonProps> = ({ label, onChange, defaultValue = false }) => {
+  const [isChecked, setIsChecked] = useState<boolean>(defaultValue);
 
   const handleToggle = () => {
     const newState = !isChecked;

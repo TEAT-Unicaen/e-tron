@@ -46,6 +46,8 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
     for (const [pName, dat] of Object.entries(inputArray)) {
         if (pName === 'timeLog') {
             outputArray.timeLog = dat
+        } else if (pName === 'numPlayers') {
+            outputArray.pNb = dat
         } else {
             let provRoundHere = dat.top + dat.bottom + dat.right + dat.left
             if (provRoundHere > maxRound) {
