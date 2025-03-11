@@ -1,4 +1,3 @@
-// Core Algorithme Maxn
 #include "maxnAlgorithm.h"
 #include <iostream>
 #include <vector>
