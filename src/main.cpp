@@ -1,6 +1,7 @@
 #include "./manager/gameManager.h"
 #include "./manager/inputManager.h"
-#include "./mainFunctions.h"
+#include "./utils/mainFunctions.h"
+#include "./utils/configLoader.h"
 
 #include <iostream>
 #include <vector>
@@ -10,7 +11,15 @@
 
 int main() {
     try {
-		MainFunctions mainFunctions;
+		// Assert the file exists
+        std::string configFilePath = "config.ini";
+        if (!std::filesystem::exists(configFilePath)) {
+            std::cerr << "Config file not found: " << configFilePath << std::endl;
+            return 1;
+        }
+
+        ConfigLoader config(configFilePath);
+        MainFunctions mainFunctions;
         std::cout << "Welcome to the game !\n" << std::endl;
 
         // Launching the second cmd with the reading program
@@ -44,7 +53,11 @@ int main() {
         mainFunctions.writeToPipe("Pipe connected\n");
 
         // Init managers
-        GameManager gameManager(20, 20, 14, true);
+		int numPlayers = config.getInt("num_players");
+        int size = config.getInt("grid_size", numPlayers); 
+		std::cout << "Grid size : " << size << std::endl;
+		std::cout << "Number of players : " << numPlayers << std::endl;
+        GameManager gameManager(size, size, numPlayers, true);
         InputManager inputManager(&gameManager, mainFunctions);
 
         // Displaying start grid

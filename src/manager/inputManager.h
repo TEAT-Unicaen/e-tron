@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include "gameManager.h"
-#include "../mainFunctions.h"
+#include "../utils/mainFunctions.h"
 
 class InputManager {
 public:
