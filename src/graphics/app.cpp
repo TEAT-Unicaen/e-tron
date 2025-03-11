@@ -20,7 +20,6 @@ App::App()
 	shaderManager.addPixelShader(renderer, L"coloredCylinderPS");
 	shaderManager.addPixelShader(renderer, L"coloredCylinderTruncatedPS");
 	shaderManager.addPixelShader(renderer, L"coloredSpherePS");
-	shaderManager.addPixelShader(renderer, L"coloredMotorcyclePS");
 	shaderManager.addPixelShader(renderer, L"texturePS");
 
 	shaderManager.addVertexShader(renderer, L"phongVS");
