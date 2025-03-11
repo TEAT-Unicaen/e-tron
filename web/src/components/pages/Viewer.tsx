@@ -13,7 +13,10 @@ const Viewer: React.FC = () => {
         <>
             <BackgroundLayout/>
             <SideBar/>
-            <RadarChart data={formatedJSON.radar}/>
+            <div style={{height: '100vh', width: '100vh'}}>
+                <RadarChart data={formatedJSON.radar}/>
+            </div>
+
         </>
     )
 }
