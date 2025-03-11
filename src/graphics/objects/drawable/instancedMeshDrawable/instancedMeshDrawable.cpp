@@ -1,5 +1,3 @@
-#pragma once
-
 #include "instancedMeshDrawable.h"
 
 InstancedMeshDrawable::InstancedMeshDrawable(
@@ -79,8 +77,12 @@ void InstancedMeshDrawable::init(
 	auto pvsbc = pvs->getBytecode();
 	this->addBindable(std::move(pvs));
 	this->addBindable(shaderManager.getPixelShader(pixelShaderName));
-	this->addBindable(std::make_shared<VertexBuffer>(renderer, instances, 1u));
-	this->instanceCount = instances.size();
+
+	//the instance buffer
+	auto pib = std::make_shared<InstanceBuffer>(renderer, instances, 1u);
+	this->pInstanceBuffer = pib.get();
+	this->addBindable(std::move(pib));
+	
 	//the layout
 	const std::vector<D3D11_INPUT_ELEMENT_DESC> inputElementDesc = {
 		// Per-vertex data
@@ -100,5 +102,5 @@ void InstancedMeshDrawable::init(
 
 void InstancedMeshDrawable::draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE) {
 	this->bindAll(renderer);
-	renderer.drawIndexedInstanced(this->indexCount, this->instanceCount);
+	renderer.drawIndexedInstanced(this->indexCount, this->pInstanceBuffer->getCount());
 }

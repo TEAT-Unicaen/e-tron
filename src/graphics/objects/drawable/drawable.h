@@ -48,7 +48,9 @@ protected:
 
 	dx::XMFLOAT3 targetPosition = dx::XMFLOAT3(0.0f, 0.0f, 0.0f);
 	dx::XMFLOAT3 targetRotation = dx::XMFLOAT3(0.0f, 0.0f, 0.0f);
+	
 	void bindAll(Renderer& renderer) const noexcept(!IS_DEBUG_MODE);
+	
 	UINT indexCount = 0u;
 	std::vector<std::shared_ptr<Bindable>> pBindables;
 };

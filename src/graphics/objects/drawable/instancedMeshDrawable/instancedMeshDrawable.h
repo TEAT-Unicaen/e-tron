@@ -3,6 +3,7 @@
 #include "../drawable.h"
 #include "../../meshes/mesh.h"
 #include "../../bindable/bindableBase.h"
+#include "../../bindable/buffers/instanceBuffer.h"
 
 class InstancedMeshDrawable : public Drawable {
 public:
@@ -40,7 +41,7 @@ public:
 		std::vector<dx::XMMATRIX> instances
 	);
 protected:
-	UINT instanceCount;
+	InstanceBuffer *pInstanceBuffer;
 };
 
 #define MAX_COLORS 10
