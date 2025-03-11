@@ -13,7 +13,7 @@ public:
     ~AutoMoveSos() = default;
 
     //Methods
-    std::pair<std::pair<int, int>, int> decideMove(std::shared_ptr<Player> player, int depth, const std::vector<std::vector<double>>& W) {
+    std::pair<std::pair<int, int>, int> decideMove(std::shared_ptr<Player> player, int depth, const std::vector<std::vector<double>>& W);
 
 private:
 

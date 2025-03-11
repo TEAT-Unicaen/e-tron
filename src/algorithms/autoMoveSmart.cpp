@@ -11,8 +11,7 @@
 // the alpha-bêta pruning allows to reduce the complexity to O(b^(d/2)) in the best case scenario.
 
 
-AutoMoveSmart::AutoMoveSmart(MapManager* mapMan) : AlgorithmUtils(mapMan) {
-}
+AutoMoveSmart::AutoMoveSmart(MapManager* mapMan) : AlgorithmUtils(mapMan) {}
 
 // Auto moves algorithm
 std::pair<std::pair<int, int>, int> AutoMoveSmart::decideMove(std::shared_ptr<Player> player, int depth) {
