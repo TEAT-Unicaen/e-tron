@@ -21,7 +21,7 @@ const TimeLine: React.FC = () => {
         setBtn(val);
     }
 
-    const [draw, setDraw] = useState<boolean[]>(Array(formatedJSON.pNb).fill(true));
+    const [draw, setDraw] = useState<boolean[]>(Array(formatedJSON.pNb+1).fill(true));
 
     const handlePlayer = (player: number) => (val: boolean) => {
         setDraw((prev) => {
@@ -29,7 +29,6 @@ const TimeLine: React.FC = () => {
             newDraw[player] = val;
             return newDraw;
         });
-        console.log(draw[player]);
     }
 
     const [events, setEvents] = useState<{ time: string; message: string }[]>([]);
@@ -38,7 +37,8 @@ const TimeLine: React.FC = () => {
         setEvents([]);
         if (btn) {
             for (let i = range[0]; i < range[1]; i++) {
-                if (draw[i]) {
+                const match = parseInt(formatedJSON.timeLog[i].match(/\d{1,2}$/));
+                if (draw[match]) {
                     setEvents((prev) => [
                         { time: `Tour ${i}`, message: formatedJSON.timeLog[i] },
                         ...prev
@@ -47,7 +47,9 @@ const TimeLine: React.FC = () => {
             }
         } else {
             for (let i = range[1] - 1; i >= range[0]; i--) {
-                if (draw[i]) {
+                const match = parseInt(formatedJSON.timeLog[i].match(/\d{1,2}$/));
+                console.log(match, draw[match]);
+                if (draw[match]) {
                     setEvents((prev) => [
                         { time: `Tour ${i}`, message: formatedJSON.timeLog[i] },
                         ...prev
@@ -62,7 +64,7 @@ const TimeLine: React.FC = () => {
     for (let i = 0; i < formatedJSON.pNb; i++) {
         const lab = `Joueur ${i+1}`
         playersButtons.push(
-            <ToggleButton label={lab} onChange={handlePlayer(i)} defaultValue={true} />
+            <ToggleButton key={i} label={lab} onChange={handlePlayer(i+1)} defaultValue={true} />
         )
     }
 
