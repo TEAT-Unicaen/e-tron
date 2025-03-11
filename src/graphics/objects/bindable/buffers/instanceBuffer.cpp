@@ -16,7 +16,7 @@ InstanceBuffer::InstanceBuffer(Renderer& renderer, const std::vector<dx::XMMATRI
 
 void InstanceBuffer::initBuffer(Renderer& renderer, UINT slot, std::vector<dx::XMMATRIX> instances) {
 	instances.reserve(MAX_INSTANCES);
-	for (UINT i = this->count; i < MAX_INSTANCES; i++) {
+	for (UINT i = 0; i < MAX_INSTANCES; i++) {
 		instances.push_back(dx::XMMatrixIdentity());
 	}
 	this->instances = instances;
@@ -62,8 +62,8 @@ void InstanceBuffer::addInstance(
 ) noexcept(!IS_DEBUG_MODE) {
 	if (count < MAX_INSTANCES) {
 		instances[count++] = dx::XMMatrixTranspose(
-			dx::XMMatrixTranslation(position.x, position.y, position.z) *
 			dx::XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
+			dx::XMMatrixTranslation(position.x, position.y, position.z) *
 			dx::XMMatrixScaling(scale.x, scale.y, scale.z));
 	}
 	this->needToBeUpdated = true;

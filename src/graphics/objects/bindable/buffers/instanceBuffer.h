@@ -39,4 +39,4 @@ private:
 	bool needToBeUpdated = false;
 };
 
-#define MAX_INSTANCES 100000u // 10_000
+#define MAX_INSTANCES 10000000u // 10_000_000

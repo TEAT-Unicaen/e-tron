@@ -29,7 +29,7 @@ Grid3D::Grid3D(Renderer& renderer, UINT lenght, UINT width, Mesh& mesh)
 			this->addInstance(
 				renderer,
 				dx::XMFLOAT3(static_cast<float>(i), 0.0f, static_cast<float>(j)),
-				dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
+				dx::XMFLOAT3(dx::XM_PI * i, 0.0f, dx::XM_PI * j),
 				dx::XMFLOAT3(1.0f, 1.0f, 1.0f)
 			);
 		}
