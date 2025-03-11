@@ -82,6 +82,7 @@ void GameManager::stop() {
 
 void GameManager::pauseGame() {
 	this->pause = !this->pause;
+	this->effectivelyPaused = false;
 }
 
 bool GameManager::isRunning() const noexcept {
@@ -92,7 +93,10 @@ void GameManager::threadLoop() {
 	running = true;
 	int tick = 0;
 	while (running) {
-		if (this->pause) {continue;}
+		if (this->pause) {
+			this->effectivelyPaused = true;
+			continue;
+		}
 
 		// Auto move the players
 		for (auto& player : pVector) {
@@ -207,4 +211,8 @@ bool GameManager::shouldStopCmd() const noexcept {
 
 void GameManager::setStopCmd(bool stopCmd) noexcept {
 	this->stopCmd = stopCmd;
+}
+
+bool GameManager::isPaused() const noexcept {
+	return this->effectivelyPaused;
 }

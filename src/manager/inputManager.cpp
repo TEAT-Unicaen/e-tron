@@ -24,21 +24,25 @@ void InputManager::processInput() {
             break;
         case 'm': 
 			gameManager->pauseGame();
+            while (!gameManager->isPaused()) { std::this_thread::sleep_for(std::chrono::milliseconds(100)); }
+
 			//Retrieve players scores in order
             res = gameManager->callMaxn(10);
             mainFunctions.writeToPipe("Maxn result at depth = 10 : ");
-			for (int i = 0; i < res.size(); i++) {
-                mainFunctions.writeToPipe("Player " + std::to_string(i+1) +  " score for depth 10 is : " + std::to_string(res[i]) + "\n");
+			for (int i = 1; i < res.size(); i++) {
+                mainFunctions.writeToPipe("Player " + std::to_string(i) +  " score for depth 10 is : " + std::to_string(res[i]) + "\n");
 			}
             gameManager->pauseGame();
             break;
 		case 'n':
 			gameManager->pauseGame();
+            while (!gameManager->isPaused()) { std::this_thread::sleep_for(std::chrono::milliseconds(100)); }
+
             //Retrieve players scores in order
             res = gameManager->callParanoid(10);
             mainFunctions.writeToPipe("Paranoid result at depth = 10 and tracked player = 1: ");
-            for (int i = 0; i < res.size(); i++) {
-                mainFunctions.writeToPipe("Player " + std::to_string(i+1) + " score for depth 10 is : " + std::to_string(res[i]) + "\n");
+            for (int i = 1; i < res.size(); i++) {
+                mainFunctions.writeToPipe("Player " + std::to_string(i) + " score for depth 10 is : " + std::to_string(res[i]) + "\n");
             }
 			gameManager->pauseGame();
 			break;
