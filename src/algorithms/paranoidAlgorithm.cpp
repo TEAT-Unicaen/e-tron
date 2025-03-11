@@ -29,7 +29,7 @@ std::vector<int> ParanoidAlgorithm::paranoid(std::vector<std::shared_ptr<Player>
 
 	std::shared_ptr<Player> player = players[currentPlayer];
 	int playerID = player->getId();
-	std::vector<int> bestScores(numPlayers + 1, -100000); //Workaround to init numPlayer elems at a low int value, because int min changes to 
+	std::vector<int> bestScores(numPlayers + 1, INIT_VALUE); //Workaround to init numPlayer elems at a low int value, because int min changes to 
 	std::vector<std::pair<int, int>> moves = this->getAvailableMoves(player);
 
 	if (moves.empty()) { // Plyr eliminated -> applying penalty
@@ -61,7 +61,13 @@ std::vector<int> ParanoidAlgorithm::paranoid(std::vector<std::shared_ptr<Player>
 		}
 
 		if (myScore - sumOthers > bestScores[playerID] - sumOthers) {
-			bestScores = scores; 
+			if (bestScores[playerID] == INIT_VALUE) {
+				bestScores = scores;
+			} else {
+				for (int i = 0; i < numPlayers; i++) {
+					bestScores[i] += scores[i];
+				}
+			}
 		}
 	}
 	return bestScores;

@@ -10,5 +10,10 @@ public:
 
 	//Methods
 	std::vector<int> paranoid(std::vector<std::shared_ptr<Player>> players, int depth, int currentPlayer);
+
+private:
+
+	int const INIT_VALUE = -100000;
+
 };
 

@@ -17,5 +17,7 @@ public:
 
 private:
 
+	int const INIT_VALUE = -100000;
+
 };
 
