@@ -35,6 +35,8 @@ private:
 	UINT slot;
 	UINT count;
 	UINT structSize;
+
+	bool needToBeUpdated = false;
 };
 
 #define MAX_INSTANCES 100000u // 10_000

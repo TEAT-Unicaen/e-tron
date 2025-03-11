@@ -46,6 +46,8 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
     for (const [pName, dat] of Object.entries(inputArray)) {
         if (pName === 'timeLog') {
             outputArray.timeLog = dat
+        } else if (pName === 'numPlayers') {
+            outputArray.pNb = dat
         } else {
             let provRoundHere = dat.top + dat.bottom + dat.right + dat.left
             if (provRoundHere > maxRound) {
@@ -64,12 +66,12 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
                 label: pName,
                 data: [dat.top, dat.right, dat.bottom, dat.left],
                 fill: true,
-                backgroundColor: backgroundColorSet[index],
-                borderColor: secondColorSet[index],
-                pointBackgroundColor: secondColorSet[index],
+                backgroundColor: backgroundColorSet[index%8],
+                borderColor: secondColorSet[index%8],
+                pointBackgroundColor: secondColorSet[index%8],
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: secondColorSet[index]
+                pointHoverBorderColor: secondColorSet[index%8]
             })
             index++
         }

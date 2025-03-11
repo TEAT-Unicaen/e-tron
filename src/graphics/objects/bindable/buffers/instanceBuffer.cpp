@@ -12,7 +12,6 @@ InstanceBuffer::InstanceBuffer(Renderer& renderer, const std::vector<dx::XMMATRI
 	for (UINT i = 0u; i < count; i++) {
 		this->instances[i] = instances[i];
 	}
-	this->update(renderer);
 }
 
 void InstanceBuffer::initBuffer(Renderer& renderer, UINT slot, std::vector<dx::XMMATRIX> instances) {
@@ -33,7 +32,7 @@ void InstanceBuffer::initBuffer(Renderer& renderer, UINT slot, std::vector<dx::X
 	instanceBufferDesc.StructureByteStride = this->structSize;
 
 	D3D11_SUBRESOURCE_DATA instanceBufferData = {};
-	instanceBufferData.pSysMem = instances.data();
+	instanceBufferData.pSysMem = this->instances.data();
 	CHECK_RENDERER_EXCEPT(this->getDevice(renderer)->CreateBuffer(&instanceBufferDesc, &instanceBufferData, &pInstanceBuffer));
 }
 
@@ -48,6 +47,10 @@ void InstanceBuffer::update(Renderer& renderer) noexcept(!IS_DEBUG_MODE) {
 void InstanceBuffer::bind(Renderer& renderer) noexcept(!IS_DEBUG_MODE) {
 	HR_PLUS;
 	const UINT offset = 0u;
+	if (this->needToBeUpdated) {
+		this->update(renderer);
+		this->needToBeUpdated = false;
+	}
 	CHECK_INFO_ONLY_EXCEPT(this->getDeviceContext(renderer)->IASetVertexBuffers(this->slot, 1u, this->pInstanceBuffer.GetAddressOf(), &this->structSize, &offset));
 }
 
@@ -63,6 +66,7 @@ void InstanceBuffer::addInstance(
 			dx::XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
 			dx::XMMatrixTranslation(position.x, position.y, position.z);
 	}
+	this->needToBeUpdated = true;
 }
 
 void InstanceBuffer::addInstance(Renderer& renderer, const dx::XMMATRIX& matrix) noexcept(!IS_DEBUG_MODE) {
@@ -82,14 +86,14 @@ void InstanceBuffer::updateInstance(
 			dx::XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
 			dx::XMMatrixTranslation(position.x, position.y, position.z);
 	}
-	this->update(renderer);
+	this->needToBeUpdated = true;
 }
 
 void InstanceBuffer::updateInstance(Renderer& renderer, UINT i, const dx::XMMATRIX& matrix) noexcept(!IS_DEBUG_MODE) {
 	if (i < count) {
 		instances[i] = matrix;
 	}
-	this->update(renderer);
+	this->needToBeUpdated = true;
 }
 
 void InstanceBuffer::removeInstance(Renderer& renderer, UINT i) noexcept(!IS_DEBUG_MODE) {
@@ -97,6 +101,7 @@ void InstanceBuffer::removeInstance(Renderer& renderer, UINT i) noexcept(!IS_DEB
 		instances.erase(instances.begin() + i);
 		count--;
 	}
+	this->needToBeUpdated = true;
 }
 
 void InstanceBuffer::clearInstances(Renderer& renderer) noexcept(!IS_DEBUG_MODE) {
@@ -104,6 +109,7 @@ void InstanceBuffer::clearInstances(Renderer& renderer) noexcept(!IS_DEBUG_MODE)
 		this->instances[0] = dx::XMMatrixIdentity();
 	}
 	count = 0u;
+	this->needToBeUpdated = true;
 }
 
 UINT InstanceBuffer::getCount() const noexcept {

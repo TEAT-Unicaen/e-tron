@@ -37,7 +37,7 @@ int main() {
         // Waiting for the reader.exe pipe to be created safely with retries
         HANDLE hWritePipe;
         const int maxRetries = 10;
-        const int delayMs = 100;
+        const int delayMs = 200;
         for (int i = 0; i < maxRetries; ++i) {
             hWritePipe = CreateFile("\\\\.\\pipe\\GamePipe", GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
             if (hWritePipe != INVALID_HANDLE_VALUE) {

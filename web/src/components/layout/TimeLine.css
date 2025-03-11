@@ -308,7 +308,7 @@
 @media only screen and (min-width:1170px) {
     .vertical-timeline--two-columns .vertical-timeline-element-content {
         margin-left: 0;
-        padding: 1.5em;
+        padding: 1.0em;
         width: 44%
     }
 

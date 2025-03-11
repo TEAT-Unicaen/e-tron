@@ -1,4 +1,4 @@
-#include "gameScene.h"
+ #include "gameScene.h"
 
 GameScene::GameScene(Renderer& renderer, std::string name)
 	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 5.0f, 0.0f), Color::WHITE)) {}
@@ -119,6 +119,7 @@ void GameScene::onLoad() {
 		dx::XMMatrixTranspose(dx::XMMatrixIdentity())
 	};
 
+	
 	std::unique_ptr<Drawable> pCube = std::make_unique<InstancedMeshDrawable>(
 		this->renderer,
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
@@ -129,9 +130,10 @@ void GameScene::onLoad() {
 		colorsCube,
 		matriceX
 	);
+	
 
 	this->pDrawables.push_back(std::move(pCube));
-
+	
 }
 
 void GameScene::handleInput(Window& wnd) {
