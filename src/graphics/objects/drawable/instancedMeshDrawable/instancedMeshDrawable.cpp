@@ -60,6 +60,35 @@ InstancedMeshDrawable::InstancedMeshDrawable(
 	this->addBindable(std::make_shared<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
 }
 
+InstancedMeshDrawable::InstancedMeshDrawable(
+	Renderer& renderer,
+	dx::XMFLOAT3 startPosition,
+	dx::XMFLOAT3 startRotation,
+	Mesh& mesh,
+	std::wstring vertexShaderName,
+	std::wstring pixelShaderName,
+	Color color
+
+) : Drawable(renderer, startPosition, startRotation) {
+
+	std::vector<dx::XMMATRIX> instances = { dx::XMMatrixIdentity() };
+	this->init(renderer, startPosition, startRotation, mesh, vertexShaderName, pixelShaderName, instances);
+
+	//the colors
+	struct ColorBuffer {
+		dx::XMFLOAT4 colors[MAX_COLORS];
+		UINT colorsSize;
+		float padding[3];
+	};
+
+	ColorBuffer cb = {};
+	cb.colors[0] = color.toFloat4();
+	cb.colorsSize = 1;
+
+	this->addBindable(std::make_shared<PixelConstantBuffer<ColorBuffer>>(renderer, cb, 0u));
+
+}
+
 void InstancedMeshDrawable::init(
 	Renderer& renderer,
 	dx::XMFLOAT3 startPosition,
@@ -98,6 +127,28 @@ void InstancedMeshDrawable::init(
 	this->addBindable(std::make_shared<InputLayout>(renderer, inputElementDesc, pvsbc));
 	this->addBindable(std::make_shared<Topology>(renderer, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 	this->addBindable(std::make_shared<TransformConstantBuffer>(renderer, *this));
+}
+
+void InstancedMeshDrawable::updateInstance(
+	Renderer& renderer,
+	UINT i,
+	const dx::XMFLOAT3 position,
+	const dx::XMFLOAT3 rotation,
+	const dx::XMFLOAT3 scale
+) {
+	this->pInstanceBuffer->updateInstance(renderer, i, position, rotation, scale);
+}
+
+void InstancedMeshDrawable::addInstance(
+	Renderer& renderer,
+	dx::XMFLOAT3 Position,
+	dx::XMFLOAT3 Rotation,
+	Mesh& mesh,
+	std::wstring vertexShaderName,
+	std::wstring pixelShaderName,
+	Color color
+) {
+	this->pInstanceBuffer->addInstance(renderer, Position, Rotation, dx::XMFLOAT3(1.0f, 1.0f, 1.0f));
 }
 
 void InstancedMeshDrawable::draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE) {

@@ -7,6 +7,10 @@
 #include "../objects/light.h"
 #include <memory>
 
+
+#include "../objects/drawable/instancedMeshDrawable/grid3D/grid3D.h"
+
+
 class GameScene : public Scene {
 public:
 	GameScene(Renderer& renderer, std::string name);

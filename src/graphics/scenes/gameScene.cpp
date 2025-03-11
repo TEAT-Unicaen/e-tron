@@ -102,12 +102,6 @@ void GameScene::onLoad() {
 	pTore->setScale(dx::XMFLOAT3(2.0f, 2.0f, 2.0f));
 	pPlane->setScale(dx::XMFLOAT3(10.0f, 10.0f, 10.0f));
 
-	this->pDrawables.push_back(std::move(pSquarePyramid));
-	this->pDrawables.push_back(std::move(pCylinder));
-	this->pDrawables.push_back(std::move(pSphere));
-	this->pDrawables.push_back(std::move(pTore));
-	this->pDrawables.push_back(std::move(pCone));
-	this->pDrawables.push_back(std::move(pPlane));
 
 	std::vector<dx::XMMATRIX> matriceX = {
 		dx::XMMatrixTranspose(dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f)),
@@ -119,20 +113,15 @@ void GameScene::onLoad() {
 		dx::XMMatrixTranspose(dx::XMMatrixIdentity())
 	};
 
-	
-	std::unique_ptr<Drawable> pCube = std::make_unique<InstancedMeshDrawable>(
-		this->renderer,
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		cube,
-		L"instancePhongVS",
-		L"phongPS",
-		colorsCube,
-		matriceX
-	);
-	
 
-	this->pDrawables.push_back(std::move(pCube));
+	UINT size = 10;
+	std::unique_ptr<Drawable> grid = std::make_unique<Grid3D>(
+		this->renderer,
+		size,
+		size,
+		cube
+	);
+	this->pDrawables.push_back(std::move(grid));
 	
 }
 

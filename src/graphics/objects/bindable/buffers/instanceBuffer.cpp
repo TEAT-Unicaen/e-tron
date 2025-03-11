@@ -61,10 +61,10 @@ void InstanceBuffer::addInstance(
 	const dx::XMFLOAT3 scale
 ) noexcept(!IS_DEBUG_MODE) {
 	if (count < MAX_INSTANCES) {
-		instances[count++] = 
-			dx::XMMatrixScaling(scale.x, scale.y, scale.z) *
+		instances[count++] = dx::XMMatrixTranspose(
+			dx::XMMatrixTranslation(position.x, position.y, position.z) *
 			dx::XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
-			dx::XMMatrixTranslation(position.x, position.y, position.z);
+			dx::XMMatrixScaling(scale.x, scale.y, scale.z));
 	}
 	this->needToBeUpdated = true;
 }
