@@ -48,6 +48,15 @@ add_executable(reader ${DEFAULT_PROJECT_FILES} ${CMAKE_SOURCE_DIR}/src/reader.cp
 target_link_libraries(e_tron_cmd PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(reader PRIVATE nlohmann_json::nlohmann_json)
 
+add_custom_command(
+    OUTPUT ${CMAKE_BINARY_DIR}/config.ini
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/config.ini ${CMAKE_BINARY_DIR}/config.ini
+    DEPENDS ${CMAKE_SOURCE_DIR}/config.ini
+    COMMENT "Copying config to build root dir"
+)
+add_custom_target(config DEPENDS ${CMAKE_BINARY_DIR}/config.ini)
+add_dependencies(e_tron_cmd config)
+
 if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     add_executable(e_tron_directX ${DEFAULT_PROJECT_FILES} ${GRAPHICS_FILES})
 
