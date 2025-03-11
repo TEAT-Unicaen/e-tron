@@ -11,19 +11,22 @@ struct RGB {
 // Color enum and methods
 class Color {
 public:
-	enum class ColorEnum {
-		Red,
-		Green,
-		Blue,
-		Yellow,
-		White,
-		Orange,
-		Purple,
-		Cyan,
-		Magenta,
-		Black,
-		Undefined
-	};
+    enum class ColorEnum {
+        Red,
+        Green,
+        Blue,
+        Yellow,
+        White,
+        Orange,
+        Purple,
+        Cyan,
+        Magenta,
+        Brown,
+        Pink,
+        Gray,
+        Black,
+        Undefined
+    };
 
 	using ColorEnum = Color::ColorEnum;
 

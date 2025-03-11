@@ -1,19 +1,6 @@
 #include "colorEnum.h"
 #include <iostream>
 
-std::unordered_map<Color::ColorEnum, RGB> colorMap = {
-    {Color::ColorEnum::Red, {255, 0, 0}},
-    {Color::ColorEnum::Green, {0, 255, 0}},
-    {Color::ColorEnum::Blue, {0, 0, 255}},
-    {Color::ColorEnum::Yellow, {255, 255, 0}},
-    {Color::ColorEnum::Black, {0, 0, 0}},
-    {Color::ColorEnum::White, {255, 255, 255}},
-    {Color::ColorEnum::Orange, {255, 165, 0}},
-    {Color::ColorEnum::Purple, {128, 0, 128}},
-    {Color::ColorEnum::Cyan, {0, 255, 255}},
-    {Color::ColorEnum::Magenta, {255, 0, 255}}
-};
-
 std::string Color::getAnsiColor(ColorEnum color) noexcept {
 	switch (color) {
 		case ColorEnum::Red:
@@ -36,6 +23,12 @@ std::string Color::getAnsiColor(ColorEnum color) noexcept {
 			return "\033[36m";
 		case ColorEnum::Magenta:
 			return "\033[35m";
+		case ColorEnum::Brown:
+			return "\033[38;5;130m";
+		case ColorEnum::Pink:
+			return "\033[38;5;198m";
+		case ColorEnum::Gray:
+			return "\033[38;5;245m";
 		default:
 			return "\033[0m";
 	};
@@ -45,12 +38,10 @@ std::string Color::printColoredText(ColorEnum color, const std::string& text) no
 	return getAnsiColor(color) + text + "\033[0m";
 }
 
-RGB Color::getColorRGB(ColorEnum color) noexcept {
-	return colorMap[color];
-}
-
 Color::ColorEnum Color::intToColor(int value) {
-	if (value >= 0 && value <= static_cast<int>(Color::ColorEnum::Magenta)) {
+	// Cap the value to 12 and reset to 0 if over
+	value = value % 12;
+	if (value >= 0 && value <= static_cast<int>(Color::ColorEnum::Gray)) {
 		return static_cast<Color::ColorEnum>(value);
 	}
 	throw std::out_of_range("Invalid color index");
