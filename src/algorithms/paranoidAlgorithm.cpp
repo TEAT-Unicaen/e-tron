@@ -3,6 +3,7 @@
 #include <limits>
 #include <utility>
 #include <iostream>
+#include <cassert>
 
 // Paranoïd is self explanatory, it maximise its score but fear others, considering they are all in team against him.
 // Basically functions as a Maxn but taking other players into account.
@@ -21,25 +22,45 @@ std::vector<int> ParanoidAlgorithm::paranoid(std::vector<std::shared_ptr<Player>
 	//Recur : end case -> return all scores for the current state
 	if (depth == 0) {
 		for (int i = 0; i < numPlayers; i++) {
-			scores[players[i]->getId()] = this->evaluate(players[i]);
+			if (!players[i]->isPlayerDead()) {
+				scores[players[i]->getId()] = this->evaluate(players[i]);
+			}
 		}
 		return scores;
 	}
 
-	std::shared_ptr<Player> player = players[currentPlayer];
-	int playerID = player->getId();
-	std::vector<int> bestScores(numPlayers + 1, INIT_VALUE); //Workaround to init numPlayer elems at a low int value, because int min changes to 
-	std::vector<std::pair<int, int>> moves = this->getAvailableMoves(player);
-
-	if (moves.empty()) { // Plyr eliminated -> applying penalty
-		scores[playerID] = -1000;
-		return scores;
+	// Check if all players are dead
+	bool allPlayersDead = true;
+	for (const auto& player : players) {
+		if (!player->isPlayerDead()) {
+			allPlayersDead = false;
+			break;
+		}
+	}
+	if (allPlayersDead) {
+		return std::vector<int>(numPlayers + 1, 0); // Return zero scores if all players are dead
 	}
 
-	for (auto& [newX, newY] : moves) {
+	// Declare needed values 
+	std::shared_ptr<Player> player = players[currentPlayer];
+	assert(player != nullptr); // Ensure player is not null
+	int playerID = player->getId();
+
+	// Skip dead players
+	if (player->isPlayerDead()) {
+		return this->paranoid(players, depth, (currentPlayer + 1) % numPlayers);
+	}
+
+	std::vector<int> bestScores(numPlayers + 1, INIT_VALUE); //Workaround to init numPlayer elems at a low int value, because int min changes to 
+
+	bool hasValidMove = false;
+	for (auto& [newX, newY] : this->getAvailableMoves(player)) {
+		hasValidMove = true;
+
 		//Save state and put wall behind player
 		int oldX = player->getCoords().x;
 		int oldY = player->getCoords().y;
+		assert(this->getStoredMapMan() != nullptr); // Ensure map manager is not null
 		this->getStoredMapMan()->setEntityAtCoords(player, newX, newY);
 
 		//Recur on next plyr
@@ -68,6 +89,13 @@ std::vector<int> ParanoidAlgorithm::paranoid(std::vector<std::shared_ptr<Player>
 				}
 			}
 		}
+	}
+
+	// If no valid move, consider the player as dead for this branch
+	if (!hasValidMove) {
+		player->killPlayer();
+		bestScores = this->paranoid(players, depth - 1, (currentPlayer + 1) % numPlayers);
+		player->revive(); // Restore the player's state
 	}
 
 	return bestScores;

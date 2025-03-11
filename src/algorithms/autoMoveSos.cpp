@@ -47,10 +47,3 @@ std::pair<std::pair<int, int>, int> AutoMoveSos::decideMove(std::shared_ptr<Play
 
     return { nextPos, bestScore };
 }
-
-// TODO : DEfine the matrix W
-//std::vector<std::vector<double>> W = {
-//    {1.0, 0.5, 0.5},
-//    {0.5, 1.0, 0.5},
-//    {0.5, 0.5, 1.0}
-//};
