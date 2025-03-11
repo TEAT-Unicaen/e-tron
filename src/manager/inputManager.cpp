@@ -1,6 +1,6 @@
 #include "inputManager.h"
 
-InputManager::InputManager(GameManager& gameManager, MainFunctions& mainFunctions) : gameManager(gameManager), mainFunctions(mainFunctions) {}
+InputManager::InputManager(GameManager* gameManager, MainFunctions& mainFunctions) : gameManager(gameManager), mainFunctions(mainFunctions) {}
 
 void InputManager::processInput() {
     std::string input;
@@ -17,33 +17,30 @@ void InputManager::processInput() {
 
     switch (input[0]) {
         case 'p':
-            gameManager.pauseGame();
+            gameManager->pauseGame();
             break;
         case 's':
-            gameManager.stop();
+            gameManager->stop();
             break;
         case 'm': 
-			gameManager.pauseGame();
+			gameManager->pauseGame();
 			//Retrieve players scores in order
-            res = gameManager.callMaxn(2);
-            mainFunctions.writeToPipe("Maxn result at depth = 2 : ");
+            res = gameManager->callMaxn(10);
+            mainFunctions.writeToPipe("Maxn result at depth = 10 : ");
 			for (int i = 0; i < res.size(); i++) {
-                mainFunctions.writeToPipe("Player " + std::to_string(i+1) +  " score for depth 2 is : " + std::to_string(res[i]) + "\n");
+                mainFunctions.writeToPipe("Player " + std::to_string(i+1) +  " score for depth 10 is : " + std::to_string(res[i]) + "\n");
 			}
-            gameManager.pauseGame();
+            gameManager->pauseGame();
             break;
 		case 'n':
-			gameManager.pauseGame();
+			gameManager->pauseGame();
             //Retrieve players scores in order
-            res = gameManager.callParanoid(2);
-            mainFunctions.writeToPipe("Paranoid result at depth = 2 : ");
+            res = gameManager->callParanoid(10);
+            mainFunctions.writeToPipe("Paranoid result at depth = 10 and tracked player = 1: ");
             for (int i = 0; i < res.size(); i++) {
-                mainFunctions.writeToPipe("Player " + std::to_string(i+1) + " score for depth 2 is : " + std::to_string(res[i]) + "\n");
+                mainFunctions.writeToPipe("Player " + std::to_string(i+1) + " score for depth 10 is : " + std::to_string(res[i]) + "\n");
             }
-			gameManager.pauseGame();
-			break;
-        case 'g':
-			mainFunctions.LaunchGUIWithContext(&gameManager);
+			gameManager->pauseGame();
 			break;
         default:
             std::cout << "Invalid key : " << input << std::endl;

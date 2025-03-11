@@ -5,6 +5,10 @@
 
 // This algorithm is a smart auto move algorithm
 // It uses a scoring on the quality of the position at n=depth to decide the best move to make
+// MAXN based WITHOUT alpha-bêta pruning
+
+// Considering a MAXN algorithm without alpha-bêta pruning would be O(b^d) with b the branching factor and d the depth, 
+// the alpha-bêta pruning allows to reduce the complexity to O(b^(d/2)) in the best case scenario.
 
 
 AutoMoveSmart::AutoMoveSmart(MapManager* mapMan) : AlgorithmUtils(mapMan) {

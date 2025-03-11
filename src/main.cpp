@@ -45,7 +45,7 @@ int main() {
 
         // Init managers
         GameManager gameManager(8, 8, 4, true);
-        InputManager inputManager(gameManager, mainFunctions);
+        InputManager inputManager(&gameManager, mainFunctions);
 
         // Displaying start grid
         Sleep(500);
@@ -61,38 +61,14 @@ int main() {
 
         // Send a message to the second terminal
         mainFunctions.writeToPipe("Game is starting...\n");
-        mainFunctions.writeToPipe("THIS IS A PLACEHOLDER FOR ADDITIONAL LOGGING AND ALGORITHM OUTPUT\n");
+        mainFunctions.writeToPipe("Game commands :\n- 'P' pauses the game\n- 'S' Stops the game\n- 'M' Launches a MAXN report\n- 'N' Launches a Paranoid report");
 
-        Sleep(10000);
-		//FOR GUI TESTING
-		//mainFunctions.LaunchGUIWithContext(&gameManager);
-
-        //////// TEST ////////
-        gameManager.pauseGame();
-        //
-        // 
-        ////PARANOID : Retrieve players scores in order
-        //std::vector<int> res = gameManager.callParanoid(10);
-        //std::string str = "Paranoid result at depth = 10 : ";
-        //for (int i = 0; i < res.size(); i++) {
-        //    mainFunctions.writeToPipe("Player " + std::to_string(i+1) + " score for depth 2 is : " + std::to_string(res[i]) + "\n");
-        //}
-
-        //MAXN : Retrieve players scores in order
-        std::vector<int> res = gameManager.callMaxn(10);
-        std::string str = "Maxn result at depth = 10 : ";
-        for (int i = 1; i < res.size(); i++) {
-            mainFunctions.writeToPipe("Player " + std::to_string(i) + " score for depth 10 is : " + std::to_string(res[i]) + "\n");
-        }
-
-        //
-        gameManager.pauseGame();
-        //////////////////////
 
         // Handle inputs and game termination | Used as a wait for the moment
         while (gameManager.isRunning() && !gameManager.shouldStopCmd()) {
             inputManager.processInput();
         }
+
 
 		// Stop the game
 		if (gameManager.shouldStopCmd()) {

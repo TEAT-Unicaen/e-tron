@@ -32,7 +32,6 @@ public:
 
 	static std::string getAnsiColor(ColorEnum color) noexcept;
 	static std::string printColoredText(ColorEnum color, const std::string& text) noexcept;
-	static RGB getColorRGB(ColorEnum color) noexcept;
 	static ColorEnum intToColor(int value);
 };
 

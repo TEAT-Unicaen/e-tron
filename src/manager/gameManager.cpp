@@ -139,7 +139,6 @@ void GameManager::threadLoop() {
 			//Draw the map
 			std::cout << "\033[2J\033[H";
 			this->draw();
-			std::cout << "Press 'P' to pause the game. Press 'S' to stop the game" << std::endl;
 			SLEEP_MS(500);
 			tick++;
 		} 

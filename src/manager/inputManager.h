@@ -5,10 +5,10 @@
 
 class InputManager {
 public:
-    InputManager(GameManager& gameManager, MainFunctions& mainFunctions);
+    InputManager(GameManager* gameManager, MainFunctions& mainFunctions);
     void processInput();
 
 private: 
-    GameManager& gameManager;
+    GameManager* gameManager;
 	MainFunctions& mainFunctions;
 };
