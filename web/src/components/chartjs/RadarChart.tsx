@@ -27,6 +27,7 @@ interface RadarAnimationOptions {
 
 interface radarOptions {
   animation?: RadarAnimationOptions;
+  scales?: any;
 }
 
 interface RadarChartProps {
@@ -68,7 +69,23 @@ const radarOptions : radarOptions = {
   animation: {
     duration: 2000,
   },
-
+  scales: {
+    r: {
+      ticks: {
+        color: 'black',
+      },
+      grid: {
+        color: 'rgba(255, 255, 255, 0.2)', 
+      },
+      pointLabels: {
+        color: 'white',
+        font: {
+          size: 18,
+          weight: 'bold'
+        }
+      }
+    }
+  }
 };
 
 
