@@ -1,4 +1,4 @@
-#include "transform.hlsli"
+#include "../../transform.hlsli"
 
 struct VS_IN
 {
@@ -22,11 +22,10 @@ VSOut main(VS_IN input) {
 
     VSOut output;
     output.viewPos = mul(mul(pos4, model), input.worldMatrix).xyz;
-    output.viewNormal = normalize(mul(input.normal, (float3x3) model));
+    output.viewNormal = normalize(mul(input.normal, (float3x3) mul(model, input.worldMatrix)));
     
-    float4x4 worldMatrix = input.worldMatrix;
     // Appliquer la transformation du modèle à la position du sommet
-    float4 worldPosition = mul(pos4, worldMatrix);
+    float4 worldPosition = mul(pos4, input.worldMatrix);
     float4 pos = mul(worldPosition, modelViewProjection);
     // Appliquer la matrice de projection et de vue si nécessaire
     output.position = pos;

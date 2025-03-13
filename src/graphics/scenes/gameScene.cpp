@@ -45,7 +45,7 @@ void GameScene::onLoad() {
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		squarePyramid,
 		L"phongVS",
-		L"phongPS",
+		L"coloredPhongSpherePS",
 		Color::GREEN
 	);
 
@@ -55,7 +55,7 @@ void GameScene::onLoad() {
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		cylinder,
 		L"phongVS",
-		L"phongPS",
+		L"coloredPhongSpherePS",
 		Color::BLUE
 	);
 	
@@ -65,7 +65,7 @@ void GameScene::onLoad() {
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		sphere,
 		L"phongVS",
-		L"phongPS",
+		L"coloredPhongSpherePS",
 		Color::CYAN
 	);
 
@@ -75,7 +75,7 @@ void GameScene::onLoad() {
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		tore,
 		L"phongVS",
-		L"phongPS",
+		L"coloredPhongSpherePS",
 		Color::MAGENTA
 	);
 
@@ -85,7 +85,7 @@ void GameScene::onLoad() {
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		cone,
 		L"phongVS",
-		L"phongPS",
+		L"coloredPhongSpherePS",
 		Color::YELLOW
 	);
 
@@ -95,24 +95,12 @@ void GameScene::onLoad() {
 		dx::XMFLOAT3{ dx::XM_PIDIV2, 0.0f, 0.0f },
 		plane,
 		L"phongVS",
-		L"phongPS",
+		L"coloredPhongSpherePS",
 		Color::WHITE
 	);
 
 	pTore->setScale(dx::XMFLOAT3(2.0f, 2.0f, 2.0f));
 	pPlane->setScale(dx::XMFLOAT3(10.0f, 10.0f, 10.0f));
-
-
-	std::vector<dx::XMMATRIX> matriceX = {
-		dx::XMMatrixTranspose(dx::XMMatrixTranslation(0.0f, 0.0f, 0.0f)),
-		dx::XMMatrixTranspose(dx::XMMatrixTranslation(4.0f, 4.0f, 4.0f)),
-		dx::XMMatrixTranspose(dx::XMMatrixTranslation(-4.0f, -4.0f, 4.0f))
-	};
-
-	std::vector<dx::XMMATRIX> matriceY = {
-		dx::XMMatrixTranspose(dx::XMMatrixIdentity())
-	};
-
 
 	UINT size = 100;
 	std::unique_ptr<Drawable> grid = std::make_unique<Grid3D>(
@@ -123,6 +111,8 @@ void GameScene::onLoad() {
 	);
 	this->pDrawables.push_back(std::move(grid));
 	
+
+	renderer.getCamera().setPosition(0.0f, 1.5f, 0.0f);
 }
 
 void GameScene::handleInput(Window& wnd) {

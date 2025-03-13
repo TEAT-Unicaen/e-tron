@@ -1,4 +1,4 @@
-#include "colors.hlsli"
+#include "../../colors.hlsli"
 
 float4 main(uint tid : SV_PrimitiveID) : SV_TARGET {
     if (tid < 2)

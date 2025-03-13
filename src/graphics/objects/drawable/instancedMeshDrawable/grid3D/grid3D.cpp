@@ -6,8 +6,8 @@ Grid3D::Grid3D(Renderer& renderer, UINT lenght, UINT width, Mesh& mesh)
 		dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
 		dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
 		mesh,
-		L"instanceVS",
-		L"coloredCubePS",
+		L"instancePhongVS",
+		L"coloredPhongCubePS",
 		std::vector<Color> {
 		Color::RED,
 		Color::GREEN,
