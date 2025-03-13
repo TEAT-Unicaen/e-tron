@@ -1,26 +1,24 @@
 #include "instanceBuffer.h"
 
-InstanceBuffer::InstanceBuffer(Renderer& renderer, UINT slot)
-	: slot(slot), count(0u), structSize(sizeof(dx::XMMATRIX)) {
-	std::vector<dx::XMMATRIX> instances;
-	this->initBuffer(renderer, slot, instances);
+InstanceBuffer::InstanceBuffer(Renderer& renderer, UINT slot, UINT nbInstances)
+	: slot(slot),
+	count(0u),
+	structSize(sizeof(dx::XMMATRIX)),
+	maxInstances(nbInstances) {
+	this->instances.resize(nbInstances, dx::XMMatrixIdentity());
+	this->initBuffer(renderer);
 }
 
 InstanceBuffer::InstanceBuffer(Renderer& renderer, const std::vector<dx::XMMATRIX>& instances, UINT slot)
-	: slot(slot), count(static_cast<UINT>(instances.size())), structSize(sizeof(dx::XMMATRIX)) {
-	this->initBuffer(renderer, slot, instances);
-	for (UINT i = 0u; i < count; i++) {
-		this->instances[i] = instances[i];
-	}
+	: slot(slot),
+	count(static_cast<UINT>(instances.size())),
+	structSize(sizeof(dx::XMMATRIX)), 
+	instances(instances),
+	maxInstances(this->count) {
+	this->initBuffer(renderer);
 }
 
-void InstanceBuffer::initBuffer(Renderer& renderer, UINT slot, std::vector<dx::XMMATRIX> instances) {
-	instances.reserve(MAX_INSTANCES);
-	for (UINT i = 0; i < MAX_INSTANCES; i++) {
-		instances.push_back(dx::XMMatrixIdentity());
-	}
-	this->instances = instances;
-
+void InstanceBuffer::initBuffer(Renderer& renderer) {
 	HR_PLUS;
 
 	D3D11_BUFFER_DESC instanceBufferDesc = {};
@@ -28,7 +26,7 @@ void InstanceBuffer::initBuffer(Renderer& renderer, UINT slot, std::vector<dx::X
 	instanceBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	instanceBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	instanceBufferDesc.MiscFlags = 0u;
-	instanceBufferDesc.ByteWidth = this->structSize * MAX_INSTANCES;
+	instanceBufferDesc.ByteWidth = this->structSize * this->maxInstances;
 	instanceBufferDesc.StructureByteStride = this->structSize;
 
 	D3D11_SUBRESOURCE_DATA instanceBufferData = {};
@@ -60,18 +58,18 @@ void InstanceBuffer::addInstance(
 	const dx::XMFLOAT3 rotation,
 	const dx::XMFLOAT3 scale
 ) noexcept(!IS_DEBUG_MODE) {
-	if (count < MAX_INSTANCES) {
-		instances[count++] = dx::XMMatrixTranspose(
-			dx::XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
-			dx::XMMatrixTranslation(position.x, position.y, position.z) *
-			dx::XMMatrixScaling(scale.x, scale.y, scale.z));
-	}
-	this->needToBeUpdated = true;
+	this->addInstance(renderer, 
+		dx::XMMatrixScaling(scale.x, scale.y, scale.z) *
+		dx::XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
+		dx::XMMatrixTranslation(position.x, position.y, position.z));
 }
 
-void InstanceBuffer::addInstance(Renderer& renderer, const dx::XMMATRIX& matrix) noexcept(!IS_DEBUG_MODE) {
-	if (count < MAX_INSTANCES)
-		instances[count++] = matrix;
+void InstanceBuffer::addInstance(Renderer& renderer, const dx::XMMATRIX matrix) noexcept(!IS_DEBUG_MODE) {
+	if (count >= this->maxInstances)
+		this->setMaxInstances(renderer, this->maxInstances * 1.5);
+
+	this->instances[count++] = dx::XMMatrixTranspose(matrix);
+	this->needToBeUpdated = true;		
 }
 
 void InstanceBuffer::updateInstance(
@@ -81,32 +79,30 @@ void InstanceBuffer::updateInstance(
 	const dx::XMFLOAT3 rotation,
 	const dx::XMFLOAT3 scale
 ) noexcept(!IS_DEBUG_MODE) {
-	if (i < count) {
-		instances[i] = dx::XMMatrixScaling(scale.x, scale.y, scale.z) *
-			dx::XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
-			dx::XMMatrixTranslation(position.x, position.y, position.z);
-	}
-	this->needToBeUpdated = true;
+	this->updateInstance(renderer, i,
+		dx::XMMatrixScaling(scale.x, scale.y, scale.z) *
+		dx::XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
+		dx::XMMatrixTranslation(position.x, position.y, position.z));
 }
 
-void InstanceBuffer::updateInstance(Renderer& renderer, UINT i, const dx::XMMATRIX& matrix) noexcept(!IS_DEBUG_MODE) {
+void InstanceBuffer::updateInstance(Renderer& renderer, UINT i, const dx::XMMATRIX matrix) noexcept(!IS_DEBUG_MODE) {
 	if (i < count) {
-		instances[i] = matrix;
+		this->instances[i] = dx::XMMatrixTranspose(matrix);
+		this->needToBeUpdated = true;
 	}
-	this->needToBeUpdated = true;
 }
 
 void InstanceBuffer::removeInstance(Renderer& renderer, UINT i) noexcept(!IS_DEBUG_MODE) {
 	if (i < count) {
-		instances.erase(instances.begin() + i);
+		this->instances.erase(instances.begin() + i);
 		count--;
 	}
 	this->needToBeUpdated = true;
 }
 
 void InstanceBuffer::clearInstances(Renderer& renderer) noexcept(!IS_DEBUG_MODE) {
-	for (UINT i = 0u; i < MAX_INSTANCES; i++) {
-		this->instances[0] = dx::XMMatrixIdentity();
+	for (UINT i = 0u; i < this->maxInstances; i++) {
+		this->instances[i] = dx::XMMatrixIdentity();
 	}
 	count = 0u;
 	this->needToBeUpdated = true;
@@ -114,4 +110,16 @@ void InstanceBuffer::clearInstances(Renderer& renderer) noexcept(!IS_DEBUG_MODE)
 
 UINT InstanceBuffer::getCount() const noexcept {
 	return count;
+}
+
+UINT InstanceBuffer::getMaxInstances() const noexcept {
+	return maxInstances;
+}
+
+void InstanceBuffer::setMaxInstances(Renderer& renderer, UINT maxInstances) noexcept {
+	OutputDebugStringA("InstanceBuffer::setMaxInstances\n");
+	this->maxInstances = maxInstances + 1;
+	this->pInstanceBuffer.Reset();
+	this->instances.resize(this->maxInstances, dx::XMMatrixIdentity());
+	this->initBuffer(renderer);
 }

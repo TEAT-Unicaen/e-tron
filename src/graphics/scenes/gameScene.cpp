@@ -114,7 +114,7 @@ void GameScene::onLoad() {
 	};
 
 
-	UINT size = 1000;
+	UINT size = 100;
 	std::unique_ptr<Drawable> grid = std::make_unique<Grid3D>(
 		this->renderer,
 		size,
@@ -156,6 +156,7 @@ void GameScene::handleInput(Window& wnd) {
 		right = (right / length) * speed;
 	}
 
+	// Object movement
 	if (keyEvent.keyIsPressed('T')) {
 		this->pDrawables[0]->move(dx::XMFLOAT3(5.0f, 0.0f, 0.0f), 0.1f);
 		this->pDrawables[0]->rotate(dx::XMFLOAT3(0.0f, 0.0f, 0.1f), 0.1f);
@@ -165,13 +166,20 @@ void GameScene::handleInput(Window& wnd) {
 		this->pDrawables[0]->rotate(dx::XMFLOAT3(0.0f, 0.0f, -0.1f), 0.1f);
 	}
 
+	// Light movement
 	if (keyEvent.keyIsPressed('I')) {
 		this->light.position.y += 0.1f;
 	}
-
 	if (keyEvent.keyIsPressed('K')) {
 		this->light.position.y -= 0.1f;
 	}
+	if (keyEvent.keyIsPressed('J')) {
+		this->light.position.x -= 0.1f;
+	}
+	if (keyEvent.keyIsPressed('L')) {
+		this->light.position.x += 0.1f;
+	}
+
 
 	// Camera rotation
 	if (keyEvent.keyIsPressed(VK_UP)) rotX -= rotationSpeed; // Rotation vers le bas

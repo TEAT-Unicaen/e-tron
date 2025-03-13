@@ -23,7 +23,7 @@ Grid3D::Grid3D(Renderer& renderer, UINT lenght, UINT width, Mesh& mesh)
 {
 	int lenghtMiddle = lenght / 2;
 	int widthMiddle = width / 2;
-
+	this->pInstanceBuffer->setMaxInstances(renderer, lenght * width);
 	for (int i = -lenghtMiddle; i < lenghtMiddle ; i++) {
 		for (int j = -widthMiddle ; j < widthMiddle ; j++) {
 			this->addInstance(
