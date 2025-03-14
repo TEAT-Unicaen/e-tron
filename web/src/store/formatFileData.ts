@@ -1,4 +1,4 @@
-import {dataSet} from "../components/chartjs/RadarChart"
+import {dataSet} from "../components/animated/chartjs/RadarChart"
 
 const backgroundColorSet = [
     'rgba(255, 0, 55, 0.2)',
@@ -34,6 +34,7 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
             ],
             datasets : [] as dataSet[]
         },
+        score: [],
         timeLog : {
 
         }
@@ -49,7 +50,12 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
         } else if (pName === 'numPlayers') {
             outputArray.pNb = dat
         } else {
-            let provRoundHere = dat.top + dat.bottom + dat.right + dat.left
+            let provRoundHere = (dat.top ?? 0) + (dat.bottom ?? 0) + (dat.right ?? 0) + (dat.left ?? 0)
+            outputArray.score.push({
+                Player: pName,
+                Tour: provRoundHere
+            })
+
             if (provRoundHere > maxRound) {
                 maxRound = provRoundHere
                 winner = pName

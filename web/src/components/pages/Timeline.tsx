@@ -2,11 +2,10 @@ import React, {useState, useEffect} from 'react'
 import BackgroundLayout from "../layout/BackgroundLayout"
 import {useFileData} from "../../store/json"
 import {processData} from "../../store/formatFileData"
-import RangeSelector from '../common/RangeSelector';
+import RangeSelector from '../common/selector/RangeSelector';
 import LiveEventTimeline from '../layout/TimeLineLayout';
 import SideBar from '../layout/SideBar';
-import ToggleButton from '../common/Toggle';
-
+import ToggleButton from '../common/buttons/Toggle';
 const TimeLine: React.FC = () => {
     
     const formatedJSON = processData(useFileData().fileData)
@@ -76,6 +75,7 @@ const TimeLine: React.FC = () => {
             }
             `}
             </style>
+
             <div style={{ position: 'fixed', left: '25vh', top: '40vh', bottom: 0 }}>
             <RangeSelector min={0} max={formatedJSON.timeLog.length} onChange={handleChange}/>
             <ToggleButton label="Inverser l'ordre" onChange={handleToggler} />

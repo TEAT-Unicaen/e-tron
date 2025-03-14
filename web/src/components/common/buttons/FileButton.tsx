@@ -1,5 +1,5 @@
 import Button from "./Button";
-import { useFileSelector } from "./useFileSelector";
+import { useFileSelector } from "../selector/useFileSelector";
 
 interface FileButtonProps {
     label: string;

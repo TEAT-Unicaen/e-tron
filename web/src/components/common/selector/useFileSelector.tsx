@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFileData } from "../../store/json";
+import { useFileData } from "../../../store/json";
 
 export function useFileSelector(getButton: boolean = true) {
     const fileInputRef = useRef<HTMLInputElement | null>(null);

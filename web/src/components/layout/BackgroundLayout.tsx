@@ -1,4 +1,4 @@
-import Glower from '../common/Glower'
+import Glower from '../common/glow/Glower'
 
 const BackgroundLayout: React.FC = ({}) => {
     return (

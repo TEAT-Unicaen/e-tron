@@ -15,6 +15,7 @@
     "@mui/material": "^6.4.7",
     "@mui/system": "^6.4.7",
     "chart.js": "^4.4.8",
+    "framer-motion": "^12.5.0",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.0.0",

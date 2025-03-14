@@ -1,5 +1,5 @@
-import Button from '../common/Button'
-import FileButton from '../common/FileButton'
+import Button from '../common/buttons/Button'
+import FileButton from '../common/buttons/FileButton'
 import BackgroundLayout from '../layout/BackgroundLayout'
 
 const Home: React.FC = () => {
