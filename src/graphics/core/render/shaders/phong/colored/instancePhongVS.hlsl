@@ -7,7 +7,6 @@ struct VS_IN
     float4x4 worldMatrix : InstanceTransform;
 };
 
-
 struct VSOut
 {
     float3 viewPos : Position;
@@ -15,20 +14,22 @@ struct VSOut
     float4 position : SV_Position;
 };
 
+VSOut main(VS_IN input)
+{
+    VSOut output;
 
-VSOut main(VS_IN input) {
-    
     float4 pos4 = float4(input.position, 1.0f);
 
-    VSOut output;
-    output.viewPos = mul(mul(pos4, model), input.worldMatrix).xyz;
-    output.viewNormal = normalize(mul(input.normal, (float3x3) mul(model, input.worldMatrix)));
-    
-    // Appliquer la transformation du modèle à la position du sommet
+    // Transformation de la position
     float4 worldPosition = mul(pos4, input.worldMatrix);
-    float4 pos = mul(worldPosition, modelViewProjection);
-    // Appliquer la matrice de projection et de vue si nécessaire
-    output.position = pos;
-    
+    output.viewPos = mul(worldPosition, model).xyz;
+
+    // Transformation correcte de la normal
+    float3x3 normalMatrix = (float3x3)mul(input.worldMatrix, model);
+    output.viewNormal = normalize(mul(input.normal, normalMatrix));
+
+    // Application de la transformation complète
+    output.position = mul(worldPosition, modelViewProjection);
+
     return output;
 }

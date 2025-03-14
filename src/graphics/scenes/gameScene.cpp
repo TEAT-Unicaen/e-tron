@@ -27,7 +27,6 @@ void GameScene::onLoad() {
 		Color::GRAY,
 	};
 
-
 	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
 	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
 
@@ -71,7 +70,7 @@ void GameScene::onLoad() {
 
 	std::unique_ptr<Drawable> pTore = std::make_unique<SingleMeshDrawable>(
 		this->renderer,
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 2.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		tore,
 		L"phongVS",
@@ -109,6 +108,7 @@ void GameScene::onLoad() {
 		size,
 		cube
 	);
+
 	this->pDrawables.push_back(std::move(grid));
 	
 
