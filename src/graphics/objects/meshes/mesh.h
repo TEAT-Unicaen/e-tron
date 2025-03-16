@@ -11,6 +11,7 @@ public:
 	struct Vertex {
 		dx::XMFLOAT3 pos;
 		dx::XMFLOAT3 normal;
+		dx::XMFLOAT2 tex;
 	};
 
 	std::shared_ptr<VertexBuffer> vertexBuffer;

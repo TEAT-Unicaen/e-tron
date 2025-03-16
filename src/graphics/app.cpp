@@ -50,19 +50,20 @@ int App::run() {
 		if (const auto eCode = wnd.processMessages()) {
 			return *eCode;
 		}
-		this->checkInput();
-		this->update();
+		float delta = this->timer.mark();
+		this->checkInput(delta);
+		this->update(delta);
 		//SLEEP_MS(1);
 	}
 }
 
-void App::checkInput() {
-	this->sceneManager->handleInput(this->wnd);
+void App::checkInput(float delta) {
+	this->sceneManager->handleInput(this->wnd, delta);
 }
 
-void App::update() {
+void App::update(float delta) {
 	Renderer& renderer = this->wnd.getRenderer();
-	float delta = this->timer.mark();
+	
 	this->frameTime += delta;  // Accumulate frame time
 	this->frameCount++;  // Increment the frame count
 

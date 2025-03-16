@@ -21,7 +21,7 @@ public:
 	void changeScene(const std::string& sceneName);
 
 	void update(float deltaTime);
-	void handleInput(Window& wnd);
+	void handleInput(Window& wnd, float delta);
 
 private:
 	std::unordered_map<std::string, std::unique_ptr<Scene>> scenes;

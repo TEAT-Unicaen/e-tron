@@ -73,8 +73,8 @@ void SceneManager::update(float deltaTime) {
 	}
 }
 
-void SceneManager::handleInput(Window& wnd) {
+void SceneManager::handleInput(Window& wnd, float delta) {
 	if (this->currentScene) {
-		this->currentScene->handleInput(wnd);
+		this->currentScene->handleInput(wnd, delta);
 	}
 }

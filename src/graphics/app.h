@@ -15,8 +15,8 @@ public :
 	~App();
 	int run();
 private:
-	void checkInput();
-	void update();
+	void checkInput(float delta);
+	void update(float delta);
 	
 	Window wnd;
 	AppTimer timer;

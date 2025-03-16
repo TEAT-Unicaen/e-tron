@@ -115,12 +115,12 @@ void GameScene::onLoad() {
 	renderer.getCamera().setPosition(0.0f, 1.5f, 0.0f);
 }
 
-void GameScene::handleInput(Window& wnd) {
+void GameScene::handleInput(Window& wnd, float delta) {
 	Camera& cam = wnd.getRenderer().getCamera();
 	float forward = 0.0f, right = 0.0f;
 	float rotX = 0.0f, rotY = 0.0f;
-	float speed = 0.1f;
-	float rotationSpeed = 0.05f;
+	float speed = delta * 15;
+	float rotationSpeed = delta * 7.5f;
 	float deltaFOV = 0.0f;
 
 	auto& keyEvent = wnd.keyEvent;
@@ -128,6 +128,13 @@ void GameScene::handleInput(Window& wnd) {
 	if (keyEvent.keyIsPressed(VK_ESCAPE)) {
 		this->isPaused = !this->isPaused;
 		SLEEP_MS(100);
+	}
+
+	if (keyEvent.keyIsPressed('V')) {
+		wnd.getRenderer().setVSync(true);
+	}
+	if (keyEvent.keyIsPressed('B')) {
+		wnd.getRenderer().setVSync(false);
 	}
 
 	if (this->isPaused) return;

@@ -18,7 +18,7 @@ public:
 	void onLoad() override;
 
 	void update(float deltaTime) override;
-	void handleInput(Window& wnd) override;
+	void handleInput(Window& wnd, float delta) override;
 
 private:
 	bool isPaused = false;
