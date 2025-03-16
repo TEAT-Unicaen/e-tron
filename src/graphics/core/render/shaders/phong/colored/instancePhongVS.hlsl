@@ -14,8 +14,8 @@ struct VSOut
     float4 position : SV_Position;
 };
 
-VSOut main(VS_IN input)
-{
+VSOut main(VS_IN input) {
+    float4x4 modelViewProjection = mul(model, mul(view, projection));
     VSOut output;
 
     float4 pos4 = float4(input.position, 1.0f);

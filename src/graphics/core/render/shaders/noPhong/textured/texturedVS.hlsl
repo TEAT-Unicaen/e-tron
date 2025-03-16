@@ -6,10 +6,16 @@ struct VSOut
     float4 position : SV_Position;
 };
 
-VSOut main(float3 position : Position, float2 texCoord : TexCoord)
+struct VSIn
 {
+    float3 position : Position;
+    float2 texCoord : TexCoord;
+};
+
+VSOut main(VSIn input) {
+    float4x4 modelViewProjection = mul(model, mul(view, projection));
     VSOut output;
-    output.position = mul(float4(position, 1.0f), modelViewProjection);
-    output.texCoord = texCoord;
+    output.position = mul(float4(input.position, 1.0f), modelViewProjection);
+    output.texCoord = input.texCoord;
     return output;
 }

@@ -10,8 +10,8 @@ public:
 private:
 	struct TransformBuffer {
 		dx::XMMATRIX model;
-		dx::XMMATRIX modelView;
-		dx::XMMATRIX modelViewProj;
+		dx::XMMATRIX view;
+		dx::XMMATRIX projection;
 	};
 	const TransformBuffer getTransformBuffer(Renderer& renderer) const noexcept;
     VertexConstantBuffer<TransformBuffer> vertexConstantBuffer;

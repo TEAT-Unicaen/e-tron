@@ -11,12 +11,9 @@ void TransformConstantBuffer::bind(Renderer& renderer) noexcept {
 }
 
 const TransformConstantBuffer::TransformBuffer TransformConstantBuffer::getTransformBuffer(Renderer& renderer) const noexcept {
-	auto model = this->parent.getTransform();
-	auto modelView = model * renderer.getView();
-	auto modelViewProj = modelView * renderer.getProjection();
 	return {
-		dx::XMMatrixTranspose(model),
-		dx::XMMatrixTranspose(modelView),
-		dx::XMMatrixTranspose(modelViewProj)
+		dx::XMMatrixTranspose(this->parent.getTransform()),
+		dx::XMMatrixTranspose(renderer.getView()),
+		dx::XMMatrixTranspose(renderer.getProjection())
 	};
 }

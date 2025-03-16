@@ -4,31 +4,6 @@ GameScene::GameScene(Renderer& renderer, std::string name)
 	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 5.0f, 0.0f), Color::WHITE)) {}
 
 void GameScene::onLoad() {
-	std::vector<Color> colorsCube = {
-		Color::RED,
-		Color::GREEN,
-		Color::BLUE,
-		Color::MAGENTA,
-		Color::CYAN,
-		Color::YELLOW
-	};
-
-	std::vector<Color> colorsSquarePyramid = {
-		Color::RED,
-		Color::GREEN,
-		Color::BLUE,
-		Color::MAGENTA,
-		Color::CYAN,
-	};
-
-	std::vector<Color> colorsCylinder = {
-		Color::CYAN,
-		Color::SILVER,
-		Color::GRAY,
-	};
-
-	std::shared_ptr<Image> pImageCube = std::make_shared<Image>(L"assets/img/cube.png");
-	std::shared_ptr<Image> pImageSquarePyramid = std::make_shared<Image>(L"assets/img/squarePyramid.png");
 
 	Mesh cube = Cube(renderer);
 	Mesh squarePyramid = Pyramid(renderer);
@@ -38,69 +13,6 @@ void GameScene::onLoad() {
 	Mesh cone = Cone(renderer);
 	Mesh plane = Plane(renderer);
 
-	std::unique_ptr<Drawable> pSquarePyramid = std::make_unique<SingleMeshDrawable>(
-		this->renderer,
-		dx::XMFLOAT3{ 1.0f, 0.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		squarePyramid,
-		L"phongVS",
-		L"coloredPhongSpherePS",
-		Color::GREEN
-	);
-
-	std::unique_ptr<Drawable> pCylinder = std::make_unique<SingleMeshDrawable>(
-		this->renderer,
-		dx::XMFLOAT3{ 0.0f, 0.0f, -5.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		cylinder,
-		L"phongVS",
-		L"coloredPhongSpherePS",
-		Color::BLUE
-	);
-	
-	std::unique_ptr<Drawable> pSphere = std::make_unique<SingleMeshDrawable>(
-		this->renderer,
-		dx::XMFLOAT3{ 0.0f, -5.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		sphere,
-		L"phongVS",
-		L"coloredPhongSpherePS",
-		Color::CYAN
-	);
-
-	std::unique_ptr<Drawable> pTore = std::make_unique<SingleMeshDrawable>(
-		this->renderer,
-		dx::XMFLOAT3{ 0.0f, 2.0f, 0.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		tore,
-		L"phongVS",
-		L"coloredPhongSpherePS",
-		Color::MAGENTA
-	);
-
-	std::unique_ptr<Drawable> pCone = std::make_unique<SingleMeshDrawable>(
-		this->renderer,
-		dx::XMFLOAT3{ -2.0f, 2.5f, 2.0f },
-		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		cone,
-		L"phongVS",
-		L"coloredPhongSpherePS",
-		Color::YELLOW
-	);
-
-	std::unique_ptr<Drawable> pPlane = std::make_unique<SingleMeshDrawable>(
-		this->renderer,
-		dx::XMFLOAT3{ 0.0f, -5.0f, 0.0f },
-		dx::XMFLOAT3{ dx::XM_PIDIV2, 0.0f, 0.0f },
-		plane,
-		L"phongVS",
-		L"coloredPhongSpherePS",
-		Color::WHITE
-	);
-
-	pTore->setScale(dx::XMFLOAT3(2.0f, 2.0f, 2.0f));
-	pPlane->setScale(dx::XMFLOAT3(10.0f, 10.0f, 10.0f));
-
 	UINT size = 100;
 	std::unique_ptr<Drawable> grid = std::make_unique<Grid3D>(
 		this->renderer,
@@ -108,10 +20,25 @@ void GameScene::onLoad() {
 		size,
 		cube
 	);
-
 	this->pDrawables.push_back(std::move(grid));
-	
 
+	std::unique_ptr<Drawable> motocycle = std::make_unique<MotocycleDrawable>(
+		this->renderer,
+		dx::XMFLOAT3(0.0f, 1.0f, 5.0f),
+		dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
+		Color::WHITE
+	);
+	this->pDrawables.push_back(std::move(motocycle));
+
+	std::unique_ptr<Drawable> motocycle1 = std::make_unique<MotocycleDrawable>(
+		this->renderer,
+		dx::XMFLOAT3(0.0f, 1.0f, -5.0f),
+		dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
+		Color::RED
+	);
+	this->pDrawables.push_back(std::move(motocycle1));
+	
+	
 	renderer.getCamera().setPosition(0.0f, 1.5f, 0.0f);
 }
 
@@ -164,17 +91,18 @@ void GameScene::handleInput(Window& wnd, float delta) {
 	}
 
 	// Light movement
+	float lightSpeed = 10 * delta;
 	if (keyEvent.keyIsPressed('I')) {
-		this->light.position.y += 0.1f;
+		this->light.position.y += lightSpeed;
 	}
 	if (keyEvent.keyIsPressed('K')) {
-		this->light.position.y -= 0.1f;
+		this->light.position.y -= lightSpeed;
 	}
 	if (keyEvent.keyIsPressed('J')) {
-		this->light.position.x -= 0.1f;
+		this->light.position.x -= lightSpeed;
 	}
 	if (keyEvent.keyIsPressed('L')) {
-		this->light.position.x += 0.1f;
+		this->light.position.x += lightSpeed;
 	}
 
 
@@ -194,7 +122,7 @@ void GameScene::handleInput(Window& wnd, float delta) {
 
 	// Reset camera
 	if (keyEvent.keyIsPressed('R')) {
-		cam.setPosition(0.0f, 0.0f, -5.0f);
+		cam.setPosition(0.0f, 1.5f, -5.0f);
 		cam.setRotation(0.0f, 0.0f, 0.0f);
 		cam.setFOV(90.0f);
 	}

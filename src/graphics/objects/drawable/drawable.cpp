@@ -89,7 +89,8 @@ void Drawable::rotateInTo(dx::XMFLOAT3 newRotation, float movingTime) noexcept {
 }
 
 dx::XMMATRIX Drawable::getTransform() const {
-	return dx::XMMatrixScaling(this->scale.x, this->scale.y, this->scale.z) *
+	return
+		dx::XMMatrixScaling(this->scale.x, this->scale.y, this->scale.z) *
 		dx::XMMatrixRotationRollPitchYaw(this->rotation.x, this->rotation.y, this->rotation.z) *
 		dx::XMMatrixTranslation(this->position.x, this->position.y, this->position.z);
 }

@@ -16,6 +16,7 @@ App::App()
 	shaderManager.addVertexShader(renderer, L"phongVS");
 	shaderManager.addVertexShader(renderer, L"instanceVS");
 	shaderManager.addVertexShader(renderer, L"instancePhongVS");
+	shaderManager.addVertexShader(renderer, L"compositePhongVS");
 
 	shaderManager.addPixelShader(renderer, L"coloredCubePS");
 	shaderManager.addPixelShader(renderer, L"coloredSquarePyramidPS");

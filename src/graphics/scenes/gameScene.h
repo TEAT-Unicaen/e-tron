@@ -9,6 +9,7 @@
 
 
 #include "../objects/drawable/instancedMeshDrawable/grid3D/grid3D.h"
+#include "../objects/drawable/compositeDrawable/motocycle/motocycleDrawable.h"
 
 
 class GameScene : public Scene {

@@ -6,9 +6,11 @@ CompositeDrawable::CompositeDrawable(
 	const dx::XMFLOAT3 startRotation,
 	const dx::XMFLOAT3 scale
 )
-	: Drawable(renderer, startPosition, startRotation, scale) {}
+	: Drawable(renderer, startPosition, startRotation, scale),
+	pVcBuffer(std::make_shared<VertexConstantBuffer<dx::XMMATRIX>>(renderer, 1u)) {}
 
 void CompositeDrawable::addDrawable(std::unique_ptr<Drawable> pDrawable) {
+	pDrawable->addBindable(pVcBuffer);
 	pDrawables.push_back(std::move(pDrawable));
 }
 
@@ -17,6 +19,7 @@ void CompositeDrawable::removeDrawable(UINT i) {
 }
 
 void CompositeDrawable::draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE) {
+	this->pVcBuffer->update(renderer, dx::XMMatrixTranspose(this->getTransform()));
 	for (auto& pDrawable : pDrawables) {
 		pDrawable->draw(renderer);
 	}
