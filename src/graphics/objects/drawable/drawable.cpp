@@ -151,7 +151,7 @@ void Drawable::update(float delta) noexcept {
 	}
 }
 
-void Drawable::addBindable(std::shared_ptr<Bindable> pBindables) noexcept {
+void Drawable::addBindable(std::shared_ptr<Bindable> pBindables) noexcept(!IS_DEBUG_MODE) {
 	assert("Use addIndexBuffer for index buffer" && typeid(*pBindables) != typeid(IndexBuffer));
 	this->pBindables.push_back(std::move(pBindables));
 }

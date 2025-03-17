@@ -17,6 +17,8 @@ public:
 	UINT getWidth() const noexcept;
 	UINT getHeight() const noexcept;
 	BYTE* getData() const noexcept;
+
+	void inverse() noexcept;
 private:
 	UINT width;
 	UINT height;

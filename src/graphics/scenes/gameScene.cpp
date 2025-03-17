@@ -5,6 +5,14 @@ GameScene::GameScene(Renderer& renderer, std::string name)
 
 void GameScene::onLoad() {
 
+	std::shared_ptr<Image> pImg = std::make_shared<Image>(L"assets/img/sky.png");
+	pImg->inverse();
+	OutputDebugString("Image loadded\n");
+	std::unique_ptr<Drawable> skyBox = std::make_unique<SkyBox>(this->renderer, pImg, 500.0f);
+	skyBox->setPosition(dx::XMFLOAT3(0.0f, 350.0f, 0.0f));
+	this->pDrawables.push_back(std::move(skyBox));
+	OutputDebugString("Sky loadded\n");
+
 	Mesh cube = Cube(renderer);
 	Mesh squarePyramid = Pyramid(renderer);
 	Mesh cylinder = Cylinder(renderer);

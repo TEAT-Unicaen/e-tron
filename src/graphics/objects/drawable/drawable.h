@@ -33,7 +33,7 @@ public:
 	virtual void draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE);
 	virtual void update(float delta) noexcept;
 
-	void addBindable(std::shared_ptr<Bindable> pBindables) noexcept;
+	void addBindable(std::shared_ptr<Bindable> pBindables) noexcept(!IS_DEBUG_MODE);
 	void addBindable(std::shared_ptr<IndexBuffer> pIndexBuffer) noexcept(!IS_DEBUG_MODE);
 
 	static ShaderManager shaderManager;
