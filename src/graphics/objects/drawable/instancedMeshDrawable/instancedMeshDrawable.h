@@ -61,6 +61,15 @@ public:
 		std::vector<dx::XMMATRIX> instances
 	);
 
+	void init(
+		Renderer& renderer,
+		dx::XMFLOAT3 startPosition,
+		dx::XMFLOAT3 startRotation,
+		Mesh& mesh,
+		std::wstring vertexShaderName,
+		std::wstring pixelShaderName
+	);
+
 	void updateInstance(
 		Renderer& renderer,
 		UINT i,

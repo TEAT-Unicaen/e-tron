@@ -89,7 +89,8 @@ void Drawable::rotateInTo(dx::XMFLOAT3 newRotation, float movingTime) noexcept {
 }
 
 dx::XMMATRIX Drawable::getTransform() const {
-	return dx::XMMatrixScaling(this->scale.x, this->scale.y, this->scale.z) *
+	return
+		dx::XMMatrixScaling(this->scale.x, this->scale.y, this->scale.z) *
 		dx::XMMatrixRotationRollPitchYaw(this->rotation.x, this->rotation.y, this->rotation.z) *
 		dx::XMMatrixTranslation(this->position.x, this->position.y, this->position.z);
 }
@@ -150,7 +151,7 @@ void Drawable::update(float delta) noexcept {
 	}
 }
 
-void Drawable::addBindable(std::shared_ptr<Bindable> pBindables) noexcept {
+void Drawable::addBindable(std::shared_ptr<Bindable> pBindables) noexcept(!IS_DEBUG_MODE) {
 	assert("Use addIndexBuffer for index buffer" && typeid(*pBindables) != typeid(IndexBuffer));
 	this->pBindables.push_back(std::move(pBindables));
 }

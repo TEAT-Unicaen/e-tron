@@ -12,19 +12,22 @@ App::App()
 
 	// Add shaders
 	shaderManager.addVertexShader(renderer, L"defaultVS");
-	shaderManager.addVertexShader(renderer, L"textureVS");
+	shaderManager.addVertexShader(renderer, L"texturedVS");
+	shaderManager.addVertexShader(renderer, L"phongVS");
 	shaderManager.addVertexShader(renderer, L"instanceVS");
+	shaderManager.addVertexShader(renderer, L"instancePhongVS");
+	shaderManager.addVertexShader(renderer, L"compositePhongVS");
+	shaderManager.addVertexShader(renderer, L"gridPhongVS");
 
 	shaderManager.addPixelShader(renderer, L"coloredCubePS");
 	shaderManager.addPixelShader(renderer, L"coloredSquarePyramidPS");
 	shaderManager.addPixelShader(renderer, L"coloredCylinderPS");
 	shaderManager.addPixelShader(renderer, L"coloredCylinderTruncatedPS");
 	shaderManager.addPixelShader(renderer, L"coloredSpherePS");
-	shaderManager.addPixelShader(renderer, L"texturePS");
-
-	shaderManager.addVertexShader(renderer, L"phongVS");
-	shaderManager.addPixelShader(renderer, L"phongPS");
-	shaderManager.addVertexShader(renderer, L"instancePhongVS");
+	shaderManager.addPixelShader(renderer, L"texturedPS");
+	shaderManager.addPixelShader(renderer, L"coloredPhongCubePS");
+	shaderManager.addPixelShader(renderer, L"coloredPhongSpherePS");
+	shaderManager.addPixelShader(renderer, L"gridPhongPS");
 
 
 	this->sceneManager = std::make_unique<SceneManager>(
@@ -50,19 +53,20 @@ int App::run() {
 		if (const auto eCode = wnd.processMessages()) {
 			return *eCode;
 		}
-		this->checkInput();
-		this->update();
+		float delta = this->timer.mark();
+		this->checkInput(delta);
+		this->update(delta);
 		//SLEEP_MS(1);
 	}
 }
 
-void App::checkInput() {
-	this->sceneManager->handleInput(this->wnd);
+void App::checkInput(float delta) {
+	this->sceneManager->handleInput(this->wnd, delta);
 }
 
-void App::update() {
+void App::update(float delta) {
 	Renderer& renderer = this->wnd.getRenderer();
-	float delta = this->timer.mark();
+	
 	this->frameTime += delta;  // Accumulate frame time
 	this->frameCount++;  // Increment the frame count
 

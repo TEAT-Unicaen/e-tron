@@ -26,7 +26,13 @@ Sphere::Sphere(Renderer& renderer, float radius, UINT sliceCount, UINT stackCoun
 			dx::XMVECTOR normalVec = dx::XMVector3Normalize(dx::XMLoadFloat3(&normal));
 			dx::XMStoreFloat3(&normal, normalVec);
 
-            vertices.emplace_back(Vertex{position, normal});
+			// Calcul des coordonnées de texture
+			dx::XMFLOAT2 texCoord = {
+				theta / (2 * dx::XM_PI),
+				phi / dx::XM_PI
+			};
+
+            vertices.emplace_back(Vertex{position, normal, texCoord});
 		}
 	}
 

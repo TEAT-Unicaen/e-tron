@@ -5,8 +5,8 @@ Light::Light(Renderer& renderer, const dx::XMFLOAT3& pos, const Color color)
 	lightBufferData(LightBuffer{
 		pos,
 		color.toFloat3(),
-		dx::XMFLOAT3{0.05f, 0.05f, 0.05f},
-		1.0f,
+		dx::XMFLOAT3{0.4f, 0.4f, 0.4f},
+		50.0f,
 		1.0f,
 		0.045f,
 		0.0075f

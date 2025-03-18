@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../drawable.h"
+#include "../../bindable/buffers/constantBuffers/vertexConstantBuffer.h"
 
 class CompositeDrawable : public Drawable {
 public:
@@ -9,10 +10,10 @@ public:
 	void addDrawable(std::unique_ptr<Drawable> pDrawable);
 
 	void removeDrawable(UINT i);
-
+	
 	void draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE) override;
 	void update(float delta) noexcept override;
 private:
 	std::vector<std::unique_ptr<Drawable>> pDrawables;
-	
+	std::shared_ptr<VertexConstantBuffer<dx::XMMATRIX>> pVcBuffer;
 };

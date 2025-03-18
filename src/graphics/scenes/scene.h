@@ -17,7 +17,7 @@ public:
 	virtual void onLoad() = 0;
 
 	virtual void update(float deltaTime);
-	virtual void handleInput(Window& wnd) = 0;
+	virtual void handleInput(Window& wnd, float delta) = 0;
 
 	std::string getName() const noexcept;
 

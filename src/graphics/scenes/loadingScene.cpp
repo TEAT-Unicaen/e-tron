@@ -30,5 +30,5 @@ void LoadingScene::update(float deltaTime) {
 	this->renderer.renderText(L"Loading...", dx::XMFLOAT2(350, 420), 16, Color::WHITE);
 }
 
-void LoadingScene::handleInput(Window& wnd) {}
+void LoadingScene::handleInput(Window& wnd, float delta) {}
 

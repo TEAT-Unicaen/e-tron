@@ -11,8 +11,6 @@ Image::Image(const std::wstring path) {
 		IID_PPV_ARGS(&wicFactory)
 	));
 
-	OutputDebugString("WIC factory created\n");
-
 	// Load the image
 	Mwrl::ComPtr<IWICBitmapDecoder> wicDecoder;
 	CHECK_WIN32API_EXCEPT(wicFactory->CreateDecoderFromFilename(
@@ -50,8 +48,6 @@ Image::Image(const std::wstring path) {
 		bufferSize,
 		this->pBuffer.get()
 	));
-
-	OutputDebugString("Image loaded successfully\n");
 }
 
 UINT Image::getWidth() const noexcept {
@@ -64,4 +60,19 @@ UINT Image::getHeight() const noexcept {
 
 BYTE* Image::getData() const noexcept {
 	return this->pBuffer.get();
+}
+// Inverse the image by the horizontal axis
+void Image::inverse() noexcept {
+	UINT stride = this->width * 4;
+	UINT halfHeight = this->height / 2;
+	BYTE* pPixels = this->pBuffer.get();
+	for (UINT y = 0; y < halfHeight; y++) {
+		BYTE* pLine1 = pPixels + stride * y;
+		BYTE* pLine2 = pPixels + stride * (this->height - 1 - y);
+		for (UINT x = 0; x < stride; x++) {
+			BYTE temp = pLine1[x];
+			pLine1[x] = pLine2[x];
+			pLine2[x] = temp;
+		}
+	}
 }

@@ -34,8 +34,10 @@ public:
 	Camera& getCamera() noexcept;
 	dx::XMMATRIX getView()const noexcept;
 	void renderText(const std::wstring& text, const dx::XMFLOAT2& position, float size, Color color);
+	void setVSync(bool vsync);
 private:
 	Camera camera;
+	UINT syncInterval = 0u; // 0u for immediate, 1u for vsync
 #ifndef NDEBUG
 	DxgiInfoManager infoManager;
 #endif // !NDEBUG

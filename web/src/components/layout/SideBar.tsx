@@ -1,5 +1,5 @@
 import styles from "./SideBar.module.scss";
-import { useFileSelector } from "./../common/useFileSelector";
+import { useFileSelector } from "../common/selector/useFileSelector";
 
 const SideBar: React.FC = ({}) => {
     

@@ -9,7 +9,7 @@ Plane::Plane(Renderer& renderer, float width, float height, UINT nWidth, UINT nH
     float halfHeight = height / 2.0f;
 
     float stepX = width / nWidth;
-    float stepY = height / nHeight;
+    float stepZ = height / nHeight;
 
     // Reserve memory for the vertices and indices
     vertices.reserve((nWidth + 1) * (nHeight + 1));  // One vertex per grid point
@@ -19,11 +19,11 @@ Plane::Plane(Renderer& renderer, float width, float height, UINT nWidth, UINT nH
     for (int j = 0; j <= nHeight; ++j) {
         for (int i = 0; i <= nWidth; ++i) {
             float x = -halfWidth + i * stepX;
-            float y = halfHeight - j * stepY;
-            dx::XMFLOAT3 position(x, y, 0);  // Plane is on the X-Y plane
+            float z = halfHeight - j * stepZ;
+            dx::XMFLOAT3 position(x, 0.0f, z);  // Plane is on the X-Y plane
 
             // Normals pointing in the Z direction (since the plane is flat)
-            dx::XMFLOAT3 normal(0, 0, -1);
+            dx::XMFLOAT3 normal(0.0f, 1.0f, 0.0f);
 
             // Add vertex
             vertices.push_back(Mesh::Vertex{ position, normal });

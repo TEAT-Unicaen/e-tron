@@ -131,7 +131,7 @@ void Renderer::render() {
 	this->infoManager.updateTheStartingPointIndex();
 #endif // !NDEBUG
 
-	if (FAILED(hr = this->pSwapChain->Present(1u, 0u))) {
+	if (FAILED(hr = this->pSwapChain->Present(this->syncInterval, 0u))) {
 		if (hr == DXGI_ERROR_DEVICE_REMOVED) {
 			throw DEVICE_REMOVED_EXCEPT(this->pDevice->GetDeviceRemovedReason());
 		} else {
@@ -189,4 +189,8 @@ void Renderer::renderText(const std::wstring& text, const dx::XMFLOAT2& position
 
 	// End drawing
 	pD2DRenderTarget->EndDraw();
+}
+
+void Renderer::setVSync(bool vsync) {
+	this->syncInterval = vsync ? 1u : 0u;
 }
