@@ -9,5 +9,4 @@ public:
 protected:
 	UINT lenght;
 	UINT width;
-	Mesh& mesh;
 };

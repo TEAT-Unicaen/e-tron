@@ -1,7 +1,7 @@
 #include "camera.h"
 
 Camera::Camera()
-	: fov(90.0f), aspectRatio(1.0f), nearZ(0.1f), farZ(1000.0f),
+	: fov(90.0f), aspectRatio(1.0f), nearZ(0.1f), farZ(10000.0f),
 	  position(dx::XMFLOAT3(0.0f, 0.0f, 0.0f)), rotation(dx::XMFLOAT3(0.0f, 0.0f, 0.0f)) {
 	updateProjection();
 	updateView();

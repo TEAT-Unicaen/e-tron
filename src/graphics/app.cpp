@@ -28,6 +28,7 @@ App::App()
 	shaderManager.addPixelShader(renderer, L"coloredPhongCubePS");
 	shaderManager.addPixelShader(renderer, L"coloredPhongSpherePS");
 	shaderManager.addPixelShader(renderer, L"gridPhongPS");
+	shaderManager.addPixelShader(renderer, L"instancePhongPS");
 
 
 	this->sceneManager = std::make_unique<SceneManager>(

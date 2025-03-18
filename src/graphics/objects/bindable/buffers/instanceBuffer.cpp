@@ -3,18 +3,9 @@
 InstanceBuffer::InstanceBuffer(Renderer& renderer, UINT slot, UINT nbInstances)
 	: slot(slot),
 	count(0u),
-	structSize(sizeof(dx::XMMATRIX)),
+	structSize(sizeof(InstanceData)),
 	maxInstances(nbInstances) {
-	this->instances.resize(nbInstances, dx::XMMatrixIdentity());
-	this->initBuffer(renderer);
-}
-
-InstanceBuffer::InstanceBuffer(Renderer& renderer, const std::vector<dx::XMMATRIX>& instances, UINT slot)
-	: slot(slot),
-	count(static_cast<UINT>(instances.size())),
-	structSize(sizeof(dx::XMMATRIX)), 
-	instances(instances),
-	maxInstances(this->count) {
+	this->instances.resize(nbInstances, InstanceData());
 	this->initBuffer(renderer);
 }
 
@@ -38,7 +29,7 @@ void InstanceBuffer::update(Renderer& renderer) noexcept(!IS_DEBUG_MODE) {
 	HR_PLUS;
 	D3D11_MAPPED_SUBRESOURCE msr;
 	CHECK_INFO_ONLY_EXCEPT(this->getDeviceContext(renderer)->Map(pInstanceBuffer.Get(), 0u, D3D11_MAP_WRITE_DISCARD, 0u, &msr)); // Lock to write
-	memcpy(msr.pData, this->instances.data(), sizeof(dx::XMMATRIX) * this->instances.size());
+	memcpy(msr.pData, this->instances.data(), this->structSize * this->instances.size());
 	this->getDeviceContext(renderer)->Unmap(pInstanceBuffer.Get(), 0u); // Unlock
 }
 
@@ -56,19 +47,22 @@ void InstanceBuffer::addInstance(
 	Renderer& renderer,
 	const dx::XMFLOAT3 position,
 	const dx::XMFLOAT3 rotation,
+	const Color& color,
 	const dx::XMFLOAT3 scale
 ) noexcept(!IS_DEBUG_MODE) {
-	this->addInstance(renderer, 
-		dx::XMMatrixScaling(scale.x, scale.y, scale.z) *
+	dx::XMMATRIX transform = dx::XMMatrixScaling(scale.x, scale.y, scale.z) *
 		dx::XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
-		dx::XMMatrixTranslation(position.x, position.y, position.z));
+		dx::XMMatrixTranslation(position.x, position.y, position.z);
+	this->addInstance(renderer, 
+		transform,
+		color.toFloat4()
+	);
 }
 
-void InstanceBuffer::addInstance(Renderer& renderer, const dx::XMMATRIX matrix) noexcept(!IS_DEBUG_MODE) {
+void InstanceBuffer::addInstance(Renderer& renderer, const dx::FXMMATRIX transform, const dx::XMFLOAT4 color) noexcept(!IS_DEBUG_MODE) {
 	if (count >= this->maxInstances)
 		this->setMaxInstances(renderer, this->maxInstances * 1.5);
-
-	this->instances[count++] = dx::XMMatrixTranspose(matrix);
+	this->instances[count++] = InstanceData(dx::XMMatrixTranspose(transform), color);
 	this->needToBeUpdated = true;		
 }
 
@@ -77,33 +71,35 @@ void InstanceBuffer::updateInstance(
 	UINT i,
 	const dx::XMFLOAT3 position,
 	const dx::XMFLOAT3 rotation,
+	const Color& color,
 	const dx::XMFLOAT3 scale
 ) noexcept(!IS_DEBUG_MODE) {
-	this->updateInstance(renderer, i,
-		dx::XMMatrixScaling(scale.x, scale.y, scale.z) *
+	dx::XMMATRIX transform = dx::XMMatrixScaling(scale.x, scale.y, scale.z) *
 		dx::XMMatrixRotationRollPitchYaw(rotation.x, rotation.y, rotation.z) *
-		dx::XMMatrixTranslation(position.x, position.y, position.z));
+		dx::XMMatrixTranslation(position.x, position.y, position.z);
+	this->updateInstance(renderer, i,
+		transform,
+		color.toFloat4()
+	);
 }
 
-void InstanceBuffer::updateInstance(Renderer& renderer, UINT i, const dx::XMMATRIX matrix) noexcept(!IS_DEBUG_MODE) {
+void InstanceBuffer::updateInstance(Renderer& renderer, UINT i, const dx::FXMMATRIX transform, dx::XMFLOAT4 color) noexcept(!IS_DEBUG_MODE) {
 	if (i < count) {
-		this->instances[i] = dx::XMMatrixTranspose(matrix);
+		this->instances[i] = InstanceData(dx::XMMatrixTranspose(transform), color);
 		this->needToBeUpdated = true;
 	}
 }
 
-void InstanceBuffer::removeInstance(Renderer& renderer, UINT i) noexcept(!IS_DEBUG_MODE) {
+void InstanceBuffer::updateInstance(Renderer& renderer, UINT i, const Color& color) noexcept(!IS_DEBUG_MODE) {
 	if (i < count) {
-		this->instances.erase(instances.begin() + i);
-		count--;
+		this->instances[i].color = color.toFloat4();
+		this->needToBeUpdated = true;
 	}
-	this->needToBeUpdated = true;
 }
 
 void InstanceBuffer::clearInstances(Renderer& renderer) noexcept(!IS_DEBUG_MODE) {
-	for (UINT i = 0u; i < this->maxInstances; i++) {
-		this->instances[i] = dx::XMMatrixIdentity();
-	}
+	for (UINT i = 0u; i < this->maxInstances; i++)
+		this->instances[i] = InstanceData();
 	count = 0u;
 	this->needToBeUpdated = true;
 }
@@ -119,6 +115,6 @@ UINT InstanceBuffer::getMaxInstances() const noexcept {
 void InstanceBuffer::setMaxInstances(Renderer& renderer, UINT maxInstances) noexcept {
 	this->maxInstances = maxInstances;
 	this->pInstanceBuffer.Reset();
-	this->instances.resize(this->maxInstances, dx::XMMatrixIdentity());
+	this->instances.resize(this->maxInstances, InstanceData());
 	this->initBuffer(renderer);
 }

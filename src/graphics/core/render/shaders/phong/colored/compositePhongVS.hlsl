@@ -14,12 +14,18 @@ struct VSOut
 
 VSOut main(float3 position : Position, float3 normal : Normal)
 {
+    VSOut output;
+
+    float4 pos4 = float4(position, 1.0f);
+
     float4x4 realModel = mul(model, parentModel);
-    float4x4 realModelViewProjection = mul(realModel, mul(view, projection));
     
-    VSOut output;    
-    output.viewPos = mul(float4(position, 1.0f), realModel).xyz;
+    output.viewPos = mul(pos4, realModel).xyz;
+    
     output.viewNormal = normalize(mul(normal, (float3x3) realModel));
-    output.position = mul(float4(position, 1.0f), realModelViewProjection);
+
+    float4 worldPosition = mul(pos4, realModel);
+    output.position = mul(worldPosition, mul(view, projection));
+
     return output;
 }

@@ -17,22 +17,18 @@ struct VSOut
 
 VSOut main(VS_IN input, uint instanceID : SV_InstanceID)
 {
-    float4x4 modelViewProjection = mul(model, mul(view, projection));
     VSOut output;
 
     float4 pos4 = float4(input.position, 1.0f);
 
-    // Transformation de la position
-    float4 worldPosition = mul(pos4, input.worldMatrix);
-    output.viewPos = mul(worldPosition, model).xyz;
+    float4x4 realModel = mul(input.worldMatrix, model);
+    
+    output.viewPos = mul(pos4, realModel).xyz;
 
-    // Transformation correcte de la normal
-    float3x3 normalMatrix = (float3x3) mul(input.worldMatrix, model);
-    output.viewNormal = normalize(mul(input.normal, normalMatrix));
+    output.viewNormal = normalize(mul(input.normal, (float3x3) realModel));
 
-    // Application de la transformation complète
-    output.position = mul(worldPosition, modelViewProjection);
+    float4 worldPosition = mul(pos4, realModel);
+    output.position = mul(worldPosition, mul(view, projection));
     output.instanceId = instanceID;
-
     return output;
 }

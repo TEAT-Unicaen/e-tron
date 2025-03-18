@@ -7,7 +7,7 @@ void GameScene::onLoad() {
 
 	std::shared_ptr<Image> pImg = std::make_shared<Image>(L"assets/img/sky.png");
 	pImg->inverse();
-	std::unique_ptr<Drawable> skyBox = std::make_unique<SkyBox>(this->renderer, pImg, 500.0f);
+	std::unique_ptr<Drawable> skyBox = std::make_unique<SkyBox>(this->renderer, pImg, 5000.0f);
 	skyBox->setPosition(dx::XMFLOAT3(0.0f, 350.0f, 0.0f));
 	this->pDrawables.push_back(std::move(skyBox));
 
@@ -30,26 +30,20 @@ void GameScene::onLoad() {
 
 	std::unique_ptr<Drawable> motocycle = std::make_unique<MotocycleDrawable>(
 		this->renderer,
-		dx::XMFLOAT3(0.0f, 1.0f, 5.0f),
+		dx::XMFLOAT3(0.0f, 0.1f, 0.0f),
 		dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
 		Color::GREEN
 	);
 	this->pDrawables.push_back(std::move(motocycle));
 
-	std::unique_ptr<Drawable> motocycle1 = std::make_unique<MotocycleDrawable>(
-		this->renderer,
-		dx::XMFLOAT3(0.0f, 1.0f, -5.0f),
-		dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
-		Color::RED
-	);
-	this->pDrawables.push_back(std::move(motocycle1));
 	
 	
 	renderer.getCamera().setPosition(0.0f, 1.5f, 0.0f);
 }
 
 void GameScene::handleInput(Window& wnd, float delta) {
-	Camera& cam = wnd.getRenderer().getCamera();
+	Renderer& renderer = wnd.getRenderer();
+	Camera& cam = renderer.getCamera();
 	float forward = 0.0f, right = 0.0f;
 	float rotX = 0.0f, rotY = 0.0f;
 	float speed = delta * 15;
@@ -88,12 +82,12 @@ void GameScene::handleInput(Window& wnd, float delta) {
 
 	// Object movement
 	if (keyEvent.keyIsPressed('T')) {
-		this->pDrawables[0]->move(dx::XMFLOAT3(5.0f, 0.0f, 0.0f), 0.1f);
-		this->pDrawables[0]->rotate(dx::XMFLOAT3(0.0f, 0.0f, 0.1f), 0.1f);
+		this->pDrawables[2]->moveInTo(dx::XMFLOAT3(0.0f, 0.1f, 1.0f), 0.1f);
+		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, 5050u, Color::GREEN);
 	}
 	if (keyEvent.keyIsPressed('G')) {
-		this->pDrawables[0]->move(dx::XMFLOAT3(-5.0f, 0.0f, 0.0f), 0.1f);
-		this->pDrawables[0]->rotate(dx::XMFLOAT3(0.0f, 0.0f, -0.1f), 0.1f);
+		this->pDrawables[2]->moveInTo(dx::XMFLOAT3(0.0f, 0.1f, 2.0f), 0.1f);
+		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, 5051u, Color::GREEN);
 	}
 
 	// Light movement

@@ -26,6 +26,7 @@ void CompositeDrawable::draw(Renderer& renderer) const noexcept(!IS_DEBUG_MODE) 
 }
 
 void CompositeDrawable::update(float delta) noexcept {
+	Drawable::update(delta);
 	for (auto& pDrawable : pDrawables) {
 		pDrawable->update(delta);
 	}
