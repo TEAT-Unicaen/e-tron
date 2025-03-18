@@ -37,12 +37,14 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
         score: [],
         timeLog : {
 
-        }
+        },
+        average: 0.0,
     };
 
     let maxRound = 0
     let winner = null
     let index = 0
+    let toalRound = 0
 
     for (const [pName, dat] of Object.entries(inputArray)) {
         if (pName === 'timeLog') {
@@ -51,9 +53,10 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
             outputArray.pNb = dat
         } else {
             let provRoundHere = (dat.top ?? 0) + (dat.bottom ?? 0) + (dat.right ?? 0) + (dat.left ?? 0)
+            toalRound += provRoundHere
             outputArray.score.push({
                 Player: pName,
-                Tour: provRoundHere
+                Murs: provRoundHere
             })
 
             if (provRoundHere > maxRound) {
@@ -82,6 +85,8 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
             index++
         }
     }
+
+    outputArray.average = (toalRound / outputArray.pNb).toFixed(2)
 
     return outputArray;
 }

@@ -14,7 +14,7 @@ const Viewer: React.FC = () => {
 
     const size = formatedJSON.timeLog.length
 
-    const columns = ["Player", "Tour"];
+    const columns = ["Player", "Murs"];
 
     return (
         <>  
@@ -22,14 +22,20 @@ const Viewer: React.FC = () => {
                 <p>Nombre de tour :</p>
                 <AnimatedNumber value={size} max={size}/>
             </div>
+            <div style={{position: 'absolute', right: '15vh', top:'2.2vh'}}>
+                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '10px'}}>
+                    <p>Temps de survie moyen : </p>
+                    <AnimatedNumber value={formatedJSON.average} max={formatedJSON.average}/>
+                </div>
+            </div>
 
-            <div style={{position: 'absolute', right: '15vh'}}>
+            <div style={{position: 'absolute', right: '15vh', overflowY: 'auto', height: '80vh', width: '20vh'}}>
                 <Table data={formatedJSON.score} columns={columns}/>
             </div>
 
             <BackgroundLayout/>
             <SideBar/>
-            <div style={{height: '100vh', width: '100vh'}}>
+            <div style={{height: '90vh', width: '100vh' }}>
                 <RadarChart data={formatedJSON.radar}/>
             </div>
 

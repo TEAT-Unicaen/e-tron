@@ -12,6 +12,7 @@ $hover-color: color.adjust($primary-color, $lightness: -10%);
 }
 
 .sideBar {
+    user-select: none;
     height: 93vh;
     width: 8vh;
     position: fixed;
