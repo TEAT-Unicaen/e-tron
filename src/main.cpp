@@ -68,7 +68,7 @@ int main() {
         std::cout << "Wait between each step (MS) : " << waitAmount << std::endl;
 
 
-        GameManager gameManager(size, size, numPlayers, rdPos, useSos, showEachStep, waitAmount);
+        GameManager gameManager(size, size, numPlayers, rdPos, useSos, showEachStep, waitAmount, false, NULL);
         InputManager inputManager(&gameManager, mainFunctions);
 
         // Displaying start grid

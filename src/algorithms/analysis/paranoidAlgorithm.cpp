@@ -8,11 +8,9 @@
 // Paranoïd is self explanatory, it maximise its score but fear others, considering they are all in team against him.
 // Basically functions as a Maxn but taking other players into account.
 
-ParanoidAlgorithm::ParanoidAlgorithm(MapManager* mapMan) : AlgorithmUtils(mapMan) {
-}
+ParanoidAlgorithm::ParanoidAlgorithm(MapManager* mapMan) : AlgorithmUtils(mapMan) {}
 
 // TODO : IMPLEMENT TERRITORY AWARENESS
-
 
 // Core Algorithme Paranoid
 std::vector<int> ParanoidAlgorithm::paranoid(std::vector<std::shared_ptr<Player>> players, int depth, int currentPlayer) {

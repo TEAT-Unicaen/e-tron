@@ -46,8 +46,3 @@ std::pair<std::pair<int, int>, int> AutoMoveSmart::decideMove(std::shared_ptr<Pl
 
 	return {nextPos, bestScore};
 }
-
-
-
-
-
