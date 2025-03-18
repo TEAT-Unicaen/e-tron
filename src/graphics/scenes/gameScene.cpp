@@ -114,7 +114,7 @@ void GameScene::onLoad() {
 	};
 
 
-	UINT size = 1000;
+	UINT size = 3150;
 	std::unique_ptr<Drawable> grid = std::make_unique<Grid3D>(
 		this->renderer,
 		size,

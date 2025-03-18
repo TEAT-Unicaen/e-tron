@@ -1,5 +1,5 @@
 #pragma once
-#include "algorithmUtils.h"
+#include "../algorithmUtils.h"
 
 class ParanoidAlgorithm : public AlgorithmUtils {
 public:

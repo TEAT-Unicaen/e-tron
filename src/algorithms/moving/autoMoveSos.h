@@ -1,9 +1,6 @@
 #pragma once
-#include "../map/grid.h"
-#include "../entity/player.h"
-#include "../entity/wall.h"
-#include "../manager/mapManager.h"
-#include "algorithmUtils.h"
+#include "../algorithmUtils.h"
+#include "./IMovingAlgorithm.h"
 #include <vector>
 
 class AutoMoveSos : public AlgorithmUtils {
@@ -20,4 +17,3 @@ private:
     int const INIT_VALUE = -100000;
 
 };
-

@@ -47,3 +47,4 @@ std::pair<std::pair<int, int>, int> AutoMoveSos::decideMove(std::shared_ptr<Play
 
     return { nextPos, bestScore };
 }
+
