@@ -42,7 +42,6 @@ void SceneManager::changeScene(const std::string& sceneName) {
 		this->loadingThread.join();
 	}
 
-	OutputDebugStringA(("Loading scene: " + sceneName + "\n").c_str());
 	// Create a new thread to load the next scene in the background
 	this->loadingThread = std::thread([this, sceneName]() {
 		this->nextScene = this->scenes[sceneName].get();

@@ -117,7 +117,6 @@ UINT InstanceBuffer::getMaxInstances() const noexcept {
 }
 
 void InstanceBuffer::setMaxInstances(Renderer& renderer, UINT maxInstances) noexcept {
-	OutputDebugStringA("InstanceBuffer::setMaxInstances\n");
 	this->maxInstances = maxInstances;
 	this->pInstanceBuffer.Reset();
 	this->instances.resize(this->maxInstances, dx::XMMatrixIdentity());
