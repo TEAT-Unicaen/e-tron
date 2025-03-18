@@ -1,6 +1,5 @@
 #pragma once
 #include "../algorithmUtils.h"
-#include "./IMovingAlgorithm.h"
 #include <vector>
 
 class AutoMoveSos : public AlgorithmUtils {

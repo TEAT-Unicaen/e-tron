@@ -5,8 +5,7 @@
 #include "../utils/eTronException.h"
 #include "../algorithms/analysis/maxnAlgorithm.h"
 #include "../algorithms/analysis/paranoidAlgorithm.h"
-#include "../algorithms/moving/autoMoveSmart.h"
-#include "../algorithms/moving/autoMoveSos.h"
+#include "../algorithms/moving/movingAlgorithmsManager.h"
 #include "../utils/colorEnum.h"
 #include "../utils/jsonWriter.h"
 #include "dataLogManager.h"
@@ -19,7 +18,7 @@
 class GameManager {
 public:
 	// Constructor
-	GameManager(int line, int column, int numPlyrs, bool randomPos) noexcept;
+	GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, bool drawEachStep, int waitAmountInMS) noexcept;
 	~GameManager();
 
 	// Methods
@@ -53,6 +52,10 @@ private:
 	bool pause = false;
 	bool stopCmd = false;
 	bool effectivelyPaused = false;
+	bool shouldUseSos;
+	bool shouldDraw;
+	int waitAmount;
+	MovingAlgorithmsManager* movingAlgorithmsManager;
 	MapManager* mapManager;
 	AutoMoveSmart* autoMoveSmart;
 	MaxnAlgorithm* maxn;

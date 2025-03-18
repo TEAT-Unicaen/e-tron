@@ -55,9 +55,20 @@ int main() {
         // Init managers
 		int numPlayers = config.getInt("num_players");
         int size = config.getInt("grid_size", numPlayers); 
+		bool rdPos = config.getBool("use_random_pos", true);
+		bool useSos = config.getBool("movement_use_SOS", false);
+		bool showEachStep = config.getBool("show_each_step", true);
+		int waitAmount = config.getInt("wait_amount", 100);
+
 		std::cout << "Grid size : " << size << std::endl;
 		std::cout << "Number of players : " << numPlayers << std::endl;
-        GameManager gameManager(size, size, numPlayers, true);
+		std::cout << "Random position : " << rdPos << std::endl;
+		std::cout << "Use SOS : " << useSos << std::endl;
+		std::cout << "Show each step : " << showEachStep << std::endl;
+        std::cout << "Wait between each step (MS) : " << waitAmount << std::endl;
+
+
+        GameManager gameManager(size, size, numPlayers, rdPos, useSos, showEachStep, waitAmount);
         InputManager inputManager(&gameManager, mainFunctions);
 
         // Displaying start grid

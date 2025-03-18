@@ -1,11 +1,12 @@
 #include "gameManager.h"
 #include "../entity/player.h"
 #include "../utils/colorEnum.h"
+#include "../algorithms/moving/movingAlgorithmsManager.h"
 #include <random>
 
-GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos) noexcept
-	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)) 
-{
+GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, bool drawEachStep, int waitAmountInMS) noexcept
+	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)) {
+
 	//Used for non deterministic random placement generation
 	std::random_device rd;
 	std::mt19937 gen(rd()); //Merseene Twister based
@@ -38,6 +39,12 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos) noe
 	//Init maxn and paranoid algorithms
 	maxn = new MaxnAlgorithm(mapManager);
 	paranoid = new ParanoidAlgorithm(mapManager);
+
+	//Init the algorithm manager
+	movingAlgorithmsManager = new MovingAlgorithmsManager(mapManager);
+	shouldUseSos = useSos;
+	shouldDraw = drawEachStep;
+	waitAmount = waitAmountInMS;
 
 	//Init json writer
 
@@ -105,8 +112,14 @@ void GameManager::threadLoop() {
 			if (player->isPlayerDead()) {continue;}
 
 			// Decide the best next move
-			std::pair<std::pair<int, int>, int> res = autoMoveSmart->decideMove(player, 3);
+			std::vector<std::vector<double>> W = {
+				{1.0, 1.0, 1.0},
+				{1.0, 1.0, 1.0},
+				{1.0, 1.0, 1.0}
+			};
 
+			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->shouldUseSos, player, 3, W);
+			
 			// Coords saving before any move
 			auto [newX, newY] = res.first;
 			int oldX = player->getCoords().x;
@@ -144,9 +157,11 @@ void GameManager::threadLoop() {
 			this->dataLogManager->addTick(tick, action + " " + player->getName());
 
 			//Draw the map
-			//std::cout << "\033[2J\033[H";
-			//this->draw();
-			//SLEEP_MS(50);
+			if (this->shouldDraw) {
+				std::cout << "\033[2J\033[H";
+				this->draw();
+				SLEEP_MS(this->waitAmount);
+			}
 			tick++;
 		} 
 
