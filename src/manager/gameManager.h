@@ -2,6 +2,7 @@
 
 #include "mapManager.h"
 #include "../utils/utils.h"
+#include "../utils/dataLinker.h"
 #include "../utils/eTronException.h"
 #include "../algorithms/analysis/maxnAlgorithm.h"
 #include "../algorithms/analysis/paranoidAlgorithm.h"
@@ -18,7 +19,7 @@
 class GameManager {
 public:
 	// Constructor
-	GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, bool drawEachStep, int waitAmountInMS) noexcept;
+	GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept;
 	~GameManager();
 
 	// Methods
@@ -54,7 +55,9 @@ private:
 	bool effectivelyPaused = false;
 	bool shouldUseSos;
 	bool shouldDraw;
+	bool isAutomated;
 	int waitAmount;
+	DataLinker* dataLinkerHandle;
 	MovingAlgorithmsManager* movingAlgorithmsManager;
 	MapManager* mapManager;
 	AutoMoveSmart* autoMoveSmart;

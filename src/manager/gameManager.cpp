@@ -1,10 +1,11 @@
 #include "gameManager.h"
 #include "../entity/player.h"
 #include "../utils/colorEnum.h"
+#include "../utils/dataLinker.h"
 #include "../algorithms/moving/movingAlgorithmsManager.h"
 #include <random>
 
-GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, bool drawEachStep, int waitAmountInMS) noexcept
+GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
 	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)) {
 
 	//Used for non deterministic random placement generation
@@ -45,6 +46,8 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, boo
 	shouldUseSos = useSos;
 	shouldDraw = drawEachStep;
 	waitAmount = waitAmountInMS;
+	isAutomated = isAutomatedCall;
+	dataLinkerHandle = dlHandler;
 
 	//Init json writer
 
@@ -111,13 +114,16 @@ void GameManager::threadLoop() {
 		for (auto& player : pVector) {
 			if (player->isPlayerDead()) {continue;}
 
-			// Decide the best next move
+			// Matrix of affinities
 			std::vector<std::vector<double>> W = {
-				{1.0, 1.0, 1.0},
-				{1.0, 1.0, 1.0},
-				{1.0, 1.0, 1.0}
+				{0.5, 1.0, 1.0, 1.0, 1.0},
+				{1.0, 0.5, 1.0, 1.0, 1.0},
+				{1.0, 1.0, 0.5, 1.0, 1.0},
+				{1.0, 1.0, 1.0, 0.5, 1.0},
+				{1.0, 1.0, 1.0, 1.0, 0.5},
 			};
 
+			// Decide the best next move
 			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->shouldUseSos, player, 3, W);
 			
 			// Coords saving before any move
@@ -157,7 +163,9 @@ void GameManager::threadLoop() {
 			this->dataLogManager->addTick(tick, action + " " + player->getName());
 
 			//Draw the map
-			if (this->shouldDraw) {
+			if (this->isAutomated) {
+				dataLinkerHandle->addData(player->getId(), oldX, oldY, newX, newY);
+			} else if (this->shouldDraw) {
 				std::cout << "\033[2J\033[H";
 				this->draw();
 				SLEEP_MS(this->waitAmount);
@@ -167,7 +175,7 @@ void GameManager::threadLoop() {
 
 		//Death handling and last redraw to keep updated
 		if (this->areAllPlayerDead()) {
-			this->draw();
+			if (!isAutomated) {this->draw();}
 			std::cout << "All players are dead" << std::endl;
 			//this->pause = true;
 			this->running = false;
