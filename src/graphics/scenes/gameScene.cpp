@@ -36,7 +36,7 @@ void GameScene::onLoad() {
 	);
 	this->pDrawables.push_back(std::move(motocycle));
 
-	
+	SLEEP(10);
 	
 	renderer.getCamera().setPosition(0.0f, 1.5f, 0.0f);
 }

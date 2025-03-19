@@ -49,7 +49,6 @@ void SceneManager::changeScene(const std::string& sceneName) {
 		CHECK_WIN32API_EXCEPT(CoInitialize(nullptr));
 		this->nextScene->onLoad();
 		CoUninitialize();
-
 		// Once the scene is loaded, update the flag and switch to the new scene
 		{
 			std::lock_guard<std::mutex> lock(this->loadingMutex);

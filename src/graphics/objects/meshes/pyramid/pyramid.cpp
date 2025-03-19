@@ -11,6 +11,10 @@ Pyramid::Pyramid(Renderer& renderer, int size) {
     const float lateralY = 2.0f / sqrt5;  // ≈ 0.4472135955
     const float lateralXZ = 1.0f / sqrt5; // ≈ 0.8944271910
 
+    //texCoords
+	const float twoOverThree = 2.0f / 3.0f;
+	const float oneOverThree = 1.0f / 3.0f;
+
     // Normales pour chaque face
     const dx::XMFLOAT3 normalBase(0.0f, -1.0f, 0.0f);          // Base (Y-)
     const dx::XMFLOAT3 normalFront(0.0f, lateralY, lateralXZ); // Face avant (Z+)
@@ -21,30 +25,30 @@ Pyramid::Pyramid(Renderer& renderer, int size) {
     // Définition des sommets avec normales calculées
     std::vector<Mesh::Vertex> vertices = {
         // Base (Y = 0)
-        {dx::XMFLOAT3(-halfSize, 0.0f, -halfSize), normalBase},
-        {dx::XMFLOAT3(halfSize, 0.0f, -halfSize), normalBase},
-        {dx::XMFLOAT3(-halfSize, 0.0f, halfSize), normalBase},
-        {dx::XMFLOAT3(halfSize, 0.0f, halfSize), normalBase},
+        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), normalBase, dx::XMFLOAT2(twoOverThree, oneOverThree)},
+        {dx::XMFLOAT3(halfSize , -halfSize, -halfSize), normalBase, dx::XMFLOAT2(twoOverThree, twoOverThree)},
+        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize ), normalBase, dx::XMFLOAT2(oneOverThree, oneOverThree)},
+        {dx::XMFLOAT3(halfSize , -halfSize, halfSize ), normalBase, dx::XMFLOAT2(oneOverThree, twoOverThree)},
 
         // Face avant (Z+)
-        {dx::XMFLOAT3(-halfSize, 0.0f, halfSize), normalFront},
-        {dx::XMFLOAT3(halfSize, 0.0f, halfSize), normalFront},
-        {dx::XMFLOAT3(0.0f, size, 0.0f), normalFront},
+        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), normalFront, dx::XMFLOAT2(oneOverThree, oneOverThree)},
+        {dx::XMFLOAT3(halfSize , -halfSize, halfSize), normalFront, dx::XMFLOAT2(oneOverThree, twoOverThree)},
+        {dx::XMFLOAT3(0.0f     , size     , 0.0f    ), normalFront, dx::XMFLOAT2(1.0f, 0.5f)},
 
         // Face droite (X+)
-        {dx::XMFLOAT3(halfSize, 0.0f, halfSize), normalRight},
-        {dx::XMFLOAT3(halfSize, 0.0f, -halfSize), normalRight},
-        {dx::XMFLOAT3(0.0f, size, 0.0f), normalRight},
+        {dx::XMFLOAT3(halfSize, -halfSize, halfSize ), normalRight, dx::XMFLOAT2(oneOverThree, twoOverThree)},
+        {dx::XMFLOAT3(halfSize, -halfSize, -halfSize), normalRight, dx::XMFLOAT2(twoOverThree, twoOverThree)},
+        {dx::XMFLOAT3(0.0f    , size     , 0.0f     ), normalRight, dx::XMFLOAT2(0.5f, 1.0f)},
 
         // Face arrière (Z-)
-        {dx::XMFLOAT3(halfSize, 0.0f, -halfSize), normalBack},
-        {dx::XMFLOAT3(-halfSize, 0.0f, -halfSize), normalBack},
-        {dx::XMFLOAT3(0.0f, size, 0.0f), normalBack},
+        {dx::XMFLOAT3(halfSize , -halfSize, -halfSize), normalBack, dx::XMFLOAT2(twoOverThree, twoOverThree)},
+        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), normalBack, dx::XMFLOAT2(twoOverThree, oneOverThree)},
+        {dx::XMFLOAT3(0.0f     , size     , 0.0f     ), normalBack, dx::XMFLOAT2(0.0f, 0.5f)},
 
         // Face gauche (X-)
-        {dx::XMFLOAT3(-halfSize, 0.0f, -halfSize), normalLeft},
-        {dx::XMFLOAT3(-halfSize, 0.0f, halfSize), normalLeft},
-        {dx::XMFLOAT3(0.0f, size, 0.0f), normalLeft}
+        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), normalLeft, dx::XMFLOAT2(twoOverThree, oneOverThree)},
+        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize ), normalLeft, dx::XMFLOAT2(oneOverThree, oneOverThree)},
+        {dx::XMFLOAT3(0.0f     , size     , 0.0f     ), normalLeft, dx::XMFLOAT2(0.5f, 0.0f)}
     };
 
     // Définition des indices pour former les triangles

@@ -25,7 +25,7 @@ VSOut main(VS_IN input, uint instanceID : SV_InstanceID)
     
     output.viewPos = mul(pos4, realModel).xyz;
 
-    output.viewNormal = normalize(mul(input.normal, (float3x3) realModel));
+    output.viewNormal = normalize(mul(input.normal, (float3x3)realModel));
 
     float4 worldPosition = mul(pos4, realModel);
     output.position = mul(worldPosition, mul(view, projection));

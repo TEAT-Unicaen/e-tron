@@ -26,6 +26,16 @@ public:
 		Color color
 	);
 
+	SingleMeshDrawable(
+		Renderer& renderer,
+		dx::XMFLOAT3 startPosition,
+		dx::XMFLOAT3 startRotation,
+		Mesh& mesh,
+		std::wstring vertexShaderName,
+		std::wstring pixelShaderName,
+		std::shared_ptr<Image> pImg
+	);
+
 	void init(
 		Renderer& renderer,
 		dx::XMFLOAT3 startPosition,
