@@ -2,7 +2,6 @@
 
 Pyramid::Pyramid(Renderer& renderer, int size) {
     float halfSize = size / 2.0f;
-
     // Calcul exact des normales pour une pyramide à base carrée
     // La valeur exacte pour sqrt(5) utilisée dans la normalisation
     const float sqrt5 = std::sqrtf(5.0f);
@@ -24,31 +23,31 @@ Pyramid::Pyramid(Renderer& renderer, int size) {
 
     // Définition des sommets avec normales calculées
     std::vector<Mesh::Vertex> vertices = {
-        // Base (Y = 0)
+        // Base
         {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), normalBase, dx::XMFLOAT2(twoOverThree, oneOverThree)},
         {dx::XMFLOAT3(halfSize , -halfSize, -halfSize), normalBase, dx::XMFLOAT2(twoOverThree, twoOverThree)},
         {dx::XMFLOAT3(-halfSize, -halfSize, halfSize ), normalBase, dx::XMFLOAT2(oneOverThree, oneOverThree)},
         {dx::XMFLOAT3(halfSize , -halfSize, halfSize ), normalBase, dx::XMFLOAT2(oneOverThree, twoOverThree)},
 
-        // Face avant (Z+)
-        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), normalFront, dx::XMFLOAT2(oneOverThree, oneOverThree)},
-        {dx::XMFLOAT3(halfSize , -halfSize, halfSize), normalFront, dx::XMFLOAT2(oneOverThree, twoOverThree)},
-        {dx::XMFLOAT3(0.0f     , size     , 0.0f    ), normalFront, dx::XMFLOAT2(1.0f, 0.5f)},
+        // Face avant (Z-)
+        {dx::XMFLOAT3(halfSize , -halfSize, -halfSize), normalFront, dx::XMFLOAT2(twoOverThree, oneOverThree)},
+        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), normalFront, dx::XMFLOAT2(oneOverThree, oneOverThree)},
+        {dx::XMFLOAT3(0.0f     , halfSize     , 0.0f), normalFront, dx::XMFLOAT2(0.5f, 0.0f)},
 
         // Face droite (X+)
-        {dx::XMFLOAT3(halfSize, -halfSize, halfSize ), normalRight, dx::XMFLOAT2(oneOverThree, twoOverThree)},
-        {dx::XMFLOAT3(halfSize, -halfSize, -halfSize), normalRight, dx::XMFLOAT2(twoOverThree, twoOverThree)},
-        {dx::XMFLOAT3(0.0f    , size     , 0.0f     ), normalRight, dx::XMFLOAT2(0.5f, 1.0f)},
+        {dx::XMFLOAT3(halfSize, -halfSize, halfSize), normalRight, dx::XMFLOAT2(twoOverThree, twoOverThree)},
+        {dx::XMFLOAT3(halfSize, -halfSize, -halfSize), normalRight, dx::XMFLOAT2(twoOverThree, oneOverThree)},
+        {dx::XMFLOAT3(0.0f    , halfSize     , 0.0f     ), normalRight, dx::XMFLOAT2(1.0f, 0.5f)},
 
-        // Face arrière (Z-)
-        {dx::XMFLOAT3(halfSize , -halfSize, -halfSize), normalBack, dx::XMFLOAT2(twoOverThree, twoOverThree)},
-        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), normalBack, dx::XMFLOAT2(twoOverThree, oneOverThree)},
-        {dx::XMFLOAT3(0.0f     , size     , 0.0f     ), normalBack, dx::XMFLOAT2(0.0f, 0.5f)},
+        // Face arrière (Z+)
+        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), normalBack, dx::XMFLOAT2(twoOverThree, twoOverThree)},
+        {dx::XMFLOAT3(halfSize , -halfSize, halfSize), normalBack, dx::XMFLOAT2(oneOverThree, twoOverThree)},
+        {dx::XMFLOAT3(0.0f     , halfSize     , 0.0f), normalBack, dx::XMFLOAT2(0.5f, 1.0f)},
 
         // Face gauche (X-)
-        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), normalLeft, dx::XMFLOAT2(twoOverThree, oneOverThree)},
-        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize ), normalLeft, dx::XMFLOAT2(oneOverThree, oneOverThree)},
-        {dx::XMFLOAT3(0.0f     , size     , 0.0f     ), normalLeft, dx::XMFLOAT2(0.5f, 0.0f)}
+        {dx::XMFLOAT3(-halfSize, -halfSize, -halfSize), normalLeft,dx::XMFLOAT2(oneOverThree, oneOverThree)},
+        {dx::XMFLOAT3(-halfSize, -halfSize, halfSize), normalLeft, dx::XMFLOAT2(oneOverThree, twoOverThree)},
+        {dx::XMFLOAT3(0.0f     , halfSize     , 0.0f), normalLeft, dx::XMFLOAT2(0.0f, 0.5f)}
     };
 
     // Définition des indices pour former les triangles
@@ -58,10 +57,10 @@ Pyramid::Pyramid(Renderer& renderer, int size) {
         1, 3, 2,
 
         // 4 faces latérales triangulaires
-        4, 5, 6,  // Face avant
-        7, 8, 9,  // Face droite
-        10, 11, 12, // Face arrière
-        13, 14, 15  // Face gauche
+        4, 5, 6,
+        7, 8, 9,
+		10, 11, 12,
+		13, 14, 15
     };
 
     this->vertexBuffer = std::make_shared<VertexBuffer>(renderer, vertices, 0u);

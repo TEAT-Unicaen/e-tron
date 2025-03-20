@@ -63,7 +63,7 @@ if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     set_target_properties(e_tron_directX PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
     target_sources(e_tron_directX PRIVATE ${CMAKE_SOURCE_DIR}/src/graphics/core/resource/resource.rc)
 
-    remove(${CMAKE_BINARY_DIR}/assets)
+    file(REMOVE_RECURSE ${CMAKE_BINARY_DIR}/assets/)
 
     add_custom_command(
         OUTPUT ${CMAKE_BINARY_DIR}/assets

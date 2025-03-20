@@ -4,7 +4,6 @@ GameScene::GameScene(Renderer& renderer, std::string name)
 	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 5.0f, 0.0f), Color::WHITE)) {}
 
 void GameScene::onLoad() {
-
 	std::shared_ptr<Image> pImg = std::make_shared<Image>(L"assets/img/sky.png");
 	pImg->inverse();
 	std::unique_ptr<Drawable> skyBox = std::make_unique<SkyBox>(this->renderer, pImg, 5000.0f);
@@ -35,8 +34,6 @@ void GameScene::onLoad() {
 		Color::GREEN
 	);
 	this->pDrawables.push_back(std::move(motocycle));
-
-	SLEEP(10);
 	
 	renderer.getCamera().setPosition(0.0f, 1.5f, 0.0f);
 }

@@ -17,8 +17,8 @@ void Camera::setAspectRatio(float aspectRatio) noexcept {
 	updateProjection();
 }
 
-void Camera::updateFOV(float delatFOV) noexcept {
-	this->fov += delatFOV;
+void Camera::updateFOV(float deltaFOV) noexcept {
+	this->fov += deltaFOV;
 	updateProjection();
 }
 
