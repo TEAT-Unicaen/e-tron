@@ -30,6 +30,14 @@ App::App()
 	shaderManager.addPixelShader(renderer, L"gridPhongPS");
 	shaderManager.addPixelShader(renderer, L"instancePhongPS");
 
+	// Add meshes
+	Drawable::loadMesh("cube", Cube(renderer));
+	Drawable::loadMesh("pyramid", Pyramid(renderer));
+	Drawable::loadMesh("cylinder", Cylinder(renderer));
+	Drawable::loadMesh("sphere", Sphere(renderer));
+	Drawable::loadMesh("tore", Tore(renderer));
+	Drawable::loadMesh("cone", Cone(renderer));
+	Drawable::loadMesh("plane", Plane(renderer));
 
 	this->sceneManager = std::make_unique<SceneManager>(
 		std::make_unique<LoadingScene>(

@@ -206,7 +206,7 @@ bool GameManager::areAllPlayerDead() const noexcept {
 }
 
 std::shared_ptr<Player> GameManager::createPlayer(std::string name, int i, int y, int uniqueInt) const {
-	std::shared_ptr<Player> entity = std::make_shared<Player>(name, TCoords{ i, y }, Color::intToColor(uniqueInt), uniqueInt);
+	std::shared_ptr<Player> entity = std::make_shared<Player>(name, TCoords{ i, y }, ColorE::intToColor(uniqueInt), uniqueInt);
 	this->getMapManager()->setEntityAtCoords(entity, i, y);
 	return entity;
 }

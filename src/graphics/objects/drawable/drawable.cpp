@@ -1,6 +1,7 @@
 #include "drawable.h"
 
 ShaderManager Drawable::shaderManager;
+std::unordered_map<std::string, Mesh> Drawable::meshes;
 
 Drawable::Drawable(Renderer& renderer, const dx::XMFLOAT3 startPosition, const dx::XMFLOAT3 startRotation, const dx::XMFLOAT3 scale)
 	: position(startPosition), rotation(startRotation), scale(scale), targetPosition(startPosition), targetRotation(startRotation) {}
@@ -166,4 +167,13 @@ void Drawable::bindAll(Renderer& renderer) const noexcept(!IS_DEBUG_MODE) {
 	for (const auto& b : this->pBindables) {
 		b->bind(renderer);
 	}
+}
+
+void Drawable::loadMesh(const std::string& meshName, const Mesh& mesh) {
+	Drawable::meshes[meshName] = mesh;
+}
+
+Mesh& Drawable::getMesh(const std::string& meshName) {
+	assert("Mesh not found!" && meshes.find(meshName) != meshes.end());
+	return Drawable::meshes[meshName];
 }

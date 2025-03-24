@@ -58,7 +58,7 @@ void Grid::renderGrid() const noexcept {
 			GameEntity ent = *grid[i][j].getEntity();
 			if (ent) {
                 int padding = maxSizeName - ent.getName().size();
-                std::cout << "| " << std::setw(maxSizeName) << std::left << Color::printColoredText(ent.getColor(), ent.getName()) << std::string(padding, ' ') << " ";
+                std::cout << "| " << std::setw(maxSizeName) << std::left << ColorE::printColoredText(ent.getColor(), ent.getName()) << std::string(padding, ' ') << " ";
 			} else {
 				std::cout << "| " << std::setw(maxSizeName) << std::left << " " << " ";
 			}

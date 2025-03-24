@@ -3,27 +3,41 @@
 GameScene::GameScene(Renderer& renderer, std::string name)
 	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 5.0f, 0.0f), Color::WHITE)) {}
 
+
 void GameScene::onLoad() {
+	// load the simulation data
+	OutputDebugString("Loading simulation data...\n");
+	std::string configFilePath = "config.ini";
+	if (!std::filesystem::exists(configFilePath)) {
+		throw ETRON_EXCEPT("Config file not found");
+	}
+	ConfigLoader config(configFilePath);
+	
+
+	int numPlayers = config.getInt("num_players");
+	int size = config.getInt("grid_size", numPlayers);
+	bool rdPos = config.getBool("use_random_pos", true);
+	bool useSos = config.getBool("movement_use_SOS", false);
+	bool showEachStep = config.getBool("show_each_step", true);
+	int waitAmount = config.getInt("wait_amount", 100);
+	OutputDebugString("Simulation config loaded\n");
+
+	GameManager gameManager(size, size, numPlayers, rdPos, useSos, showEachStep, waitAmount, false, NULL);
+	//gameManager.loop();
+	OutputDebugStringA("Game loop started\n");
+
+	// load the graphics
 	std::shared_ptr<Image> pImg = std::make_shared<Image>(L"assets/img/sky.png");
 	pImg->inverse();
 	std::unique_ptr<Drawable> skyBox = std::make_unique<SkyBox>(this->renderer, pImg, 5000.0f);
 	skyBox->setPosition(dx::XMFLOAT3(0.0f, 350.0f, 0.0f));
 	this->pDrawables.push_back(std::move(skyBox));
 
-	Mesh cube = Cube(renderer);
-	Mesh squarePyramid = Pyramid(renderer);
-	Mesh cylinder = Cylinder(renderer);
-	Mesh sphere = Sphere(renderer);
-	Mesh tore = Tore(renderer);
-	Mesh cone = Cone(renderer);
-	Mesh plane = Plane(renderer);
-
-	UINT size = 100;
 	std::unique_ptr<Drawable> grid = std::make_unique<Grid3D>(
 		this->renderer,
 		size,
 		size,
-		plane
+		Drawable::getMesh("plane")
 	);
 	this->pDrawables.push_back(std::move(grid));
 
@@ -36,6 +50,11 @@ void GameScene::onLoad() {
 	this->pDrawables.push_back(std::move(motocycle));
 	
 	renderer.getCamera().setPosition(0.0f, 1.5f, 0.0f);
+
+	// wait the data
+	OutputDebugString("Waiting for the simulation to start...\n");
+	while (gameManager.isRunning()) { SLEEP(50); }
+	OutputDebugString("Simulation started\n");
 }
 
 void GameScene::handleInput(Window& wnd, float delta) {
@@ -44,7 +63,7 @@ void GameScene::handleInput(Window& wnd, float delta) {
 	float forward = 0.0f, right = 0.0f;
 	float rotX = 0.0f, rotY = 0.0f;
 	float speed = delta * 15;
-	float rotationSpeed = delta * 7.5f;
+	float rotationSpeed = delta * dx::XM_2PI;
 	float deltaFOV = 0.0f;
 
 	auto& keyEvent = wnd.keyEvent;

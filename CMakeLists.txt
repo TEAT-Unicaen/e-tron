@@ -57,8 +57,10 @@ add_custom_command(
 add_custom_target(config DEPENDS ${CMAKE_BINARY_DIR}/config.ini)
 add_dependencies(e_tron_cmd config)
 
+
 if (CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     add_executable(e_tron_directX ${DEFAULT_PROJECT_FILES} ${GRAPHICS_FILES})
+    add_dependencies(e_tron_directX config)
 
     set_target_properties(e_tron_directX PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
     target_sources(e_tron_directX PRIVATE ${CMAKE_SOURCE_DIR}/src/graphics/core/resource/resource.rc)

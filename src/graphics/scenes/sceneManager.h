@@ -32,4 +32,5 @@ private:
 	// For thread safety
 	std::atomic<bool> isLoading{ false };
 	std::mutex loadingMutex;
+	std::exception_ptr loadingException;
 };

@@ -3,7 +3,7 @@
 MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, dx::XMFLOAT3 rotation, Color color)
 	: CompositeDrawable(renderer, position, rotation) {
 
-	Mesh wheel = Cylinder(renderer);
+	Mesh wheel = Drawable::getMesh("cylinder");
 	std::unique_ptr<Drawable> pWheel1 = std::make_unique<SingleMeshDrawable>(
 		renderer,
 		dx::XMFLOAT3{ 0.0f, 0.0f, 1.0f },
@@ -26,7 +26,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 	);
 	this->addDrawable(std::move(pWheel2));
 
-	Mesh body = Cube(renderer);
+	Mesh body = Drawable::getMesh("cube");
 
 	std::unique_ptr<Drawable> pBody = std::make_unique<SingleMeshDrawable>(
 		renderer,

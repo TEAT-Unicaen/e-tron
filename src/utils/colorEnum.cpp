@@ -1,7 +1,7 @@
 #include "colorEnum.h"
 #include <iostream>
 
-std::string Color::getAnsiColor(ColorEnum color) noexcept {
+std::string ColorE::getAnsiColor(ColorEnum color) noexcept {
 	switch (color) {
 		case ColorEnum::Red:
 			return "\033[31m";
@@ -34,15 +34,15 @@ std::string Color::getAnsiColor(ColorEnum color) noexcept {
 	};
 }
 
-std::string Color::printColoredText(ColorEnum color, const std::string& text) noexcept {
+std::string ColorE::printColoredText(ColorEnum color, const std::string& text) noexcept {
 	return getAnsiColor(color) + text + "\033[0m";
 }
 
-Color::ColorEnum Color::intToColor(int value) {
+ColorE::ColorEnum ColorE::intToColor(int value) {
 	// Cap the value to 12 and reset to 0 if over
 	value = value % 12;
-	if (value >= 0 && value <= static_cast<int>(Color::ColorEnum::Gray)) {
-		return static_cast<Color::ColorEnum>(value);
+	if (value >= 0 && value <= static_cast<int>(ColorE::ColorEnum::Gray)) {
+		return static_cast<ColorE::ColorEnum>(value);
 	}
 	throw std::out_of_range("Invalid color index");
 }

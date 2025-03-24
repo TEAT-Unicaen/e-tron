@@ -6,7 +6,7 @@
 
 class Wall : public GameEntity {
 public:
-	Wall(std::string name, TCoords coords, Color::ColorEnum color, Player* owner) noexcept;
+	Wall(std::string name, TCoords coords, ColorE::ColorEnum color, Player* owner) noexcept;
 	~Wall() = default;
 
 	Player* getOwner() const noexcept;

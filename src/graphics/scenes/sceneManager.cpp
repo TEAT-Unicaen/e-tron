@@ -44,22 +44,36 @@ void SceneManager::changeScene(const std::string& sceneName) {
 
 	// Create a new thread to load the next scene in the background
 	this->loadingThread = std::thread([this, sceneName]() {
-		this->nextScene = this->scenes[sceneName].get();
-		HR;
-		CHECK_WIN32API_EXCEPT(CoInitialize(nullptr));
-		this->nextScene->onLoad();
-		CoUninitialize();
+		try {
+			this->nextScene = this->scenes.at(sceneName).get();
+			HR;
+			CHECK_WIN32API_EXCEPT(CoInitialize(nullptr));
+			this->nextScene->onLoad();
+			CoUninitialize();
+		} catch (const std::exception& e) {
+			this->loadingException = std::current_exception();
+			{
+				std::lock_guard<std::mutex> lock(this->loadingMutex);
+				this->isLoading = false;
+			}
+		}
+
 		// Once the scene is loaded, update the flag and switch to the new scene
 		{
 			std::lock_guard<std::mutex> lock(this->loadingMutex);
 			this->isLoading = false;
 		}
-		});
+	});
 
 	this->loadingThread.detach(); // Detach the thread to run independently
 }
 
 void SceneManager::update(float deltaTime) {
+	if (this->loadingException) {
+		std::rethrow_exception(this->loadingException);
+		this->loadingException = nullptr;
+	}
+
 	if (!this->isLoading && this->nextScene) {
 		// Switch to the newly loaded scene
 		this->currentScene = this->nextScene;

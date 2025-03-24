@@ -6,6 +6,7 @@
 #include "../bindable/bindable.h"
 #include "../bindable/buffers/indexBuffer.h"
 #include "../bindable/shaders/shaderManager.h"
+#include "../meshes/mesh.h"
 
 namespace dx = DirectX;
 
@@ -37,6 +38,8 @@ public:
 	void addBindable(std::shared_ptr<IndexBuffer> pIndexBuffer) noexcept(!IS_DEBUG_MODE);
 
 	static ShaderManager shaderManager;
+	static void loadMesh(const std::string& meshName, const Mesh& mesh);
+	static Mesh& getMesh(const std::string& meshName);
 protected:
 	dx::XMFLOAT3 position = dx::XMFLOAT3(0.0f, 0.0f, 0.0f);
 	dx::XMFLOAT3 rotation = dx::XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -53,4 +56,6 @@ protected:
 	
 	UINT indexCount = 0u;
 	std::vector<std::shared_ptr<Bindable>> pBindables;
+
+	static std::unordered_map<std::string, Mesh> meshes;
 };

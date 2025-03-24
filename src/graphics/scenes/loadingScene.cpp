@@ -18,7 +18,7 @@ void LoadingScene::onLoad() {
 		this->renderer,
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		pyramid,
+		Drawable::getMesh("pyramid"),
 		L"texturedVS",
 		L"texturedPS",
 		pImg
@@ -28,7 +28,7 @@ void LoadingScene::onLoad() {
 }
 
 void LoadingScene::update(float deltaTime) {
-	float rotSpeed = deltaTime * 3.0f;
+	float rotSpeed = deltaTime * dx::XM_PI;
 	this->pDrawables[0]->rotate(dx::XMFLOAT3(0.0f, rotSpeed, 0.0f), deltaTime);
 	Scene::update(deltaTime);
 	this->renderer.renderText(L"Loading...", dx::XMFLOAT2(350, 420), 16, Color::WHITE);

@@ -17,14 +17,11 @@ Light::Light(Renderer& renderer, const dx::XMFLOAT3& pos, const Color color)
 		1u
 	)) {
 
-
-	Mesh mesh = Sphere(renderer);
-
 	this->pObj = std::make_unique<SingleMeshDrawable>(
 		renderer,
 		pos,
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		mesh,
+		Drawable::getMesh("sphere"),
 		L"defaultVS",
 		L"coloredSpherePS",
 		color
