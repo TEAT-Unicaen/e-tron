@@ -8,7 +8,7 @@ Texture::Texture(Renderer& renderer, const Image& image) {
 	textureDesc.Height = image.getHeight();
 	textureDesc.MipLevels = 1u;
 	textureDesc.ArraySize = 1u;
-	textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	textureDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	textureDesc.SampleDesc.Count = 1u;
 	textureDesc.SampleDesc.Quality = 0u;
 	textureDesc.Usage = D3D11_USAGE_DEFAULT;

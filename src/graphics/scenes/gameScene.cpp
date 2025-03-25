@@ -6,7 +6,6 @@ GameScene::GameScene(Renderer& renderer, std::string name)
 
 void GameScene::onLoad() {
 	// load the simulation data
-	OutputDebugString("Loading simulation data...\n");
 	std::string configFilePath = "config.ini";
 	if (!std::filesystem::exists(configFilePath)) {
 		throw ETRON_EXCEPT("Config file not found");
@@ -25,7 +24,6 @@ void GameScene::onLoad() {
 	gameManager.loop();
 	while (!gameManager.isRunning()) { SLEEP_MS(5); }
 	SLEEP(1);
-	OutputDebugStringA("Game loop started\n");
 
 	// load the graphics
 	std::shared_ptr<Image> pImg = std::make_shared<Image>(L"assets/img/sky.png");

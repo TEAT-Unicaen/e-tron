@@ -1,53 +1,61 @@
 #include "image.h"
 
-Image::Image(const std::wstring path) {
+Image::Image(const std::wstring& path) {
 	HR;
 	// Create the WIC factory
-	Mwrl::ComPtr<IWICImagingFactory> wicFactory;
 	CHECK_WIN32API_EXCEPT(CoCreateInstance(
-		CLSID_WICImagingFactory, // The ID of the WIC factory
-		nullptr,
-		CLSCTX_INPROC_SERVER, // Execute in the same process
-		IID_PPV_ARGS(&wicFactory)
+		CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&this->wicFactory)
 	));
 
 	// Load the image
 	Mwrl::ComPtr<IWICBitmapDecoder> wicDecoder;
-	CHECK_WIN32API_EXCEPT(wicFactory->CreateDecoderFromFilename(
-		path.c_str(), // The filename
-		nullptr, // No need to specify the desired vendor
-		GENERIC_READ, // Read permission
-		WICDecodeMetadataCacheOnLoad, // Cache the metadata
-		&wicDecoder
+	CHECK_WIN32API_EXCEPT(this->wicFactory->CreateDecoderFromFilename(
+		path.c_str(), nullptr, GENERIC_READ, WICDecodeMetadataCacheOnLoad, &wicDecoder
 	));
 
-	// Get the dimensions of the image
-	Mwrl::ComPtr<IWICBitmapFrameDecode> wicFrame;
-	CHECK_WIN32API_EXCEPT(wicDecoder->GetFrame(0, wicFrame.GetAddressOf()));
-	CHECK_WIN32API_EXCEPT(wicFrame->GetSize(&this->width, &this->height));
-	
-	// Coversions
+	// Get the number of frames
+	CHECK_WIN32API_EXCEPT(wicDecoder->GetFrameCount(&this->frameCount));
+	this->currentFrameIndex = 0; // Start at the first frame
+
+	// Load all frames
+	this->frames.resize(this->frameCount);
+	for (UINT i = 0; i < this->frameCount; i++) {
+		CHECK_WIN32API_EXCEPT(wicDecoder->GetFrame(i, &this->frames[i]));
+	}
+
+	// Convert the first frame
+	this->loadFrame(0u);
+}
+
+// Load a specific frame
+void Image::loadFrame(UINT index) {
+	if (index >= this->frameCount) return;
+
+	HR;
 	Mwrl::ComPtr<IWICFormatConverter> wicConverter;
-	CHECK_WIN32API_EXCEPT(wicFactory->CreateFormatConverter(&wicConverter));
+	CHECK_WIN32API_EXCEPT(this->wicFactory->CreateFormatConverter(&wicConverter));
 	CHECK_WIN32API_EXCEPT(wicConverter->Initialize(
-		wicFrame.Get(), // The frame to convert
-		GUID_WICPixelFormat32bppPRGBA, // RBGA format
-		WICBitmapDitherTypeNone, // No dithering
-		nullptr,
-		0.0f, // Alpha transparency
-		WICBitmapPaletteTypeCustom // Custom palette
+		this->frames[index].Get(),
+		GUID_WICPixelFormat32bppPBGRA, // BGRA is optimize by Windows, Direct2D need this format
+		WICBitmapDitherTypeNone, nullptr, 0.0f, WICBitmapPaletteTypeCustom
 	));
 
-	// Get the image data
-	UINT stride = this->width * 4;// Bytes per row (4 is for each pixel)
+	// Get frame dimensions
+	CHECK_WIN32API_EXCEPT(this->frames[index]->GetSize(&this->width, &this->height));
+
+	// Allocate buffer
+	UINT stride = this->width * 4;
 	UINT bufferSize = stride * this->height;
 	this->pBuffer = std::make_unique<BYTE[]>(bufferSize);
-	CHECK_WIN32API_EXCEPT(wicConverter->CopyPixels(
-		nullptr,
-		stride,
-		bufferSize,
-		this->pBuffer.get()
-	));
+
+	// Copy frame pixels
+	CHECK_WIN32API_EXCEPT(wicConverter->CopyPixels(nullptr, stride, bufferSize, this->pBuffer.get()));
+}
+
+// Advance to next frame (for GIF animation)
+void Image::nextFrame() {
+	this->currentFrameIndex = (this->currentFrameIndex + 1) % this->frameCount;
+	loadFrame(this->currentFrameIndex);
 }
 
 UINT Image::getWidth() const noexcept {
