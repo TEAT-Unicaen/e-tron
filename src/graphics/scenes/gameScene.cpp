@@ -68,6 +68,7 @@ void GameScene::handleInput(Window& wnd, float delta) {
 	float forward = 0.0f, right = 0.0f;
 	float rotX = 0.0f, rotY = 0.0f;
 	float speed = delta * 15;
+	float fovSpeed = delta * 100;
 	float rotationSpeed = delta * dx::XM_2PI;
 	float deltaFOV = 0.0f;
 
@@ -124,8 +125,8 @@ void GameScene::handleInput(Window& wnd, float delta) {
 	if (keyEvent.keyIsPressed(VK_RIGHT)) rotY += rotationSpeed; // Rotation à droite
 
 	// Camera FOV
-	if (keyEvent.keyIsPressed('P')) deltaFOV += 1.0f;
-	if (keyEvent.keyIsPressed('M')) deltaFOV -= 1.0f;
+	if (keyEvent.keyIsPressed('P')) deltaFOV += fovSpeed;
+	if (keyEvent.keyIsPressed('M')) deltaFOV -= fovSpeed;
 
 	if (keyEvent.keyIsPressed(VK_SPACE) && !this->unspamButton) {
 		this->roundCounter++;

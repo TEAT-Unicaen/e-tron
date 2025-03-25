@@ -19,6 +19,15 @@ void Camera::setAspectRatio(float aspectRatio) noexcept {
 
 void Camera::updateFOV(float deltaFOV) noexcept {
 	this->fov += deltaFOV;
+	if (this->fov <= 0.0f) {
+		this->fov -= deltaFOV;
+		return;
+	}
+	if (this->fov >= 180.0f) {
+		this->fov -= deltaFOV;
+		return;
+	}
+
 	updateProjection();
 }
 
@@ -62,7 +71,6 @@ const dx::XMMATRIX Camera::getView() const noexcept {
 }
 
 void Camera::updateProjection() noexcept {
-	if (this->fov <= 0.0f) this->fov = 1.0f;
 	this->projection = dx::XMMatrixPerspectiveFovLH(
 		dx::XMConvertToRadians(this->fov),
 		this->aspectRatio,
