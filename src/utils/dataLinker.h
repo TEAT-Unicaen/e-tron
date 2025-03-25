@@ -11,9 +11,9 @@ public:
     //Methods 
     void addData(int id, int x, int y, int newX, int newY);
     std::vector<std::pair<int, std::vector<int>>> requestData();
-
+    std::vector<std::pair<int, std::vector<int>>> data;
 private:
 
 	//Attributes
-    std::vector<std::pair<int, std::vector<int>>> data;
+    
 };

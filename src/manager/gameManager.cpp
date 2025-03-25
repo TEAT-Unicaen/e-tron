@@ -5,6 +5,8 @@
 #include "../algorithms/moving/movingAlgorithmsManager.h"
 #include <random>
 
+#include <Windows.h>
+
 GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
 	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)) {
 

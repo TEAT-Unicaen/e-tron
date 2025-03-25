@@ -1,7 +1,7 @@
  #include "gameScene.h"
 
 GameScene::GameScene(Renderer& renderer, std::string name)
-	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 5.0f, 0.0f), Color::WHITE)) {}
+	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 5.0f, 0.0f), Color::WHITE)), dataLinker(DataLinker()) {}
 
 
 void GameScene::onLoad() {
@@ -22,8 +22,9 @@ void GameScene::onLoad() {
 	int waitAmount = config.getInt("wait_amount", 100);
 	OutputDebugString("Simulation config loaded\n");
 
-	GameManager gameManager(size, size, numPlayers, rdPos, useSos, showEachStep, waitAmount, false, NULL);
-	//gameManager.loop();
+	GameManager gameManager(size, size, numPlayers, rdPos, useSos, showEachStep, waitAmount, true, &this->dataLinker);
+	gameManager.loop();
+
 	OutputDebugStringA("Game loop started\n");
 
 	// load the graphics
@@ -53,7 +54,8 @@ void GameScene::onLoad() {
 
 	// wait the data
 	OutputDebugString("Waiting for the simulation to start...\n");
-	while (gameManager.isRunning()) { SLEEP(50); }
+	while (gameManager.isRunning()) { SLEEP(5); }
+	gameManager.stop();
 	OutputDebugString("Simulation started\n");
 }
 
@@ -132,6 +134,24 @@ void GameScene::handleInput(Window& wnd, float delta) {
 	if (keyEvent.keyIsPressed('P')) deltaFOV += 1.0f;
 	if (keyEvent.keyIsPressed('M')) deltaFOV -= 1.0f;
 
+	if (keyEvent.keyIsPressed('O')) {
+		for (auto& data : this->dataLinker.data) {
+			std::string keyStr = "Key : " + std::to_string(data.first) + "\n";
+			OutputDebugString(keyStr.c_str());
+			for (auto& dataS : data.second) {
+				std::string valStr = "Data : " + std::to_string(dataS) + "\n";
+				OutputDebugString(valStr.c_str());
+			}
+			OutputDebugStringA("\n");
+		}
+		SLEEP_MS(100);
+	}
+
+	if (keyEvent.keyIsPressed(VK_SPACE)) {
+		this->roundCounter++;
+		SLEEP_MS(100);
+	}
+
 	cam.move(forward, right, 0.0f);
 	cam.rotate(rotX, rotY, 0.0f);
 	cam.updateFOV(deltaFOV);
@@ -145,6 +165,11 @@ void GameScene::handleInput(Window& wnd, float delta) {
 }
 
 void GameScene::update(float deltaTime) {
+
+	auto& data = this->dataLinker.data.at(this->roundCounter);
+	this->pDrawables[data.first+1]->moveInTo(dx::XMFLOAT3(data.second[2], 0.1f, data.second[3]), 0.1f);
+
+
 	this->light.bind(renderer);
 	if (!this->isPaused) {
 		Scene::update(deltaTime);

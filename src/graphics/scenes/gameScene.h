@@ -29,4 +29,8 @@ public:
 private:
 	bool isPaused = false;
 	Light light;
+
+	DataLinker dataLinker;
+
+	UINT roundCounter = 0;
 };

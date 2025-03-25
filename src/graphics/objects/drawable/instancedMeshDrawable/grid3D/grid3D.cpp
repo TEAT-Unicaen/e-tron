@@ -15,8 +15,8 @@ Grid3D::Grid3D(Renderer& renderer, UINT lenght, UINT width, Mesh& mesh)
 	int widthMiddle = width / 2;
 	this->pInstanceBuffer->setMaxInstances(renderer, lenght * width);
 
-	for (int i = -lenghtMiddle; i < lenghtMiddle ; i++) {
-		for (int j = -widthMiddle ; j < widthMiddle ; j++) {
+	for (int i = 0; i < lenght ; i++) {
+		for (int j = 0 ; j < width ; j++) {
 			this->pInstanceBuffer->addInstance(
 				renderer,
 				dx::XMFLOAT3(static_cast<float>(i), 0.0f, static_cast<float>(j)),
