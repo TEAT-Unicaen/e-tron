@@ -15,16 +15,16 @@ void GameScene::onLoad() {
 	
 
 	int numPlayers = config.getInt("num_players");
-	int size = config.getInt("grid_size", numPlayers);
+	this->mapSize = config.getInt("grid_size", numPlayers);
 	bool rdPos = config.getBool("use_random_pos", true);
 	bool useSos = config.getBool("movement_use_SOS", false);
-	bool showEachStep = config.getBool("show_each_step", true);
 	int waitAmount = config.getInt("wait_amount", 100);
 	OutputDebugString("Simulation config loaded\n");
 
-	GameManager gameManager(size, size, numPlayers, rdPos, useSos, showEachStep, waitAmount, true, &this->dataLinker);
+	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, useSos, false, waitAmount, true, &this->dataLinker);
 	gameManager.loop();
-
+	while (!gameManager.isRunning()) { SLEEP_MS(5); }
+	SLEEP(1);
 	OutputDebugStringA("Game loop started\n");
 
 	// load the graphics
@@ -36,25 +36,31 @@ void GameScene::onLoad() {
 
 	std::unique_ptr<Drawable> grid = std::make_unique<Grid3D>(
 		this->renderer,
-		size,
-		size,
+		this->mapSize,
+		this->mapSize,
 		Drawable::getMesh("plane")
 	);
 	this->pDrawables.push_back(std::move(grid));
 
-	std::unique_ptr<Drawable> motocycle = std::make_unique<MotocycleDrawable>(
-		this->renderer,
-		dx::XMFLOAT3(0.0f, 0.1f, 0.0f),
-		dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
-		Color::GREEN
-	);
-	this->pDrawables.push_back(std::move(motocycle));
+	std::array<Color, 6> colors = {
+		Color::WHITE, Color::GREEN, Color::RED, Color::BLUE, Color::YELLOW, Color::CYAN
+	};
+	for (int i = 0; i < numPlayers; i++) {
+		std::pair<int, int> pos = this->dataLinker.getInitPos(i);
+		std::unique_ptr<Drawable> motocycle = std::make_unique<MotocycleDrawable>(
+			this->renderer,
+			dx::XMFLOAT3(pos.first, 0.1f, pos.second),
+			dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
+			colors[i+1]
+		);
+		this->pDrawables.push_back(std::move(motocycle));
+	}
 	
 	renderer.getCamera().setPosition(0.0f, 1.5f, 0.0f);
 
 	// wait the data
 	OutputDebugString("Waiting for the simulation to start...\n");
-	while (gameManager.isRunning()) { SLEEP(5); }
+	while (gameManager.isRunning()) { SLEEP_MS(5); }
 	gameManager.stop();
 	OutputDebugString("Simulation started\n");
 }
@@ -70,9 +76,9 @@ void GameScene::handleInput(Window& wnd, float delta) {
 
 	auto& keyEvent = wnd.keyEvent;
 
-	if (keyEvent.keyIsPressed(VK_ESCAPE)) {
+	if (keyEvent.keyIsPressed(VK_ESCAPE) && !this->unspamButton) {
 		this->isPaused = !this->isPaused;
-		SLEEP_MS(100);
+		this->unspamButton = true;
 	}
 
 	if (keyEvent.keyIsPressed('V')) {
@@ -96,16 +102,6 @@ void GameScene::handleInput(Window& wnd, float delta) {
 	if (length > 0.0f) {
 		forward = (forward / length) * speed;
 		right = (right / length) * speed;
-	}
-
-	// Object movement
-	if (keyEvent.keyIsPressed('T')) {
-		this->pDrawables[2]->moveInTo(dx::XMFLOAT3(0.0f, 0.1f, 1.0f), 0.1f);
-		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, 5050u, Color::GREEN);
-	}
-	if (keyEvent.keyIsPressed('G')) {
-		this->pDrawables[2]->moveInTo(dx::XMFLOAT3(0.0f, 0.1f, 2.0f), 0.1f);
-		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, 5051u, Color::GREEN);
 	}
 
 	// Light movement
@@ -134,22 +130,14 @@ void GameScene::handleInput(Window& wnd, float delta) {
 	if (keyEvent.keyIsPressed('P')) deltaFOV += 1.0f;
 	if (keyEvent.keyIsPressed('M')) deltaFOV -= 1.0f;
 
-	if (keyEvent.keyIsPressed('O')) {
-		for (auto& data : this->dataLinker.data) {
-			std::string keyStr = "Key : " + std::to_string(data.first) + "\n";
-			OutputDebugString(keyStr.c_str());
-			for (auto& dataS : data.second) {
-				std::string valStr = "Data : " + std::to_string(dataS) + "\n";
-				OutputDebugString(valStr.c_str());
-			}
-			OutputDebugStringA("\n");
-		}
-		SLEEP_MS(100);
+	if (keyEvent.keyIsPressed(VK_SPACE) && !this->unspamButton) {
+		this->roundCounter++;
+		this->unspamButton = true;
 	}
 
-	if (keyEvent.keyIsPressed(VK_SPACE)) {
-		this->roundCounter++;
-		SLEEP_MS(100);
+	if (keyEvent.keyIsPressed('A') && !this->unspamButton) {
+		this->autoPlay = !this->autoPlay;
+		this->unspamButton = true;
 	}
 
 	cam.move(forward, right, 0.0f);
@@ -165,10 +153,26 @@ void GameScene::handleInput(Window& wnd, float delta) {
 }
 
 void GameScene::update(float deltaTime) {
+	if (this->unspamButton) {
+		this->time += deltaTime;
+		if (this->time > 0.2f) {
+			this->time = 0.0f;
+			this->unspamButton = false;
+		}
+	}
+	if (this->autoPlay && !this->isPaused) {
+		this->roundCounter++;
+	}
+	if (this->roundCounter < this->dataLinker.getData().size()) {
+		std::array<Color, 6> colors = {
+			Color::WHITE, Color::GREEN, Color::RED, Color::BLUE, Color::YELLOW, Color::CYAN
+		};
 
-	auto& data = this->dataLinker.data.at(this->roundCounter);
-	this->pDrawables[data.first+1]->moveInTo(dx::XMFLOAT3(data.second[2], 0.1f, data.second[3]), 0.1f);
-
+		auto& data = this->dataLinker.getData().at(this->roundCounter);
+		this->pDrawables[data.id + 1]->moveInTo(dx::XMFLOAT3(data.newX, 0.1f, data.newY), 0.1f);
+		UINT slot = data.x * this->mapSize + data.y;
+		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, slot, colors[data.id]);
+	}
 
 	this->light.bind(renderer);
 	if (!this->isPaused) {

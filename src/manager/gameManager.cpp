@@ -126,7 +126,7 @@ void GameManager::threadLoop() {
 			};
 
 			// Decide the best next move
-			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->shouldUseSos, player, 3, W);
+			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->shouldUseSos, player, 7, W);
 			
 			// Coords saving before any move
 			auto [newX, newY] = res.first;

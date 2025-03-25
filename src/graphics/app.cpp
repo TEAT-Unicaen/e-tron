@@ -7,6 +7,7 @@ App::App()
 	// COM initialization
 	CHECK_WIN32API_EXCEPT(CoInitialize(nullptr));
 
+	this->wnd.keyEvent.disableAutorepeat();
 	Renderer& renderer = this->wnd.getRenderer();
 	ShaderManager& shaderManager = Drawable::shaderManager;
 

@@ -33,4 +33,10 @@ private:
 	DataLinker dataLinker;
 
 	UINT roundCounter = 0;
+	UINT mapSize = 1;
+
+	float time = 0.0f;
+	bool unspamButton = false;
+
+	bool autoPlay = false;
 };
