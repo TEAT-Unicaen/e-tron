@@ -31,7 +31,21 @@ void LoadingScene::update(float deltaTime) {
 	float rotSpeed = deltaTime * dx::XM_PI;
 	this->pDrawables[0]->rotate(dx::XMFLOAT3(0.0f, rotSpeed, 0.0f), deltaTime);
 	Scene::update(deltaTime);
-	this->renderer.renderText(L"Loading...", dx::XMFLOAT2(350, 420), 16, Color::WHITE);
+	
+	std::wstring loadingText = L"Loading";
+	for (int i = 0; i < this->points; i++) {
+		loadingText += L".";
+	}
+
+	this->renderer.renderText(loadingText, dx::XMFLOAT2(350, 420), 16, Color::WHITE);
+	this->time += deltaTime;
+	if (this->time > 0.2f) {
+		this->time = 0.0f;
+		this->points++;
+		if (this->points > 3) {
+			this->points = 0;
+		}
+	}
 }
 
 void LoadingScene::handleInput(Window& wnd, float delta) {}

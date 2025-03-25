@@ -18,10 +18,10 @@ void GameScene::onLoad() {
 	this->mapSize = config.getInt("grid_size", numPlayers);
 	bool rdPos = config.getBool("use_random_pos", true);
 	bool useSos = config.getBool("movement_use_SOS", false);
-	int waitAmount = config.getInt("wait_amount", 100);
+	this->timeAutoPlayMax = config.getInt("wait_amount", 100);
 	OutputDebugString("Simulation config loaded\n");
 
-	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, useSos, false, waitAmount, true, &this->dataLinker);
+	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, useSos, false, this->timeAutoPlayMax, true, &this->dataLinker);
 	gameManager.loop();
 	while (!gameManager.isRunning()) { SLEEP_MS(5); }
 	SLEEP(1);
@@ -55,14 +55,11 @@ void GameScene::onLoad() {
 		);
 		this->pDrawables.push_back(std::move(motocycle));
 	}
-	
-	renderer.getCamera().setPosition(0.0f, 1.5f, 0.0f);
 
-	// wait the data
-	OutputDebugString("Waiting for the simulation to start...\n");
 	while (gameManager.isRunning()) { SLEEP_MS(5); }
 	gameManager.stop();
-	OutputDebugString("Simulation started\n");
+
+	renderer.getCamera().setPosition(0.0f, 1.5f, 0.0f); // need to be here because there one camera for all scene
 }
 
 void GameScene::handleInput(Window& wnd, float delta) {
@@ -160,8 +157,12 @@ void GameScene::update(float deltaTime) {
 			this->unspamButton = false;
 		}
 	}
-	if (this->autoPlay && !this->isPaused) {
-		this->roundCounter++;
+	if (this->autoPlay) {
+		this->timeAutoPlay += deltaTime;
+		if (this->timeAutoPlay > this->timeAutoPlayMax / 1000) {
+			this->timeAutoPlay = 0.0f;
+			this->roundCounter++;
+		}
 	}
 	if (this->roundCounter < this->dataLinker.getData().size()) {
 		std::array<Color, 6> colors = {
@@ -185,5 +186,4 @@ void GameScene::update(float deltaTime) {
 		this->light.draw(renderer);
 		renderer.renderText(L"PAUSED", dx::XMFLOAT2(700, 10), 16, Color::WHITE);
 	}
-	
 }

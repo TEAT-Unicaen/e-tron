@@ -39,4 +39,6 @@ private:
 	bool unspamButton = false;
 
 	bool autoPlay = false;
+	float timeAutoPlay = 0.0f;
+	float timeAutoPlayMax = 0.1f;
 };
