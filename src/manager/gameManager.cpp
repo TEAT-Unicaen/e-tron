@@ -2,7 +2,10 @@
 #include "../entity/player.h"
 #include "../utils/colorEnum.h"
 #include "../utils/dataLinker.h"
+#include "../utils/utils.h"
+#include "../utils/affinitiesMatrixGenerator.h"
 #include <random>
+
 
 GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, MovingAlgorithmsManager::AlgoEnum algo,int depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
 	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)), depths(depths) {
@@ -114,13 +117,7 @@ void GameManager::threadLoop() {
 			if (player->isPlayerDead()) {continue;}
 
 			// Matrix of affinities
-			std::vector<std::vector<double>> W = {
-				{0.5, 1.0, 1.0, 1.0, 1.0},
-				{1.0, 0.5, 1.0, 1.0, 1.0},
-				{1.0, 1.0, 0.5, 1.0, 1.0},
-				{1.0, 1.0, 1.0, 0.5, 1.0},
-				{1.0, 1.0, 1.0, 1.0, 0.5},
-			}; // Tu es vraiment un connard de merde, de l'avoir appele W, et de ne pas le faire sur la taille des joueurs, petit con
+			std::vector<std::vector<double>> W = AffinitiesMatrixGenerator::generateRandomAffinities(this->getNumPlayers());
 
 			// Decide the best next move
 			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->algo, player, this->depths, W);
