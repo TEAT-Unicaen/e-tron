@@ -26,4 +26,5 @@ private:
 	float frameTime = 0.0f;  // Time elapsed since last frame
 	UINT frameCount = 0;     // Number of frames since last FPS calculation
 	UINT fps = 0;            // FPS count
+	bool diplaysFPS = false;
 };

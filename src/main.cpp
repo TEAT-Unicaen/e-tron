@@ -57,6 +57,7 @@ int main() {
         int size = config.getInt("grid_size", numPlayers); 
 		bool rdPos = config.getBool("use_random_pos", true);
 		bool useSos = config.getBool("movement_use_SOS", false);
+		int depths = config.getInt("depths", 3);
 		bool showEachStep = config.getBool("show_each_step", true);
 		int waitAmount = config.getInt("wait_amount", 100);
 
@@ -68,7 +69,7 @@ int main() {
         std::cout << "Wait between each step (MS) : " << waitAmount << std::endl;
 
 
-        GameManager gameManager(size, size, numPlayers, rdPos, useSos, showEachStep, waitAmount, false, NULL);
+        GameManager gameManager(size, size, numPlayers, rdPos, useSos, depths, showEachStep, waitAmount, false, NULL);
         InputManager inputManager(&gameManager, mainFunctions);
 
         // Displaying start grid

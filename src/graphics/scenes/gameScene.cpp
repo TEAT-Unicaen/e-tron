@@ -17,10 +17,11 @@ void GameScene::onLoad() {
 	this->mapSize = config.getInt("grid_size", numPlayers);
 	bool rdPos = config.getBool("use_random_pos", true);
 	bool useSos = config.getBool("movement_use_SOS", false);
+	int depths = config.getInt("depths", 3);
 	this->timeAutoPlayMax = config.getInt("wait_amount", 100);
 	OutputDebugString("Simulation config loaded\n");
 
-	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, useSos, false, this->timeAutoPlayMax, true, &this->dataLinker);
+	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, useSos, depths, false, this->timeAutoPlayMax, true, &this->dataLinker);
 	gameManager.loop();
 	while (!gameManager.isRunning()) { SLEEP_MS(5); }	
 

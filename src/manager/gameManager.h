@@ -19,7 +19,7 @@
 class GameManager {
 public:
 	// Constructor
-	GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept;
+	GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, int depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept;
 	~GameManager();
 
 	// Methods
@@ -57,6 +57,7 @@ private:
 	bool shouldDraw;
 	bool isAutomated;
 	int waitAmount;
+	int depths = 3;
 	DataLinker* dataLinkerHandle;
 	MovingAlgorithmsManager* movingAlgorithmsManager;
 	MapManager* mapManager;

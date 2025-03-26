@@ -7,8 +7,8 @@
 
 #include <Windows.h>
 
-GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
-	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)) {
+GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, int depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
+	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)), depths(depths) {
 
 	//Used for non deterministic random placement generation
 	std::random_device rd;
@@ -126,7 +126,7 @@ void GameManager::threadLoop() {
 			}; // Tu es vraiment un connard de merde, de l'avoir appele W, et de ne pas le faire sur la taille des joueurs, petit con
 
 			// Decide the best next move
-			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->shouldUseSos, player, 3, W);
+			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->shouldUseSos, player, this->depths, W);
 			
 			// Coords saving before any move
 			auto [newX, newY] = res.first;

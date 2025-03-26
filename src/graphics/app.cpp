@@ -71,6 +71,9 @@ int App::run() {
 }
 
 void App::checkInput(float delta) {
+	if (this->wnd.keyEvent.keyIsPressed(VK_DELETE)) {
+		this->diplaysFPS = !this->diplaysFPS;
+	}
 	this->sceneManager->handleInput(this->wnd, delta);
 }
 
@@ -90,7 +93,8 @@ void App::update(float delta) {
 	// Update the scene
 	renderer.fill(Color::BLACK);
 	this->sceneManager->update(delta);
-
-	renderer.renderText(L"FPS : " + std::to_wstring(this->fps), dx::XMFLOAT2(10, 10), 16, Color::WHITE);
+	if (this->diplaysFPS) {
+		renderer.renderText(L"FPS : " + std::to_wstring(this->fps), dx::XMFLOAT2(10, 10), 16, Color::WHITE);
+	}
 	renderer.render();
 }
