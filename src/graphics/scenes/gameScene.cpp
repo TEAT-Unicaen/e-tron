@@ -22,10 +22,11 @@ void GameScene::onLoad() {
 
 	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, useSos, false, this->timeAutoPlayMax, true, &this->dataLinker);
 	gameManager.loop();
-	while (!gameManager.isRunning()) { SLEEP_MS(5); }
-	SLEEP(1);
+	while (!gameManager.isRunning()) { SLEEP_MS(5); }	
 
 	// load the graphics
+	OutputDebugString("Loading Graphics\n");
+	this->pDrawables.reserve(numPlayers + 2);
 	std::shared_ptr<Image> pImg = std::make_shared<Image>(L"assets/img/sky.png");
 	pImg->inverse();
 	std::unique_ptr<Drawable> skyBox = std::make_unique<SkyBox>(this->renderer, pImg, 5000.0f);
@@ -40,16 +41,17 @@ void GameScene::onLoad() {
 	);
 	this->pDrawables.push_back(std::move(grid));
 
-	std::array<Color, 6> colors = {
-		Color::WHITE, Color::GREEN, Color::RED, Color::BLUE, Color::YELLOW, Color::CYAN
-	};
+	this->playersColors.reserve(numPlayers);
 	for (int i = 0; i < numPlayers; i++) {
+		const Color randomColor = Color::getRandomColor();
+		this->playersColors.push_back(randomColor);
 		std::pair<int, int> pos = this->dataLinker.getInitPos(i);
 		std::unique_ptr<Drawable> motocycle = std::make_unique<MotocycleDrawable>(
 			this->renderer,
 			dx::XMFLOAT3(pos.first, 0.1f, pos.second),
 			dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
-			colors[i+1]
+			randomColor
+
 		);
 		this->pDrawables.push_back(std::move(motocycle));
 	}
@@ -164,14 +166,10 @@ void GameScene::update(float deltaTime) {
 		}
 	}
 	if (this->roundCounter < this->dataLinker.getData().size()) {
-		std::array<Color, 6> colors = {
-			Color::WHITE, Color::GREEN, Color::RED, Color::BLUE, Color::YELLOW, Color::CYAN
-		};
-
 		auto& data = this->dataLinker.getData().at(this->roundCounter);
 		this->pDrawables[data.id + 1]->moveInTo(dx::XMFLOAT3(data.newX, 0.1f, data.newY), 0.1f);
 		UINT slot = data.x * this->mapSize + data.y;
-		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, slot, colors[data.id]);
+		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, slot, this->playersColors[data.id-1]);
 	}
 
 	this->light.bind(renderer);

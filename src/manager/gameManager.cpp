@@ -123,10 +123,10 @@ void GameManager::threadLoop() {
 				{1.0, 1.0, 0.5, 1.0, 1.0},
 				{1.0, 1.0, 1.0, 0.5, 1.0},
 				{1.0, 1.0, 1.0, 1.0, 0.5},
-			};
+			}; // Tu es vraiment un connard de merde, de l'avoir appele W, et de ne pas le faire sur la taille des joueurs, petit con
 
 			// Decide the best next move
-			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->shouldUseSos, player, 7, W);
+			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->shouldUseSos, player, 3, W);
 			
 			// Coords saving before any move
 			auto [newX, newY] = res.first;

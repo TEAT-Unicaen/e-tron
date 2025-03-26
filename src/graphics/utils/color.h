@@ -2,6 +2,8 @@
 
 #include "setUpWindows.h"
 #include <DirectXMath.h>
+#include <string>
+#include <random>
 
 #include <d2d1.h>
 #pragma comment(lib, "d2d1.lib")
@@ -17,6 +19,10 @@ public:
 	dx::XMFLOAT4 toFloat4() const noexcept;
 	dx::XMFLOAT3 toFloat3() const noexcept;
 	D2D1::ColorF toD2D1ColorF() const noexcept;
+
+	std::string toString() const;
+
+	static Color getRandomColor();
 
 	// Default colors
 	static const Color WHITE;

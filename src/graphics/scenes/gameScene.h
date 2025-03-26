@@ -32,6 +32,7 @@ private:
 
 	DataLinker dataLinker;
 
+	std::vector<Color> playersColors;
 	UINT roundCounter = 0;
 	UINT mapSize = 1;
 
