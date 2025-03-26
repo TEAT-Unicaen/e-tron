@@ -2,12 +2,9 @@
 #include "../entity/player.h"
 #include "../utils/colorEnum.h"
 #include "../utils/dataLinker.h"
-#include "../algorithms/moving/movingAlgorithmsManager.h"
 #include <random>
 
-#include <Windows.h>
-
-GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, bool useSos, int depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
+GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, MovingAlgorithmsManager::AlgoEnum algo,int depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
 	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)), depths(depths) {
 
 	//Used for non deterministic random placement generation
@@ -45,11 +42,11 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, boo
 
 	//Init the algorithm manager
 	movingAlgorithmsManager = new MovingAlgorithmsManager(mapManager);
-	shouldUseSos = useSos;
 	shouldDraw = drawEachStep;
 	waitAmount = waitAmountInMS;
 	isAutomated = isAutomatedCall;
 	dataLinkerHandle = dlHandler;
+	algo = algo;
 
 	//Init json writer
 
@@ -126,8 +123,8 @@ void GameManager::threadLoop() {
 			}; // Tu es vraiment un connard de merde, de l'avoir appele W, et de ne pas le faire sur la taille des joueurs, petit con
 
 			// Decide the best next move
-			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->shouldUseSos, player, this->depths, W);
-			
+			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->algo, player, this->depths, W);
+
 			// Coords saving before any move
 			auto [newX, newY] = res.first;
 			int oldX = player->getCoords().x;

@@ -2,6 +2,7 @@
 #include "./manager/inputManager.h"
 #include "./utils/mainFunctions.h"
 #include "./utils/configLoader.h"
+#include "./algorithms/moving/movingAlgorithmsManager.h"
 
 #include <iostream>
 #include <vector>
@@ -69,7 +70,7 @@ int main() {
         std::cout << "Wait between each step (MS) : " << waitAmount << std::endl;
 
 
-        GameManager gameManager(size, size, numPlayers, rdPos, useSos, depths, showEachStep, waitAmount, false, NULL);
+        GameManager gameManager(size, size, numPlayers, rdPos, MovingAlgorithmsManager::AlgoEnum::BFS, depths, showEachStep, waitAmount, false, NULL);
         InputManager inputManager(&gameManager, mainFunctions);
 
         // Displaying start grid

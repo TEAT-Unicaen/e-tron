@@ -1,4 +1,5 @@
- #include "gameScene.h"
+#include "gameScene.h"
+#include "../../algorithms/moving/movingAlgorithmsManager.h"
 
 GameScene::GameScene(Renderer& renderer, std::string name)
 	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 5.0f, 0.0f), Color::WHITE)), dataLinker(DataLinker()) {}
@@ -16,12 +17,24 @@ void GameScene::onLoad() {
 	int numPlayers = config.getInt("num_players");
 	this->mapSize = config.getInt("grid_size", numPlayers);
 	bool rdPos = config.getBool("use_random_pos", true);
-	bool useSos = config.getBool("movement_use_SOS", false);
+	std::string algo = config.getString("algo", "BFS");
 	int depths = config.getInt("depths", 3);
 	this->timeAutoPlayMax = config.getInt("wait_amount", 100);
 	OutputDebugString("Simulation config loaded\n");
 
-	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, useSos, depths, false, this->timeAutoPlayMax, true, &this->dataLinker);
+	MovingAlgorithmsManager::AlgoEnum algoEnum;
+
+	if (algo == "BFS") {
+		algoEnum = MovingAlgorithmsManager::AlgoEnum::BFS;
+	}	
+	else if (algo == "SOS") {
+		algoEnum = MovingAlgorithmsManager::AlgoEnum::SOS;
+	}
+	else {
+		algoEnum = MovingAlgorithmsManager::AlgoEnum::SMART;
+	}
+
+	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, algoEnum, depths, false, this->timeAutoPlayMax, true, &this->dataLinker);
 	gameManager.loop();
 	while (!gameManager.isRunning()) { SLEEP_MS(5); }	
 
