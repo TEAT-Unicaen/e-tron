@@ -77,8 +77,8 @@ void GameScene::onLoad() {
 			this->renderer,
 			dx::XMFLOAT3(pos.first-halfSize, 0.2f, pos.second-halfSize),
 			dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
-			randomColor
-
+			randomColor,
+			Color::DARK_GRAY
 		);
 		this->pDrawables.push_back(std::move(motocycle));
 	}

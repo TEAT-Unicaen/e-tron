@@ -8,5 +8,5 @@
 
 class MotocycleDrawable : public CompositeDrawable {
 public:
-	MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, dx::XMFLOAT3 rotation, Color color);
+	MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, dx::XMFLOAT3 rotation, Color playerColor, Color baseColor);
 };

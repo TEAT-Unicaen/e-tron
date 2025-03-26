@@ -39,6 +39,8 @@ public:
 	static const Color SILVER;
 	static const Color GRAY;
 
+	static const Color DARK_GRAY;
+
 	float r;
 	float g;
 	float b;

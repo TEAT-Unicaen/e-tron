@@ -1,6 +1,6 @@
 #include "motocycleDrawable.h"
 
-MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, dx::XMFLOAT3 rotation, Color color)
+MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, dx::XMFLOAT3 rotation, Color playerColor, Color baseColor)
 	: CompositeDrawable(renderer, position, rotation) {
 
 	// WHEELS
@@ -13,7 +13,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		Innerwheel,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	std::unique_ptr<Drawable> pOuterWheel1 = std::make_unique<SingleMeshDrawable>(
 		renderer,
@@ -22,7 +22,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		Outerwheel,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		Color::GRAY
+		baseColor
 	);
 	this->addDrawable(std::move(pInnerWheel1));
 	this->addDrawable(std::move(pOuterWheel1));
@@ -34,7 +34,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		Innerwheel,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	std::unique_ptr<Drawable> pOuterWheel2 = std::make_unique<SingleMeshDrawable>(
 		renderer,
@@ -43,7 +43,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		Outerwheel,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		Color::GRAY
+		baseColor
 	);
 	this->addDrawable(std::move(pInnerWheel2));
 	this->addDrawable(std::move(pOuterWheel2));
@@ -57,7 +57,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		body,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		Color::GRAY
+		baseColor
 	);
 	std::unique_ptr<Drawable> pOuterbase = std::make_unique<SingleMeshDrawable>(
 		renderer,
@@ -66,7 +66,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		body,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	std::unique_ptr<Drawable> pUpperbase = std::make_unique<SingleMeshDrawable>(
 		renderer,
@@ -75,7 +75,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		body,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		Color::GRAY
+		baseColor
 	);
 	std::unique_ptr<Drawable> pTopbase = std::make_unique<SingleMeshDrawable>(
 		renderer,
@@ -84,7 +84,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		body,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		Color::GRAY
+		baseColor
 	);
 	pInnerbase->setScale(dx::XMFLOAT3{ 0.35f, 0.5f, 0.9f });
 	pOuterbase->setScale(dx::XMFLOAT3{ 0.45f, 0.3f, 0.3f });
@@ -104,7 +104,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		tube,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	std::unique_ptr<Drawable> pFrontRight = std::make_unique<SingleMeshDrawable>(
 		renderer,
@@ -113,7 +113,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		tube,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	std::unique_ptr<Drawable> pBackLeft = std::make_unique<SingleMeshDrawable>(
 		renderer,
@@ -122,7 +122,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		tube,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	std::unique_ptr<Drawable> pBackRight = std::make_unique<SingleMeshDrawable>(
 		renderer,
@@ -131,7 +131,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		tube,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	std::unique_ptr<Drawable> pMiddleTop = std::make_unique<SingleMeshDrawable>(
 		renderer,
@@ -140,7 +140,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		tube,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	pFrontLeft->setScale(dx::XMFLOAT3{ 1.0f, 0.8f, 1.0f });
 	pFrontRight->setScale(dx::XMFLOAT3{ 1.0f, 0.8f, 1.0f });
@@ -162,7 +162,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		tube,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	std::unique_ptr<Drawable> pRightHandle = std::make_unique<SingleMeshDrawable>(
 		renderer,
@@ -171,7 +171,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		tube,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	pLeftHandle->setScale(dx::XMFLOAT3{ 1.0f, 0.3f, 1.0f });
 	pRightHandle->setScale(dx::XMFLOAT3{ 1.0f, 0.3f, 1.0f });
@@ -187,7 +187,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		light,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
-		color
+		playerColor
 	);
 	plight->setScale(dx::XMFLOAT3{ 0.3f, 0.3f, 0.3f });
 	this->addDrawable(std::move(plight));
