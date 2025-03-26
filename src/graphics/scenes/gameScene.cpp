@@ -42,6 +42,20 @@ void GameScene::onLoad() {
 	);
 	this->pDrawables.push_back(std::move(grid));
 
+	float halfSize = this->mapSize / 2;
+	std::unique_ptr<Drawable> grid2 = std::make_unique<SingleMeshDrawable>(
+		this->renderer,
+		dx::XMFLOAT3{ halfSize, 0.0f, halfSize },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		Drawable::getMesh("plane"),
+		L"phongVS",
+		L"coloredPhongSpherePS",
+		Color::WHITE
+	);
+	grid2->setScale(dx::XMFLOAT3(this->mapSize, 1.0f, this->mapSize));
+	grid2->setRotation(dx::XMFLOAT3(dx::XM_PI, 0.0f, 0.0f));
+	this->pDrawables.push_back(std::move(grid2));
+
 	this->playersColors.reserve(numPlayers);
 	for (int i = 0; i < numPlayers; i++) {
 		const Color randomColor = Color::getRandomColor();
@@ -168,7 +182,7 @@ void GameScene::update(float deltaTime) {
 	}
 	if (this->roundCounter < this->dataLinker.getData().size()) {
 		auto& data = this->dataLinker.getData().at(this->roundCounter);
-		this->pDrawables[data.id + 1]->moveInTo(dx::XMFLOAT3(data.newX, 0.1f, data.newY), 0.1f);
+		this->pDrawables[data.id + 2]->moveInTo(dx::XMFLOAT3(data.newX, 0.1f, data.newY), 0.1f);
 		UINT slot = data.x * this->mapSize + data.y;
 		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, slot, this->playersColors[data.id-1]);
 	}
