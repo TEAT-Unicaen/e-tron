@@ -10,6 +10,8 @@ cbuffer LightBuffer : register(b1)
     float attConst;
     float attLinear;
     float attQuad;
+    float specularIntensity;
+    float shininess;
 };
 
 cbuffer InstanceBuffer : register(b2)
@@ -40,3 +42,5 @@ float4 main(PSIn input, float4 svPos : SV_Position) : SV_Target
 
     return saturateColor(diffuseV, ambient, color[isChecker ? 0 : 1]);
 }
+
+

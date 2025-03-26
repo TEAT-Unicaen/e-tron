@@ -4,6 +4,7 @@
 
 class Grid3D : public InstancedMeshDrawable {
 public:
+
 	Grid3D(Renderer& renderer, UINT lenght, UINT width, Mesh& mesh);
 
 protected:

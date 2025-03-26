@@ -20,9 +20,24 @@ struct PSIn {
 float4 main(PSIn input) : SV_Target {
     ToL toL = toLight(lightPosition, input.viewPos);
 
-    const float att = attenuate(attConst, attLinear, attQuad, toL.dist);
+    const float att = attenuate(
+        attConst,
+        attLinear,
+        attQuad,
+        toL.dist
+    );
     
-    const float3 diffuseV = diffuse(lightColor, diffuseIntensity, att, toL.dir, input.viewNormal);
-    
-    return saturateColor(diffuseV, ambient, color[0]);
+    const float3 diffuseV = diffuse(
+        lightColor,
+        diffuseIntensity,
+        att,
+        toL.dir,
+        input.viewNormal
+    );
+
+    return saturateColor(
+        diffuseV, 
+        ambient, 
+        color[0]
+    );
 }

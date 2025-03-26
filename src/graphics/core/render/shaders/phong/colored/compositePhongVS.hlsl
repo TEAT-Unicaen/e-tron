@@ -19,10 +19,10 @@ VSOut main(float3 position : Position, float3 normal : Normal)
     float4 pos4 = float4(position, 1.0f);
 
     float4x4 realModel = mul(model, parentModel);
+    float4x4 modelView = mul(realModel, view);
+    output.viewPos = mul(pos4, modelView).xyz;
     
-    output.viewPos = mul(pos4, realModel).xyz;
-    
-    output.viewNormal = normalize(mul(normal, (float3x3) realModel));
+    output.viewNormal = normalize(mul(normal, (float3x3) modelView));
 
     float4 worldPosition = mul(pos4, realModel);
     output.position = mul(worldPosition, mul(view, projection));

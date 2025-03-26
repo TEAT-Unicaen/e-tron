@@ -9,8 +9,6 @@ public:
 	void bind(Renderer& renderer) override;
 };
 
-//
-
 template<typename ConstantData>
 void PixelConstantBuffer<ConstantData>::bind(Renderer& renderer) {
 	HR_PLUS;

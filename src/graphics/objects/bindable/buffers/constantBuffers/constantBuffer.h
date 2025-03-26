@@ -48,8 +48,9 @@ ConstantBuffer<ConstantData>::ConstantBuffer(Renderer& renderer, const ConstantD
 template<typename ConstantData>
 void ConstantBuffer<ConstantData>::update(Renderer& renderer, const ConstantData& constData) {
 	HR_PLUS;
+	auto *deviceContext = this->getDeviceContext(renderer);
 	D3D11_MAPPED_SUBRESOURCE msr;
-	CHECK_INFO_ONLY_EXCEPT(this->getDeviceContext(renderer)->Map(pConstantBuffer.Get(), 0u, D3D11_MAP_WRITE_DISCARD, 0u, &msr)); // Lock to write
+	CHECK_RENDERER_EXCEPT(deviceContext->Map(pConstantBuffer.Get(), 0u, D3D11_MAP_WRITE_DISCARD, 0u, &msr)); // Lock to write
 	memcpy(msr.pData, &constData, sizeof(constData));
-	this->getDeviceContext(renderer)->Unmap(pConstantBuffer.Get(), 0u); // Unlock
+	deviceContext->Unmap(pConstantBuffer.Get(), 0u); // Unlock
 }
