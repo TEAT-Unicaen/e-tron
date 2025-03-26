@@ -11,7 +11,11 @@ public:
 	~Light() = default;
 	void draw(Renderer& renderer);
 	void bind(Renderer& renderer);
-	dx::XMFLOAT3 position;
+	void setPosition(const dx::XMFLOAT3& pos) noexcept;
+	void setColor(Renderer& renderer, const Color color) noexcept;
+
+	dx::XMFLOAT3 getPosition() const noexcept;
+	Color getColor() const noexcept;
 private:
 	struct LightBuffer {
 		alignas(16) dx::XMFLOAT3 position;
@@ -22,8 +26,7 @@ private:
 		float attLinear;
 		float attQuad;
 	};
-
-
+	dx::XMFLOAT3 position;
 	Color color;
 	std::unique_ptr<Drawable> pObj;
 	LightBuffer lightBufferData;

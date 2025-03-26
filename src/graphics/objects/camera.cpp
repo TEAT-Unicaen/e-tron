@@ -41,6 +41,10 @@ void Camera::setRotation(float x, float y, float z) noexcept {
 	updateView();
 }
 
+dx::XMFLOAT3 Camera::getPosition() const noexcept {
+	return this->position;
+}
+
 void Camera::move(float forward, float right, float up) noexcept {
 	const auto pos = dx::XMLoadFloat3(&this->position);
 

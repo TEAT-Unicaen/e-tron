@@ -1,8 +1,6 @@
 #include <random>
 #include "./affinitiesMatrixGenerator.h"
 
-AffinitiesMatrixGenerator::AffinitiesMatrixGenerator() {}
-
 std::vector<std::vector<double>> AffinitiesMatrixGenerator::generateRandomAffinities(int numPlayers)
 {
     std::vector<std::vector<double>> matrix(numPlayers, std::vector<double>(numPlayers));

@@ -15,6 +15,7 @@
 // simulation logic
 #include "../../utils/configLoader.h"
 #include "../../manager/gameManager.h"
+#include "../../algorithms/moving/movingAlgorithmsManager.h"
 
 
 class GameScene : public Scene {

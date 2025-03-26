@@ -1,8 +1,8 @@
 #include "gameScene.h"
-#include "../../algorithms/moving/movingAlgorithmsManager.h"
+
 
 GameScene::GameScene(Renderer& renderer, std::string name)
-	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 5.0f, 0.0f), Color::WHITE)), dataLinker(DataLinker()) {}
+	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 2.0f, 0.0f), Color::WHITE)), dataLinker(DataLinker()) {}
 
 
 void GameScene::onLoad() {
@@ -20,7 +20,6 @@ void GameScene::onLoad() {
 	std::string algo = config.getString("algo", "BFS");
 	int depths = config.getInt("depths", 3);
 	this->timeAutoPlayMax = config.getInt("wait_amount", 100);
-	OutputDebugString("Simulation config loaded\n");
 
 	MovingAlgorithmsManager::AlgoEnum algoEnum;
 
@@ -36,38 +35,38 @@ void GameScene::onLoad() {
 
 	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, algoEnum, depths, false, this->timeAutoPlayMax, true, &this->dataLinker);
 	gameManager.loop();
-	while (!gameManager.isRunning()) { SLEEP_MS(5); }	
+	while (!gameManager.isRunning()) { SLEEP_MS(5); }
 
 	// load the graphics
-	OutputDebugString("Loading Graphics\n");
 	this->pDrawables.reserve(numPlayers + 2);
 	std::shared_ptr<Image> pImg = std::make_shared<Image>(L"assets/img/sky.png");
 	pImg->inverse();
 	std::unique_ptr<Drawable> skyBox = std::make_unique<SkyBox>(this->renderer, pImg, 5000.0f);
 	skyBox->setPosition(dx::XMFLOAT3(0.0f, 350.0f, 0.0f));
 	this->pDrawables.push_back(std::move(skyBox));
-
+	float halfSize = this->mapSize / 2;
 	std::unique_ptr<Drawable> grid = std::make_unique<Grid3D>(
 		this->renderer,
 		this->mapSize,
 		this->mapSize,
 		Drawable::getMesh("plane")
 	);
+	grid->setPosition(dx::XMFLOAT3(-halfSize, 0.0f, -halfSize));
 	this->pDrawables.push_back(std::move(grid));
 
-	float halfSize = this->mapSize / 2;
-	std::unique_ptr<Drawable> grid2 = std::make_unique<SingleMeshDrawable>(
+	
+	std::unique_ptr<Drawable> underGrid = std::make_unique<SingleMeshDrawable>(
 		this->renderer,
-		dx::XMFLOAT3{ halfSize, 0.0f, halfSize },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		Drawable::getMesh("plane"),
 		L"phongVS",
 		L"coloredPhongSpherePS",
 		Color::WHITE
 	);
-	grid2->setScale(dx::XMFLOAT3(this->mapSize, 1.0f, this->mapSize));
-	grid2->setRotation(dx::XMFLOAT3(dx::XM_PI, 0.0f, 0.0f));
-	this->pDrawables.push_back(std::move(grid2));
+	underGrid->setScale(dx::XMFLOAT3(this->mapSize, 1.0f, this->mapSize));
+	underGrid->setRotation(dx::XMFLOAT3(dx::XM_PI, 0.0f, 0.0f));
+	this->pDrawables.push_back(std::move(underGrid));
 
 	this->playersColors.reserve(numPlayers);
 	for (int i = 0; i < numPlayers; i++) {
@@ -76,7 +75,7 @@ void GameScene::onLoad() {
 		std::pair<int, int> pos = this->dataLinker.getInitPos(i);
 		std::unique_ptr<Drawable> motocycle = std::make_unique<MotocycleDrawable>(
 			this->renderer,
-			dx::XMFLOAT3(pos.first, 0.1f, pos.second),
+			dx::XMFLOAT3(pos.first-halfSize, 0.2f, pos.second-halfSize),
 			dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
 			randomColor
 
@@ -130,21 +129,7 @@ void GameScene::handleInput(Window& wnd, float delta) {
 		right = (right / length) * speed;
 	}
 
-	// Light movement
-	float lightSpeed = 10 * delta;
-	if (keyEvent.keyIsPressed('I')) {
-		this->light.position.y += lightSpeed;
-	}
-	if (keyEvent.keyIsPressed('K')) {
-		this->light.position.y -= lightSpeed;
-	}
-	if (keyEvent.keyIsPressed('J')) {
-		this->light.position.x -= lightSpeed;
-	}
-	if (keyEvent.keyIsPressed('L')) {
-		this->light.position.x += lightSpeed;
-	}
-
+	if (keyEvent.keyIsPressed('C')) this->light.setColor(renderer, Color::getRandomColor());
 
 	// Camera rotation
 	if (keyEvent.keyIsPressed(VK_UP)) rotX -= rotationSpeed; // Rotation vers le bas
@@ -186,7 +171,7 @@ void GameScene::update(float deltaTime) {
 			this->unspamButton = false;
 		}
 	}
-	if (this->autoPlay) {
+	if (this->autoPlay && !this->isPaused) {
 		this->timeAutoPlay += deltaTime;
 		if (this->timeAutoPlay > this->timeAutoPlayMax / 1000) {
 			this->timeAutoPlay = 0.0f;
@@ -195,7 +180,8 @@ void GameScene::update(float deltaTime) {
 	}
 	if (this->roundCounter < this->dataLinker.getData().size()) {
 		auto& data = this->dataLinker.getData().at(this->roundCounter);
-		this->pDrawables[data.id + 2]->moveInTo(dx::XMFLOAT3(data.newX, 0.1f, data.newY), 0.1f);
+		float halfSize = this->mapSize / 2;
+		this->pDrawables[data.id + 2]->moveInTo(dx::XMFLOAT3(data.newX-halfSize, 0.2f, data.newY-halfSize), 0.1f);
 		UINT slot = data.x * this->mapSize + data.y;
 		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, slot, this->playersColors[data.id-1]);
 	}

@@ -6,7 +6,7 @@ Light::Light(Renderer& renderer, const dx::XMFLOAT3& pos, const Color color)
 		pos,
 		color.toFloat3(),
 		dx::XMFLOAT3{0.4f, 0.4f, 0.4f},
-		50.0f,
+		1.0f,
 		1.0f,
 		0.045f,
 		0.0075f
@@ -40,4 +40,30 @@ void Light::bind(Renderer& renderer) {
 
 	this->lightBuffer.update(renderer, this->lightBufferData);
 	this->lightBuffer.bind(renderer);
+}
+
+void Light::setPosition(const dx::XMFLOAT3& pos) noexcept {
+	this->position = pos;
+}
+
+void Light::setColor(Renderer& renderer, const Color color) noexcept {
+	this->color = color;
+	this->pObj.release();
+	this->pObj = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		this->position,
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		Drawable::getMesh("sphere"),
+		L"defaultVS",
+		L"coloredSpherePS",
+		color
+	);
+}
+
+dx::XMFLOAT3 Light::getPosition() const noexcept {
+	return this->position;
+}
+
+Color Light::getColor() const noexcept {
+	return this->color;
 }
