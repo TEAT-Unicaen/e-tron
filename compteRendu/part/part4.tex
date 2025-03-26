@@ -1,0 +1,25 @@
+\section{Comment structurer le projet ?}
+Le projet consiste à développer un jeu inspiré de Tron, où plusieurs joueurs contrôlent des motos lumineuses qui laissent un mur derrière elles. Le but est d'éviter de percuter un mur placé par une autre joueur ou sois même, tout en tentant de piéger les adversaires. Ce projet nécessitera la mise en place d’une logique de jeu fluide ainsi qu’un rendu graphique performant.
+
+\subsection{Le jeu de Tron}
+Pour concrétiser le jeu en code, nous avons adopté une approche modulaire en représentant le plateau sous forme d’une grille, où chaque case peut contenir différents types d’entités. Les principales entités du jeu incluent les murs, qui définissent les limites et les obstacles, ainsi que les joueurs, qui se déplacent tour par tour en fonction d’un algorithme de décision qui leur est assigné.
+Chaque joueur suit un algorithme spécifique qui détermine sa prochaine action en fonction de l’état actuel de la grille. Cet algorithme permet comme MAXN ou Paranoid d’anticiper les mouvements adverses. À chaque tour, les joueurs exécutent leur algorithme, choisissent une direction, et mettent à jour la grille en conséquence. Le jeu se poursuit jusqu’à ce qu’il ne reste plus qu’un seul joueur en vie ou qu’une condition de fin soit atteinte.
+Ce modèle permet une grande flexibilité : il est facile d’expérimenter avec différents algorithmes d’IA en remplaçant simplement l’algorithme de décision d’un joueur, sans modifier la structure générale du jeu.
+
+\subsection{Choix technologiques}
+Pour réaliser ce projet, plusieurs technologies ont été sélectionnées afin d’assurer un bon équilibre entre performance, rendu graphique et analyse des parties jouées :
+\begin{itemize}
+    \item Amand a été chargé de s'occuper de la transcription des algorithmes pseudo-code dans le jeu de Tron
+    \item Théo a réalisé la structure du jeu et s'est occupé de la question scientifique en analysant les données obtenues par les algorithmes et en affichant les résultats dans une page en react
+    \item Jonathan et Tom on pu s'occuper d'une partie visuel avec une fenêtre sous Windows32 et un moteur de jeu en DirectX11
+\end{itemize}
+Cette combinaison de technologies nous a permis d’optimiser à la fois les performances du jeu, la gestion des calculs et l’analyse des résultats, tout en relevant un défi technique stimulant.
+
+\subsection{Présentation de l'architecture du projet}
+La structure du projet
+
+\subsubsection{Représentation avec Gource}
+
+\subsubsection{Structure plus précise}
+
+

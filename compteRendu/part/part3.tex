@@ -1,0 +1,47 @@
+\section{Quels algorithmes pour répondre ?}
+Leur utilisation, leur fonctionnement et leur lien avec le projet
+Dans notre projet de jeu de Tron, l'intelligence artificielle joue un rôle central. Nous avons exploré plusieurs approches pour permettre aux agents de prendre des décisions stratégiques. Deux familles d'algorithmes se sont avérées particulièrement pertinentes : \textbf{Minimax} (avec ses variantes \textbf{MAXN} et \textbf{Paranoid}) et une méthode inspirée de \textbf{SOS (Socially Oriented Search)} pour la gestion des équipes. Ces méthodes étaient explicitement demandées dans les attendus du projet.
+
+\subsection{Minimax}
+Le Minimax est un algorithme décisionnel classiquement utilisé dans les jeux à information parfaite comme les échecs ou le go. Il repose sur une évaluation récursive des coups possibles, cherchant à minimiser les pertes tout en maximisant les gains. Cependant, dans un jeu comme Tron, qui peut inclure plusieurs joueurs et des interactions complexes, nous avons exploré deux variantes plus adaptées : \textbf{MAXN} et \textbf{Paranoid}.
+Un seul de ces deux algorithmes était requis, mais nous avons pris la décision d'implémenter les deux dans notre projet car le temps nous le permettait.
+
+\subsubsection{MAXN}
+Le Minimax standard est conçu pour des jeux à deux joueurs, alternant entre un joueur qui maximise et un joueur qui minimise. Or, dans un jeu multi-joueur comme Tron, il faut un algorithme capable d'évaluer plusieurs adversaires simultanément.
+Le MAXN est une extension naturelle du Minimax aux jeux à plus de deux joueurs. Son fonctionnement repose sur une évaluation de chaque action non pas sous un simple critère de maximisation/minimisation binaire, mais en attribuant une valeur à chaque joueur.
+Utilisation dans notre projet :
+\begin{itemize}
+    \item Amand a été chargé de s'occuper de la transcription des algorithmes pseudo-code dans le jeu de Tron
+    \item Théo a réalisé la structure du jeu et s'est occupé de la question scientifique en analysant les données obtenues par les algorithmes et en affichant les résultats dans une page en react
+    \item Jonathan et Tom on pu s'occuper d'une partie visuel avec une fenêtre sous Windows32 et un moteur de jeu en DirectX11
+\end{itemize}
+Cette approche permet une prise de décision plus naturelle en situation multi-joueur, mais elle suppose que chaque joueur agit de manière strictement rationnelle, ce qui n'est pas toujours le cas dans une partie réelle.
+
+\subsubsection{Paranoid}
+Contrairement à MAXN, qui considère chaque joueur comme une entité indépendante maximisant son propre score, Paranoid adapte Minimax à un cadre multi-joueur en supposant que tous les adversaires sont alignés contre le joueur actif.
+Dans cette approche :
+\begin{itemize}
+    \item Amand a été chargé de s'occuper de la transcription des algorithmes pseudo-code dans le jeu de Tron
+    \item Théo a réalisé la structure du jeu et s'est occupé de la question scientifique en analysant les données obtenues par les algorithmes et en affichant les résultats dans une page en react
+    \item Jonathan et Tom on pu s'occuper d'une partie visuel avec une fenêtre sous Windows32 et un moteur de jeu en DirectX11
+\end{itemize}
+Pourquoi utiliser Paranoid ?
+\begin{itemize}
+    \item Amand a été chargé de s'occuper de la transcription des algorithmes pseudo-code dans le jeu de Tron
+    \item Théo a réalisé la structure du jeu et s'est occupé de la question scientifique en analysant les données obtenues par les algorithmes et en affichant les résultats dans une page en react
+    \item Jonathan et Tom on pu s'occuper d'une partie visuel avec une fenêtre sous Windows32 et un moteur de jeu en DirectX11
+\end{itemize}
+
+\subsubsection{Comparaison entre MAXN et Paranoid}
+\begin{itemize}
+    \item Amand a été chargé de s'occuper de la transcription des algorithmes pseudo-code dans le jeu de Tron
+    \item Théo a réalisé la structure du jeu et s'est occupé de la question scientifique en analysant les données obtenues par les algorithmes et en affichant les résultats dans une page en react
+    \item Jonathan et Tom on pu s'occuper d'une partie visuel avec une fenêtre sous Windows32 et un moteur de jeu en DirectX11
+\end{itemize}
+Dans notre projet, nous avons implémenté les deux méthodes car nous avons estimé qu'il valait mieux disposer d'un large éventail de résultats statistiques. Nous analyserons ultérieurement les performances de ces approches et verrons si nos hypothèses sur leurs avantages respectifs sont confirmées par les résultats expérimentaux.
+
+\subsection{Spécifier des équipes en s'inspirant de SOS}
+
+\subsection{Conclusion provisoire}
+L'IA dans notre jeu de Tron repose donc sur des algorithmes avancés de prise de décision et d'organisation des joueurs. MAXN et Paranoid permettent d'aborder différemment les défis du jeu multi-joueur, tandis que l'utilisation d'une méthode inspirée de SOS nous a permis de structurer les équipes de façon efficace.
+Ces approches faisaient partie des exigences du projet et ont été implémentées pour évaluer leurs performances respectives. Nous verrons par la suite si nos estimations initiales concernant leur efficacité et leur pertinence se confirment avec les résultats obtenus en simulation.

@@ -3,43 +3,194 @@
 MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, dx::XMFLOAT3 rotation, Color color)
 	: CompositeDrawable(renderer, position, rotation) {
 
-	Mesh wheel = Drawable::getMesh("cylinder");
-	std::unique_ptr<Drawable> pWheel1 = std::make_unique<SingleMeshDrawable>(
+	// WHEELS
+	Mesh Innerwheel = Drawable::getMesh("Innerwheel");
+	Mesh Outerwheel = Drawable::getMesh("Outerwheel");
+	std::unique_ptr<Drawable> pInnerWheel1 = std::make_unique<SingleMeshDrawable>(
 		renderer,
-		dx::XMFLOAT3{ 0.0f, 0.0f, 1.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.9f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, dx::XM_PIDIV2},
-		wheel,
+		Innerwheel,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
 		color
 	);
-	this->addDrawable(std::move(pWheel1));
-
-	std::unique_ptr<Drawable> pWheel2 = std::make_unique<SingleMeshDrawable>(
+	std::unique_ptr<Drawable> pOuterWheel1 = std::make_unique<SingleMeshDrawable>(
 		renderer,
-		dx::XMFLOAT3{ 0.0f, 0.0f, -1.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.9f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, dx::XM_PIDIV2 },
-		wheel,
+		Outerwheel,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		Color::GRAY
+	);
+	this->addDrawable(std::move(pInnerWheel1));
+	this->addDrawable(std::move(pOuterWheel1));
+
+	std::unique_ptr<Drawable> pInnerWheel2 = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ 0.0f, 0.0f, -0.9f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, dx::XM_PIDIV2 },
+		Innerwheel,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
 		color
 	);
-	this->addDrawable(std::move(pWheel2));
-
-	Mesh body = Drawable::getMesh("cube");
-
-	std::unique_ptr<Drawable> pBody = std::make_unique<SingleMeshDrawable>(
+	std::unique_ptr<Drawable> pOuterWheel2 = std::make_unique<SingleMeshDrawable>(
 		renderer,
-		dx::XMFLOAT3{ 0.0f, 0.5f, 0.0f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, -0.9f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, dx::XM_PIDIV2 },
+		Outerwheel,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		Color::GRAY
+	);
+	this->addDrawable(std::move(pInnerWheel2));
+	this->addDrawable(std::move(pOuterWheel2));
+
+	// BODY
+	Mesh body = Drawable::getMesh("cube");
+	std::unique_ptr<Drawable> pInnerbase = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ 0.0f, 0.0f, -0.2f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		body,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		Color::GRAY
+	);
+	std::unique_ptr<Drawable> pOuterbase = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		body,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
 		color
 	);
-	pBody->setScale(dx::XMFLOAT3{ 0.5f, 1.0f, 1.0f });
-	this->addDrawable(std::move(pBody));
+	std::unique_ptr<Drawable> pUpperbase = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ 0.0f, 0.4f, 0.2f },
+		dx::XMFLOAT3{ 4.0f, 0.0f, 0.0f },
+		body,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		Color::GRAY
+	);
+	std::unique_ptr<Drawable> pTopbase = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ 0.0f, 0.82f, 0.67f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		body,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		Color::GRAY
+	);
+	pInnerbase->setScale(dx::XMFLOAT3{ 0.35f, 0.5f, 0.9f });
+	pOuterbase->setScale(dx::XMFLOAT3{ 0.45f, 0.3f, 0.3f });
+	pUpperbase->setScale(dx::XMFLOAT3{ 0.30f, 1.4f, 0.50f });
+	pTopbase->setScale(dx::XMFLOAT3{ 0.30f, 0.4f, 0.4f });
+	this->addDrawable(std::move(pInnerbase));
+	this->addDrawable(std::move(pOuterbase));
+	this->addDrawable(std::move(pUpperbase));
+	this->addDrawable(std::move(pTopbase));
 
+	// TUBE
+	Mesh tube = Drawable::getMesh("tube");
+	std::unique_ptr<Drawable> pFrontLeft = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ -0.2f, 0.65f, 0.75f },
+		dx::XMFLOAT3{ 2.75f, 0.0f, 0.0f },
+		tube,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		color
+	);
+	std::unique_ptr<Drawable> pFrontRight = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ 0.2f, 0.65f, 0.75f },
+		dx::XMFLOAT3{ 2.75f, 0.0f, 0.0f },
+		tube,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		color
+	);
+	std::unique_ptr<Drawable> pBackLeft = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ -0.2f, 0.0f, -0.3f },
+		dx::XMFLOAT3{ dx::XM_PIDIV2, 0.0f, 0.0f },
+		tube,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		color
+	);
+	std::unique_ptr<Drawable> pBackRight = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ 0.2f, 0.0f, -0.3f },
+		dx::XMFLOAT3{ dx::XM_PIDIV2, 0.0f, 0.0f },
+		tube,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		color
+	);
+	std::unique_ptr<Drawable> pMiddleTop = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ 0.0f, 1.0f, 0.57f },
+		dx::XMFLOAT3{ dx::XM_PIDIV2, 0.0f, dx::XM_PIDIV2 },
+		tube,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		color
+	);
+	pFrontLeft->setScale(dx::XMFLOAT3{ 1.0f, 0.8f, 1.0f });
+	pFrontRight->setScale(dx::XMFLOAT3{ 1.0f, 0.8f, 1.0f });
+	this->addDrawable(std::move(pFrontLeft));
+	this->addDrawable(std::move(pFrontRight));
+	pBackLeft->setScale(dx::XMFLOAT3{ 1.0f, 0.9f, 1.0f });
+	pBackRight->setScale(dx::XMFLOAT3{ 1.0f, 0.9f, 1.0f });
+	this->addDrawable(std::move(pBackLeft));
+	this->addDrawable(std::move(pBackRight));
+	pMiddleTop->setScale(dx::XMFLOAT3{ 1.0f, 0.5f, 1.0f });
+	this->addDrawable(std::move(pMiddleTop));
+
+
+	// HANDLEBAR
+	std::unique_ptr<Drawable> pLeftHandle = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ -0.35f, 0.99f, 0.5f },
+		dx::XMFLOAT3{ dx::XM_PIDIV2 - 0.3f, 0.0f, -1.0f },
+		tube,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		color
+	);
+	std::unique_ptr<Drawable> pRightHandle = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ 0.35f, 0.99f, 0.5f },
+		dx::XMFLOAT3{ dx::XM_PIDIV2 -0.3f, 0.0f, 1.0f }, //dx::XM_PI
+		tube,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		color
+	);
+	pLeftHandle->setScale(dx::XMFLOAT3{ 1.0f, 0.3f, 1.0f });
+	pRightHandle->setScale(dx::XMFLOAT3{ 1.0f, 0.3f, 1.0f });
+	this->addDrawable(std::move(pLeftHandle));
+	this->addDrawable(std::move(pRightHandle));
+
+	// LIGHTS
+	Mesh light = Drawable::getMesh("sphere");
+	std::unique_ptr<Drawable> plight = std::make_unique<SingleMeshDrawable>(
+		renderer,
+		dx::XMFLOAT3{ 0.0f, 0.8f, 0.8f },
+		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
+		light,
+		L"compositePhongVS",
+		L"coloredPhongSpherePS",
+		color
+	);
+	plight->setScale(dx::XMFLOAT3{ 0.3f, 0.3f, 0.3f });
+	this->addDrawable(std::move(plight));
 
 	float scale = 1.0f / 3.0f;
 	this->setScale(dx::XMFLOAT3{ scale, scale, scale });
