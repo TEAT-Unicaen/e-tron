@@ -1,8 +1,19 @@
 #include "lightManager.h"
 
 LightManager::LightManager(Renderer& renderer)
-	: lightsBuffer(PixelStructuredBuffer<Light::LightBuffer>(renderer, 10u, 1u)) {
+	: lightsBuffer(PixelStructuredBuffer<Light::LightBuffer>(renderer, 10u, 1u)),
+	lightConstantBufferData({
+		0u,
+		dx::XMFLOAT3(0.3f, 0.3f, 0.3f)
+	}),
+
+	lightConstantBuffer(
+		renderer,
+		this->lightConstantBufferData,
+		1u
+	) {
 	this->pLights.reserve(10);
+
 }
 
 void LightManager::drawAll(Renderer& renderer) {
@@ -12,11 +23,13 @@ void LightManager::drawAll(Renderer& renderer) {
 
 void LightManager::bindAll(Renderer& renderer) {
 	this->updateBuffer(renderer);
+	this->lightConstantBuffer.bind(renderer);
 	this->lightsBuffer.bind(renderer);
 }
 
 void LightManager::addLight(const std::shared_ptr<Light>& light) {
 	this->pLights.emplace_back(light);
+	this->lightConstantBufferData.numLight += 1;
 	this->needToUpdateBuffer = true;
 }
 
@@ -35,5 +48,6 @@ void LightManager::updateBuffer(Renderer& renderer) {
 	for (auto& light : this->pLights)
 		lightData.push_back(light->getLightBufferData());
 	this->lightsBuffer.update(renderer, lightData);
+	this->lightConstantBuffer.update(renderer, this->lightConstantBufferData);
 	this->needToUpdateBuffer = false;
 }

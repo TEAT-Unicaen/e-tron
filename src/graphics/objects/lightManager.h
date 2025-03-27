@@ -2,6 +2,7 @@
 
 #include "../core/render/renderer.h"
 #include "bindable/buffers/structuredBuffer/pixelStructuredBuffer.h"
+#include "bindable/buffers/constantBuffers/pixelConstantBuffer.h"
 #include "light.h"
 
 class LightManager {
@@ -17,8 +18,15 @@ public:
 
 	std::shared_ptr<Light>& getLight(size_t index);
 private:
+	struct LightConstantBuffer {
+		UINT numLight;
+		dx::XMFLOAT3 ambient;
+	};
 	void updateBuffer(Renderer& renderer);
 	bool needToUpdateBuffer = false;
 	std::vector<std::shared_ptr<Light>> pLights;
 	PixelStructuredBuffer<Light::LightBuffer> lightsBuffer;
+
+	LightConstantBuffer lightConstantBufferData;
+	PixelConstantBuffer<LightConstantBuffer> lightConstantBuffer;
 };

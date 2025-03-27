@@ -2,10 +2,14 @@
 #define __PHONG_HLSL__
 
 // DATA
+cbuffer LightConstantBuffer : register(b1) {
+    uint numLights;
+    float3 ambient;
+};
+
 struct LightBuffer {
     float3 lightPosition;
     float3 lightColor;
-    float3 ambient;
     float diffuseIntensity;
     float attConst;
     float attLinear;

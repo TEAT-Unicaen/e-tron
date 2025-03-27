@@ -10,7 +10,6 @@ public:
 	struct LightBuffer {
 		dx::XMFLOAT3 position;
 		dx::XMFLOAT3 color;
-		dx::XMFLOAT3 ambient;
 		float diffuseIntensity;
 		float attConst;
 		float attLinear;
