@@ -158,7 +158,11 @@ void GameScene::handleInput(Window& wnd, float delta) {
 	if (keyEvent.keyIsPressed('M')) deltaFOV -= fovSpeed;
 
 	if (keyEvent.keyIsPressed(VK_SPACE) && !this->unspamButton) {
-		this->roundCounter++;
+		if (this->start) {
+			this->roundCounter++;
+		} else {
+			this->start = true;
+		}
 		this->unspamButton = true;
 	}
 
@@ -191,10 +195,14 @@ void GameScene::update(float deltaTime) {
 		this->timeAutoPlay += deltaTime;
 		if (this->timeAutoPlay > this->timeAutoPlayMax / 1000) {
 			this->timeAutoPlay = 0.0f;
-			this->roundCounter++;
+			if (this->start) {
+				this->roundCounter++;
+			} else {
+				this->start = true;
+			}
 		}
 	}
-	if (this->roundCounter < this->dataLinker.getData().size()) {
+	if (this->start && this->roundCounter < this->dataLinker.getData().size()) {
 		auto& data = this->dataLinker.getData().at(this->roundCounter);
 		if (data.isAlive) {
 			float halfSize = this->mapSize / 2;
@@ -213,12 +221,10 @@ void GameScene::update(float deltaTime) {
 	this->lightManager.bindAll(renderer);
 	if (!this->isPaused) {
 		Scene::update(deltaTime);
-		//this->lightManager.drawAll(renderer);
 	} else {
 		for (auto& pDrawable : this->pDrawables) {
 			pDrawable->draw(renderer);
 		}
-		this->lightManager.drawAll(renderer);
 		renderer.renderText(L"PAUSED", dx::XMFLOAT2(700, 10), 16, Color::WHITE);
 	}
 

@@ -17,7 +17,7 @@ Renderer::Renderer(HWND hwnd, int width, int height)
 	scd.OutputWindow = hwnd;
 	scd.Windowed = TRUE;
 	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; // Discard the previous buffer
-	scd.Flags = 0;
+	scd.Flags = 0u;
 
 	UINT swapChainCreateFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT; // for the 2D renderer
 #ifndef NDEBUG

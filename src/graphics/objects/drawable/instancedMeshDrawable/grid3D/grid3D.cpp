@@ -21,7 +21,7 @@ Grid3D::Grid3D(Renderer& renderer, UINT lenght, UINT width, Mesh& mesh)
 				renderer,
 				dx::XMFLOAT3(static_cast<float>(i), 0.0f, static_cast<float>(j)),
 				dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
-				(i + j) % 2 ? Color::WHITE : Color::BLACK
+				(i + j) % 2 ? Color::WHITE : Color::DARK_GRAY
 			);
 		}
 	}

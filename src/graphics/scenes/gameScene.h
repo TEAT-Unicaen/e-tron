@@ -39,6 +39,7 @@ private:
 	std::vector<Color> playersColors;
 	UINT roundCounter = 0;
 	UINT mapSize = 1;
+	bool start = false;
 
 	float time = 0.0f;
 	bool unspamButton = false;
