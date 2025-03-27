@@ -41,14 +41,14 @@ Window::Window(int width, int height, const char* name, bool handleCloseButton)
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0) {
+	if (AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE) == 0) {
 		throw WINDOW_LAST_EXCEPT();
 	}
 
 	this->hWnd = CreateWindowEx(
 		0, Window::WindowClass::getName(),
 		name,
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, Window::WindowClass::getInstance(), this
 	);
@@ -133,6 +133,14 @@ LRESULT Window::handleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		break;
 	case WM_KILLFOCUS:
 		keyEvent.clearState();
+		break;
+	case WM_SIZE:
+		if (wParam != SIZE_MINIMIZED) {
+			if (pt.x == this->width && pt.y == this->height) {
+				break;
+			}
+			this->pRenderer->resize(pt.x, pt.y);
+		}
 		break;
 	case WM_KEYDOWN:
 	case WM_SYSKEYDOWN:

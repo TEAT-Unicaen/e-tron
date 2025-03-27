@@ -194,3 +194,74 @@ void Renderer::renderText(const std::wstring& text, const dx::XMFLOAT2& position
 void Renderer::setVSync(bool vsync) {
 	this->syncInterval = vsync ? 1u : 0u;
 }
+
+void Renderer::resize(int newWidth, int newHeight) {
+	if (newWidth == 0 || newHeight == 0) return; // Éviter un resize inutile
+
+	// Relâcher les ressources dépendantes du swap chain
+	this->pRenderTargetView.Reset();
+	this->pDepthStencilView.Reset();
+	this->pD2DRenderTarget.Reset();
+
+	// Redimensionner le swap chain
+	HRESULT hr = this->pSwapChain->ResizeBuffers(0, newWidth, newHeight, DXGI_FORMAT_UNKNOWN, 0);
+	if (FAILED(hr)) {
+		throw RENDERER_EXCEPT(hr);
+	}
+
+	// Recréer le Render Target View
+	Mwrl::ComPtr<ID3D11Texture2D> pBackBuffer;
+	CHECK_RENDERER_EXCEPT(this->pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)));
+	CHECK_RENDERER_EXCEPT(this->pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, &this->pRenderTargetView));
+
+	// Recréer le Depth Stencil Buffer
+	D3D11_TEXTURE2D_DESC td = {};
+	td.Width = newWidth;
+	td.Height = newHeight;
+	td.MipLevels = 1u;
+	td.ArraySize = 1u;
+	td.Format = DXGI_FORMAT_D32_FLOAT;
+	td.SampleDesc.Count = 1u;
+	td.SampleDesc.Quality = 0u;
+	td.Usage = D3D11_USAGE_DEFAULT;
+	td.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+
+	Mwrl::ComPtr<ID3D11Texture2D> pDepthStencil;
+	CHECK_RENDERER_EXCEPT(this->pDevice->CreateTexture2D(&td, nullptr, &pDepthStencil));
+
+	// Recréer la Depth Stencil View
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvd = {};
+	dsvd.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvd.Texture2D.MipSlice = 0u;
+	CHECK_RENDERER_EXCEPT(this->pDevice->CreateDepthStencilView(pDepthStencil.Get(), &dsvd, &this->pDepthStencilView));
+
+	this->pDeviceContext->OMSetRenderTargets(1u, this->pRenderTargetView.GetAddressOf(), this->pDepthStencilView.Get());
+
+	// Mettre à jour le viewport
+	D3D11_VIEWPORT viewport = {};
+	viewport.Width = static_cast<float>(newWidth);
+	viewport.Height = static_cast<float>(newHeight);
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
+	viewport.TopLeftX = 0.0f;
+	viewport.TopLeftY = 0.0f;
+	this->pDeviceContext->RSSetViewports(1u, &viewport);
+
+	// Recréer le render target pour Direct2D
+	Mwrl::ComPtr<IDXGISurface> pBackBufferDxgi;
+	CHECK_RENDERER_EXCEPT(this->pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBufferDxgi)));
+
+	D2D1_RENDER_TARGET_PROPERTIES rtProps = D2D1::RenderTargetProperties(
+		D2D1_RENDER_TARGET_TYPE_HARDWARE,
+		D2D1::PixelFormat(DXGI_FORMAT_R8G8B8A8_UNORM, D2D1_ALPHA_MODE_IGNORE),
+		0.0f, 0.0f,
+		D2D1_RENDER_TARGET_USAGE_NONE,
+		D2D1_FEATURE_LEVEL_DEFAULT
+	);
+
+	CHECK_RENDERER_EXCEPT(this->pD2DFactory->CreateDxgiSurfaceRenderTarget(pBackBufferDxgi.Get(), &rtProps, &this->pD2DRenderTarget));
+
+	// Mettre à jour l'aspect ratio de la caméra
+	this->camera.setAspectRatio(static_cast<float>(newWidth) / static_cast<float>(newHeight));
+}

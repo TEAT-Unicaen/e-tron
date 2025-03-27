@@ -45,6 +45,10 @@ dx::XMFLOAT3 Camera::getPosition() const noexcept {
 	return this->position;
 }
 
+float Camera::getAspectRatio() const noexcept {
+	return this->aspectRatio;
+}
+
 void Camera::move(float forward, float right, float up) noexcept {
 	const auto pos = dx::XMLoadFloat3(&this->position);
 

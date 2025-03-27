@@ -35,6 +35,7 @@ public:
 	dx::XMMATRIX getView()const noexcept;
 	void renderText(const std::wstring& text, const dx::XMFLOAT2& position, float size, Color color);
 	void setVSync(bool vsync);
+	void resize(int newWidth, int newHeight);
 private:
 	Camera camera;
 	UINT syncInterval = 0u; // 0u for immediate, 1u for vsync

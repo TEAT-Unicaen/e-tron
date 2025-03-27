@@ -19,6 +19,7 @@ public:
 	void setRotation(float x, float y, float z) noexcept;
 
 	dx::XMFLOAT3 getPosition() const noexcept;
+	float getAspectRatio() const noexcept;
 
 	void move(float x, float y, float z) noexcept;
 	void rotate(float x, float y, float z) noexcept;
