@@ -186,7 +186,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
 		lightM,
 		L"compositePhongVS",
-		L"coloredPhongSpherePS",
+		L"coloredSpherePS",
 		playerColor
 	);
 
@@ -200,8 +200,7 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 
 void MotocycleDrawable::update(float delta) noexcept {
 	dx::XMFLOAT3 pos = this->position;
-	pos.y = 0.5f;
-
+	pos.y += 0.5f;
 	this->pLight->setPosition(pos);
 	CompositeDrawable::update(delta);
 }

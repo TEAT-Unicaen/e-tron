@@ -32,7 +32,7 @@ Color Color::getRandomColor() {
         float luminance = 0.2126f * r + 0.7152f * g + 0.0722f * b;
 
         // Vérifier que la couleur n'est ni trop sombre ni trop claire
-        if (luminance > 0.2f && luminance < 0.8f) {
+        if (luminance > 0.4f && luminance < 0.8f) {
             color = Color(r, g, b, 1.0f);
             break;
         }

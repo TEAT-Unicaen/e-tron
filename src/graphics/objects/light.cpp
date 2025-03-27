@@ -5,7 +5,7 @@ Light::Light(Renderer& renderer, const dx::XMFLOAT3& pos, const Color color)
 	lightBufferData(LightBuffer{
 		pos,
 		color.toFloat3(),
-		3.0f,
+		10.0f,
 		1.0f,
 		0.045f,
 		0.0075f
@@ -20,6 +20,7 @@ Light::Light(Renderer& renderer, const dx::XMFLOAT3& pos, const Color color)
 		L"coloredSpherePS",
 		color
 	);
+	pObj->setScale(dx::XMFLOAT3{ 0.1f, 0.1f, 0.1f });
 }
 
 void Light::draw(Renderer& renderer) {

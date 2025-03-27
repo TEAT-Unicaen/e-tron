@@ -180,14 +180,18 @@ void GameScene::update(float deltaTime) {
 	}
 	if (this->roundCounter < this->dataLinker.getData().size()) {
 		auto& data = this->dataLinker.getData().at(this->roundCounter);
-		float halfSize = this->mapSize / 2;
-		dx::XMFLOAT3 oldPos = this->pDrawables[data.id + 2]->getPosition();
-		dx::XMFLOAT3 newPos = dx::XMFLOAT3(data.newX - halfSize, 0.2f, data.newY - halfSize);
-		dx::XMFLOAT3 rotationValue = this->getRotateValue(oldPos, newPos);
-		this->pDrawables[data.id + 2]->moveInTo(newPos, 0.1f);
-		this->pDrawables[data.id + 2]->rotateInTo(rotationValue, 0.1f);
-		UINT slot = data.x * this->mapSize + data.y;
-		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, slot, this->playersColors[data.id-1]);
+		if (data.isAlive) {
+			float halfSize = this->mapSize / 2;
+			dx::XMFLOAT3 oldPos = this->pDrawables[data.id + 2]->getPosition();
+			dx::XMFLOAT3 newPos = dx::XMFLOAT3(data.newX - halfSize, 0.2f, data.newY - halfSize);
+			dx::XMFLOAT3 rotationValue = this->getRotateValue(oldPos, newPos);
+
+			this->pDrawables[data.id + 2]->moveInTo(newPos, 0.1f);
+			this->pDrawables[data.id + 2]->rotateInTo(rotationValue, 0.1f);
+			UINT slot = data.x * this->mapSize + data.y;
+			static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, slot, this->playersColors[data.id - 1]);
+		}
+
 	}
 
 	this->lightManager.bindAll(renderer);
