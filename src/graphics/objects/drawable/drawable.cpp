@@ -6,6 +6,9 @@ std::unordered_map<std::string, Mesh> Drawable::meshes;
 Drawable::Drawable(Renderer& renderer, const dx::XMFLOAT3 startPosition, const dx::XMFLOAT3 startRotation, const dx::XMFLOAT3 scale)
 	: position(startPosition), rotation(startRotation), scale(scale), targetPosition(startPosition), targetRotation(startRotation) {}
 
+dx::XMFLOAT3 Drawable::getPosition() const noexcept {
+	return this->position;
+}
 
 void Drawable::setPosition(dx::XMFLOAT3 position) noexcept {
 	this->position = position;

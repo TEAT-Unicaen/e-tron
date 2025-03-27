@@ -28,6 +28,9 @@ public:
 	void handleInput(Window& wnd, float delta) override;
 
 private:
+
+	dx::XMFLOAT3 getRotateValue(dx::XMFLOAT3 oldPos, dx::XMFLOAT3 newPos);
+
 	bool isPaused = false;
 	LightManager lightManager;
 

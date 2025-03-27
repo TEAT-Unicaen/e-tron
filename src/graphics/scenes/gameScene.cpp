@@ -181,7 +181,11 @@ void GameScene::update(float deltaTime) {
 	if (this->roundCounter < this->dataLinker.getData().size()) {
 		auto& data = this->dataLinker.getData().at(this->roundCounter);
 		float halfSize = this->mapSize / 2;
-		this->pDrawables[data.id + 2]->moveInTo(dx::XMFLOAT3(data.newX-halfSize, 0.2f, data.newY-halfSize), 0.1f);
+		dx::XMFLOAT3 oldPos = this->pDrawables[data.id + 2]->getPosition();
+		dx::XMFLOAT3 newPos = dx::XMFLOAT3(data.newX - halfSize, 0.2f, data.newY - halfSize);
+		dx::XMFLOAT3 rotationValue = this->getRotateValue(oldPos, newPos);
+		this->pDrawables[data.id + 2]->moveInTo(newPos, 0.1f);
+		this->pDrawables[data.id + 2]->rotateInTo(rotationValue, 0.1f);
 		UINT slot = data.x * this->mapSize + data.y;
 		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, slot, this->playersColors[data.id-1]);
 	}
@@ -197,4 +201,15 @@ void GameScene::update(float deltaTime) {
 		this->lightManager.drawAll(renderer);
 		renderer.renderText(L"PAUSED", dx::XMFLOAT2(700, 10), 16, Color::WHITE);
 	}
+
+}
+
+dx::XMFLOAT3 GameScene::getRotateValue(dx::XMFLOAT3 oldPos, dx::XMFLOAT3 newPos) {
+	dx::XMFLOAT3 diff = dx::XMFLOAT3(
+		newPos.x - oldPos.x,
+		newPos.y - oldPos.y,
+		newPos.z - oldPos.z
+	);
+	float angle = atan2(diff.x, diff.z);
+	return dx::XMFLOAT3(0.0f, angle, 0.0f);
 }

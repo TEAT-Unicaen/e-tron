@@ -17,6 +17,8 @@ public:
 	Drawable(const Drawable&) = delete;
 	virtual ~Drawable() = default;
 
+	dx::XMFLOAT3 getPosition() const noexcept;
+
 	void setPosition(dx::XMFLOAT3 position) noexcept;
 	void setRotation(dx::XMFLOAT3 rotation) noexcept;
 	void setVelocity(dx::XMFLOAT3 velocity) noexcept;
