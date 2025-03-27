@@ -19,7 +19,7 @@
 class GameManager {
 public:
 	// Constructor
-	GameManager(int line, int column, int numPlyrs, bool randomPos, MovingAlgorithmsManager::AlgoEnum algo, int depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept;
+	GameManager(int line, int column, int numPlyrs, bool randomPos, MovingAlgorithmsManager::AlgoEnum algo, std::vector<int> depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept;
 	~GameManager();
 
 	// Methods
@@ -53,11 +53,10 @@ private:
 	bool pause = false;
 	bool stopCmd = false;
 	bool effectivelyPaused = false;
-	bool shouldUseSos;
 	bool shouldDraw;
 	bool isAutomated;
 	int waitAmount;
-	int depths = 3;
+	std::vector<int> depths;
 	MovingAlgorithmsManager::AlgoEnum algo;
 	DataLinker* dataLinkerHandle;
 	MovingAlgorithmsManager* movingAlgorithmsManager;

@@ -57,19 +57,23 @@ int main() {
 		int numPlayers = config.getInt("num_players");
         int size = config.getInt("grid_size", numPlayers); 
 		bool rdPos = config.getBool("use_random_pos", true);
-		bool useSos = config.getBool("movement_use_SOS", false);
-		int depths = config.getInt("depths", 3);
+		int depthsMin = config.getInt("depths_min", 3);
+        int depthsInterval = config.getInt("depths_interval", 3);
 		bool showEachStep = config.getBool("show_each_step", true);
 		int waitAmount = config.getInt("wait_amount", 100);
 
 		std::cout << "Grid size : " << size << std::endl;
 		std::cout << "Number of players : " << numPlayers << std::endl;
 		std::cout << "Random position : " << rdPos << std::endl;
-		std::cout << "Use SOS : " << useSos << std::endl;
 		std::cout << "Show each step : " << showEachStep << std::endl;
         std::cout << "Wait between each step (MS) : " << waitAmount << std::endl;
 
+        std::vector<int> depths(numPlayers);
 
+        for (int i = 0; i < numPlayers; i++) {
+            depths[i] = ((i / depthsInterval) + 1) * depthsInterval;
+        }
+        
         GameManager gameManager(size, size, numPlayers, rdPos, MovingAlgorithmsManager::AlgoEnum::BFS, depths, showEachStep, waitAmount, false, NULL);
         InputManager inputManager(&gameManager, mainFunctions);
 

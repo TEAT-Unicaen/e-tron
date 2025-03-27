@@ -7,8 +7,8 @@
 #include <random>
 
 
-GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, MovingAlgorithmsManager::AlgoEnum algo,int depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
-	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)), depths(depths) {
+GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, MovingAlgorithmsManager::AlgoEnum algo, std::vector<int> depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
+	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)), algo(algo), depths(depths) {
 
 	//Used for non deterministic random placement generation
 	std::random_device rd;
@@ -16,10 +16,15 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, Mov
 	std::uniform_int_distribution<> disLine(0, line - 1); // Uniformise in the given range
 	std::uniform_int_distribution<> disColumn(0, column - 1); // Same as above for cols
 
+	this->dataLogManager = new DataLogManager();
+	this->dataLogManager->addLog("numPlayers", numPlyrs);
 
     // Create players and store them in a vector
-    for (int i = 1; i <= numPlyrs; i++) {
+    for (int i = 0; i <= numPlyrs-1; i++) {
 		std::shared_ptr<Player> p;
+
+		this->dataLogManager->addLog("p" + std::to_string(i), depths[i]);
+
 		bool positionSet = false;
 		while (!positionSet) {
 			if (randomPos) {
@@ -59,12 +64,8 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, Mov
 
 	std::ostringstream oss;
 	oss << "result_" << millis << ".json";
-
-	this->dataLogManager = new DataLogManager();
 	this->jsonWriter = new JsonWriter(oss.str());
 	std::cout << "Output file will be : " << oss.str() << std::endl;
-
-	this->dataLogManager->addLog("numPlayers", numPlyrs);
 }
 
 GameManager::~GameManager() {
@@ -111,7 +112,7 @@ void GameManager::threadLoop() {
 			this->effectivelyPaused = true;
 			continue;
 		}
-
+		int i = 0;
 		// Auto move the players
 		for (auto& player : pVector) {
 			if (player->isPlayerDead()) {continue;}
@@ -120,7 +121,7 @@ void GameManager::threadLoop() {
 			std::vector<std::vector<double>> W = AffinitiesMatrixGenerator::generateRandomAffinities(this->getNumPlayers());
 
 			// Decide the best next move
-			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->algo, player, this->depths, W);
+			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->algo, player, this->depths[i++], W);
 
 			// Coords saving before any move
 			auto [newX, newY] = res.first;
