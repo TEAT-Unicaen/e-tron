@@ -57,6 +57,14 @@ En plus des algorithmes de prise de décision individuelle, nous avons cherché 
 \end{itemize}
 Cette approche, bien que différente des résolutions classiques des jeux de stratégie, nous a permis d'obtenir des parties plus dynamiques et plus intéressantes à observer. Nous évaluerons ultérieurement l'impact réel de ce modèle sur la compétitivité et l'équilibre des parties.
 
+\subsection{AutoMoveBFS : un algorithme supplémentaire pour l'exploration}
+Bien que cet algorithme n'ait pas été explicitement demandé, nous avons décidé de l'ajouter afin d'améliorer la capacité du joueur à se déplacer de manière autonome en fonction de l’espace disponible. \\
+L'algorithme \textbf{AutoMoveBFS} utilise une approche de recherche en largeur \textbf{(BFS – Breadth-First Search)} pour évaluer la zone accessible depuis une position donnée. Son fonctionnement se déroule en deux étapes principales :
+\begin{itemize}
+    \item \textbf{Calcul de la zone accessible (bfsArea)} : À partir de la position actuelle du joueur, une exploration en largeur est réalisée pour compter le nombre de cases atteignables. Une file (queue) est utilisée pour parcourir la carte, et un ensemble de cases visitées empêche de repasser sur les mêmes positions. L’objectif est d’évaluer la taille de la zone accessible depuis une position donnée.
+    \item \textbf{Choix du meilleur déplacement (decideMoveBFS)} : Le joueur teste chaque mouvement possible et simule son déplacement. Pour chaque position atteignable, la fonction bfsArea est appelée pour estimer la taille de la zone qui serait accessible après ce déplacement. Une fois toutes les options évaluées, le mouvement qui offre la plus grande liberté de déplacement est sélectionné.
+\end{itemize}
+Cet algorithme permet ainsi d’optimiser les déplacements du joueur en favorisant les zones offrant le plus grand espace exploitable, ce qui peut être utile pour éviter les blocages et maximiser les options stratégiques.
+
 \subsection{Conclusion provisoire}
 L'IA dans notre jeu de Tron repose donc sur des algorithmes avancés de prise de décision et d'organisation des joueurs. \textbf{MAXN} et \textbf{Paranoid} permettent d'aborder différemment les défis du jeu multi-joueur, tandis que l'utilisation d'une méthode inspirée de \textbf{SOS} nous a permis de structurer les équipes de façon efficace.
-Ces approches faisaient partie des exigences du projet et ont été implémentées pour évaluer leurs performances respectives. Nous verrons par la suite si nos estimations initiales concernant leur efficacité et leur pertinence se confirment avec les résultats obtenus en simulation.

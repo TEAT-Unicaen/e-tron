@@ -8,7 +8,7 @@ Dans les sections suivantes, nous détaillerons le fonctionnement du moteur grap
 Le fonctionnement du moteur graphique repose sur une architecture assez technique, mais dans cette section, nous allons volontairement éviter les détails trop complexes pour nous concentrer sur l’idée générale. \\
 Le jeu tourne à l’intérieur d’une application principale qui gère la création et le rendu de scènes. Une \textbf{scène} représente un état visuel du jeu à un instant donné, et elle est composée d’un ensemble d’objets que nous appelons des \textbf{Drawables}. La scène principale du jeu, celle qui affiche tout ce qui se passe pendant une partie, est appelée GameScene. \\
 Les \textbf{Drawables} sont les briques de base de l’affichage. Chaque Drawable représente un objet du jeu (joueur, mur, grille, etc.). Ils sont répartis en trois grandes familles : SingleMeshDrawable, InstanceMeshDrawable et CompositeDrawable, que nous détaillerons plus tard. De manière générale, un Drawable contient un \textbf{Mesh}, c’est-à-dire une structure composée de points \textbf{(vertices)} et de triangles \textbf{(indices)} qui permet de modéliser des formes simples comme un cube ou un cylindre. \\
-Le rôle d’un \textbf{Drawable} est d’être préparé pour le rendu. Cela signifie qu’il doit rassembler toutes les données nécessaires (position, couleur, texture, etc.) et les transmettre efficacement à DirectX. Pour cela, nous utilisons des \textbf{Bindables}, qui agissent comme des \textbf{wrappers} autour des appels nécessaires à l’envoi des buffers. Ces buffers, déjà créés en amont, sont ensuite intégrés dans le \textbf{pipeline} de rendu de DirectX. \\
+Le rôle d’un \textbf{Drawable} est d’être préparé pour le rendu. Cela signifie qu’il doit rassembler toutes les données nécessaires (position, couleur, texture, etc.) et les transmettre efficacement à DirectX. Pour cela, nous utilisons des \textbf{Bindables}, qui agissent comme des \textbf{wrappers} autour des appels nécessaires à l’envoi des buffers. Ces buffers, déjà créés en amont, sont ensuite intégrés dans le \textbf{pipeline} de rendu de DirectX. Puisque DirectX repose sur le modèle \textbf{COM (Component Object Model)}, nous avons utilisé des pointeurs intelligents (ComPtr) pour gérer automatiquement la durée de vie des objets et éviter les fuites mémoire. \\
 Une fois ces données correctement mises en mémoire, des \textbf{Shaders} prennent le relais pour effectuer les calculs indispensables, notamment le positionnement des objets dans la scène (via les matrices de transformation) et l’application des effets visuels comme la gestion de la lumière ou des couleurs. \\
 Enfin, tout ce rendu est affiché via un Renderer basé sur DirectX 11, intégré dans une fenêtre native Windows32, ce qui nous permet d’avoir un affichage fluide et contrôlé à bas niveau. \\
 Cette structure nous permet d’avoir un système modulaire et optimisé, dans lequel chaque élément du jeu est clairement défini, facilement manipulable, et intégré de façon cohérente dans la scène graphique globale. \\
@@ -58,6 +58,34 @@ Le système de caméra repose sur la détection des événements clavier, ce qui
 TODO
 
 \subsection{Mise en place du jeu dans le visuel}
-TODO
+Pour assurer la liaison entre la logique du jeu et son affichage, nous utilisons un \textbf{DataLinker}. Plutôt que de mettre à jour l’ensemble de la grille à chaque tour, ce qui serait inefficace, nous avons choisi d’optimiser le processus en enregistrant uniquement les informations essentielles : les déplacements des joueurs et leur état. À chaque mise à jour, \textbf{GameScene} récupère ces données et applique les transformations nécessaires aux objets correspondants. Cette approche permet de réduire la charge de calcul tout en assurant une synchronisation fluide et précise entre le gameplay et le rendu visuel sous DirectX.
 
 \subsection{Quelque exemples}
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/GraphicAllMesh.png}
+        \caption{Les meshs du jeu sous leur forme brute} 
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/GraphicLoadingScreen.png}
+        \caption{Rendu du menu de chargement du jeu}
+    \end{minipage}
+    
+    \vspace{1em} % Espacement vertical entre les lignes
+    
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/GraphicFirstGame.png}
+        \caption{Premiers tests du jeu avec une grille et des joueurs}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/GraphicFinalGame.png}
+        \caption{Rendu final du jeu avec une grille et des joueurs}
+    \end{minipage}
+\end{figure}

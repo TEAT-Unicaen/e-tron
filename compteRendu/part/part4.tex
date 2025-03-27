@@ -9,10 +9,12 @@ Ce modèle permet une grande flexibilité : il est facile d’expérimenter avec
 \subsection{Choix technologiques}
 Pour réaliser ce projet, plusieurs technologies ont été sélectionnées afin d’assurer un bon équilibre entre performance, rendu graphique et analyse des parties jouées :
 \begin{itemize}
-    \item \textbf{C++}  : Nous avons choisi C++ car, après avoir largement travaillé avec Java et Python durant nos trois années de licence, nous souhaitions explorer un langage plus bas niveau, réputé pour sa rapidité et son efficacité. C’était également un challenge intéressant qui nous permettait de mieux comprendre la gestion fine de la mémoire et d’optimiser les performances du jeu.
-    \item \textbf{DirectX 11} : Nous avons décidé d’utiliser DirectX 11 afin d’éviter les bibliothèques graphiques intermédiaires et travailler directement à un niveau plus bas pour mieux maîtriser le rendu. Cette approche nous a permis d’avoir un contrôle total sur l’affichage, d’assurer un rendu fluide et optimisé, et d’explorer en profondeur le fonctionnement d’un moteur graphique minimaliste.
+    \item \textbf{C++} : Nous avons choisi C++ car, après avoir largement travaillé avec Java et Python durant nos trois années de licence, nous souhaitions explorer un langage plus bas niveau, réputé pour sa rapidité et son efficacité. C’était également un challenge intéressant qui nous permettait de mieux comprendre la gestion fine de la mémoire et d’optimiser les performances du jeu.
+    \item \textbf{CMake} : CMake a été choisi pour sa capacité à gérer la compilation de manière efficace et à s’adapter à différents environnements de développement. Cela nous a permis de simplifier le processus de construction du projet et d’assurer une portabilité entre différentes plateformes.
+	\item \textbf{DirectX 11} : Nous avons décidé d’utiliser DirectX 11 afin d’éviter les bibliothèques graphiques intermédiaires et travailler directement à un niveau plus bas pour mieux maîtriser le rendu. Cette approche nous a permis d’avoir un contrôle total sur l’affichage, d’assurer un rendu fluide et optimisé, et d’explorer en profondeur le fonctionnement d’un moteur graphique minimaliste.
     \item \textbf{Multithreading} : Le multithreading a été utilisé pour améliorer la fluidité et l’efficacité du jeu. Nous avons séparé le calcul des algorithmes des joueurs du moteur de jeu lui-même afin d’éviter les blocages et d’assurer une exécution réactive. De plus, nous avons intégré le multithreading dans DirectX 11 pour afficher un écran de chargement pendant que les indices et vertices du jeu sont calculés, améliorant ainsi l’expérience utilisateur.
     \item \textbf{React} : Nous avons utilisé React pour créer une interface web permettant d’afficher et d’analyser les statistiques des parties. Cela inclut le suivi détaillé des actions des joueurs, la visualisation des décisions prises à chaque tour, ainsi que l’exploitation des données sous forme de graphiques et d’indicateurs pertinents. React nous a semblé être un choix pertinent pour présenter ces informations de manière claire, interactive et esthétique.
+	\item \textbf{Double Git}: Pour pouvoir profiter pleinement de ce projet pour notre avenir, nous avons mis en place un double git afin de mettre le projet non seulement sur la forge pour le rendu de l’UE, mais aussi sur Github pour pouvoir garder ce projet et ses commits de notre côté après la fin de l’année.
 \end{itemize}
 Cette combinaison de technologies nous a permis d’optimiser à la fois les performances du jeu, la gestion des calculs et l’analyse des résultats, tout en relevant un défi technique stimulant.
 
@@ -42,7 +44,7 @@ Les managers vont relier ces fichiers ensemble pour faire le jeu et envoyer les 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.99\textwidth]{images/ExcalidrawGraphics.png}
+	\includegraphics[width=0.9\textwidth]{images/ExcalidrawGraphics.png}
 	\label{ExcalidrawGraphics}
 	\caption{Représentation du projet par fichier et package important}
 \end{figure}
