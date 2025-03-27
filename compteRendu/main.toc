@@ -1,0 +1,55 @@
+\babel@toc {french}{}\relax 
+\contentsline {section}{\numberline {1}Jeu de Tron multi-joueur et coalitions}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Description du projet}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Répartition des tâches}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Plan du rapport}{2}{subsection.1.3}%
+\contentsline {section}{\numberline {2}Objectif du projet}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}La Problématique}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Nos intérrogations}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Nos ambitions}{4}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Quels algorithmes pour répondre ?}{5}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Minimax}{5}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}MAXN}{5}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}Paranoid}{6}{subsubsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.3}Comparaison entre MAXN et Paranoid}{6}{subsubsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.2}Spécifier des équipes en s'inspirant de SOS}{6}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}AutoMoveBFS : un algorithme supplémentaire pour l'exploration}{7}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Conclusion provisoire}{7}{subsection.3.4}%
+\contentsline {section}{\numberline {4}Comment structurer le projet ?}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Le jeu de Tron}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Choix technologiques}{8}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Présentation de l'architecture du projet}{9}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Représentation avec Gource}{9}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Structure plus précise}{11}{subsubsection.4.3.2}%
+\contentsline {section}{\numberline {5}Le visuel en DirectX11}{12}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Le rendu visuel du jeu}{12}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Fonctionnement du moteur graphique}{12}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Optimisation du rendu et fluidité}{13}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Utilisation des Constant Buffers}{13}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Mise en place d’un écran de chargement}{13}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Optimisation du rendu avec l’Instancing}{13}{subsubsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.4}Fix des rechargements inutiles des shaders}{14}{subsubsection.5.3.4}%
+\contentsline {subsubsection}{\numberline {5.3.5}Bilan des optimisations}{14}{subsubsection.5.3.5}%
+\contentsline {subsection}{\numberline {5.4}Effet visuel et expérience utilisateur}{15}{subsection.5.4}%
+\contentsline {subsubsection}{\numberline {5.4.1}Lumière}{15}{subsubsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.2}Textures}{15}{subsubsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.3}Skybox}{15}{subsubsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {5.4.4}Caméra}{15}{subsubsection.5.4.4}%
+\contentsline {subsubsection}{\numberline {5.4.5}Musique et son}{15}{subsubsection.5.4.5}%
+\contentsline {subsection}{\numberline {5.5}Mise en place du jeu dans le visuel}{16}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Quelque exemples}{16}{subsection.5.6}%
+\contentsline {section}{\numberline {6}Analyse des Fonctionnalités et Résultats de la Page React}{17}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Fonctionnalités de la Page React}{17}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Analyse des Résultats}{17}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Identification d'un Seuil d'Exploration}{17}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Mesure des Performances en Fonction de la Profondeur}{17}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}Équilibre entre Coût et Gain Stratégique}{17}{subsubsection.6.2.3}%
+\contentsline {section}{\numberline {7}Comment aller plus loin ?}{18}{section.7}%
+\contentsline {subsection}{\numberline {7.1}A travers les algorithmes }{18}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}MCTS (Monte Carlo Tree Search)}{18}{subsubsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.2}Alpha-Beta Pruning pour un jeu à deux joueurs}{18}{subsubsection.7.1.2}%
+\contentsline {subsubsection}{\numberline {7.1.3}Conclusion}{18}{subsubsection.7.1.3}%
+\contentsline {subsection}{\numberline {7.2}A travers le rendu graphique}{19}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}L'animation}{19}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.2}La gestion de mesh externe}{19}{subsubsection.7.2.2}%
+\contentsline {subsubsection}{\numberline {7.2.3}Conclusion}{19}{subsubsection.7.2.3}%
