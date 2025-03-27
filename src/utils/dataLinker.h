@@ -16,9 +16,10 @@ public:
 		int y;
 		int newX;
 		int newY;
+		bool isAlive = true;
 	};
     //Methods 
-	void addData(int id, int x, int y, int newX, int newY);
+	void addData(int id, int x, int y, int newX, int newY, bool isAlive);
     std::vector<DataLinker::Data>& getData();
 	std::pair<int, int> DataLinker::getInitPos(int id);
 private:

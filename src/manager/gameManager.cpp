@@ -160,7 +160,7 @@ void GameManager::threadLoop() {
 
 			//Draw the map
 			if (this->isAutomated) {
-				dataLinkerHandle->addData(player->getId(), oldX, oldY, newX, newY);
+				dataLinkerHandle->addData(player->getId(), oldX, oldY, newX, newY, player->isPlayerDead());
 			} else if (this->shouldDraw) {
 				std::cout << "\033[2J\033[H";
 				this->draw();
