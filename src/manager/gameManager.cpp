@@ -3,9 +3,7 @@
 #include "../utils/colorEnum.h"
 #include "../utils/dataLinker.h"
 #include "../utils/utils.h"
-#include "../utils/affinitiesMatrixGenerator.h"
 #include <random>
-
 
 GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, MovingAlgorithmsManager::AlgoEnum algo, std::vector<int> depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
 	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)), depths(depths) {
@@ -117,11 +115,8 @@ void GameManager::threadLoop() {
 		for (auto& player : pVector) {
 			if (player->isPlayerDead()) {continue;}
 
-			// Matrix of affinities
-			std::vector<std::vector<double>> W = AffinitiesMatrixGenerator::generateRandomAffinities(this->getNumPlayers());
-
 			// Decide the best next move
-			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->algo, player, this->depths[i++], W);
+			std::pair<std::pair<int, int>, int> res = movingAlgorithmsManager->useAlgorithm(this->algo, player, this->depths[i++], this->getNumPlayers());
 
 			// Coords saving before any move
 			auto [newX, newY] = res.first;

@@ -17,7 +17,7 @@ public:
     MovingAlgorithmsManager(MapManager* mapMan);
     ~MovingAlgorithmsManager() = default;
 
-    std::pair<std::pair<int, int>, int> useAlgorithm(AlgoEnum algo, std::shared_ptr<Player> player, int depth, const std::vector<std::vector<double>>& W);
+    std::pair<std::pair<int, int>, int> useAlgorithm(AlgoEnum algo, std::shared_ptr<Player> player, int depth, int numP);
 
 private:
 
