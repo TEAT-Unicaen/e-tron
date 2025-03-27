@@ -98,7 +98,7 @@ int main() {
         
         std::cout << "Algorithm : " << algo << std::endl;
 
-        GameManager gameManager(size, size, numPlayers, rdPos, MovingAlgorithmsManager::AlgoEnum::BFS, depths, showEachStep, waitAmount, false, NULL);
+        GameManager gameManager(size, size, numPlayers, rdPos, algoEnum, depths, showEachStep, waitAmount, false, NULL);
         InputManager inputManager(&gameManager, mainFunctions);
 
         // Displaying start grid

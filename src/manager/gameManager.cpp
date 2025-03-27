@@ -6,7 +6,7 @@
 #include <random>
 
 GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, MovingAlgorithmsManager::AlgoEnum algo, std::vector<int> depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
-	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)), depths(depths) {
+	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)), depths(depths), algo(algo) {
 
 	//Used for non deterministic random placement generation
 	std::random_device rd;
@@ -47,12 +47,11 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, Mov
 	paranoid = new ParanoidAlgorithm(mapManager);
 
 	//Init the algorithm manager
-	movingAlgorithmsManager = new MovingAlgorithmsManager(mapManager);
-	shouldDraw = drawEachStep;
-	waitAmount = waitAmountInMS;
-	isAutomated = isAutomatedCall;
-	dataLinkerHandle = dlHandler;
-	algo = algo;
+	this->movingAlgorithmsManager = new MovingAlgorithmsManager(mapManager);
+	this->shouldDraw = drawEachStep;
+	this->waitAmount = waitAmountInMS;
+	this->isAutomated = isAutomatedCall;
+	this->dataLinkerHandle = dlHandler;
 
 	//Init json writer
 

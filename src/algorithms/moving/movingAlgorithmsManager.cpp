@@ -12,7 +12,7 @@ MovingAlgorithmsManager::MovingAlgorithmsManager(MapManager* mapMan) : autoMoveS
 std::pair<std::pair<int, int>, int> MovingAlgorithmsManager::useAlgorithm(AlgoEnum algo, std::shared_ptr<Player> player, int depth, int numP) {
 	switch (algo) {
 		case AlgoEnum::BFS:
-			return autoMoveBFS.decideMoveBFS(player);
+			return autoMoveBFS.decideMoveBFS(player, depth);
 		case AlgoEnum::SOS:
 			return autoMoveSos.decideMove(player, depth, AffinitiesMatrixGenerator::generateRandomAffinities(numP));
 		default:

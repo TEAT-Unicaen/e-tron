@@ -51,7 +51,7 @@ void GameScene::onLoad() {
 
 	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, algoEnum, depths, false, this->timeAutoPlayMax, true, &this->dataLinker);
 	gameManager.loop();
-	while (!gameManager.isRunning()) { SLEEP_MS(5); }
+	while (!gameManager.isRunning()) { SLEEP_MS(0); }
 
 	// load the graphics
 	this->pDrawables.reserve(numPlayers + 2);
