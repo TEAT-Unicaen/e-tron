@@ -1,13 +1,28 @@
 \begin{thebibliography}{1}
 
-\bibitem{devmind}
-Dev Mind.
-\newblock Hashlife.
-\newblock \url{https://www.dev-mind.blog/hashlife/}.
+\bibitem{Negamax}
+Tristan Cazenave.
+\newblock Negamax avec alphabeta.
+\newblock \url{https://www.lamsade.dauphine.fr/~cazenave/papers/berder00.pdf}.
 
-\bibitem{wiki}
-Wikipedia.
-\newblock Hashlife.
-\newblock \url{https://en.wikipedia.org/wiki/Hashlife}.
+\bibitem{directX11}
+ChiliTomatoNoddle.
+\newblock C++ 3d directx programming.
+\newblock \url{https://www.youtube.com/playlist?list=PLqCJpWy5Fohd3S7ICFXwUomYW0Wv67pDD}.
+
+\bibitem{alphabeta}
+Richard~E. Korf.
+\newblock Maxn avec coupes alphabeta.
+\newblock \url{https://faculty.cc.gatech.edu/~thad/6601-gradAI-fall2015/Korf_Multi-player-Alpha-beta-Pruning.pdf}.
+
+\bibitem{maxn}
+Nathan~R. Sturtevant and Richard~E. Korf.
+\newblock Maxn et paranoid.
+\newblock \url{https://cdn.aaai.org/AAAI/2000/AAAI00-031.pdf}.
+
+\bibitem{sos}
+Brandon Wilson1, Inon Zuckerman2, and Dana Nau.
+\newblock Algorithme sos.
+\newblock \url{https://www.cs.umd.edu/~nau/papers/wilson2011modeling.pdf}.
 
 \end{thebibliography}

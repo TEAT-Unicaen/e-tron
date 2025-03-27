@@ -18,36 +18,36 @@
 \contentsline {subsection}{\numberline {4.2}Choix technologiques}{8}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Présentation de l'architecture du projet}{9}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}Représentation avec Gource}{9}{subsubsection.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.3.2}Structure plus précise}{9}{subsubsection.4.3.2}%
-\contentsline {section}{\numberline {5}Le visuel en DirectX11}{12}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Le rendu visuel du jeu}{12}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Fonctionnement du moteur graphique}{12}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3}Optimisation du rendu et fluidité}{12}{subsection.5.3}%
-\contentsline {subsubsection}{\numberline {5.3.1}Utilisation des Constant Buffers}{12}{subsubsection.5.3.1}%
-\contentsline {subsubsection}{\numberline {5.3.2}Mise en place d’un écran de chargement}{12}{subsubsection.5.3.2}%
-\contentsline {subsubsection}{\numberline {5.3.3}Optimisation du rendu avec l’Instancing}{12}{subsubsection.5.3.3}%
-\contentsline {subsubsection}{\numberline {5.3.4}Fix des rechargements inutiles des shaders}{12}{subsubsection.5.3.4}%
-\contentsline {subsubsection}{\numberline {5.3.5}Bilan des optimisations}{12}{subsubsection.5.3.5}%
-\contentsline {subsection}{\numberline {5.4}Effet visuel et expérience utilisateur}{12}{subsection.5.4}%
-\contentsline {subsubsection}{\numberline {5.4.1}Lumière}{12}{subsubsection.5.4.1}%
-\contentsline {subsubsection}{\numberline {5.4.2}Textures}{12}{subsubsection.5.4.2}%
-\contentsline {subsubsection}{\numberline {5.4.3}Skybox}{12}{subsubsection.5.4.3}%
-\contentsline {subsubsection}{\numberline {5.4.4}Caméra}{12}{subsubsection.5.4.4}%
-\contentsline {subsubsection}{\numberline {5.4.5}Musique et son}{12}{subsubsection.5.4.5}%
-\contentsline {subsection}{\numberline {5.5}Mise en place du jeu dans le visuel}{12}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Quelque exemples}{12}{subsection.5.6}%
-\contentsline {section}{\numberline {6}Analyse des Fonctionnalités et Résultats de la Page React}{13}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Fonctionnalités de la Page React}{13}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Analyse des Résultats}{13}{subsection.6.2}%
-\contentsline {subsubsection}{\numberline {6.2.1}Identification d'un Seuil d'Exploration}{13}{subsubsection.6.2.1}%
-\contentsline {subsubsection}{\numberline {6.2.2}Mesure des Performances en Fonction de la Profondeur}{13}{subsubsection.6.2.2}%
-\contentsline {subsubsection}{\numberline {6.2.3}Équilibre entre Coût et Gain Stratégique}{13}{subsubsection.6.2.3}%
-\contentsline {section}{\numberline {7}Comment aller plus loin ?}{14}{section.7}%
-\contentsline {subsection}{\numberline {7.1}A travers les algorithmes }{14}{subsection.7.1}%
-\contentsline {subsubsection}{\numberline {7.1.1}MCTS (Monte Carlo Tree Search)}{14}{subsubsection.7.1.1}%
-\contentsline {subsubsection}{\numberline {7.1.2}Alpha-Beta Pruning pour un jeu à deux joueurs}{14}{subsubsection.7.1.2}%
-\contentsline {subsubsection}{\numberline {7.1.3}Conclusion}{14}{subsubsection.7.1.3}%
-\contentsline {subsection}{\numberline {7.2}Analyse des Résultats}{14}{subsection.7.2}%
-\contentsline {subsubsection}{\numberline {7.2.1}L'animation}{14}{subsubsection.7.2.1}%
-\contentsline {subsubsection}{\numberline {7.2.2}La gestion de mesh externe}{14}{subsubsection.7.2.2}%
-\contentsline {subsubsection}{\numberline {7.2.3}Conclusion}{14}{subsubsection.7.2.3}%
+\contentsline {subsubsection}{\numberline {4.3.2}Structure plus précise}{10}{subsubsection.4.3.2}%
+\contentsline {section}{\numberline {5}Le visuel en DirectX11}{11}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Le rendu visuel du jeu}{11}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Fonctionnement du moteur graphique}{11}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Optimisation du rendu et fluidité}{11}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Utilisation des Constant Buffers}{11}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Mise en place d’un écran de chargement}{11}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Optimisation du rendu avec l’Instancing}{11}{subsubsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.4}Fix des rechargements inutiles des shaders}{11}{subsubsection.5.3.4}%
+\contentsline {subsubsection}{\numberline {5.3.5}Bilan des optimisations}{11}{subsubsection.5.3.5}%
+\contentsline {subsection}{\numberline {5.4}Effet visuel et expérience utilisateur}{11}{subsection.5.4}%
+\contentsline {subsubsection}{\numberline {5.4.1}Lumière}{11}{subsubsection.5.4.1}%
+\contentsline {subsubsection}{\numberline {5.4.2}Textures}{11}{subsubsection.5.4.2}%
+\contentsline {subsubsection}{\numberline {5.4.3}Skybox}{11}{subsubsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {5.4.4}Caméra}{11}{subsubsection.5.4.4}%
+\contentsline {subsubsection}{\numberline {5.4.5}Musique et son}{11}{subsubsection.5.4.5}%
+\contentsline {subsection}{\numberline {5.5}Mise en place du jeu dans le visuel}{11}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Quelque exemples}{11}{subsection.5.6}%
+\contentsline {section}{\numberline {6}Analyse des Fonctionnalités et Résultats de la Page React}{12}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Fonctionnalités de la Page React}{12}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Analyse des Résultats}{12}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Identification d'un Seuil d'Exploration}{12}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Mesure des Performances en Fonction de la Profondeur}{12}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}Équilibre entre Coût et Gain Stratégique}{12}{subsubsection.6.2.3}%
+\contentsline {section}{\numberline {7}Comment aller plus loin ?}{13}{section.7}%
+\contentsline {subsection}{\numberline {7.1}A travers les algorithmes }{13}{subsection.7.1}%
+\contentsline {subsubsection}{\numberline {7.1.1}MCTS (Monte Carlo Tree Search)}{13}{subsubsection.7.1.1}%
+\contentsline {subsubsection}{\numberline {7.1.2}Alpha-Beta Pruning pour un jeu à deux joueurs}{13}{subsubsection.7.1.2}%
+\contentsline {subsubsection}{\numberline {7.1.3}Conclusion}{13}{subsubsection.7.1.3}%
+\contentsline {subsection}{\numberline {7.2}Analyse des Résultats}{13}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}L'animation}{13}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.2}La gestion de mesh externe}{13}{subsubsection.7.2.2}%
+\contentsline {subsubsection}{\numberline {7.2.3}Conclusion}{13}{subsubsection.7.2.3}%
