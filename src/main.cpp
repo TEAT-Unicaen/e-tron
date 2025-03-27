@@ -57,10 +57,13 @@ int main() {
 		int numPlayers = config.getInt("num_players");
         int size = config.getInt("grid_size", numPlayers); 
 		bool rdPos = config.getBool("use_random_pos", true);
+        bool fixedDepth = config.getBool("fixed_depth", false);
+        int fixed_depth_range = config.getInt("fixed_depth_range", 3);
 		int depthsMin = config.getInt("depths_min", 3);
         int depthsInterval = config.getInt("depths_interval", 3);
 		bool showEachStep = config.getBool("show_each_step", true);
 		int waitAmount = config.getInt("wait_amount", 100);
+        std::string algo = config.getString("algo", "BFS");
 
 		std::cout << "Grid size : " << size << std::endl;
 		std::cout << "Number of players : " << numPlayers << std::endl;
@@ -70,10 +73,31 @@ int main() {
 
         std::vector<int> depths(numPlayers);
 
+        std::cout << "Depth min : " << depthsMin << std::endl;
+        std::cout << "Fixed depth : " << fixedDepth << std::endl;
         for (int i = 0; i < numPlayers; i++) {
-            depths[i] = ((i / depthsInterval) + 1) * depthsInterval;
+            if (!fixedDepth) {
+                depths[i] = (((i / depthsInterval) + 1) * depthsInterval) + depthsMin;
+            }
+            else {
+                depths[i] = fixed_depth_range;
+            }
+        }
+
+        MovingAlgorithmsManager::AlgoEnum algoEnum;
+
+        if (algo == "BFS") {
+            algoEnum = MovingAlgorithmsManager::AlgoEnum::BFS;
+        }
+        else if (algo == "SOS") {
+            algoEnum = MovingAlgorithmsManager::AlgoEnum::SOS;
+        }
+        else {
+            algoEnum = MovingAlgorithmsManager::AlgoEnum::SMART;
         }
         
+        std::cout << "Algorithm : " << algo << std::endl;
+
         GameManager gameManager(size, size, numPlayers, rdPos, MovingAlgorithmsManager::AlgoEnum::BFS, depths, showEachStep, waitAmount, false, NULL);
         InputManager inputManager(&gameManager, mainFunctions);
 

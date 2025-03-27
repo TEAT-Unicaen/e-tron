@@ -18,8 +18,13 @@ void GameScene::onLoad() {
 	this->mapSize = config.getInt("grid_size", numPlayers);
 	bool rdPos = config.getBool("use_random_pos", true);
 	std::string algo = config.getString("algo", "BFS");
-	int depths = config.getInt("depths", 3);
 	this->timeAutoPlayMax = config.getInt("wait_amount", 100);
+
+	int depthsMin = config.getInt("depths_min", 3);
+	int depthsInterval = config.getInt("depths_interval", 3);
+
+	bool fixedDepth = config.getBool("fixed_depth", false);
+	int fixed_depth_range = config.getInt("fixed_depth_range", 3);
 
 	MovingAlgorithmsManager::AlgoEnum algoEnum;
 
@@ -31,6 +36,17 @@ void GameScene::onLoad() {
 	}
 	else {
 		algoEnum = MovingAlgorithmsManager::AlgoEnum::SMART;
+	}
+
+	std::vector<int> depths(numPlayers);
+
+	for (int i = 0; i < numPlayers; i++) {
+		if (!fixedDepth) {
+			depths[i] = (((i / depthsInterval) + 1) * depthsInterval) + depthsMin;
+		}
+		else {
+			depths[i] = fixed_depth_range;
+		}
 	}
 
 	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, algoEnum, depths, false, this->timeAutoPlayMax, true, &this->dataLinker);

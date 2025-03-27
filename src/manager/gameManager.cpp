@@ -8,7 +8,7 @@
 
 
 GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, MovingAlgorithmsManager::AlgoEnum algo, std::vector<int> depths, bool drawEachStep, int waitAmountInMS, bool isAutomatedCall, DataLinker* dlHandler) noexcept
-	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)), algo(algo), depths(depths) {
+	: mapManager(new MapManager(line, column)), running(false), autoMoveSmart(new AutoMoveSmart(mapManager)), depths(depths) {
 
 	//Used for non deterministic random placement generation
 	std::random_device rd;
@@ -20,10 +20,10 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, Mov
 	this->dataLogManager->addLog("numPlayers", numPlyrs);
 
     // Create players and store them in a vector
-    for (int i = 0; i <= numPlyrs-1; i++) {
+    for (int i = 1; i <= numPlyrs; i++) {
 		std::shared_ptr<Player> p;
 
-		this->dataLogManager->addLog("p" + std::to_string(i), depths[i]);
+		this->dataLogManager->addLog("p" + std::to_string(i), depths[i-1]);
 
 		bool positionSet = false;
 		while (!positionSet) {
