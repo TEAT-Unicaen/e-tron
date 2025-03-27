@@ -1,11 +1,30 @@
 \section{Comment aller plus loin ?}
 
 \subsection{A travers les algorithmes }
-\subsubsection{MCTS (Monte Carlo Tree Search)}
-\subsubsection{Alpha-Beta Pruning pour un jeu à deux joueurs}
-\subsubsection{Conclusion}
+Bien que nous ayons expérimenté les algorithmes \textbf{MAXN} et \textbf{Paranoid}, ainsi que des idées issues de l’approche \textbf{SOS (Survival-Oriented Search)}, nous avons identifié d’autres algorithmes intéressants à explorer. Si nous avions eu plus de temps, nous aurions probablement ajouté ces approches pour améliorer la prise de décision des joueurs et comparer leur efficacité.
 
-\subsection{Analyse des Résultats}
+\subsubsection{MCTS (Monte Carlo Tree Search)}
+L’algorithme \textbf{MCTS} est particulièrement utilisé dans les jeux stratégiques comme le Go ou les échecs. Plutôt que d’explorer exhaustivement toutes les possibilités comme MAXN, il réalise des simulations aléatoires pour estimer la qualité des coups. Dans notre jeu, MCTS aurait pu être intéressant pour :
+\begin{itemize}
+    \item Trouver des stratégies adaptatives sans avoir à définir explicitement une heuristique.
+    \item Réduire le coût computationnel par rapport à une recherche exhaustive en ne simulant que les coups les plus prometteurs.
+    \item S’adapter dynamiquement aux comportements adverses grâce aux simulations.
+\end{itemize}
+Cependant, un défi avec MCTS dans Tron est qu’il repose souvent sur des heuristiques de fin de partie, ce qui aurait nécessité un bon modèle d’évaluation des positions.
+
+\subsubsection{Alpha-Beta Pruning pour un jeu à deux joueurs}
+Si nous voulions nous concentrer sur des scénarios en duel (1v1), nous aurions pu utiliser Minimax avec \textbf{élagage alpha-bêta}. Cet algorithme :
+\begin{itemize}
+    \item Réduire l’espace de recherche en éliminant les branches inutiles, rendant la recherche plus efficace.
+    \item Permet d’intégrer une fonction d’évaluation plus fine pour estimer les chances de victoire.
+    \item Serait particulièrement adapté aux parties à deux joueurs, contrairement à MAXN, qui est optimisé pour les jeux multijoueurs.
+\end{itemize}
+L’inconvénient de Minimax avec alpha-bêta est qu’il dépend fortement de la qualité de la fonction d’évaluation et peut être limité si la profondeur de recherche est trop faible.
+
+\subsubsection{Conclusion}
+Si nous avions eu plus de temps, l’ajout de MCTS et de Minimax Alpha-Bêta aurait constitué notre prochaine étape. Ces algorithmes auraient permis d’explorer des stratégies alternatives et de comparer leurs performances face à MAXN et Paranoid. Tester ces différentes approches aurait enrichi notre analyse et aurait potentiellement révélé des comportements de jeu plus optimisés.
+
+\subsection{A travers le rendu graphique}
 \subsubsection{L'animation}
 \subsubsection{La gestion de mesh externe}
 \subsubsection{Conclusion}

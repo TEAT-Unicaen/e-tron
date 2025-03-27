@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.26)  27 MAR 2025 16:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.26)  27 MAR 2025 17:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -987,17 +987,45 @@ Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_n
 [10 <./images/ExcalidrawBase.png> <./images/ExcalidrawGraphics.png>]
 \openout2 = `part/part5.aux'.
 
- (./part/part5.tex)
+ (./part/part5.tex
+Underfull \hbox (badness 10000) in paragraph at lines 8--15
+
+ []
+
+
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
-Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 28.
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 19.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [11
 
 
 
 ]
+Underfull \hbox (badness 10000) in paragraph at lines 29--33
+
+ []
+
+
+
+File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
+<use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 33.
+(pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
+[12]
+
+File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
+<use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 49.
+(pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
+[13])
+
+File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
+<use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 28.
+(pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
+[14]
 \openout2 = `part/part6.aux'.
 
  (./part/part6.tex)
@@ -1006,7 +1034,7 @@ File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic fil
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 29.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
-[12
+[15
 
 
 
@@ -1019,17 +1047,23 @@ File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic fil
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 30.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
-[13
+[16
 
 
 
-] (./main.bbl)
+]
+
+File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
+<use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 30.
+(pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
+[17] (./main.bbl)
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 37.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
-[14
+[18
 
 
 ] (./main.aux (./part/part1.aux) (./part/part2.aux) (./part/part3.aux) (./part/part4.aux) (./part/part5.aux) (./part/part6.aux) (./part/part7.aux))
@@ -1039,18 +1073,18 @@ L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 27862 strings out of 473190
- 506050 string characters out of 5719979
+ 27866 strings out of 473190
+ 506078 string characters out of 5719979
  1191550 words of memory out of 5000000
  50541 multiletter control sequences out of 15000+600000
  569421 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 104i,15n,107p,800b,768s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 104i,15n,107p,841b,768s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on main.pdf (14 pages, 1326110 bytes).
+Output written on main.pdf (18 pages, 1340632 bytes).
 PDF statistics:
- 440 PDF objects out of 1000 (max. 8388607)
- 381 compressed objects within 4 object streams
- 73 named destinations out of 1000 (max. 500000)
+ 456 PDF objects out of 1000 (max. 8388607)
+ 393 compressed objects within 4 object streams
+ 77 named destinations out of 1000 (max. 500000)
  545 words of extra memory for PDF output out of 10000 (max. 10000000)
 
