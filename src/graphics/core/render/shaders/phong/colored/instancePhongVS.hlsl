@@ -21,10 +21,9 @@ VSOut main(VS_IN input) {
 
     float4x4 realModel = mul(input.worldMatrix, model);
     
-    float4x4 modelView = mul(realModel, view);
-    output.viewPos = mul(pos4, modelView).xyz;
+    output.viewPos = mul(pos4, realModel).xyz;
 
-    output.viewNormal = normalize(mul(input.normal, (float3x3) modelView));
+    output.viewNormal = normalize(mul(input.normal, (float3x3) realModel));
     
     output.color = input.color;
 

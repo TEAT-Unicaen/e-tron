@@ -4,7 +4,7 @@
 #include "../objects/meshes/meshes.h"
 #include "../objects/drawable/singleMeshDrawable/singleMeshDrawable.h"
 #include "../objects/drawable/instancedMeshDrawable/instancedMeshDrawable.h"
-#include "../objects/light.h"
+#include "../objects/lightManager.h"
 #include <memory>
 #include <filesystem>
 
@@ -29,7 +29,7 @@ public:
 
 private:
 	bool isPaused = false;
-	Light light;
+	LightManager lightManager;
 
 	DataLinker dataLinker;
 

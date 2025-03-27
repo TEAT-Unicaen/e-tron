@@ -179,19 +179,33 @@ MotocycleDrawable::MotocycleDrawable(Renderer& renderer, dx::XMFLOAT3 position, 
 	this->addDrawable(std::move(pRightHandle));
 
 	// LIGHTS
-	Mesh light = Drawable::getMesh("sphere");
-	std::unique_ptr<Drawable> plight = std::make_unique<SingleMeshDrawable>(
+	Mesh lightM = Drawable::getMesh("sphere");
+	std::unique_ptr<Drawable> plightD = std::make_unique<SingleMeshDrawable>(
 		renderer,
 		dx::XMFLOAT3{ 0.0f, 0.8f, 0.8f },
 		dx::XMFLOAT3{ 0.0f, 0.0f, 0.0f },
-		light,
+		lightM,
 		L"compositePhongVS",
 		L"coloredPhongSpherePS",
 		playerColor
 	);
-	plight->setScale(dx::XMFLOAT3{ 0.3f, 0.3f, 0.3f });
-	this->addDrawable(std::move(plight));
+
+	plightD->setScale(dx::XMFLOAT3{ 0.3f, 0.3f, 0.3f });
+	this->addDrawable(std::move(plightD));
+	this->pLight = std::make_shared<Light>(renderer, dx::XMFLOAT3{ 0.0f, 0.8f, 0.8f }, playerColor);
 
 	float scale = 1.0f / 3.0f;
 	this->setScale(dx::XMFLOAT3{ scale, scale, scale });
+}
+
+void MotocycleDrawable::update(float delta) noexcept {
+	dx::XMFLOAT3 pos = this->position;
+	pos.y = 0.5f;
+
+	this->pLight->setPosition(pos);
+	CompositeDrawable::update(delta);
+}
+
+std::shared_ptr<Light> MotocycleDrawable::getLight() const noexcept {
+	return this->pLight;
 }

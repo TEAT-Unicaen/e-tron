@@ -2,7 +2,7 @@
 
 
 GameScene::GameScene(Renderer& renderer, std::string name)
-	: Scene(renderer, name), light(Light(renderer, dx::XMFLOAT3(0.0f, 2.0f, 0.0f), Color::WHITE)), dataLinker(DataLinker()) {}
+	: Scene(renderer, name), lightManager(LightManager(renderer)), dataLinker(DataLinker()) {}
 
 
 void GameScene::onLoad() {
@@ -73,16 +73,19 @@ void GameScene::onLoad() {
 		const Color randomColor = Color::getRandomColor();
 		this->playersColors.push_back(randomColor);
 		std::pair<int, int> pos = this->dataLinker.getInitPos(i);
-		std::unique_ptr<Drawable> motocycle = std::make_unique<MotocycleDrawable>(
+		std::unique_ptr<MotocycleDrawable> motocycle = std::make_unique<MotocycleDrawable>(
 			this->renderer,
 			dx::XMFLOAT3(pos.first-halfSize, 0.2f, pos.second-halfSize),
 			dx::XMFLOAT3(0.0f, 0.0f, 0.0f),
 			randomColor,
 			Color::DARK_GRAY
 		);
+		//motocycle->setRotation(dx::XMFLOAT3(-dx::XMConvertToRadians(30), 0.0f, 0.0f));
+		this->lightManager.addLight(motocycle->getLight());
 		this->pDrawables.push_back(std::move(motocycle));
 	}
-
+	//this->lightManager.addLight(this->renderer, dx::XMFLOAT3(7.0f, 1.0f, 7.0f), Color::BLUE);
+	//this->lightManager.addLight(this->renderer, dx::XMFLOAT3(-7.0f, 1.0f, -7.0f), Color::YELLOW);
 	while (gameManager.isRunning()) { SLEEP_MS(5); }
 	gameManager.stop();
 
@@ -128,9 +131,6 @@ void GameScene::handleInput(Window& wnd, float delta) {
 		forward = (forward / length) * speed;
 		right = (right / length) * speed;
 	}
-
-	if (keyEvent.keyIsPressed('C')) this->light.setColor(renderer, Color::getRandomColor());
-
 	// Camera rotation
 	if (keyEvent.keyIsPressed(VK_UP)) rotX -= rotationSpeed; // Rotation vers le bas
 	if (keyEvent.keyIsPressed(VK_DOWN)) rotX += rotationSpeed; // Rotation vers le haut
@@ -186,15 +186,15 @@ void GameScene::update(float deltaTime) {
 		static_cast<Grid3D*>(this->pDrawables[1].get())->getInstanceBuffer().updateInstance(renderer, slot, this->playersColors[data.id-1]);
 	}
 
-	this->light.bind(renderer);
+	this->lightManager.bindAll(renderer);
 	if (!this->isPaused) {
 		Scene::update(deltaTime);
-		this->light.draw(renderer);
+		//this->lightManager.drawAll(renderer);
 	} else {
 		for (auto& pDrawable : this->pDrawables) {
 			pDrawable->draw(renderer);
 		}
-		this->light.draw(renderer);
+		this->lightManager.drawAll(renderer);
 		renderer.renderText(L"PAUSED", dx::XMFLOAT2(700, 10), 16, Color::WHITE);
 	}
 }
