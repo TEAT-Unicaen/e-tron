@@ -1,21 +1,20 @@
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import React from 'react';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const areaData = {
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-  datasets: [
-    {
-      label: 'Expenses',
-      data: [30, 20, 40, 60, 80, 100],
-      fill: true,
-      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-      borderColor: 'rgb(75, 192, 192)',
-      borderWidth: 1,
-      tension: 0.1,
-    },
-  ],
+export type AreaData = {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    fill: boolean;
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    tension: number;
+  }[];
 };
 
 const areaOptions = {
@@ -24,6 +23,10 @@ const areaOptions = {
   },
 };
 
-const AreaChart = () => <Line data={areaData} options={areaOptions} />;
+const AreaChart: React.FC<{ data: AreaData }> = ({ data }) => {
+
+
+  return <Line data={data} options={areaOptions} />;
+}
 
 export default AreaChart;

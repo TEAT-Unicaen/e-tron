@@ -36,28 +36,52 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
         },
         score: [],
         timeLog : {
-
         },
+        algo: {},
+        aireTimeLine: [],
+        dataAireTimeLine: [],
         average: 0.0,
+        algoType: "UNKNOWN",
     };
 
     let maxRound = 0
     let winner = null
     let index = 0
-    let toalRound = 0
+    let totalRound = 0
 
     for (const [pName, dat] of Object.entries(inputArray)) {
         if (pName === 'timeLog') {
             outputArray.timeLog = dat
         } else if (pName === 'numPlayers') {
             outputArray.pNb = dat
+        } else if (/^p\d+$/.test(pName)) {
+            const index = parseInt(pName.slice(1), 10);
+            if (!(dat in outputArray.aireTimeLine)) {
+                outputArray.aireTimeLine.push(dat)
+            }
+            outputArray.algo = {
+                [index] : dat
+            }
+        } else if (pName === "algoType") {
+            if (dat === 0) {
+                outputArray.algoType = "SMART (MAXN BASED)"
+            } else if (dat === 1) {
+                outputArray.algoType = "SOS (MAXN WITH AFFINITIES"
+            } else if (dat === 2) {
+                outputArray.algoType = "BFS (FOR AREA EXPLORATION)"
+            } else {
+                outputArray.algoType = "UNKNOWN"
+            }
         } else {
             let provRoundHere = (dat.top ?? 0) + (dat.bottom ?? 0) + (dat.right ?? 0) + (dat.left ?? 0)
-            toalRound += provRoundHere
-            outputArray.score.push({
+            totalRound += provRoundHere
+
+            let playerNumber = parseInt(pName.match(/\d+/)?.[0] || '0', 10);
+
+            outputArray.score[playerNumber-1] = {
                 Player: pName,
-                Murs: provRoundHere
-            })
+                Murs: provRoundHere,
+            }
 
             if (provRoundHere > maxRound) {
                 maxRound = provRoundHere
@@ -86,7 +110,7 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
         }
     }
 
-    outputArray.average = (toalRound / outputArray.pNb).toFixed(2)
+    outputArray.average = (totalRound / outputArray.pNb).toFixed(2)
 
     return outputArray;
 }

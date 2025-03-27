@@ -24,6 +24,7 @@ const SideBar: React.FC = ({}) => {
                 <img src="/server.svg" onClick={() => alert("Cette fonctionnalitée n'est pas disponnible")}></img>
                 <img src="/home.svg" onClick={() => {window.location.href = "/viewer"}}></img>
                 <img src="/timeline.svg" onClick={() => {window.location.href = "/timeline"}}></img>
+                <img src="/compare.svg" onClick={() => {window.location.href = '/compare'}}></img>
             </div>
         </>
     )
