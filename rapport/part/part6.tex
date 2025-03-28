@@ -70,3 +70,19 @@ Cette observation suggère qu’il existe un compromis à trouver entre la profo
 Le principal défi des algorithmes utilisés réside dans l’équilibre entre le coût de calcul et le gain stratégique obtenu. Nos observations montrent que si une recherche trop superficielle entraîne des décisions sous-optimales, une profondeur excessive ne garantit pas forcément un avantage déterminant. \\
 Ce constat est particulièrement visible avec les algorithmes comme Paranoid et MAXN, qui nécessitent une grande puissance de calcul pour évaluer plusieurs niveaux de jeu. À l’inverse, BFS, bien qu’explorant un grand nombre de possibilités, peut parfois être pénalisé par sa manière d’étendre l’arbre de décision. \\
 En pratique, le choix du paramètre de profondeur doit être ajusté en fonction du contexte de la partie et des ressources disponibles. Une future amélioration pourrait être d’adapter dynamiquement cette profondeur en fonction des situations rencontrées, afin d’optimiser en temps réel l’équilibre entre réactivité et stratégie à long terme.
+
+\subsubsection{Comparaison des Algorithmes}
+L’analyse des résultats met en évidence des différences marquées entre les algorithmes étudiés, que ce soit en termes de stratégie adoptée, de performance en fonction de la profondeur ou d’optimisation du temps de calcul.
+\paragraph{MAXN}
+L’algorithme MAXN, conçu pour les jeux multi-joueurs, cherche à maximiser le score de chaque agent sans nécessairement chercher à bloquer les autres. On observe qu’à profondeur faible, il produit des trajectoires relativement naïves, mais dès qu’on augmente la profondeur, il adopte des déplacements plus optimisés et coordonnés, avec une meilleure gestion de l’espace. Cependant, il devient coûteux en calcul avec une profondeur élevée, ce qui limite son efficacité en temps réel.
+\paragraph{Paranoid}
+Contrairement à MAXN, l’algorithme Paranoid fonctionne sur un principe plus compétitif en considérant que tous les autres joueurs sont adversaires. Cela le pousse à être plus agressif dans ses décisions, essayant activement d’enfermer ses concurrents ou de bloquer leur progression. Toutefois, cette approche peut parfois être trop risquée, menant à des éliminations rapides si un joueur se retrouve trop tôt dans un espace clos.
+\paragraph{SOS}
+L’algorithme SOS adopte une approche plus équilibrée, cherchant à maximiser son propre espace disponible tout en minimisant celui des autres. Il génère ainsi des comportements qui semblent plus "prudents" que ceux de Paranoid, mais moins optimisés que MAXN sur le long terme. Il est intéressant de noter que SOS est particulièrement efficace lorsque la grille est encore ouverte, mais devient moins performant en fin de partie où une adaptation plus fine est nécessaire.
+\newpage
+\paragraph{BFS}
+BFS, utilisé ici pour l’exploration du terrain, offre une approche plus déterministe, cherchant avant tout à couvrir un maximum d’espace sans forcément anticiper les actions des autres joueurs. Il donne des résultats cohérents mais peut être pénalisé par un manque de prise en compte des adversaires. Son avantage principal est sa rapidité d’exécution et sa robustesse à faible profondeur, mais il peine à rivaliser avec MAXN ou Paranoid lorsqu’on cherche une optimisation stratégique avancée.
+\paragraph{Conclusion}
+Chaque algorithme présente des forces et des faiblesses selon le contexte de la partie. MAXN offre la meilleure optimisation stratégique mais est gourmand en calcul, Paranoid est agressif mais risqué, SOS est équilibré mais manque d’adaptabilité en fin de partie, et BFS est rapide mais limité en termes de prise de décision stratégique.
+
+Une amélioration future pourrait être d’hybrider ces approches, en utilisant par exemple une stratégie adaptative qui change de méthode en fonction de la situation sur la grille.

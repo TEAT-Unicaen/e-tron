@@ -1,5 +1,4 @@
 \section{Quels algorithmes pour répondre ?}
-Leur utilisation, leur fonctionnement et leur lien avec le projet
 Dans notre projet de jeu de Tron, l'intelligence artificielle joue un rôle central. Nous avons exploré plusieurs approches pour permettre aux agents de prendre des décisions stratégiques. Deux familles d'algorithmes se sont avérées particulièrement pertinentes : \textbf{Minimax} (avec ses variantes \textbf{MAXN} et \textbf{Paranoid}) et une méthode inspirée de \textbf{SOS (Socially Oriented Search)}. Ces méthodes étaient explicitement demandées dans les attendus du projet.
 
 \subsection{Minimax}
@@ -18,6 +17,8 @@ Le MAXN est une extension naturelle du Minimax aux jeux à plus de deux joueurs.
     \item Il prend ensuite la décision qui maximise son propre score sans considérer spécialement un adversaire comme principal opposant.
 \end{itemize}
 Cette approche permet une prise de décision plus naturelle en situation multi-joueur, mais elle suppose que chaque joueur agit de manière strictement rationnelle, ce qui n'est pas toujours le cas dans une partie réelle.
+
+\newpage
 
 \subsubsection{Paranoid}
 Contrairement à MAXN, qui considère chaque joueur comme une entité indépendante maximisant son propre score, \textbf{Paranoid} adapte Minimax à un cadre multi-joueur en supposant que tous les adversaires sont alignés contre le joueur actif.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.26)  28 MAR 2025 16:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.26)  28 MAR 2025 16:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -900,7 +900,7 @@ Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_n
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
-Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 26.
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 21.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [5
 
@@ -910,7 +910,7 @@ Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_n
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
-Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 50.
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 51.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [6])
 
@@ -932,7 +932,7 @@ Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_n
 
 
 ]
-<images/ConsoleGame.png, id=187, 666.99188pt x 244.66406pt>
+<images/ConsoleGame.png, id=189, 666.99188pt x 244.66406pt>
 File: images/ConsoleGame.png Graphic file (type png)
 <use images/ConsoleGame.png>
 Package pdftex.def Info: images/ConsoleGame.png  used on input line 27.
@@ -949,11 +949,11 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has
                                                   \__shipout_drop_firstpage_...
 l.33 
       <./images/ConsoleGame.png>]
-<images/GourceScreen.png, id=195, 720.44156pt x 397.485pt>
-File: images/GourceScreen.png Graphic file (type png)
-<use images/GourceScreen.png>
-Package pdftex.def Info: images/GourceScreen.png  used on input line 37.
-(pdftex.def)             Requested size: 376.42575pt x 207.68199pt.
+<images/GourceScreenFinal.png, id=197, 1419.05156pt x 709.90219pt>
+File: images/GourceScreenFinal.png Graphic file (type png)
+<use images/GourceScreenFinal.png>
+Package pdftex.def Info: images/GourceScreenFinal.png  used on input line 37.
+(pdftex.def)             Requested size: 418.25368pt x 209.23518pt.
 
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
@@ -965,8 +965,8 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.43 \newpage
-              <./images/GourceScreen.png>]
-<images/ExcalidrawBase.png, id=201, 806.26219pt x 564.60938pt>
+              <./images/GourceScreenFinal.png>]
+<images/ExcalidrawBase.png, id=203, 806.26219pt x 564.60938pt>
 File: images/ExcalidrawBase.png Graphic file (type png)
 <use images/ExcalidrawBase.png>
 Package pdftex.def Info: images/ExcalidrawBase.png  used on input line 48.
@@ -996,7 +996,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 51--54
 
  []
 
-<images/ExcalidrawGraphics.png, id=202, 841.64438pt x 514.92375pt>
+<images/ExcalidrawGraphics.png, id=204, 841.64438pt x 514.92375pt>
 File: images/ExcalidrawGraphics.png Graphic file (type png)
 <use images/ExcalidrawGraphics.png>
 Package pdftex.def Info: images/ExcalidrawGraphics.png  used on input line 57.
@@ -1016,7 +1016,7 @@ l.27 \include{part/part4}
 \openout2 = `part/part5.aux'.
 
  (./part/part5.tex
-Underfull \hbox (badness 10000) in paragraph at lines 8--15
+Underfull \hbox (badness 10000) in paragraph at lines 8--14
 
  []
 
@@ -1024,14 +1024,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 8--15
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
-Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 15.
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 14.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [12
 
 
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 29--33
+Underfull \hbox (badness 10000) in paragraph at lines 15--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--34
 
  []
 
@@ -1039,39 +1044,39 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--33
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
-Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 33.
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 34.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [13]
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
-Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 49.
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 50.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [14]
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
-Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 62.
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 63.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [15]
-<images/GraphicAllMesh.png, id=227, 394.47375pt x 411.03563pt>
+<images/GraphicAllMesh.png, id=229, 394.47375pt x 411.03563pt>
 File: images/GraphicAllMesh.png Graphic file (type png)
 <use images/GraphicAllMesh.png>
-Package pdftex.def Info: images/GraphicAllMesh.png  used on input line 68.
+Package pdftex.def Info: images/GraphicAllMesh.png  used on input line 69.
 (pdftex.def)             Requested size: 169.39043pt x 176.50354pt.
-<images/GraphicLoadingScreen.png, id=228, 230.36063pt x 230.36063pt>
+<images/GraphicLoadingScreen.png, id=230, 230.36063pt x 230.36063pt>
 File: images/GraphicLoadingScreen.png Graphic file (type png)
 <use images/GraphicLoadingScreen.png>
-Package pdftex.def Info: images/GraphicLoadingScreen.png  used on input line 74.
+Package pdftex.def Info: images/GraphicLoadingScreen.png  used on input line 75.
 (pdftex.def)             Requested size: 169.39043pt x 169.38858pt.
-<images/GraphicFirstGame.png, id=229, 572.1375pt x 393.72093pt>
+<images/GraphicFirstGame.png, id=231, 572.1375pt x 393.72093pt>
 File: images/GraphicFirstGame.png Graphic file (type png)
 <use images/GraphicFirstGame.png>
-Package pdftex.def Info: images/GraphicFirstGame.png  used on input line 82.
+Package pdftex.def Info: images/GraphicFirstGame.png  used on input line 83.
 (pdftex.def)             Requested size: 188.21288pt x 129.51978pt.
 File: images/GraphicFinalGame.png Graphic file (type png)
 <use images/GraphicFinalGame.png>
-Package pdftex.def Info: images/GraphicFinalGame.png  used on input line 88.
+Package pdftex.def Info: images/GraphicFinalGame.png  used on input line 89.
 (pdftex.def)             Requested size: 169.39043pt x 126.50835pt.
 )
 
@@ -1103,7 +1108,7 @@ l.28 \include{part/part5}
 \openout2 = `part/part6.aux'.
 
  (./part/part6.tex
-<images/TendanceDeplacement.png, id=240, 1117.92656pt x 679.03688pt>
+<images/TendanceDeplacement.png, id=242, 1117.92656pt x 679.03688pt>
 File: images/TendanceDeplacement.png Graphic file (type png)
 <use images/TendanceDeplacement.png>
 Package pdftex.def Info: images/TendanceDeplacement.png  used on input line 13.
@@ -1124,12 +1129,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) has
                                                   \__shipout_drop_firstpage_...
 l.24 \newpage
               <./images/TendanceDeplacement.png>]
-<images/TimelineActions.png, id=247, 1044.90375pt x 672.26157pt>
+<images/TimelineActions.png, id=249, 1044.90375pt x 672.26157pt>
 File: images/TimelineActions.png Graphic file (type png)
 <use images/TimelineActions.png>
 Package pdftex.def Info: images/TimelineActions.png  used on input line 28.
 (pdftex.def)             Requested size: 292.77629pt x 188.3653pt.
-<images/SurvieMoyenProfondeur.png, id=248, 1102.87032pt x 624.83438pt>
+<images/SurvieMoyenProfondeur.png, id=250, 1102.87032pt x 624.83438pt>
 File: images/SurvieMoyenProfondeur.png Graphic file (type png)
 <use images/SurvieMoyenProfondeur.png>
 Package pdftex.def Info: images/SurvieMoyenProfondeur.png  used on input line 41.
@@ -1156,13 +1161,19 @@ File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic fil
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 67.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
-[19])
+[19]
+
+File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
+<use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 82.
+(pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
+[20])
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 29.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
-[20]
+[21]
 \openout2 = `part/part7.aux'.
 
  (./part/part7.tex
@@ -1171,7 +1182,7 @@ File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic fil
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 29.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
-[21
+[22
 
 
 
@@ -1181,13 +1192,13 @@ File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic fil
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 30.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
-[22] (./main.bbl)
+[23] (./main.bbl)
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 37.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
-[23
+[24
 
 
 ] (./main.aux (./part/part1.aux) (./part/part2.aux) (./part/part3.aux) (./part/part4.aux) (./part/part5.aux) (./part/part6.aux) (./part/part7.aux))
@@ -1197,18 +1208,18 @@ L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 27948 strings out of 473190
- 508302 string characters out of 5719979
+ 27953 strings out of 473190
+ 508403 string characters out of 5719979
  1191550 words of memory out of 5000000
- 50606 multiletter control sequences out of 15000+600000
+ 50609 multiletter control sequences out of 15000+600000
  569421 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  104i,15n,107p,837b,768s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on main.pdf (23 pages, 2737108 bytes).
+Output written on main.pdf (24 pages, 3498753 bytes).
 PDF statistics:
- 520 PDF objects out of 1000 (max. 8388607)
- 436 compressed objects within 5 object streams
- 94 named destinations out of 1000 (max. 500000)
- 609 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 529 PDF objects out of 1000 (max. 8388607)
+ 444 compressed objects within 5 object streams
+ 96 named destinations out of 1000 (max. 500000)
+ 617 words of extra memory for PDF output out of 10000 (max. 10000000)
 

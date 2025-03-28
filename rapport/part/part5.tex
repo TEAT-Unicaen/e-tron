@@ -11,6 +11,7 @@ Les \textbf{Drawables} sont les briques de base de l’affichage. Chaque Drawabl
 Le rôle d’un \textbf{Drawable} est d’être préparé pour le rendu. Cela signifie qu’il doit rassembler toutes les données nécessaires (position, couleur, texture, etc.) et les transmettre efficacement à DirectX. Pour cela, nous utilisons des \textbf{Bindables}, qui agissent comme des \textbf{wrappers} autour des appels nécessaires à l’envoi des buffers. Ces buffers, déjà créés en amont, sont ensuite intégrés dans le \textbf{pipeline} de rendu de DirectX. Puisque DirectX repose sur le modèle \textbf{COM (Component Object Model)}, nous avons utilisé des pointeurs intelligents (ComPtr) pour gérer automatiquement la durée de vie des objets et éviter les fuites mémoire. \\
 Une fois ces données correctement mises en mémoire, des \textbf{Shaders} prennent le relais pour effectuer les calculs indispensables, notamment le positionnement des objets dans la scène (via les matrices de transformation) et l’application des effets visuels comme la gestion de la lumière ou des couleurs. \\
 Enfin, tout ce rendu est affiché via un Renderer basé sur DirectX 11, intégré dans une fenêtre native Windows32, ce qui nous permet d’avoir un affichage fluide et contrôlé à bas niveau. \\
+\newpage
 Cette structure nous permet d’avoir un système modulaire et optimisé, dans lequel chaque élément du jeu est clairement défini, facilement manipulable, et intégré de façon cohérente dans la scène graphique globale. \\
 
 \subsection{Optimisation du rendu et fluidité}
