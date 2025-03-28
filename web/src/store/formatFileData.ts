@@ -45,7 +45,6 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
     };
 
     let maxRound = 0
-    let winner = null
     let index = 0
     let totalRound = 0
 
@@ -85,7 +84,6 @@ export function processData(inputArray: any[]): { radar: { labels: string[], dat
 
             if (provRoundHere > maxRound) {
                 maxRound = provRoundHere
-                winner = pName
             }
             outputArray[pName] = {
                 player: pName,

@@ -36,7 +36,7 @@ const Home: React.FC = () => {
     })
 
     
-    const medianArray = Array(algoAndWall.length).fill(formatedJSON.timeLog.length / algoAndWall.length);
+    //const medianArray = Array(algoAndWall.length).fill(formatedJSON.timeLog.length / algoAndWall.length);
 
     const datas: AreaData = {
         labels: labels,
