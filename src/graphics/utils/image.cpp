@@ -69,18 +69,21 @@ UINT Image::getHeight() const noexcept {
 BYTE* Image::getData() const noexcept {
 	return this->pBuffer.get();
 }
+
 // Inverse the image by the horizontal axis
 void Image::inverse() noexcept {
-	UINT stride = this->width * 4;
+	UINT stride = this->width * 4;  // Nombre d'octets par ligne (BGRA, 4 octets par pixel)
 	UINT halfHeight = this->height / 2;
 	BYTE* pPixels = this->pBuffer.get();
+
 	for (UINT y = 0; y < halfHeight; y++) {
-		BYTE* pLine1 = pPixels + stride * y;
-		BYTE* pLine2 = pPixels + stride * (this->height - 1 - y);
-		for (UINT x = 0; x < stride; x++) {
-			BYTE temp = pLine1[x];
-			pLine1[x] = pLine2[x];
-			pLine2[x] = temp;
+		// Pointeurs vers les lignes à échanger
+		UINT* pLine1 = reinterpret_cast<UINT*>(pPixels + stride * y);
+		UINT* pLine2 = reinterpret_cast<UINT*>(pPixels + stride * (this->height - 1 - y));
+
+		// Échange par pixels (UINT = 4 octets, donc 1 pixel)
+		for (UINT x = 0; x < this->width; x++) {
+			std::swap(pLine1[x], pLine2[x]);
 		}
 	}
 }

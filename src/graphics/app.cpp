@@ -47,6 +47,32 @@ App::App()
 	Drawable::loadMesh("Innerbase", Cylinder(renderer, 0.2f ,0.30f, 4));
 	Drawable::loadMesh("Outerbase", Cylinder(renderer, 0.3f, 0.35f, 4));
 
+	std::shared_ptr<Image> splashScreen = std::make_shared<Image>(L"assets/img/intro.gif");
+
+	std::atomic<bool> splashScreenDone = false;
+	auto splashThread = std::thread([splashScreen, &renderer, &splashScreenDone]() {
+		for (int i = 0; i < 110; i++) {
+			renderer.renderImage(splashScreen, dx::XMFLOAT2(0, 0), dx::XMFLOAT2(800, 600));
+			renderer.render();
+			if (i == 80) {
+				OutputDebugStringA("SOUND\n");
+			}
+			if (i < 89) {
+				splashScreen->nextFrame();
+			}
+			SLEEP_MS(20);
+		}
+		splashScreenDone = true;  // Marquer que l'écran de splash est terminé
+		});
+
+	// Attendre que le thread de splash se termine
+	while (!splashScreenDone.load(std::memory_order_acquire)) {
+		wnd.processMessages();
+	}
+
+	// Joindre le thread avant de quitter
+	splashThread.join();
+
 	this->sceneManager = std::make_unique<SceneManager>(
 		std::make_unique<LoadingScene>(
 			renderer,

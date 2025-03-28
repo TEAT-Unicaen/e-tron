@@ -202,12 +202,9 @@ void Renderer::resize(int newWidth, int newHeight) {
 	this->pRenderTargetView.Reset();
 	this->pDepthStencilView.Reset();
 	this->pD2DRenderTarget.Reset();
-
+	HR;
 	// Redimensionner le swap chain
-	HRESULT hr = this->pSwapChain->ResizeBuffers(0, newWidth, newHeight, DXGI_FORMAT_UNKNOWN, 0);
-	if (FAILED(hr)) {
-		throw RENDERER_EXCEPT(hr);
-	}
+	RENDERER_EXCEPT(this->pSwapChain->ResizeBuffers(0, newWidth, newHeight, DXGI_FORMAT_UNKNOWN, 0));
 
 	// Recréer le Render Target View
 	Mwrl::ComPtr<ID3D11Texture2D> pBackBuffer;
@@ -264,4 +261,41 @@ void Renderer::resize(int newWidth, int newHeight) {
 
 	// Mettre à jour l'aspect ratio de la caméra
 	this->camera.setAspectRatio(static_cast<float>(newWidth) / static_cast<float>(newHeight));
+}
+
+void Renderer::renderImage(const std::shared_ptr<Image>& image, const dx::XMFLOAT2& position, const dx::XMFLOAT2& size) {
+	HR;
+
+	// Create a Direct2D bitmap properties structure
+	D2D1_BITMAP_PROPERTIES bitmapProperties = {
+		{ DXGI_FORMAT_B8G8R8A8_UNORM, D2D1_ALPHA_MODE_PREMULTIPLIED  }, // BGRA format
+		96.0f, 96.0f  // DPI
+	};
+
+
+	UINT32 width = image->getWidth();
+	// Create the Direct2D bitmap from the BYTE[] data
+	Mwrl::ComPtr<ID2D1Bitmap> pBitmap;
+	CHECK_RENDERER_EXCEPT(pD2DRenderTarget->CreateBitmap(
+		D2D1::SizeU(width, image->getHeight()),  // Size of the bitmap
+		image->getData(),                       // The pixel data (BYTE array)
+		width * 4,                   // Stride (4 bytes per pixel for BGRA)
+		&bitmapProperties,           // Bitmap properties (format, DPI, etc.)
+		&pBitmap
+	));
+
+	// Begin drawing to the Direct2D render target
+	pD2DRenderTarget->BeginDraw();
+
+	// Calculate destination rectangle
+	D2D1_RECT_F destRect = D2D1::RectF(
+		position.x, position.y,
+		position.x + size.x, position.y + size.y
+	);
+
+	// Draw the bitmap on the screen
+	pD2DRenderTarget->DrawBitmap(pBitmap.Get(), destRect);
+
+	// End drawing
+	pD2DRenderTarget->EndDraw();
 }

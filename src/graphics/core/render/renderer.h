@@ -13,6 +13,7 @@
 
 #include "../../utils/setUpWindows.h" // Assure que HWND est reconnu
 #include "../../utils/color.h"
+#include "../../utils/image.h"
 #include "../../objects/camera.h"
 #include "../exception/rendererException.h"
 
@@ -34,6 +35,7 @@ public:
 	Camera& getCamera() noexcept;
 	dx::XMMATRIX getView()const noexcept;
 	void renderText(const std::wstring& text, const dx::XMFLOAT2& position, float size, Color color);
+	void renderImage(const std::shared_ptr<Image>& image, const dx::XMFLOAT2& position, const dx::XMFLOAT2& size);
 	void setVSync(bool vsync);
 	void resize(int newWidth, int newHeight);
 private:
