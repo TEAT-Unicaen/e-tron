@@ -49,13 +49,17 @@ App::App()
 
 	std::shared_ptr<Image> splashScreen = std::make_shared<Image>(L"assets/img/intro.gif");
 
+
+	UINT volumeLevel = 0xFFFF / 3;
+	waveOutSetVolume(NULL, MAKELONG(volumeLevel, volumeLevel));
 	std::atomic<bool> splashScreenDone = false;
 	auto splashThread = std::thread([splashScreen, &renderer, &splashScreenDone]() {
 		for (int i = 0; i < 110; i++) {
 			renderer.renderImage(splashScreen, dx::XMFLOAT2(0, 0), dx::XMFLOAT2(800, 600));
 			renderer.render();
-			if (i == 80) {
+			if (i == 50) {
 				OutputDebugStringA("SOUND\n");
+				PlaySoundA((LPCSTR)"./assets/sound/intro.wav", NULL, SND_FILENAME | SND_ASYNC);
 			}
 			if (i < 89) {
 				splashScreen->nextFrame();

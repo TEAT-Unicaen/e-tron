@@ -47,3 +47,4 @@
 #endif
 
 #include <Windows.h>  // Inclut l'en-tête principal de l'API Windows
+#include <mmsystem.h>
