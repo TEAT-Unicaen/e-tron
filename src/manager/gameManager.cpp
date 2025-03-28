@@ -16,6 +16,7 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, Mov
 
 	this->dataLogManager = new DataLogManager();
 	this->dataLogManager->addLog("numPlayers", numPlyrs);
+	this->dataLogManager->addLog("algoType", int(algo));
 
     // Create players and store them in a vector
     for (int i = 1; i <= numPlyrs; i++) {
@@ -33,8 +34,22 @@ GameManager::GameManager(int line, int column, int numPlyrs, bool randomPos, Mov
 					positionSet = true;
 				}
 			} else {
-				if (!*this->getMapManager()->getGrid()->getCell(i, 0).getEntity()) {
-					p = this->createPlayer("Player " + std::to_string(i), i, 0, i);
+				int gridLines = this->getMapManager()->getGrid()->getLine();
+				int gridColumns = this->getMapManager()->getGrid()->getColumn();
+
+				// Utilisation de coordonnées plus logiques pour les joueurs
+				if (i % 2 == 0) {
+					// Positionner le joueur sur une ligne et une colonne de manière symétrique.
+					int x = (i * 2) % gridLines; // Exemple : espacements réguliers
+					int y = (i * 3) % gridColumns; // Exemple : espacements réguliers
+					p = this->createPlayer("Player " + std::to_string(i), x, y, i);
+					positionSet = true;
+				}
+				else {
+					// Autre formule pour les joueurs impairs, dans une zone différente.
+					int x = (i * 3) % gridLines;
+					int y = (i * 4) % gridColumns;
+					p = this->createPlayer("Player " + std::to_string(i), x, y, i);
 					positionSet = true;
 				}
 			}

@@ -10,6 +10,20 @@
 
 #include "utils/eTronException.h"
 
+std::vector<int> generateDepthArray(int start, int interval, int increment, int size) {
+    std::vector<int> result;
+    int currentValue = start;
+
+    for (int i = 0; i < size; i+= interval) {
+        for (int k = 0; k < interval; k++) {
+            result.push_back(currentValue);
+        }
+        currentValue += increment; 
+    }
+
+    return result;
+}
+
 int main() {
     try {
 		// Assert the file exists
@@ -57,9 +71,8 @@ int main() {
 		int numPlayers = config.getInt("num_players");
         int size = config.getInt("grid_size", numPlayers); 
 		bool rdPos = config.getBool("use_random_pos", true);
-        bool fixedDepth = config.getBool("fixed_depth", false);
-        int fixed_depth_range = config.getInt("fixed_depth_range", 3);
 		int depthsMin = config.getInt("depths_min", 3);
+        int depthIncrement = config.getInt("depth_increment", 1);
         int depthsInterval = config.getInt("depths_interval", 3);
 		bool showEachStep = config.getBool("show_each_step", true);
 		int waitAmount = config.getInt("wait_amount", 100);
@@ -72,17 +85,7 @@ int main() {
         std::cout << "Wait between each step (MS) : " << waitAmount << std::endl;
 
         std::vector<int> depths(numPlayers);
-
-        std::cout << "Depth min : " << depthsMin << std::endl;
-        std::cout << "Fixed depth : " << fixedDepth << std::endl;
-        for (int i = 0; i < numPlayers; i++) {
-            if (!fixedDepth) {
-                depths[i] = (((i / depthsInterval) + 1) * depthsInterval) + depthsMin;
-            }
-            else {
-                depths[i] = fixed_depth_range;
-            }
-        }
+        depths = generateDepthArray(depthsMin, depthsInterval, depthIncrement, numPlayers);
 
         MovingAlgorithmsManager::AlgoEnum algoEnum;
 

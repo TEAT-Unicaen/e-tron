@@ -1,9 +1,20 @@
 #include "gameScene.h"
 
-
 GameScene::GameScene(Renderer& renderer, std::string name)
 	: Scene(renderer, name), lightManager(LightManager(renderer)), dataLinker(DataLinker()) {}
 
+std::vector<int> generateDepthArray(int start, int interval, int increment, int size) {
+	std::vector<int> result;
+	int currentValue = start;
+
+	for (int i = 0; i < size; i += interval) {
+		for (int k = 0; k < interval; k++) {
+			result.push_back(currentValue);
+		}
+		currentValue += increment;
+	}
+	return result;
+}
 
 void GameScene::onLoad() {
 	// load the simulation data
@@ -22,9 +33,7 @@ void GameScene::onLoad() {
 
 	int depthsMin = config.getInt("depths_min", 3);
 	int depthsInterval = config.getInt("depths_interval", 3);
-
-	bool fixedDepth = config.getBool("fixed_depth", false);
-	int fixed_depth_range = config.getInt("fixed_depth_range", 3);
+	int depthIncrement = config.getInt("depth_increment", 1);
 
 	MovingAlgorithmsManager::AlgoEnum algoEnum;
 
@@ -38,16 +47,7 @@ void GameScene::onLoad() {
 		algoEnum = MovingAlgorithmsManager::AlgoEnum::SMART;
 	}
 
-	std::vector<int> depths(numPlayers);
-
-	for (int i = 0; i < numPlayers; i++) {
-		if (!fixedDepth) {
-			depths[i] = (((i / depthsInterval) + 1) * depthsInterval) + depthsMin;
-		}
-		else {
-			depths[i] = fixed_depth_range;
-		}
-	}
+	 std::vector<int> depths = generateDepthArray(depthsMin, depthsInterval, depthIncrement, numPlayers);
 
 	GameManager gameManager(this->mapSize, this->mapSize, numPlayers, rdPos, algoEnum, depths, false, this->timeAutoPlayMax, true, &this->dataLinker);
 	gameManager.loop();
