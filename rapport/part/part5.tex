@@ -61,7 +61,7 @@ Un son a été rajouter lors du splashscreen grâce à Windows32. Cela permet de
 \subsection{Mise en place du jeu dans le visuel}
 Pour assurer la liaison entre la logique du jeu et son affichage, nous utilisons un \textbf{DataLinker}. Plutôt que de mettre à jour l’ensemble de la grille à chaque tour, ce qui serait inefficace, nous avons choisi d’optimiser le processus en enregistrant uniquement les informations essentielles : les déplacements des joueurs et leur état. À chaque mise à jour, \textbf{GameScene} récupère ces données et applique les transformations nécessaires aux objets correspondants. Cette approche permet de réduire la charge de calcul tout en assurant une synchronisation fluide et précise entre le gameplay et le rendu visuel sous DirectX.
 
-\subsection{Quelque exemples}
+\subsection{Quelques exemples}
 \begin{figure}[htbp]
     \centering
     \begin{minipage}{0.45\textwidth}

@@ -37,7 +37,7 @@
 \contentsline {subsubsection}{\numberline {5.4.4}Caméra}{15}{subsubsection.5.4.4}%
 \contentsline {subsubsection}{\numberline {5.4.5}Son}{15}{subsubsection.5.4.5}%
 \contentsline {subsection}{\numberline {5.5}Mise en place du jeu dans le visuel}{16}{subsection.5.5}%
-\contentsline {subsection}{\numberline {5.6}Quelque exemples}{16}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.6}Quelques exemples}{16}{subsection.5.6}%
 \contentsline {section}{\numberline {6}Analyse des Fonctionnalités et Résultats de la Page React}{17}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Fonctionnalités de la Page React}{17}{subsection.6.1}%
 \contentsline {subsection}{\numberline {6.2}Analyse des Résultats}{19}{subsection.6.2}%
