@@ -32,3 +32,9 @@ To build it yourself :
 - Change configs in the config.ini to modify behavior
 - ZQSD to move in the 3D view
 - Use arrows for the camera
+
+# React webview 
+
+    - cd web
+    - npm i
+    - npm run dev 
