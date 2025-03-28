@@ -1,5 +1,7 @@
 # E-tron
 
+![image](https://github.com/user-attachments/assets/61017e25-8688-48e9-ab08-1f6f85dacc69)
+
 This automated Tron aims to simulate algorithms, as part of the third year Computer Science University project at Unicaen.
 
 Mostly based on C++ for the backend algorithms, using DirectX for the graphics.
