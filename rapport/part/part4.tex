@@ -21,6 +21,16 @@ Cette combinaison de technologies nous a permis d’optimiser à la fois les per
 \subsection{Présentation de l'architecture du projet}
 Représentation du projet via les packages et fichiers principaux.
 
+\subsubsection{Exécuter le jeu}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{images/ConsoleGame.png}
+	\caption{visualisation du jeu en console}
+	\label{ConsoleGame}
+\end{figure}
+Notre projet offre deux modes d'exécution : une \textbf{visualisation en console} et un affichage graphique avec DirectX. La version console permet de suivre facilement le déroulement du jeu avec une représentation claire des murs et des positions des joueurs, offrant une compréhension rapide de l’état de la partie en temps réel. \\
+Pour personnaliser les conditions de jeu, nous avons intégré un fichier \textbf{config.ini} à la racine du projet. Ce fichier permet d'ajuster différents paramètres comme la taille de la grille, le nombre de joueurs, l’algorithme utilisé, ou encore des options plus spécifiques comme l’activation du spawn aléatoire des joueurs et la profondeur d’exploration des algorithmes. Grâce à cette approche, nous pouvons tester rapidement différentes configurations sans modifier directement le code source.
+
 \subsubsection{Représentation avec Gource}
 \begin{figure}[h]
 	\centering

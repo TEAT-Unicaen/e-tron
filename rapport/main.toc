@@ -19,8 +19,9 @@
 \contentsline {subsection}{\numberline {4.1}Le jeu de Tron}{8}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Choix technologiques}{8}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Présentation de l'architecture du projet}{9}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1}Représentation avec Gource}{9}{subsubsection.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.3.2}Structure plus précise}{11}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.1}Exécuter le jeu}{9}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Représentation avec Gource}{10}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}Structure plus précise}{11}{subsubsection.4.3.3}%
 \contentsline {section}{\numberline {5}Le visuel en DirectX11}{12}{section.5}%
 \contentsline {subsection}{\numberline {5.1}Le rendu visuel du jeu}{12}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}Fonctionnement du moteur graphique}{12}{subsection.5.2}%
@@ -35,7 +36,7 @@
 \contentsline {subsubsection}{\numberline {5.4.2}Textures}{15}{subsubsection.5.4.2}%
 \contentsline {subsubsection}{\numberline {5.4.3}Skybox}{15}{subsubsection.5.4.3}%
 \contentsline {subsubsection}{\numberline {5.4.4}Caméra}{15}{subsubsection.5.4.4}%
-\contentsline {subsubsection}{\numberline {5.4.5}Musique et son}{15}{subsubsection.5.4.5}%
+\contentsline {subsubsection}{\numberline {5.4.5}Son}{15}{subsubsection.5.4.5}%
 \contentsline {subsection}{\numberline {5.5}Mise en place du jeu dans le visuel}{16}{subsection.5.5}%
 \contentsline {subsection}{\numberline {5.6}Quelque exemples}{16}{subsection.5.6}%
 \contentsline {section}{\numberline {6}Analyse des Fonctionnalités et Résultats de la Page React}{17}{section.6}%
@@ -52,4 +53,5 @@
 \contentsline {subsection}{\numberline {7.2}A travers le rendu graphique}{19}{subsection.7.2}%
 \contentsline {subsubsection}{\numberline {7.2.1}L'animation}{19}{subsubsection.7.2.1}%
 \contentsline {subsubsection}{\numberline {7.2.2}La gestion de mesh externe}{19}{subsubsection.7.2.2}%
-\contentsline {subsubsection}{\numberline {7.2.3}Conclusion}{19}{subsubsection.7.2.3}%
+\contentsline {subsubsection}{\numberline {7.2.3}Une meilleure gestion de l’audio grâce à XAudio2}{19}{subsubsection.7.2.3}%
+\contentsline {subsubsection}{\numberline {7.2.4}Conclusion}{19}{subsubsection.7.2.4}%

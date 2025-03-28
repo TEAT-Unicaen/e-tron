@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.26)  27 MAR 2025 23:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.3.26)  28 MAR 2025 15:27
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -932,63 +932,74 @@ Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_n
 
 
 ]
-<images/GourceScreen.png, id=185, 720.44156pt x 397.485pt>
-File: images/GourceScreen.png Graphic file (type png)
-<use images/GourceScreen.png>
-Package pdftex.def Info: images/GourceScreen.png  used on input line 27.
-(pdftex.def)             Requested size: 376.42575pt x 207.68199pt.
+<images/ConsoleGame.png, id=189, 666.99188pt x 244.66406pt>
+File: images/ConsoleGame.png Graphic file (type png)
+<use images/ConsoleGame.png>
+Package pdftex.def Info: images/ConsoleGame.png  used on input line 27.
+(pdftex.def)             Requested size: 376.42575pt x 138.08238pt.
 
-
-File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
-<use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
-Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 32.
-(pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
-[9
-pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.32 
-      <./images/GourceScreen.png>]
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 33.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
-[10]
-<images/ExcalidrawBase.png, id=196, 806.26219pt x 564.60938pt>
+[9
+pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.33 
+      <./images/ConsoleGame.png>]
+<images/GourceScreen.png, id=197, 720.44156pt x 397.485pt>
+File: images/GourceScreen.png Graphic file (type png)
+<use images/GourceScreen.png>
+Package pdftex.def Info: images/GourceScreen.png  used on input line 37.
+(pdftex.def)             Requested size: 376.42575pt x 207.68199pt.
+
+
+File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
+<use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 43.
+(pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
+[10
+pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.43 \newpage
+              <./images/GourceScreen.png>]
+<images/ExcalidrawBase.png, id=203, 806.26219pt x 564.60938pt>
 File: images/ExcalidrawBase.png Graphic file (type png)
 <use images/ExcalidrawBase.png>
-Package pdftex.def Info: images/ExcalidrawBase.png  used on input line 38.
+Package pdftex.def Info: images/ExcalidrawBase.png  used on input line 48.
 (pdftex.def)             Requested size: 250.95476pt x 175.73354pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--44
+Underfull \hbox (badness 10000) in paragraph at lines 51--54
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--44
+Underfull \hbox (badness 10000) in paragraph at lines 51--54
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--44
+Underfull \hbox (badness 10000) in paragraph at lines 51--54
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--44
+Underfull \hbox (badness 10000) in paragraph at lines 51--54
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 41--44
+Underfull \hbox (badness 10000) in paragraph at lines 51--54
 
  []
 
-<images/ExcalidrawGraphics.png, id=197, 841.64438pt x 514.92375pt>
+<images/ExcalidrawGraphics.png, id=204, 841.64438pt x 514.92375pt>
 File: images/ExcalidrawGraphics.png Graphic file (type png)
 <use images/ExcalidrawGraphics.png>
-Package pdftex.def Info: images/ExcalidrawGraphics.png  used on input line 47.
+Package pdftex.def Info: images/ExcalidrawGraphics.png  used on input line 57.
 (pdftex.def)             Requested size: 376.42575pt x 230.29926pt.
 )
 
@@ -997,7 +1008,7 @@ File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic fil
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 27.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [11
-pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.27 \include{part/part4}
@@ -1043,17 +1054,17 @@ File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic fil
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 62.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [15]
-<images/GraphicAllMesh.png, id=222, 394.47375pt x 411.03563pt>
+<images/GraphicAllMesh.png, id=229, 394.47375pt x 411.03563pt>
 File: images/GraphicAllMesh.png Graphic file (type png)
 <use images/GraphicAllMesh.png>
 Package pdftex.def Info: images/GraphicAllMesh.png  used on input line 68.
 (pdftex.def)             Requested size: 169.39043pt x 176.50354pt.
-<images/GraphicLoadingScreen.png, id=223, 230.36063pt x 230.36063pt>
+<images/GraphicLoadingScreen.png, id=230, 230.36063pt x 230.36063pt>
 File: images/GraphicLoadingScreen.png Graphic file (type png)
 <use images/GraphicLoadingScreen.png>
 Package pdftex.def Info: images/GraphicLoadingScreen.png  used on input line 74.
 (pdftex.def)             Requested size: 169.39043pt x 169.38858pt.
-<images/GraphicFirstGame.png, id=224, 572.1375pt x 393.72093pt>
+<images/GraphicFirstGame.png, id=231, 572.1375pt x 393.72093pt>
 File: images/GraphicFirstGame.png Graphic file (type png)
 <use images/GraphicFirstGame.png>
 Package pdftex.def Info: images/GraphicFirstGame.png  used on input line 82.
@@ -1069,11 +1080,6 @@ File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic fil
 Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 28.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [16
-pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.28 \include{part/part5}
-                         
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -1085,6 +1091,11 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has
 l.28 \include{part/part5}
                          
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.28 \include{part/part5}
+                         
+pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.28 \include{part/part5}
@@ -1104,17 +1115,17 @@ Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_n
 ]
 \openout2 = `part/part7.aux'.
 
- (./part/part7.tex)
+ (./part/part7.tex
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
-Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 30.
+Package pdftex.def Info: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png  used on input line 29.
 (pdftex.def)             Requested size: 56.9055pt x 33.6853pt.
 [18
 
 
 
-]
+])
 
 File: images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png Graphic file (type png)
 <use images/2020_UNICAEN_LOGO_isotype-signature_horizontal_noir.png>
@@ -1136,18 +1147,18 @@ L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 27907 strings out of 473190
- 507194 string characters out of 5719979
- 1192550 words of memory out of 5000000
- 50573 multiletter control sequences out of 15000+600000
+ 27920 strings out of 473190
+ 507467 string characters out of 5719979
+ 1193550 words of memory out of 5000000
+ 50583 multiletter control sequences out of 15000+600000
  569421 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  104i,15n,107p,841b,768s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfcc1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1440.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sftt1095.pfb>
-Output written on main.pdf (20 pages, 2424978 bytes).
+Output written on main.pdf (20 pages, 2441812 bytes).
 PDF statistics:
- 490 PDF objects out of 1000 (max. 8388607)
- 417 compressed objects within 5 object streams
- 86 named destinations out of 1000 (max. 500000)
- 581 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 503 PDF objects out of 1000 (max. 8388607)
+ 428 compressed objects within 5 object streams
+ 89 named destinations out of 1000 (max. 500000)
+ 602 words of extra memory for PDF output out of 10000 (max. 10000000)
 

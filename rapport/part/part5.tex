@@ -54,8 +54,8 @@ Nous avons ajouté des textures pour rendre les éléments plus attrayants, nota
 Lors des premiers tests, nous avons remarqué que l’environnement paraissait \textbf{trop vide}, ce qui nuisait à l’immersion. Pour corriger cela, nous avons intégré une skybox : une immense sphère englobant toute la scène, avec une texture appliquée sur sa face intérieure. Cela donne l’illusion d’un ciel dynamique, renforçant l’ambiance du jeu et rendant l’espace moins artificiel.
 \subsubsection{Caméra}
 Le système de caméra repose sur la détection des événements clavier, ce qui permet de modifier dynamiquement la position et l’orientation de la vue. Concrètement, plutôt que de déplacer la scène, nous appliquons ces transformations sur tous les objets visibles, simulant ainsi un déplacement fluide de la caméra. Ce système offre une liberté totale pour explorer la scène sous tous les angles, renforçant le contrôle et l’immersion du joueur.
-\subsubsection{Musique et son}
-TODO
+\subsubsection{Son}
+Un son a été rajouter lors du splashscreen grâce à Windows32. Cela permet de rendre le jeu plus vivant et d’immerger le joueur dans l’expérience.
 
 \subsection{Mise en place du jeu dans le visuel}
 Pour assurer la liaison entre la logique du jeu et son affichage, nous utilisons un \textbf{DataLinker}. Plutôt que de mettre à jour l’ensemble de la grille à chaque tour, ce qui serait inefficace, nous avons choisi d’optimiser le processus en enregistrant uniquement les informations essentielles : les déplacements des joueurs et leur état. À chaque mise à jour, \textbf{GameScene} récupère ces données et applique les transformations nécessaires aux objets correspondants. Cette approche permet de réduire la charge de calcul tout en assurant une synchronisation fluide et précise entre le gameplay et le rendu visuel sous DirectX.

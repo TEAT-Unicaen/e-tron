@@ -25,6 +25,14 @@ L’inconvénient de Minimax avec alpha-bêta est qu’il dépend fortement de l
 Si nous avions eu plus de temps, l’ajout de MCTS et de Minimax Alpha-Bêta aurait constitué notre prochaine étape. Ces algorithmes auraient permis d’explorer des stratégies alternatives et de comparer leurs performances face à MAXN et Paranoid. Tester ces différentes approches aurait enrichi notre analyse et aurait potentiellement révélé des comportements de jeu plus optimisés.
 
 \subsection{A travers le rendu graphique}
+Bien que notre moteur graphique permette déjà une visualisation fluide du jeu, plusieurs améliorations pourraient être envisagées pour enrichir l’expérience visuelle et sonore.
 \subsubsection{L'animation}
+Actuellement, certains éléments du jeu apparaissent de manière instantanée sans transition visuelle, ce qui peut rendre l'affichage un peu abrupt. Une amélioration notable serait d'ajouter des animations pour rendre ces changements plus fluides et dynamiques. \\
+Par exemple, l’apparition des murs pourrait être accompagnée d’une animation de montée progressive ou d’une matérialisation avec un effet visuel, plutôt qu’une simple apparition soudaine. De même, lorsqu’un joueur perd la partie, une animation de destruction, comme une explosion ou une désintégration progressive, pourrait être ajoutée pour rendre l’événement plus marquant. \\
+Ces améliorations rendraient le jeu plus agréable visuellement et donneraient davantage d’impact aux événements clés d’une partie.
 \subsubsection{La gestion de mesh externe}
+Pour le moment, les objets affichés sont construits à partir de primitives relativement simples. Une amélioration majeure serait d’ajouter la possibilité d’importer des modèles 3D externes au format .obj ou .fbx, ce qui permettrait d’avoir des représentations plus détaillées des joueurs, obstacles et autres éléments du décor. Cela ouvrirait également la voie à une personnalisation plus poussée du jeu.
+\subsubsection{Une meilleure gestion de l’audio grâce à XAudio2}
+L’intégration d’un moteur audio plus avancé, tel que \textbf{XAudio2}, permettrait d’améliorer significativement l’ambiance sonore du jeu. Cela inclurait des effets sonores dynamiques pour les déplacements des joueurs, des collisions ou encore des bruitages spécifiques selon l’évolution de la partie. De plus, une meilleure spatialisation du son renforcerait l’immersion en adaptant l’audio en fonction de la position des éléments dans la scène.
 \subsubsection{Conclusion}
+Ces améliorations visuelles et sonores contribueraient à rendre le jeu plus attrayant et immersif. Elles permettraient également d'exploiter davantage la puissance de \textbf{DirectX} et d'améliorer notre moteur graphique en lui offrant plus de flexibilité et de réalisme.
