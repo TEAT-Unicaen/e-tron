@@ -7,12 +7,28 @@ La page React développée permet d'analyser les résultats des parties de Tron 
     \item La page accepte un fichier JSON contenant les données de la partie.
     \item Elle extrait et affiche les statistiques des joueurs sous forme de graphiques et de timeline.
 \end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/TendanceDeplacement.png}
+	\caption{Visualisation des Tendances de Déplacement}
+	\label{TendanceDeplacement}
+\end{figure}
 \textbf{2. Visualisation des Tendances de Déplacement}
 \begin{itemize}
     \item Un graphique radar montre les moyennes des mouvements effectués par chaque joueur.
     \item Les tendances de déplacement sont représentées pour comparer le comportement des IA.
     \item Il est possible d'afficher ou masquer les statistiques d'un joueur en activant/désactivant son affichage.
 \end{itemize}
+
+\newpage
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/TimelineActions.png}
+	\caption{Timeline des Actions}
+	\label{TimelineActions}
+\end{figure}
 \textbf{3. Timeline des Actions}
 \begin{itemize}
     \item Une seconde page permet de voir les actions des joueurs tour par tour.
@@ -20,7 +36,37 @@ La page React développée permet d'analyser les résultats des parties de Tron 
     \item Les actions peuvent être filtrées par les joueurs.
 \end{itemize}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/SurvieMoyenProfondeur.png}
+	\caption{Temps de Survie Moyen selon la Profondeur de Recherche}
+	\label{SurvieMoyenProfondeur}
+\end{figure}
+\textbf{4. Temps de Survie Moyen selon la Profondeur de Recherche}
+\begin{itemize}
+    \item Un graphique linéaire affiche l'évolution du temps de survie moyen en fonction de la profondeur de recherche des algorithmes.
+    \item Cela permet d'analyser l'impact de la profondeur de recherche sur la performance des joueurs.
+\end{itemize}
+
 \subsection{Analyse des Résultats}
+L'analyse des parties jouées par les algorithmes met en lumière plusieurs tendances récurrentes dans leur comportement, ainsi que des observations intéressantes sur les performances en fonction de la profondeur de recherche.
 \subsubsection{Identification d'un Seuil d'Exploration}
+L’un des premiers constats issus de notre analyse est que les algorithmes ont tendance à adopter des schémas de déplacement optimisés pour éviter les conflits entre joueurs. Quel que soit l’algorithme utilisé (MAXN, Paranoid, SOS ou BFS), on observe une forte propension à évoluer en ligne droite, souvent en synchronisation avec les autres joueurs, en alternant des mouvements de gauche à droite ou d’avant en arrière. \\
+Ce phénomène s’explique par le fait que ces déplacements permettent aux agents d’exploiter l’espace de manière rationnelle en minimisant les risques de collision et en maximisant le contrôle de leur zone de jeu. Ainsi, même sans coordination explicite entre eux, les joueurs adoptent des comportements qui rappellent des stratégies collaboratives, où chacun cherche à préserver son propre espace sans perturber les trajectoires des autres. \\
+Cependant, nous avons remarqué que cette stratégie atteint une limite lorsque les joueurs sont trop nombreux ou que l’espace devient restreint. Une fois ce seuil d’exploration dépassé, les IA doivent adopter des mouvements plus erratiques et commencent à s’éliminer plus rapidement.
+
 \subsubsection{Mesure des Performances en Fonction de la Profondeur}
+L’un des éléments clés de notre analyse repose sur l’étude du temps de survie moyen des joueurs en fonction de la profondeur de recherche de l’algorithme. Le graphique généré met en évidence plusieurs tendances :
+\begin{itemize}
+    \item À faible profondeur, les IA prennent des décisions rapides mais manquent d’anticipation, ce qui conduit souvent à des éliminations précoces.
+    \item En augmentant la profondeur de recherche, on observe une nette amélioration du temps de survie moyen, car les joueurs parviennent à mieux anticiper les menaces et à optimiser leurs déplacements.
+    \item Toutefois, passé un certain seuil, l’amélioration devient moins significative et peut même se dégrader dans certains cas. 
+\end{itemize}
+Cette observation suggère qu’il existe un compromis à trouver entre la profondeur d’exploration et la rapidité d’exécution, afin d’optimiser la performance des joueurs sans alourdir inutilement les calculs.
+
+\newpage
+
 \subsubsection{Équilibre entre Coût et Gain Stratégique}
+Le principal défi des algorithmes utilisés réside dans l’équilibre entre le coût de calcul et le gain stratégique obtenu. Nos observations montrent que si une recherche trop superficielle entraîne des décisions sous-optimales, une profondeur excessive ne garantit pas forcément un avantage déterminant. \\
+Ce constat est particulièrement visible avec les algorithmes comme Paranoid et MAXN, qui nécessitent une grande puissance de calcul pour évaluer plusieurs niveaux de jeu. À l’inverse, BFS, bien qu’explorant un grand nombre de possibilités, peut parfois être pénalisé par sa manière d’étendre l’arbre de décision. \\
+En pratique, le choix du paramètre de profondeur doit être ajusté en fonction du contexte de la partie et des ressources disponibles. Une future amélioration pourrait être d’adapter dynamiquement cette profondeur en fonction des situations rencontrées, afin d’optimiser en temps réel l’équilibre entre réactivité et stratégie à long terme.

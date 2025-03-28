@@ -1,6 +1,6 @@
 \section{Quels algorithmes pour répondre ?}
 Leur utilisation, leur fonctionnement et leur lien avec le projet
-Dans notre projet de jeu de Tron, l'intelligence artificielle joue un rôle central. Nous avons exploré plusieurs approches pour permettre aux agents de prendre des décisions stratégiques. Deux familles d'algorithmes se sont avérées particulièrement pertinentes : \textbf{Minimax} (avec ses variantes \textbf{MAXN} et \textbf{Paranoid}) et une méthode inspirée de \textbf{SOS (Socially Oriented Search)} pour la gestion des équipes. Ces méthodes étaient explicitement demandées dans les attendus du projet.
+Dans notre projet de jeu de Tron, l'intelligence artificielle joue un rôle central. Nous avons exploré plusieurs approches pour permettre aux agents de prendre des décisions stratégiques. Deux familles d'algorithmes se sont avérées particulièrement pertinentes : \textbf{Minimax} (avec ses variantes \textbf{MAXN} et \textbf{Paranoid}) et une méthode inspirée de \textbf{SOS (Socially Oriented Search)}. Ces méthodes étaient explicitement demandées dans les attendus du projet.
 
 \subsection{Minimax}
 Le Minimax est un algorithme décisionnel classiquement utilisé dans les jeux à information parfaite comme les échecs ou le go. Il repose sur une évaluation récursive des coups possibles, cherchant à minimiser les pertes tout en maximisant les gains. Cependant, dans un jeu comme Tron, qui peut inclure plusieurs joueurs et des interactions complexes, nous avons exploré deux variantes plus adaptées : \textbf{MAXN} et \textbf{Paranoid}.
@@ -39,8 +39,8 @@ Dans cette approche :
 \end{itemize}
 Dans notre projet, nous avons implémenté les deux méthodes car nous avons estimé qu'il valait mieux disposer d'un large éventail de résultats statistiques. Nous analyserons ultérieurement les performances de ces approches et verrons si nos hypothèses sur leurs avantages respectifs sont confirmées par les résultats expérimentaux.
 
-\subsection{Spécifier des équipes en s'inspirant de SOS}
-En plus des algorithmes de prise de décision individuelle, nous avons cherché un moyen d'organiser les joueurs en équipes tout en conservant un système de prise de décision efficace. Pour cela, nous nous sommes inspirés du concept \textbf{SOS (Socially Oriented Search)}, couramment utilisé dans l'optimisation et la théorie des jeux. Cette approche faisait également partie des attendus du projet.
+\subsection{implémenter un algorithme en s'inspirant de SOS}
+En plus des algorithmes de prise de décision individuelle, nous avons cherché un moyen d'organiser les joueurs tout en conservant un système de prise de décision efficace. Pour cela, nous nous sommes inspirés du concept \textbf{SOS (Socially Oriented Search)}, couramment utilisé dans l'optimisation et la théorie des jeux. Cette approche faisait également partie des attendus du projet.
 \textbf{Pourquoi SOS ?}
 \begin{itemize}
     \item SOS permet de formuler des contraintes de déséquilibre entre différents agents, créant des comportements agressifs ou préventifs.
@@ -51,7 +51,7 @@ En plus des algorithmes de prise de décision individuelle, nous avons cherché 
 
 \textbf{Application dans notre projet :}
 \begin{itemize}
-    \item Une matrice d’affinités peut être générée aléatoirement ou spécifiée, afin de générer des équipes
+    \item Une matrice d’affinités peut être générée aléatoirement ou spécifiée
     \item Lors de chaque tour, l’algorithme MAXN, modifié pour intégrer SOS va lister normalement les chemins possibles par score puis ajoute un multiplicateur, une pondération, à chaque chemin, en fonction du risque représenté.
     \item Cela permet de préserver la survie d’un joueur face à un adversaire agressif, prioritairement à un chemin à possibilité élevée.
 \end{itemize}
@@ -67,4 +67,4 @@ L'algorithme \textbf{AutoMoveBFS} utilise une approche de recherche en largeur \
 Cet algorithme permet ainsi d’optimiser les déplacements du joueur en favorisant les zones offrant le plus grand espace exploitable, ce qui peut être utile pour éviter les blocages et maximiser les options stratégiques.
 
 \subsection{Conclusion provisoire}
-L'IA dans notre jeu de Tron repose donc sur des algorithmes avancés de prise de décision et d'organisation des joueurs. \textbf{MAXN} et \textbf{Paranoid} permettent d'aborder différemment les défis du jeu multi-joueur, tandis que l'utilisation d'une méthode inspirée de \textbf{SOS} nous a permis de structurer les équipes de façon efficace.
+L'IA dans notre jeu de Tron repose donc sur des algorithmes avancés de prise de décision et d'organisation des joueurs. \textbf{MAXN} et \textbf{Paranoid} permettent d'aborder différemment les défis du jeu multi-joueur, tandis que l'utilisation d'une méthode inspirée de \textbf{SOS} nous a permis de structurer les joueurs de façon efficace.
