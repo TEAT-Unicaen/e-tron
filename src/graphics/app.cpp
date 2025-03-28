@@ -53,8 +53,10 @@ App::App()
 	UINT volumeLevel = 0xFFFF / 3;
 	waveOutSetVolume(NULL, MAKELONG(volumeLevel, volumeLevel));
 	std::atomic<bool> splashScreenDone = false;
-	auto splashThread = std::thread([splashScreen, &renderer, &splashScreenDone]() {
+	
+	auto splashThread = std::thread([this, splashScreen, &renderer, &splashScreenDone]() {
 		for (int i = 0; i < 110; i++) {
+			if (this->wnd.keyEvent.keyIsPressed(VK_SPACE)) { break; }
 			renderer.renderImage(splashScreen, dx::XMFLOAT2(0, 0), dx::XMFLOAT2(800, 600));
 			renderer.render();
 			if (i == 50) {
